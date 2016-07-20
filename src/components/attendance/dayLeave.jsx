@@ -36,8 +36,6 @@ class DayLeave extends React.Component {
     }
 }
 
-const VisibleDayLeave = DayLeave
-
-export default VisibleDayLeave
+export default DayLeave
 
 

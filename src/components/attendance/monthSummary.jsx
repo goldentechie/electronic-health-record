@@ -1,7 +1,7 @@
 import React from 'react';
 
-import VisibleDayReference from './dayReference'
-import VisibleTimeSummary from './timeSummary'
+import DayReference from './DayReference'
+import TimeSummary from './TimeSummary'
 
 class MonthSummary extends React.Component {
     constructor( props ){
@@ -10,15 +10,13 @@ class MonthSummary extends React.Component {
     render(){
       return (
         <div>
-          <VisibleTimeSummary  {...this.props}/>
-          <VisibleDayReference  {...this.props}/>
+          <TimeSummary  {...this.props}/>
+          <DayReference  {...this.props}/>
         </div>
 	    )
     }
 }
 
-const VisibleMonthSummary = MonthSummary
-
-export default VisibleMonthSummary
+export default MonthSummary
 
 
