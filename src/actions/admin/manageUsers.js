@@ -2,7 +2,6 @@ import { createAction } from 'redux-actions'
 import { CONFIG } from '../../config/index'
 import * as _ from 'lodash'
 import {fireAjax} from '../../services/index'
-
 import {show_loading, hide_loading} from '../generic/frontend'
 
 export const ACTION_SUCCESS_USER_PROFILE = "ACTION_SUCCESS_USER_PROFILE"
@@ -315,3 +314,104 @@ export function addNewEmployee( new_employee_details  ){
 		})
 	}
 }
+//---------get user document 
+
+export function success_user_document( data ){
+	return createAction( 'ACTION_SUCCESS_USER_DOCUMENT' )( data )
+}
+export function error_user_document( data ){
+	return createAction( 'ACTION_ERROR_USER_DOCUMENT' )( data )
+}
+
+function async_getUserDocument( userid ){
+	return fireAjax( 'POST', '', {
+		'action' : 'get_user_document',
+		'user_id' : userid
+	})
+}
+
+export function getUserDocument( userid ){
+	return function (dispatch, getState){
+		return new Promise((resolve, reject)=>{
+			dispatch( show_loading() );
+			async_getUserDocument( userid ).then(
+			( json ) => {
+				dispatch( hide_loading() )
+				if(json.error == 0){
+					dispatch( success_user_document(json.data))
+					//resolve('disabled')
+				}else{
+					dispatch( error_user_document( json.data.message ))
+					//reject('response with Error')
+				}
+			},
+			( error ) => {
+				dispatch( hide_loading() ) // hide loading icon
+				dispatch( error_user_document( "error occurs!!!" ) )
+				//reject('error occurs!!')
+			}	
+			)
+		})
+	}
+}
+
+
+//------Delete user document
+function async_deleteDocument( doc_id ){
+	return fireAjax('POST', '', {
+		'action' : 'delete_user_document',
+		'id' : doc_id
+	})
+}
+
+export function deleteDocument( doc_id ){
+	return function(dispatch,getState){
+		return new Promise((resolve, reject)=>{
+			dispatch( show_loading() );
+			async_deleteDocument( doc_id ).then(
+			( json ) => {
+				dispatch( hide_loading() )
+				if(json.error == 0){
+					resolve(json.data.message)
+				}else{
+					reject(json.data.message)
+				}
+			},
+			( error ) => {
+				dispatch( hide_loading() ) // hide loading icon
+				reject('error occurs!!')
+			}	
+			)
+		})
+	}
+}
+
+//--------changeEmployeeStatus Enable/Disable user
+
+function async_changeEmployeeStatus( userid, status ){
+	return fireAjax( 'POST', '', {
+		'action' : 'change_employee_status',
+		'user_id' : userid,
+		'status' : status,	
+	})
+}
+
+export function changeEmployeeStatus( userid, status ){
+	return function (dispatch, getState){
+		return new Promise((resolve, reject)=>{
+			async_changeEmployeeStatus( userid, status ).then(
+			( json ) => {
+				if(json.error == 0){
+					resolve('disabled')
+				}else{
+					reject('Error with response')
+				}
+			},
+			( error ) => {
+				reject('error occurs!!')
+			}	
+			)
+		})
+	}
+}
+
