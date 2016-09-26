@@ -7,8 +7,7 @@ let initialState = {
     "user_payslip_history" : [],
     "all_users_latest_payslip" : [],
     "google_drive_emailid": "",
-    "employee_actual_salary" : {},
-    "employee_account_no" : []
+    "employee_actual_salary" : {}
 }
 
 export function managePayslips( state = Immutable.fromJS(initialState), action ){
@@ -25,14 +24,6 @@ export function managePayslips( state = Immutable.fromJS(initialState), action )
 
         return state.set( 'status_message', action.payload )
 
-    }else if( action.type == 'ACTION_SUCCESS_GET_TRANSFER'){
-
-        return state.set( 'employee_account_no', action.payload )
-
-    }else if( action.type == 'ACTION_ERROR_GET_TRANSFER'){
-
-        return state.set( 'employee_account_no', [] )
-        
     }else{
     	return state.set( 'status_message' , '')
     }

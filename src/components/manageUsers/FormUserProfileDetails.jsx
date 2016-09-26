@@ -15,11 +15,14 @@
         marital_status : "",
         address1 : "",
         address2 : "",
-        emergency_ph1 : "",
-        emergency_ph2 : "",
-        blood_group : "" ,
-        medical_condition : "",
+        city : "",
+        state : "",
+        zip_postal : "",
+        country : "",
+        home_ph : "",
+        mobile_ph : "",
         work_email : "",
+        other_email : "",
       }
     }
     componentWillReceiveProps( props ){
@@ -32,11 +35,14 @@
       let marital_status= " "
       let address1 = " "
       let address2 = " "
-      let emergency_ph1 = " "
-      let emergency_ph2 = " "
-      let blood_group = " "
-      let medical_condition = " "
+      let city = " "
+      let state = " "
+      let zip_postal = " "
+      let country = " "
+      let home_ph = " "
+      let mobile_ph = " "
       let work_email = " "
+      let other_email = " "
 
 
 
@@ -61,26 +67,35 @@
       if( typeof props.user_profile_detail.marital_status != 'undefined' &&  props.user_profile_detail.marital_status != null ){
         marital_status = props.user_profile_detail.marital_status
       }
-      if( typeof props.user_profile_detail.current_address != 'undefined' &&  props.user_profile_detail.current_address != null ){
-        address1 = props.user_profile_detail.current_address
+      if( typeof props.user_profile_detail.address1 != 'undefined' &&  props.user_profile_detail.address1 != null ){
+        address1 = props.user_profile_detail.address1
       }
-      if( typeof props.user_profile_detail.permanent_address != 'undefined' &&  props.user_profile_detail.permanent_address != null ){
-        address2 = props.user_profile_detail.permanent_address
+      if( typeof props.user_profile_detail.address2 != 'undefined' &&  props.user_profile_detail.address2 != null ){
+        address2 = props.user_profile_detail.address2
       }
-      if( typeof props.user_profile_detail.emergency_ph1 != 'undefined' &&  props.user_profile_detail.emergency_ph1 != null ){
-        emergency_ph1 = props.user_profile_detail.emergency_ph1
+      if( typeof props.user_profile_detail.city != 'undefined' &&  props.user_profile_detail.city != null ){
+        city = props.user_profile_detail.city
       }
-      if( typeof props.user_profile_detail.emergency_ph2 != 'undefined' &&  props.user_profile_detail.emergency_ph2 != null ){
-        emergency_ph2 = props.user_profile_detail.emergency_ph2
+      if( typeof props.user_profile_detail.state != 'undefined' &&  props.user_profile_detail.state != null ){
+        state = props.user_profile_detail.state
       }
-      if( typeof props.user_profile_detail.blood_group != 'undefined' &&  props.user_profile_detail.blood_group != null ){
-        blood_group = props.user_profile_detail.blood_group
+      if( typeof props.user_profile_detail.zip_postal != 'undefined' &&  props.user_profile_detail.zip_postal != null ){
+        zip_postal = props.user_profile_detail.zip_postal
       }
-      if( typeof props.user_profile_detail.medical_condition != 'undefined' &&  props.user_profile_detail.medical_condition != null ){
-        medical_condition = props.user_profile_detail.medical_condition
+      if( typeof props.user_profile_detail.country != 'undefined' &&  props.user_profile_detail.country != null ){
+        country = props.user_profile_detail.country
+      }
+      if( typeof props.user_profile_detail.home_ph != 'undefined' &&  props.user_profile_detail.home_ph != null ){
+        home_ph = props.user_profile_detail.home_ph
+      }
+      if( typeof props.user_profile_detail.mobile_ph != 'undefined' &&  props.user_profile_detail.mobile_ph != null ){
+        mobile_ph = props.user_profile_detail.mobile_ph
       }
       if( typeof props.user_profile_detail.work_email != 'undefined' &&  props.user_profile_detail.work_email != null ){
         work_email = props.user_profile_detail.work_email
+      }
+      if( typeof props.user_profile_detail.other_email != 'undefined' &&  props.user_profile_detail.other_email != null ){
+        other_email = props.user_profile_detail.other_email
       }
 
 
@@ -94,11 +109,14 @@
         marital_status : marital_status,
         address1 : address1,
         address2 : address2,
-        emergency_ph1 : emergency_ph1,
-        emergency_ph2 : emergency_ph2, 
-        blood_group : blood_group,
-        medical_condition : medical_condition,
+        city : city,
+        state : state,
+        zip_postal : zip_postal,
+        country : country,
+        home_ph : home_ph,
+        mobile_ph : mobile_ph,
         work_email : work_email,
+        other_email : other_email,
      })
     }
       
@@ -110,12 +128,9 @@
                 
                   <h6 className="text-center">Personal Details</h6>
                   <br/>
-                  <div className="row no-gutter">
-                    <div className="col-md-6">
-                      Employee Id : <b>{this.state.user_id}</b>
-                    </div>
-                  </div>
-                  <hr/>
+
+
+
                   <div className="row no-gutter">
                     <div className="col-md-6 p-r">
                       <div className="form-group">
@@ -190,14 +205,14 @@
           <div className="row no-gutter">
             <div className="col-md-6 p-r">
               <div className="form-group">
-                <label>Current Address</label>
-                <textarea placeholder="your current address..." className="form-control" ref="address1" onChange={ () => this.setState({ address1 : this.refs.address1.value }) } value={this.state.address1}></textarea>
+                <label>Address Street 1</label>
+                <input type="text" className="form-control" ref="address1" onChange={ () => this.setState({ address1 : this.refs.address1.value }) } value={ this.state.address1 }/>
               </div>
             </div>
             <div className="col-md-6">
               <div className="form-group">
-                <label>Permanent Address</label>
-                <textarea placeholder="your permanent address..." className="form-control" ref="address2" onChange={ () => this.setState({ address2 : this.refs.address2.value }) } value={this.state.address2}></textarea>
+                <label>Address Street 2</label>
+                <input type="text" className="form-control" ref="address2" onChange={ () => this.setState({ address2 : this.refs.address2.value }) } value={ this.state.address2 }/>
               </div>
             </div>
           </div>
@@ -205,39 +220,53 @@
           <div className="row no-gutter">
             <div className="col-md-6 p-r">
               <div className="form-group">
-                <label>Emergency Contact Information 1</label>
-                <input type="text" className="form-control" ref="emergency_ph1" onChange={ () => this.setState({ emergency_ph1 : this.refs.emergency_ph1.value }) } value={ this.state.emergency_ph1 }/>
+                <label>City</label>
+                <input type="text" className="form-control" ref="city" onChange={ () => this.setState({ city : this.refs.city.value }) } value={ this.state.city }/>
               </div>
             </div>
             <div className="col-md-6">
               <div className="form-group">
-                <label> Emergency Contact Information 2</label>
-                <input type="text" className="form-control" ref="emergency_ph2" onChange={ () => this.setState({ emergency_ph2 : this.refs.emergency_ph2.value }) } value={ this.state.emergency_ph2 }/>
+                <label>State</label>
+                <input type="text" className="form-control" ref="state" onChange={ () => this.setState({ state : this.refs.state.value }) } value={ this.state.state }/>
               </div>
             </div>
           </div>
 
-           <div className="form-group">
-          <label>Blood Group</label>
+           <div className="row no-gutter">
+            <div className="col-md-6 p-r">
+              <div className="form-group">
+                <label>Zip Code</label>
+                <input type="text" className="form-control" ref="zip_postal" onChange={ () => this.setState({ zip_postal : this.refs.zip_postal.value }) } value={ this.state.zip_postal }/>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group">
+                <label>Country</label>
+                <input type="text" className="form-control" ref="country" onChange={ () => this.setState({ country : this.refs.country.value }) } value={ this.state.country }/>
+              </div>
+            </div>
+          </div>
 
-          <select className="form-control" ref="blood_group" onChange={ () => this.setState({ blood_group : this.refs.blood_group.value }) } value={this.state.blood_group} >
-            <option value="">--select your blood group--</option>
-            <option value="O+">O-</option>
-            <option value="O-">O+</option>
-            <option value="A+">A+</option>
-            <option value="A-">A-</option>
-            <option value="B+">B+</option>
-            <option value="B-">B-</option>
-            <option value="AB+">AB+</option>
-            <option value="AB-">AB-</option>
-          </select>
-          
+          <div className="row no-gutter">
+            <div className="col-md-6 p-r">
+              <div className="form-group">
+                <label>Home Phone</label>
+                <input type="text" className="form-control" ref="home_ph" onChange={ () => this.setState({ home_ph : this.refs.home_ph.value }) } value={ this.state.home_ph }/>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group">
+                <label>Mobile</label>
+                <input type="text" className="form-control" ref="mobile_ph" onChange={ () => this.setState({ mobile_ph : this.refs.mobile_ph.value }) } value={ this.state.mobile_ph }/>
+              </div>
+            </div>
           </div>
 
           <div className="form-group">
-          <label>Any Medical Conditions</label>
-          <textarea placeholder="your medical conditions..." className="form-control" ref="medical_condition" onChange={ () => this.setState({ medical_condition : this.refs.medical_condition.value }) } value={this.state.medical_condition}></textarea>
+          <label>Other Email</label>
+          <input type="text" className="form-control" ref="other_email" onChange={ () => this.setState({ other_email : this.refs.other_email.value }) } value={ this.state.other_email }/>
           </div>
+
 
 
 <button  className="col-xs-12 md-btn md-raised indigo" onClick={ () => this.props.callUpdateUserProfileDetails( this.state ) } >Update Profile Details</button>
