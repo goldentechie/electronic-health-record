@@ -14,6 +14,9 @@
       super( props );
       this.state={
         doc_type:"",
+        doc_link:"",
+        doc_link1:"",
+        doc_link2:"",
         user_token:"",
       }
       this.deleteDocument = this.deleteDocument.bind( this )
@@ -28,7 +31,7 @@
     }
     callUpdateDocuments(e){
       let type = this.state.doc_type
-      let link1 = this.refs.file.value 
+      let link1 = this.refs.file.value //this.state.doc_link.trim()
       let stop = false
       if(type == ''){
         stop = true
@@ -68,6 +71,7 @@
                       </div>
                      {typeof doc.link_1 == 'undefined'?'':<span className="text-muted"><div dangerouslySetInnerHTML={{__html:doc.link_1}}></div><br /></span>}
                    </div></li>)
+
                   }) 
         return (
           <div>
