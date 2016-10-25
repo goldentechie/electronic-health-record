@@ -7,12 +7,13 @@ import ip from 'ip'
 const localip = ip.address()
 const debug = _debug('app:config')
 debug('Creating default configuration.')
+
 // ========================================================
 // Default Configuration
 // ========================================================
 const config = {
-  //env : process.env.NODE_ENV || 'development',
-  env : process.env.NODE_ENV || 'production',
+  env : process.env.NODE_ENV || 'development',
+  //env : process.env.NODE_ENV || 'production',
   // ----------------------------------
   // Project Structure
   // ----------------------------------
