@@ -15,7 +15,6 @@ import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui/svg-icons/action/delete';
 import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}from 'material-ui/Table';
-import { CONFIG } from '../../config/index'
 
 const styles = {
   block: {
@@ -80,7 +79,7 @@ class Variables extends React.Component {
       if( props.logged_user.logged_in == -1 ){
             this.props.router.push('/logout');
         }else{
-            if( props.logged_user.role == CONFIG.ADMIN || props.logged_user.role == CONFIG.HR){
+            if( props.logged_user.role == 'Admin' || props.logged_user.role == 'HR'){
                 
             }else{
                 this.props.router.push('/home');    

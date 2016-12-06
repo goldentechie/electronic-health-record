@@ -33,31 +33,34 @@ function async_get_users_leaves_summary(userid, year, month) {
 function async_get_users_list() {
   return fireAjax('POST', '', {'action': 'get_enable_user'})
 }
-
-export function get_users_leaves_summary(year, month) {
-
+export function select_month_leaves_summary(u, y, m) {
   return function(dispatch, getState) {
     dispatch(empty_leaves_summary({}))
-    return new Promise((resolve, reject) => {
-      dispatch(show_loading()); // show loading icon
-      async_get_users_list().then((val) => {
-        _.map(val.data, (user, key) => {
-          async_get_users_leaves_summary(user.user_Id, year, month).then((json) => {
-            dispatch(hide_loading()) // hide loading icon
-            if (json.error == 0) {
-              //console.log(user.username);
-              dispatch(success_leaves_summary(json.data, user.username))
-            } else {
-              dispatch(empty_leaves_summary({}))
-            }
+    dispatch(get_users_leaves_summary(u, y, m));
+  }
+}
+export function get_users_leaves_summary(u, year, month) {
+  console.log(u, year, month, "///////");
 
-          }, (error) => {
-            dispatch(hide_loading()) // hide loading icon
-            dispatch(error_leaves_summary({}))
-          })
-        })
-      })
+  return function(dispatch, getState) {
+    //i = start
+    return new Promise((resolve, reject) => {
+      dispatch(show_loading());
+      async_get_users_leaves_summary(u, year, month).then((json) => {
+        dispatch(hide_loading()) // hide loading icon
+        if (json.error == 0) {
+          //console.log(json.data);
+          dispatch(success_leaves_summary(json.data))
+        } else {
+          dispatch(empty_leaves_summary({}))
+        }
+
+      }, (error) => {
+        dispatch(hide_loading()) // hide loading icon
+        dispatch(error_leaves_summary({}))
+      }) // show loading icon
 
     })
+
   }
 }

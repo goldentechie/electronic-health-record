@@ -4,7 +4,7 @@ import { Router, browserHistory, Link, withRouter } from 'react-router'
 
 import * as _ from 'lodash'
 import {notify} from '../../services/index'
-import { CONFIG } from '../../config/index'
+
 import Menu from '../../components/generic/Menu'
 import LoadingIcon from '../../components/generic/LoadingIcon'
 import UsersList from '../../components/attendance/UsersList'
@@ -43,19 +43,19 @@ class ManageWorkingHours extends React.Component {
         this.props.onWorkingHoursSummary( year, month )
     }
     componentWillReceiveProps( props ){
-        window.scrollTo(0, 0);
+        //window.scrollTo(0, 0);
         if( props.logged_user.logged_in == -1 ){
             this.props.router.push('/logout');
         }else{
-            if( props.logged_user.role == CONFIG.ADMIN || props.logged_user.role == CONFIG.GUEST || props.logged_user.role == CONFIG.HR ){
+            if( props.logged_user.role == 'Admin' || props.logged_user.role == 'Guest' || props.logged_user.role == 'HR' ){
                 //this.props.onUsersList( )
             }else{
-                this.props.router.push('/monthly_attendance');    
+                this.props.router.push('/monthly_attendance');
             }
         }
 
         if( props.workingHoursSummary.status_message != ''){
-            notify( props.workingHoursSummary.status_message ); 
+            notify( props.workingHoursSummary.status_message );
         }
 
     }
@@ -63,14 +63,14 @@ class ManageWorkingHours extends React.Component {
         if( hours == '' ){
 
         }else{
-            this.props.onUpdateDayWorkingHours( date, hours ).then( 
+            this.props.onUpdateDayWorkingHours( date, hours ).then(
             (data) => {
-                
+
             },(error) => {
                 notify( error );
-            })    
+            })
         }
-        
+
     }
   	render(){
 		return(
@@ -100,17 +100,17 @@ class ManageWorkingHours extends React.Component {
     				<div className="app-body" id="view">
 
 						<div className="padding">
-							
+
                             <div className="row">
                                 <div className="col-md-12">
                                     <WorkingHoursSummary {...this.props}  onWorkingHoursChange = { this.onWorkingHoursChange }/>
                                 </div>
                             </div>
 	            		</div>
-							
+
 						</div>
 					</div>
-    			
+
     		</div>
     	)
     }

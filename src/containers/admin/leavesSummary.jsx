@@ -8,7 +8,7 @@ import {notify} from '../../services/index'
 import Menu from '../../components/generic/Menu'
 import LoadingIcon from '../../components/generic/LoadingIcon'
 import UsersList from '../../components/attendance/UsersList'
-import { CONFIG } from '../../config/index'
+import {CONFIG} from '../../config/index'
 
 import * as actions_login from '../../actions/login/index'
 import * as actions_usersList from '../../actions/user/usersList'
@@ -18,7 +18,9 @@ import * as actions_leaveSummary from '../../actions/admin/leavesSummary'
 import ViewLeavesSummary from '../../components/leavesSummary/ViewLeavesSummary'
 
 //import UserDaySummary from '../../components/attendance/UserDaySummary'
-
+let i = 0,
+  userlist = [],
+  uId;
 class LeavesSummary extends React.Component {
   constructor(props) {
     super(props);
@@ -27,17 +29,29 @@ class LeavesSummary extends React.Component {
 
     this.state = {
       defaultUserDisplay: "",
-      userid: ""
+      userid: "",
+      year: '',
+      month: '',
+      leaveData: ''
     }
+    this.dataToggle = this.dataToggle.bind(this);
   }
   componentWillMount() {
-    //this.props.onUsersList();
+    this.props.onUsersList();
+
+    //console.log(this.props.usersList);
     let d = new Date();
-    let year = d.getFullYear()
-    let month = d.getMonth() + 1
-    this.props.on_user_leaves_summary(year, month)
+    let y = d.getFullYear()
+    let m = d.getMonth() + 1
+    i = 0;
+    this.setState({year: y, month: m});
+  }
+  dataToggle(u, y, m) {
+    this.setState({year: y, month: m});
+    this.props.on_select_month_leaves_summary(u, y, m)
   }
   componentWillReceiveProps(props) {
+    //console.log(props.usersList);
     //window.scrollTo(0, 0);
     if (props.logged_user.logged_in == -1) {
       this.props.router.push('/logout');
@@ -48,10 +62,22 @@ class LeavesSummary extends React.Component {
         this.props.router.push('/monthly_attendance');
       }
     }
-
+    //  if (props.leavesSummary.month == this.state.month) {
+    //    this.setState({leaveData: props.leavesSummary})
+    //}
+    if (props.usersList.users[i] !== undefined) {
+      console.log(props.usersList.users[i].user_Id);
+      if (i < props.usersList.users.length) {
+        this.props.on_user_leaves_summary(props.usersList.users[i].user_Id, this.state.year, this.state.month)
+        i++;
+        //console.log(this.state.u);
+      }
+      //this.setState({u: props.usersList.users[i].user_Id})
+    } else {
+      console.log("not updated");
+    }
   }
   render() {
-
     return (
       <div>
         <Menu {...this.props }/>
@@ -75,7 +101,7 @@ class LeavesSummary extends React.Component {
             <div className="padding">
               <div className="row">
                 <div className="col-md-12 p">
-                  <ViewLeavesSummary componentData={this.props.leavesSummary} onUserClick={this.onUserClick} users={this.props.usersList.users} user_name={this.state.selected_user_name} {...this.props}/>
+                  <ViewLeavesSummary userlist={this.props.usersList} componentData={this.props.leavesSummary} year={this.state.year} month={this.state.month} dataToggle={this.dataToggle} users={this.props.usersList.users} user_name={this.state.selected_user_name} {...this.props}/>
                 </div>
               </div>
             </div>
@@ -96,11 +122,14 @@ const mapDispatchToProps = (dispatch) => {
     onIsAlreadyLogin: () => {
       return dispatch(actions_login.isAlreadyLogin())
     },
-    on_user_leaves_summary: (year, month) => {
-      return dispatch(actions_leaveSummary.get_users_leaves_summary(year, month))
+    on_user_leaves_summary: (u, year, month) => {
+      return dispatch(actions_leaveSummary.get_users_leaves_summary(u, year, month))
     },
     onUsersList: () => {
       return dispatch(actions_usersList.get_users_list())
+    },
+    on_select_month_leaves_summary: (u, y, m) => {
+      return dispatch(actions_leaveSummary.select_month_leaves_summary(u, y, m))
     }
   }
 }
