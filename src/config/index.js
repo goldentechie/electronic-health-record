@@ -1,8 +1,9 @@
 const token = localStorage.getItem('hr_logged_user')
 export const CONFIG = {
-  ADMIN: 'Admin',
-  HR: 'HR',
-  GUEST: 'Guest',
+  ADMIN:'Admin',
+  HR:'HR',
+  GUEST:'Guest',
+  EMPLOYEE:'Employee',
   WORKING_DAY: 'WORKING_DAY',
   LEAVE_DAY: 'LEAVE_DAY',
   //dev apis

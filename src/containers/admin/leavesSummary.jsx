@@ -7,6 +7,7 @@ import {notify} from '../../services/index'
 
 import Menu from '../../components/generic/Menu'
 import LoadingIcon from '../../components/generic/LoadingIcon'
+import {CONFIG} from '../../config/index'
 
 import * as actions_login from '../../actions/login/index'
 import * as actions_leavesSummary from '../../actions/admin/leavesSummary'
@@ -39,7 +40,7 @@ class LeavesSummary extends React.Component {
     if (props.logged_user.logged_in == -1) {
       this.props.router.push('/logout');
     } else {
-      if (props.logged_user.role == 'Admin' || props.logged_user.role == 'Guest' || props.logged_user.role == 'HR') {
+      if (props.logged_user.role == CONFIG.ADMIN || props.logged_user.role == CONFIG.GUEST || props.logged_user.role == CONFIG.HR) {
         //this.props.onUsersList( )
       } else {
         this.props.router.push('/monthly_attendance');
