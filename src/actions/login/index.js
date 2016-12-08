@@ -42,6 +42,7 @@ export function isAlreadyLogin(){
 		let token = localStorage.getItem('hr_logged_user')
 		if( typeof token != 'undefined' && token != null &&  token != '' ){
 			let  tokenData = jwt.decode( token, 'HR_APP' );
+			localStorage.setItem( 'userid', tokenData.id );
 			dispatch( login_sucess( tokenData ) )
 			//return token
 		}else{
@@ -53,7 +54,7 @@ export function isAlreadyLogin(){
 
 export function login( username, password ){
 
-	
+
 	return function (dispatch,getState){
 		if(_.isEmpty(username)){
 			return Promise.reject('Username is empty')
@@ -72,7 +73,7 @@ export function login( username, password ){
 						localStorage.setItem( 'hr_logged_user', token );
 						let  tokenData = jwt.decode( token, CONFIG.jwt_secret_key );
 						dispatch( login_sucess( tokenData ) )
-						
+
 		 			}else{
 		 				dispatch( login_fail( {} ) )
 		 			}
@@ -82,11 +83,11 @@ export function login( username, password ){
 					dispatch( login_error( error ) )
 				}
 			)
-			
+
 		})
 
 	}
-    
+
 }
 
 //logout
@@ -105,20 +106,22 @@ function asyncLogout(){
 
 export function logout(){
 	return function (dispatch,getState){
-		
+
 		return new Promise(( resolve, conflict ) => {
 			asyncLogout().then(
 				(json) => {
 					localStorage.setItem( 'hr_logged_user', '' );
+					localStorage.setItem( 'userid', '' );
 					dispatch( logout_sucess(  ) )
 				},
 				( error ) => {
 					localStorage.setItem( 'hr_logged_user', '' );
+					localStorage.setItem( 'userid', '' );
 					dispatch( logout_sucess(  ) )
 				}
 			)
 		})
-		
+
 	}
 }
 
