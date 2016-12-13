@@ -27,6 +27,7 @@ function async_getUserProfileDetails(userid) {
 
 export function getUserProfileDetails(userid, username) {
   return function(dispatch, getState) {
+
     return new Promise((reslove, reject) => {
       dispatch(show_loading()); // show loading icon
       async_getUserProfileDetails(userid).then((json) => {
@@ -112,8 +113,7 @@ export function updateUserProfileDetails(new_profile_details) {
       n_gender = new_profile_details.gender
     }
     if (typeof new_profile_details.dob != 'undefined') {
-      var mydate = new Date(new_profile_details.dob);
-      n_dob = (mydate.getFullYear() + '-' + (mydate.getMonth() + 1) + '-' + mydate.getDate());
+      n_dob = new_profile_details.dob
     }
 
     if (typeof new_profile_details.marital_status != 'undefined') {
