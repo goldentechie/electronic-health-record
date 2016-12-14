@@ -12,9 +12,7 @@ class SalaryDetails extends React.Component {
     }
   }
   componentDidMount() {}
-  componentWillReceiveProps(props) {
-    this.setState({holdingAmount: props.data})
-  }
+  componentWillReceiveProps(props) {}
   render() {
     let F_total_salary = ""
     let F_leaves_allocated = ""
