@@ -80,9 +80,6 @@ class Variables extends React.Component {
           pValue:[],
           openSendMailDialog:false,
           recipient: [],
-          cc: [],
-          bcc: [],
-          recipientType:'',
           openVarDialog: false,
           openPreview: false,
           sentMail:{},
@@ -107,8 +104,7 @@ class Variables extends React.Component {
         this.openMailPreview = this.openMailPreview.bind(this);
         this.closeMailPreview = this.closeMailPreview.bind(this);
         this.submitEmail = this.submitEmail.bind(this);
-        this.closeAlert = this.closeAlert.bind(this);
-      //  this.download_mail_preview = this.download_mail_preview.bind(this)
+        this.download_mail_preview = this.download_mail_preview.bind(this)
 
         this.variables = [];
     }
@@ -187,7 +183,6 @@ class Variables extends React.Component {
           templ = _.clone(tmp);
         }
       });
-
       if(this.state.recipient.length > 0){
         this.state.usersList.map((user)=>{
           if(user.user_Id == this.state.recipient[0].user_Id){
@@ -195,65 +190,31 @@ class Variables extends React.Component {
           }
         });
       }
-
-      let format = 'YYYY-MM-DD';
-      let string = templ.name.concat(" ",templ.subject," ", templ.body);
-      let regx = /#[\w\|-]*/g;
-      let variables = string.match(regx);
-
-      if(variables !== null && variables.length > 0){
-        variables = _.uniq(variables);
-        variables.map((str,i)=>{
-
-            let dateVariable = false;
-            if(str.indexOf('|') !== -1){
-               dateVariable = str;
-               let res = str.split('|');
-               str = res[0];
-               format = res[1];
-             }
-
-             let variable = _.find(this.props.templates.variable, function(o) { return o.name == str });
-
-             if(typeof variable !== 'undefined' &&  variable.name == str){
-
-               if(variable.variable_type == 'user' || !_.isEmpty(variable.value)){
-                 templ.name = _.replace(templ.name, str, variable.value);
-                 templ.subject = _.replace(templ.subject, str, variable.value);
-                 templ.body = _.replace(templ.body, str, variable.value);
-               }
-
-               if(variable.variable_type === 'system' || _.isEmpty(variable.value)){
-
-                 if(this.state.recipient.length > 0){
-                 let value;
-                 if(variable.name == '#date'){
-                   value = new Date();
-                   value = moment(value).format(format);
-                 }else if(variable.name == '#joining_date'){
-                   value = recipient.dateofjoining
-                   value = moment(value).format(format);
-                 }else if(variable.name == '#employee_title'){
-                   value = recipient.jobtitle
-                 }else if(variable.name == '#employee_name'){
-                   value = recipient.name
-                 }
-
-                 if(dateVariable === false){
-                   templ.name = _.replace(templ.name, str, value);
-                   templ.subject = _.replace(templ.subject, str, value);
-                   templ.body = _.replace(templ.body, str, value);
-                 }else{
-                   templ.name = _.replace(templ.name, dateVariable, value);
-                   templ.subject = _.replace(templ.subject, dateVariable, value);
-                   templ.body = _.replace(templ.body, dateVariable, value);
-                 }
-                 }
-               }
-             }
-         });
-       }
-
+      this.props.templates.variable.map((variable)=>{
+        if(variable.variable_type == 'user' || !_.isEmpty(variable.value)){
+          templ.name = templ.name.split(variable.name).join(variable.value)    // replace multiple variables
+          templ.subject = templ.subject.split(variable.name).join(variable.value)    // replace multiple variables
+          templ.body = templ.body.split(variable.name).join(variable.value)    // replace multiple variables
+        }
+        if(variable.variable_type === 'system' || _.isEmpty(variable.value)){
+          if(this.state.recipient.length > 0){
+          let value;
+          if(variable.name == '#date'){
+            value = new Date();
+            value = moment(value).format('YYYY-MM-DD');
+          }else if(variable.name == '#joining_date'){
+            value = recipient.dateofjoining
+          }else if(variable.name == '#employee_title'){
+            value = recipient.jobtitle
+          }else if(variable.name == '#employee_name'){
+            value = recipient.name
+          }
+          templ.name = templ.name.split(variable.name).join(value)    // replace multiple variables
+          templ.subject = templ.subject.split(variable.name).join(value)    // replace multiple variables
+          templ.body = templ.body.split(variable.name).join(value)    // replace multiple variables
+          }
+        }
+      });
       this.setState({
         templateName: templ.name,
         templateSubject: templ.subject,
@@ -304,30 +265,15 @@ class Variables extends React.Component {
         usersList: list
       })
     }
-    selectUser(data, status, recipientType = this.state.recipientType){
-      if(recipientType == "Recipient"){
-        let recipient = this.state.recipient;
-        //status ? recipient.push(data) : _.pullAllBy(recipient, [data], 'user_Id');
-        status ? recipient[0] = data : _.pullAllBy(recipient, [data], 'email');
-        this.setState({
-          recipient: recipient
-        });
-        this.applyVariables(this.state.templateId);
-      }else if(recipientType == "CC"){
-        let recipient = this.state.cc;
-        status ? recipient.push(data) : _.pullAllBy(recipient, [data], 'user_Id');
-        this.setState({
-          cc: recipient
-        });
-      }else if(recipientType == "BCC"){
-        let recipient = this.state.bcc;
-        status ? recipient.push(data) : _.pullAllBy(recipient, [data], 'user_Id');
-        this.setState({
-          bcc: recipient
-        });
-      }
+    selectUser(data, status){
+      let recipient = this.state.recipient;
+      //status ? recipient.push(data) : _.pullAllBy(recipient, [data], 'user_Id');
+      status ? recipient[0] = data : _.pullAllBy(recipient, [data], 'email');
+      this.setState({
+        recipient: recipient
+      });
+      this.applyVariables(this.state.templateId);
     }
-
     submitEmail(email){
       var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
       email = email.trim();
@@ -340,29 +286,25 @@ class Variables extends React.Component {
         this.selectUser({user_Id:"#", name: email, email: email}, true)
       }
     }
-    // selectAll(){
-    //   let recipient = this.state.recipient;
-    //   _.remove(recipient)
-    //   this.state.usersList.map((user)=>{
-    //     recipient.push({user_Id:user.user_Id, name: user.name, email: user.work_email})
-    //   });
-    //   this.setState({
-    //     recipient: recipient,
-    //   });
-    //   this.applyVariables(this.state.templateId);
-    // }
-    // onclearFilter(){
-    //   let recipient = this.state.recipient;
-    //   _.remove(recipient)
-    //   this.setState({ recipient: recipient});
-    //   this.applyVariables(this.state.templateId);
-    // }
-    onClickLabel(label, indexLabel, recipientType) {
-       this.selectUser(label, false, recipientType);
+    download_mail_preview(e){
+      let fileName = 'mail-preview';
+      this.props.onDownloadPdf($('#dialogContent').html(),fileName).then((succ)=>{
+        var link = document.createElement('a');
+        link.href = CONFIG.pdf_url+succ.message;
+        link.target = "_blank";
+        document.body.appendChild(link);
+        link.click();    
+      }).catch((err)=>{
+      })
+
+    }
+    onClickLabel(label, indexLabel) {
+       this.selectUser(label, false);
     }
     //------editors
     handleContentChange(value) {
       this.setState({templateBody: value});
+      //this.setState({templateBody:e.target.value});
     }
     closeMailPreview(){
       this.setState({
@@ -370,11 +312,7 @@ class Variables extends React.Component {
         sentMail:{},
       });
     }
-    closeAlert(e, id){
-      e.preventDefault();
-      $('#'+id).fadeOut(0);
-      $('#'+id+ " span").remove();
-    }
+
     openMailPreview(){
       let recipient = this.state.recipient,
           templateName = this.state.templateName.trim(),
@@ -407,39 +345,70 @@ class Variables extends React.Component {
              }
            }
         if(state){
-          let cc_detail = _.map(this.state.cc,(cc)=>{
-                        return [cc.email, cc.name]
-                    });
-          let bcc_detail = _.map(this.state.bcc,(bcc)=>{
-                        return [bcc.email, bcc.name]
-                    });
           let email = [{
-                email_id: recipient[0].email,
-                name: recipient[0].name,
-                subject: templateSubject,
-                body: templateBody,
-                cc_detail: cc_detail,
-                bcc_detail: bcc_detail,
+              email_id: recipient[0].email,
+              name: recipient[0].name,
+              subject: templateSubject,
+              body: templateBody
               }]
           this.setState({
             openPreview: true,
             sentMail:{status:state, email:email}
           })
         }else{
-          $('#previewalert').fadeIn().append("<span>"+error+"<span>")
+          $('#previewalert').fadeIn().append("<strong>Error!</strong>"+error).fadeOut(10000)
         }
     }
     sendMail(){
       this.closeMailPreview();
-      let sentMail = this.state.sentMail;
-      if(sentMail.status){
-        this.props.onSendMail(sentMail.email).then(()=>{
-          this.handleCloseDialog();
-          $('#mailsentsuccessfully').fadeIn().append("Mail sent successfully. ")
-        }).catch(()=>{
-          $('#previewalert').fadeIn().append("<span>Mail not sent. try again<span>");
-        })
-      }
+      // let recipient = this.state.recipient,
+      //     templateName = this.state.templateName.trim(),
+      //     templateSubject = this.state.templateSubject.trim(),
+      //     templateBody = this.state.templateBody.toString('html'),
+      //     state = true;
+      //     if(recipient.length === 0){
+      //       state = false;
+      //       alert("Please select a recipient");
+      //     }
+      //     if(_.isEmpty(templateName) || _.isEmpty(templateSubject) || _.isEmpty(templateBody)){
+      //       state = false;
+      //       alert("Please select a template");
+      //     }else{
+      //         let string = templateName.concat(" ",templateSubject," ", templateBody);
+      //         let regx = /(?:^|\W)#(\w+)(?!\w)/g;
+      //         let result = string.match(regx);
+      //         if(result !== null && result.length > 0){
+      //           state = false;
+      //           result = _.uniq(result);
+      //          this.variables = result.map((str)=>{
+      //              return str.substring(1);
+      //          });
+      //          this.setState({
+      //           openVarDialog: true,
+      //          });
+      //        }else{
+      //          this.setState({
+      //            openPreview: true,
+      //          })
+      //        }
+      //     }
+
+          let sentMail = this.state.sentMail;
+          if(sentMail.status){
+            // let email = [{
+            //     email_id: recipient[0].email,
+            //     name: recipient[0].name,
+            //     subject: templateSubject,
+            //     body: templateBody
+            //     }]
+            this.props.onSendMail(sentMail.email).then(()=>{
+              alert('Mail sent');
+              this.handleCloseDialog();
+            }).catch(()=>{
+              //$('#mailsenterror').fadeIn().append("<strong>Error!</strong>"+error).fadeOut(10000)
+              alert('Error mail not sent.')
+            })
+          }
     }
     handleClose(){
       this.setState({
@@ -466,7 +435,7 @@ class Variables extends React.Component {
        this.handleClose();
     }
     render(){
-          console.log('this.state',this.state,'props',this.props);
+      console.log('this.state',this.state,'props',this.props);
           const actionsCreateTemplate = [
             <FlatButton label="Close" primary={true} onTouchTap={this.handleCloseDialog} style={{marginRight:5}} />,
             <RaisedButton label={_.isEmpty(this.state.templateId) ? "SAVE" : "Update"} primary={true} onClick={this.saveTemplate} />
@@ -477,20 +446,10 @@ class Variables extends React.Component {
           ];
 
         //------------------------------------
-        let listChartItems = [],
-        recipientType = this.state.recipientType, //$('input[name="recipientType"]:checked').val(),
-        recipient = [];
-        if(recipientType == "Recipient"){
-          recipient = this.state.recipient;
-        }else if(recipientType == "CC"){
-          recipient = this.state.cc;
-        }else if(recipientType == "BCC"){
-          recipient = this.state.bcc;
-        }
-
+        let listChartItems = [];
         this.state.usersList.map((user, i)=>{
           let check = false;
-          if(_.filter(recipient, _.matches({user_Id:user.user_Id })).length > 0) {
+          if(_.filter(this.state.recipient, _.matches({user_Id:user.user_Id })).length > 0) {
             check = true;
           }
         listChartItems.push(
@@ -584,7 +543,7 @@ class Variables extends React.Component {
                 {_.map(this.props.templates.variable, (vari) => {
                   if(vari.variable_type === 'system' || vari.value == ''){
                     return (
-                      <div key={vari.id} onClick={()=>{this.insertAtCaret('editor',"text to insert")}}>
+                      <div key={vari.id}>
                         <span className="select-variable">{vari.name}</span>
                         <Divider />
                       </div>
@@ -597,7 +556,7 @@ class Variables extends React.Component {
                   {_.map(this.props.templates.variable, (vari) => {
                     if(vari.variable_type == 'user' || !_.isEmpty(vari.value)){
                       return(
-                        <div key={vari.id} onClick={()=>{this.insertAtCaret('editor',"text to insert")}}>
+                        <div key={vari.id}>
                           <span className="select-variable">{vari.name}</span>
                           <Divider />
                         </div>
@@ -615,11 +574,6 @@ class Variables extends React.Component {
                        className="md-btn md-raised m-b-sm indigo"
                        onClick={this.openCreateTemplate}
                       >Create New Template</button>
-                      </div>
-                      <div className='col-xs-12' style={{paddingTop:'10px',paddingRight:'0px',textAlign:'center'}}>
-                        <div id="mailsentsuccessfully" className="alert alert-success pull-left" style={styles.errorAlert}>
-                          <a href="#" className="close" onClick={(e)=>this.closeAlert(e, 'mailsentsuccessfully')} aria-label="close">&times;</a>
-                        </div>
                       </div>
                       <div className={this.state.paper} style={{"marginTop":"8%"}}>
                         {_.map(this.props.templates.templates, (tmp, i) => (
@@ -688,10 +642,10 @@ class Variables extends React.Component {
                  autoDetectWindowHeight={true}
                  autoScrollBodyContent={true}
                >
-               <div id="dialogContent">
-                 <div className="p-t p-b" style={{borderBottom:'1px solid gainsboro',fontWeight:'500'}} dangerouslySetInnerHTML={{__html: this.state.sentMail && this.state.sentMail.email && this.state.sentMail.email[0].subject}}></div>
-                 <div className="p-t p-b" dangerouslySetInnerHTML={{__html: this.state.sentMail && this.state.sentMail.email && this.state.sentMail.email[0].body}}></div>
-              </div>
+                <div id="dialogContent">
+                  <div className="p-t p-b" style={{borderBottom:'1px solid gainsboro',fontWeight:'500'}} dangerouslySetInnerHTML={{__html: this.state.sentMail && this.state.sentMail.email && this.state.sentMail.email[0].subject}}></div>
+                  <div className="p-t p-b" dangerouslySetInnerHTML={{__html: this.state.sentMail && this.state.sentMail.email && this.state.sentMail.email[0].body}}></div>
+                </div>
              </Dialog>
                  <div className="col-xs-9" style={{borderRight:'1px solid gainsboro'}}>
                    <form className="form-inline">
@@ -710,17 +664,6 @@ class Variables extends React.Component {
                                   <div className="form-group" style={{width:'100%'}}>
                                     <input type="checkbox" id="notListed" className="not-listed" checked={this.state.recipientNotFound} onChange={(e)=>this.setState({recipientNotFound:e.target.checked})} /> Recipient Not Listed
                                   </div>
-                              </li>
-                              <li className="mb-sm b-b p-t p-b">
-                                <div className="form-group" style={{width:"40%",paddingLeft:"0px"}}>
-                                  <input type="radio" id="recipient" className="recipient" name="recipientType" checked={recipientType == "Recipient" ? true : false} value="Recipient" onChange={(e)=>{this.setState({recipientType:e.target.value})}}/> Recipient
-                                </div>
-                                <div className="form-group" style={{width:"30%",paddingLeft:"0px"}} >
-                                  <input type="radio" id="cc" className="cc" name="recipientType" checked={recipientType == "CC" ? true : false} value="CC" onChange={(e)=>{this.setState({recipientType:e.target.value})}}/> CC
-                                </div>
-                                <div className="form-group" style={{width:"30%",paddingLeft:"0px"}}>
-                                  <input type="radio" id="bcc" className="bcc" name="recipientType" checked={recipientType == "BCC" ? true : false} value="BCC" onChange={(e)=>{this.setState({recipientType:e.target.value})}}/> BCC
-                                </div>
                               </li>
                               {this.state.recipientNotFound ?
                               <li className="mb-sm b-b p-t p-b">
@@ -745,30 +688,13 @@ class Variables extends React.Component {
                           </div>
                       </div>
                     <div id="previewalert" className="alert alert-danger pull-left" style={styles.errorAlert}>
-                      <a href="#" className="close" onClick={(e)=>this.closeAlert(e, 'previewalert')} aria-label="close">&times;</a>
                     </div>
                     <div className="form-group selected-recipient" style={styles.formInput}>
                       <div className="pull-left to">To</div>
                       <div className="pull-left filter-tags" style={{textTransform: 'capitalize',fontSize:'12px'}}>
-                        {this.state.recipient.length > 0 ? <FilterLabel data={this.state.recipient} onClick={(label, indexLabel)=>this.onClickLabel(label, indexLabel, "Recipient")} onClear={this.onclearFilter} /> : ""}
+                        {this.state.recipient.length > 0 ? <FilterLabel data={this.state.recipient} onClick={this.onClickLabel} onClear={this.onclearFilter} /> : ""}
                       </div>
                     </div>
-                    {this.state.cc.length > 0 ?
-                      <div className="form-group selected-recipient" style={styles.formInput}>
-                      <div className="pull-left to">CC</div>
-                      <div className="pull-left filter-tags" style={{textTransform: 'capitalize',fontSize:'12px'}}>
-                        <FilterLabel data={this.state.cc} onClick={(label, indexLabel)=>this.onClickLabel(label, indexLabel, "CC")} onClear={this.onclearFilter} />
-                      </div>
-                    </div>
-                     : ""}
-                    {this.state.bcc.length > 0 ?
-                      <div className="form-group selected-recipient" style={styles.formInput}>
-                      <div className="pull-left to">BCC</div>
-                      <div className="pull-left filter-tags" style={{textTransform: 'capitalize',fontSize:'12px'}}>
-                        <FilterLabel data={this.state.bcc} onClick={(label, indexLabel)=>this.onClickLabel(label, indexLabel, "BCC")} onClear={this.onclearFilter} />
-                      </div>
-                    </div>
-                     : ""}
                    <div className="form-group" style={styles.formInput}>
                    <TextField
                          ref='value'
@@ -819,7 +745,7 @@ class Variables extends React.Component {
                      {_.map(this.props.templates.variable, (vari) => {
                        if(vari.variable_type === 'system' || vari.value == ''){
                          return (
-                           <div key={vari.id} onClick={()=>{this.insertAtCaret('editor',"text to insert")}}>
+                           <div key={vari.id}>
                              <span className="select-variable">{vari.name}</span>
                              <Divider />
                            </div>
@@ -832,7 +758,7 @@ class Variables extends React.Component {
                        {_.map(this.props.templates.variable, (vari) => {
                          if(vari.variable_type == 'user' || !_.isEmpty(vari.value)){
                            return(
-                             <div key={vari.id} onClick={()=>{this.insertAtCaret('editor',"text to insert")}}>
+                             <div key={vari.id}>
                                <span className="select-variable">{vari.name}</span>
                                <Divider />
                              </div>
