@@ -143,6 +143,11 @@ class Variables extends React.Component {
       let id = this.state.varId;
       let state = true;
 
+      // var span= document.createElement('span');
+      // span.innerHTML= varCode;
+      // let codeText = span.textContent || span.innerText;
+      // codeText = codeText.trim();
+
       if(varCode != ''){
         this.setState({varCodeError:''})
       }else{
@@ -159,10 +164,12 @@ class Variables extends React.Component {
       }else{
         varVal = ''
       }
+
       // let  varCode = "#logo",
       //  varVal = '<img src="logo.png" height="30" width="160">',
       //  varType = "system",
       //  id = "39";
+
       if( state){
         varCode = varCode.toLowerCase();
         if(_.trim(varCode)[0]!=="#"){
