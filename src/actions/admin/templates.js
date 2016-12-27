@@ -130,7 +130,7 @@ export function get_variable( ){
 function async_delete_variable( id ){
 	return fireAjax( 'POST', '', {
 		action : 'delete_template_variable',
-		id: id
+		id:id
 	})
 }
 
@@ -282,6 +282,7 @@ export function delete_template(t_id){
 //------------send_mail functionality------------
 
 function async_send_mail(email){
+	console.log('email',email);
 	return fireAjax( 'POST', '', {
 		action: 'send_employee_email',
 		email: email
@@ -307,6 +308,31 @@ export function send_mail(email){
 					reject('error occurs!!')
 				}
 			)
+		})
+	}
+}
+
+//-------------------Download PDF ------------
+
+function async_download_template(template,fileName){
+	return fireAjax( 'POST', '', {
+		action: 'create_pdf',
+		template: template,
+		file_name: fileName
+	})
+}
+export function download_pdf(template,fileName){
+	return function (dispatch, getState){
+		return new Promise((resolve, reject) => {
+			dispatch(show_loading());
+				async_download_template(template,fileName).then(
+					(json) => {
+						resolve(json.data)
+					},
+					(error) =>{
+						reject('error occurs!!')
+					}
+				)
 		})
 	}
 }
