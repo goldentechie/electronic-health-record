@@ -10,6 +10,10 @@ class Day extends React.Component {
     $('.timepicker').timepicker({'minTime': '5:00', 'maxTime': '12:00', 'timeFormat': 'h:i', 'step': 10});
   }
 
+  componentWillReceiveProps(){
+    $('.timepicker').timepicker({'minTime': '5:00', 'maxTime': '12:00', 'timeFormat': 'h:i', 'step': 10});
+  }
+
   render() {
     let styles = _.cloneDeep(this.constructor.styles);
 
@@ -141,9 +145,9 @@ class Day extends React.Component {
             </span>
           </div>
         </div>
+
       </div>
     } else if (d.day_type == "WORKING_DAY" && this.props.forEmployeeHours == true) {
-      console.log('WORKING_DAY');
       main = <div data-toggle="modal">
 
         <div className="fc-day-grid-event fc-h-event fc-event fc-start fc-end white fc-draggable">
