@@ -17,16 +17,15 @@
       }
     }
     componentWillReceiveProps( props ){
-      if(props.user_bank_detail !== null){
-        this.setState({
-          bank_account_no : props.user_bank_detail.bank_account_no,
-          bank_name : props.user_bank_detail.bank_name,
-          bank_address : props.user_bank_detail.bank_address,
-          ifsc : props.user_bank_detail.ifsc,
-        })
-      }
-    }
 
+      this.setState({
+        bank_account_no : props.user_bank_detail.bank_account_no,
+        bank_name : props.user_bank_detail.bank_name,
+        bank_address : props.user_bank_detail.bank_address,
+        ifsc : props.user_bank_detail.ifsc,
+      })
+    }
+      
       render(){
         let styles = _.cloneDeep(this.constructor.styles);
 
@@ -67,3 +66,5 @@ FormBankDetails.styles = {
 
 
 export default FormBankDetails
+
+
