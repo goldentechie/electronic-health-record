@@ -1,4 +1,4 @@
-//require('../../components/css/template.scss');
+sl//require('../../components/css/template.scss');
 
 import React from 'react';
 import { connect } from 'react-redux'
