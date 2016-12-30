@@ -23,7 +23,6 @@ import Divider from 'material-ui/Divider';
 import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}from 'material-ui/Table';
 import { CONFIG } from '../../config/index';
 import EditableDiv from '../../components/editor/EditableDiv';
-import LinearProgress from 'material-ui/LinearProgress';
 var FormData = require('form-data');
 
 var moment = require('moment');
@@ -95,13 +94,7 @@ const styles = {
       'fontStyle':'italic',
       'fontWeight':'bold',
       'color':'#0099cc'
-  },
-  crossButton:{
-    'color':'red',
-    'float':'right',
-    'marginTop':'3px',
-    'cursor':'pointer'
-  }
+    }
 };
 
 class Variables extends React.Component {
@@ -122,7 +115,7 @@ class Variables extends React.Component {
           recipient: [],
           cc: [],
           bcc: [],
-          recipientType:'',
+          recipientType:'Recipient',
           openVarDialog: false,
           openPreview: false,
           sentMail:{},
@@ -130,8 +123,7 @@ class Variables extends React.Component {
           recipientNotFound: false,
           emailValidationError: '',
           upload_file:[],
-          uploadedPDF:[],
-          LinearProgressBar:[]
+          uploadedPDF:[]
         }
 
         this.openCreateTemplate = this.openCreateTemplate.bind(this)
@@ -226,6 +218,15 @@ class Variables extends React.Component {
         })
       }
     }
+    replaceVariablesWithValue(templ, str, value){
+      // templ.name = templ.name.split(str).join(value);
+      // templ.subject = templ.subject.split(str).join(value);
+      // templ.body = templ.body.split(str).join(value);
+      templ.name = _.replace(templ.name, str, value);
+      templ.subject = _.replace(templ.subject, str, value);
+      templ.body = _.replace(templ.body, str, value);
+      return templ;
+    }
     applyVariables(templateId){
       let templ = '', recipient = '';
        _.map(this.props.templates.templates, (tmp, i) =>{
@@ -263,41 +264,37 @@ class Variables extends React.Component {
 
              if(typeof variable !== 'undefined' &&  variable.name == str){
 
-               if(variable.variable_type == 'user'){
-                 templ.name = _.replace(templ.name, str, variable.value);
-                 templ.subject = _.replace(templ.subject, str, variable.value);
-                 templ.body = _.replace(templ.body, str, variable.value);
+               if(variable.variable_type == 'user' || variable.name == '#logo'){
+                 templ = this.replaceVariablesWithValue(templ, str, variable.value);
                }
 
-               if(variable.variable_type === 'system'){
+               if(_.includes(variable.name, '#date')){
+                 let value = new Date();
+                 value = moment(value).format(format);
+                 if(dateVariable === false){
+                   templ = this.replaceVariablesWithValue(templ, str, value);
+                 }else{
+                   templ = this.replaceVariablesWithValue(templ, dateVariable, value);
+                 }
+               }
 
-                 if(this.state.recipient.length > 0){
+               if(variable.variable_type === 'system' && !_.isEmpty(recipient) && !_.includes(variable.name, '#date') ){
                  let value;
-                 if(variable.name == '#date'){
-                   value = new Date();
-                   value = moment(value).format(format);
-                 }else if(variable.name == '#joining_date'){
+                 if(variable.name == '#joining_date'){
                    value = recipient.dateofjoining
                    value = moment(value).format(format);
                  }else if(variable.name == '#employee_title'){
                    value = recipient.jobtitle
                  }else if(variable.name == '#employee_name'){
-                   value = recipient.name || this.state.recipient[0].name
-                 }else if(variable.name == '#logo'){
-                   value = variable.value
+                   value = recipient.name
                  }
-
                  if(dateVariable === false){
-                   templ.name = _.replace(templ.name, str, value);
-                   templ.subject = _.replace(templ.subject, str, value);
-                   templ.body = _.replace(templ.body, str, value);
+                   templ = this.replaceVariablesWithValue(templ, str, value);
                  }else{
-                   templ.name = _.replace(templ.name, dateVariable, value);
-                   templ.subject = _.replace(templ.subject, dateVariable, value);
-                   templ.body = _.replace(templ.body, dateVariable, value);
-                 }
+                   templ = this.replaceVariablesWithValue(templ, dateVariable, value);
                  }
                }
+
              }
          });
        }
@@ -455,6 +452,7 @@ class Variables extends React.Component {
       $('#'+id+ " span").remove();
     }
     openMailPreview(){
+      console.log('openMailPreview');
       let recipient = this.state.recipient,
           templateName = this.state.templateName.trim(),
           templateSubject = this.state.templateSubject.trim(),
@@ -471,16 +469,21 @@ class Variables extends React.Component {
           }
           if(state){
             let string = templateName.concat(" ",templateSubject," ", templateBody);
-            let regx = /(?:^|\W)#(\w+)(?!\w)/g;
+            let regx = /#[\w\|-]*/g;
             let result = string.match(regx);
+            let pendingVariables = []; //_.remove(this.state.pValue);
+            console.log('result out');
             if(result !== null && result.length > 0){
+              console.log('result');
               state = false;
               error = "Please put all variable's value";
               result = _.uniq(result);
-             this.variables = result.map((str)=>{
-                 return str.substring(1);
+
+              result.map((str)=>{
+                 pendingVariables.push({name:str});
                });
                this.setState({
+                 pValue: pendingVariables,
                  openVarDialog: true,
                });
              }
@@ -500,6 +503,7 @@ class Variables extends React.Component {
                 cc_detail: cc_detail,
                 bcc_detail: bcc_detail,
               }]
+              console.log('email');
           this.setState({
             openPreview: true,
             sentMail:{status:state, email:email}
@@ -524,72 +528,72 @@ class Variables extends React.Component {
       }
     }
     handleClose(){
+      console.log('handleClose');
       this.setState({
         openVarDialog: false,
-        pValue: [],
+        pValue: _.remove(this.state.pValue),
       });
-      this.variables = [];
     }
     setVariable(){
+      console.log('hhhhhhhhhhhhhh');
       let pValue = this.state.pValue,
-          templateName = this.state.templateName.trim(),
-          templateSubject = this.state.templateSubject.trim(),
-          templateBody = this.state.templateBody.toString('html');
-      _.map(this.variables, (variable, i)=>{
-           templateName = _.replace(templateName, variable, pValue[i]);
-           templateSubject = _.replace(templateSubject, variable, pValue[i]);
-           templateBody = _.replace(templateBody, variable, pValue[i]);
-       });
-       this.setState({
-         templateName: templateName,
-         templateSubject: templateSubject,
-         templateBody: RichTextEditor.createValueFromString(templateBody, 'html'),
-       });
-       this.handleClose();
+          // template = {
+          //   name:this.state.templateName.trim(),
+          //   subject:this.state.templateSubject.trim(),
+          //   body:this.state.templateBody.toString('html'),
+          // };
+            templateName = this.state.templateName.trim(),
+            templateSubject = this.state.templateSubject.trim(),
+            templateBody = this.state.templateBody.toString('html');
+
+      _.map(pValue, (variable, i)=>{
+        if(typeof variable.value !== 'undefined'){
+          console.log('inside');
+          templateName = _.replace(templateName, variable.name, variable.value);
+          templateSubject = _.replace(templateSubject, variable.name, variable.value);
+          templateBody = _.replace(templateBody, variable.name, variable.value);
+          //template = this.replaceVariablesWithValue(template, variable.name, variable.value)
+        }
+      });
+
+     this.setState({
+       templateName: templateName, //template.name,
+       templateSubject: templateSubject, // template.subject,
+       templateBody: RichTextEditor.createValueFromString(templateBody, 'html'),
+     });
+     console.log('templateBody',templateBody);
+     console.log('lllllllllllllll',this.state.templateBody.toString('html'));
+     this.handleClose();
+     this.openMailPreview();
     }
     uploadPDF(e){
       let self = this
         var file_data = $("#file_image").prop("files");
-        var form_data = new FormData(); 
-        var LinearProgressBar = []
+        var form_data = new FormData();
         for( var i in file_data){
           form_data.append(i.toString(), file_data[i])
         }
-        for(i=0;i<file_data['length'];i++){
-          LinearProgressBar.push(<div key={i} className="row" style={styles.uploadedPdfBlock}>
-            <div className="col-xs-7">
-              {file_data[i].name}
-            </div>
-            <div className="col-xs-5">
-              <LinearProgress mode="indeterminate"/>
-            </div>
-            </div>)
-        }
-        self.setState({
-          LinearProgressBar:LinearProgressBar
-        })
-        
+
       $.ajax({
           url: CONFIG.upload_email_attachment,
           contentType: false,
           processData: false,
-          data: form_data,                         
+          data: form_data,
           type: 'post',
           success: function(data) {
             let obj = JSON.parse(data);
             let uploadedPDF = self.state.uploadedPDF;
             let upload_file_path = self.state.upload_file;
+            let preKey = uploadedPDF.length
              if(obj.error == 0){
-              let data = obj.data
-              _.map(data,(file, key)=>{
-                  uploadedPDF.push(file.name);
-                  upload_file_path.push(file.path)
-                }) 
+              _.map(obj.data,(file, key)=>{
+                  uploadedPDF.push(<div key={key+preKey} style={styles.uploadedPdfBlock}>{file.name}<i onClick={()=>{self.deleteAttachment(key+preKey)}} style={{'color':'red','float':'right','marginTop':'3px','cursor':'pointer'}} className="fa fa-remove"></i></div>);
+                    upload_file_path.push(file.path)
+                })
              }
              self.setState({
               uploadedPDF:uploadedPDF,
-              upload_file:upload_file_path,
-              LinearProgressBar:[]
+              upload_file:upload_file_path
              })
           },
           error: function(error) {
@@ -602,37 +606,26 @@ class Variables extends React.Component {
       let newuploadedPDF = []
       let upload_file_path = this.state.upload_file;
       let newupload_file_path = []
-      _.map(uploadedPDF,(file, k)=>{
-        if(filekey != k){
-          newuploadedPDF.push(uploadedPDF[k])
-          newupload_file_path.push(upload_file_path[k])
+      _.map(uploadedPDF,(file, key)=>{
+        if(filekey != key){
+          newuploadedPDF.push(uploadedPDF[key])
+          newupload_file_path.push(upload_file_path[key])
         }
-      }) 
+      })
       this.setState({
         uploadedPDF:newuploadedPDF,
         upload_file:newupload_file_path
       })
     }
     render(){
-      let fileList = []
-      _.map(this.state.uploadedPDF,(name, key)=>{
-        fileList.push(
-          <div key={key} style={styles.uploadedPdfBlock}>
-            {name}
-            <i 
-              onClick={()=>{this.deleteAttachment(key)}} 
-              style={styles.crossButton} 
-              className="fa fa-remove">
-            </i>
-          </div>)
-      })
+        //console.log('this.state',this.state,'this.props', this.props);
           const actionsCreateTemplate = [
             <FlatButton label="Close" primary={true} onTouchTap={this.handleCloseDialog} style={{marginRight:5}} />,
             <RaisedButton label={_.isEmpty(this.state.templateId) ? "SAVE" : "Update"} primary={true} onClick={this.saveTemplate} />
           ];
           const actionsSendMail = [
-            <FlatButton label="Close" primary={true} onTouchTap={this.handleCloseDialog1} style={{marginRight:5}} />,
-            <RaisedButton label={"Send"} primary={true} onClick={this.openMailPreview} />
+            <FlatButton label="Close" primary={true} onTouchTap={this.handleCloseDialog} style={{marginRight:5}} />,
+            <RaisedButton label={"Preview"} primary={true} onClick={this.openMailPreview} />
           ];
 
         //------------------------------------
@@ -661,22 +654,27 @@ class Variables extends React.Component {
         });
         //-----------------pending Variables
         let pendingVar = [];
-        _.map(this.variables,(variable, i)=>{
+        _.map(this.state.pValue,(variable, i)=>{
           pendingVar.push(
           <div className="form-group" key={i}>
-           <label>Enter value for {variable} :</label>
+           <label>Enter value for {variable.name} :</label>
            <input type="text" className="form-control" onChange={(e)=>{
                let pValue = this.state.pValue;
-               pValue[i] = e.target.value;
+               pValue[i].value = e.target.value;
              this.setState({
                  pValue: pValue,
              });
            }}
-           value={this.state.pValue[i]} />
+           value={this.state.pValue[i].value} />
           </div>)
         })
     	return(
 				<div className="app-body" id="view" style={{'marginTop':10}}>
+        {/*<div className="row">
+                    <div className="col-12">
+                      <LoadingIcon {...this.props}/>
+                    </div>
+                  </div>*/""}
 					<div className="col-xs-12 col-sm-12" style={{ "float":"right"}}>
             <Dialog
               title={_.isEmpty(this.state.templateId) ? "Create Template" : "Edit Template"}
@@ -689,11 +687,6 @@ class Variables extends React.Component {
               autoDetectWindowHeight={true}
               autoScrollBodyContent={true}
             >
-            <div className="row">
-              <div className="col-xs-12">
-                <LoadingIcon {...this.props}/>
-              </div>
-            </div>
             <div className="col-xs-9" style={{borderRight:'1px solid gainsboro'}}>
               <form className="form-inline">
               <div className="form-group" style={styles.formInput}>
@@ -769,7 +762,7 @@ class Variables extends React.Component {
                  <div className="row" style={{margin:'0px 4px 0px'}}>
                    <div className="col-xs-12">
                      <div className='row'>
-                      <div className='col-xs-12' style={{paddingTop:'16px',paddingRight:'0px'}}>
+                      <div className='col-xs-12' style={{paddingTop:'10px',paddingRight:'0px'}}>
                       <button
                        className="md-btn md-raised m-b-sm indigo"
                        onClick={this.openCreateTemplate}
@@ -847,11 +840,6 @@ class Variables extends React.Component {
                  autoDetectWindowHeight={true}
                  autoScrollBodyContent={true}
                >
-                <div className="row">
-                  <div className="col-xs-12">
-                    <LoadingIcon {...this.props}/>
-                  </div>
-                </div>
                <div id="dialogContent">
                  <div className="p-t p-b" style={{borderBottom:'1px solid gainsboro',fontWeight:'500'}} dangerouslySetInnerHTML={{__html: this.state.sentMail && this.state.sentMail.email && this.state.sentMail.email[0].subject}}></div>
                  <div className="p-t p-b" dangerouslySetInnerHTML={{__html: this.state.sentMail && this.state.sentMail.email && this.state.sentMail.email[0].body}}></div>
@@ -883,7 +871,7 @@ class Variables extends React.Component {
                               {this.state.recipientNotFound ?
                               <li className="mb-sm b-b p-t p-b">
                                 <div className="form-group" style={{width:'100%'}}>
-                                  <label>Enter email id:</label>
+                                  <label>Enter Email Id:</label>
                                   <input type="text"  style={{width:'100%'}} className="form-control" placeholder="enter email..." onChange={(e)=>this.setState({recipientEmailId: e.target.value})} value={this.state.recipientEmailId} />
                                   <span style={{color:'#FF0000',padding:'5px',display:'block'}}>{this.state.emailValidationError}</span>
                                   <button type="button" className="btn m-t btn-primary btn-block" onClick={()=>this.submitEmail(this.state.recipientEmailId)}>Submit</button>
@@ -907,14 +895,14 @@ class Variables extends React.Component {
                     </div>
                     <div className="form-group selected-recipient" style={styles.formInput}>
                       <div className="pull-left to">To</div>
-                      <div className="pull-left filter-tags" style={{textTransform: 'capitalize',fontSize:'12px'}}>
+                      <div className="pull-left filter-tags" style={{fontSize:'12px'}}>
                         {this.state.recipient.length > 0 ? <FilterLabel data={this.state.recipient} onClick={(label, indexLabel)=>this.onClickLabel(label, indexLabel, "Recipient")} onClear={this.onclearFilter} /> : ""}
                       </div>
                     </div>
                     {this.state.cc.length > 0 ?
                       <div className="form-group selected-recipient" style={styles.formInput}>
                       <div className="pull-left to">CC</div>
-                      <div className="pull-left filter-tags" style={{textTransform: 'capitalize',fontSize:'12px'}}>
+                      <div className="pull-left filter-tags" style={{fontSize:'12px'}}>
                         <FilterLabel data={this.state.cc} onClick={(label, indexLabel)=>this.onClickLabel(label, indexLabel, "CC")} onClear={this.onclearFilter} />
                       </div>
                     </div>
@@ -922,7 +910,7 @@ class Variables extends React.Component {
                     {this.state.bcc.length > 0 ?
                       <div className="form-group selected-recipient" style={styles.formInput}>
                       <div className="pull-left to">BCC</div>
-                      <div className="pull-left filter-tags" style={{textTransform: 'capitalize',fontSize:'12px'}}>
+                      <div className="pull-left filter-tags" style={{fontSize:'12px'}}>
                         <FilterLabel data={this.state.bcc} onClick={(label, indexLabel)=>this.onClickLabel(label, indexLabel, "BCC")} onClear={this.onclearFilter} />
                       </div>
                     </div>
@@ -969,12 +957,13 @@ class Variables extends React.Component {
                     />
                   </div>
                   </form>
+
                   <div className="row">
                     <div className="col-md-2">
-                      {this.state.LinearProgressBar}
-                      {fileList}
+                      {this.state.uploadedPDF}
                     </div>
                   </div>
+
                   <form action={''} method="POST" encType="multipart/form-data">
                     <div className="form-group">
                       <button style={styles.uploadButton} className="btn btn-blue" >
@@ -983,6 +972,7 @@ class Variables extends React.Component {
                       </button>
                     </div>
                   </form>
+
                  </div>
                  <div className="col-xs-3">
                    <h5 style={{textAlign:'center', color:'#000'}}>System Variables</h5>

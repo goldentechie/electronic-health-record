@@ -54,11 +54,6 @@ class TemplateContainer extends React.Component {
     			       Email Template
     			    </div>
 			    </div>
-                <div className="row no-gutter">
-                    <div className="col-12">
-                        <LoadingIcon {...this.props}/>
-                    </div>
-                </div>
 				</div>
 				<Template {...this.props }/>
     		</div>
