@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Router, browserHistory, Link, withRouter } from 'react-router'
 
 import RichTextEditor from 'react-rte';
-import update from 'react/lib/update';
+
 import * as _ from 'lodash'
 import Menu from '../../components/generic/Menu'
 import FilterLabel from '../../components/generic/FilterLabel'
@@ -507,7 +507,7 @@ class Variables extends React.Component {
             let string = templateName.concat(" ",templateSubject," ", templateBody);
             let regx = /#[\w\|-]*/g;
             let result = string.match(regx);
-            let pendingVariables = [];
+            let pendingVariables = []; //_.remove(this.state.pValue);
             if(result !== null && result.length > 0){
               state = false;
               error = "Please put all variable's value";
@@ -568,28 +568,35 @@ class Variables extends React.Component {
     }
     setVariable(){
       let pValue = this.state.pValue,
-          template = {
-            name:this.state.templateName.trim(),
-            subject:this.state.templateSubject.trim(),
-            body:this.state.templateBody.toString('html'),
-          };
+          // template = {
+          //   name:this.state.templateName.trim(),
+          //   subject:this.state.templateSubject.trim(),
+          //   body:this.state.templateBody.toString('html'),
+          // };
+            templateName = this.state.templateName,
+            templateSubject = this.state.templateSubject,
+            templateBody = this.state.templateBody.toString('html');
 
       _.map(pValue, (variable, i)=>{
         if(typeof variable.value !== 'undefined'){
-          template = this.replaceVariablesWithValue(template, variable.name, variable.value)
+          templateName = _.replace(templateName, variable.name, variable.value);
+          templateSubject = _.replace(templateSubject, variable.name, variable.value);
+          templateBody = _.replace(templateBody, variable.name, variable.value);
+          //template = this.replaceVariablesWithValue(template, variable.name, variable.value)
+        //   let setResult = update(this.state.templateBody.toString('html'), {
+        //   result: {$set: data}
+        // });
+        // this.setState({templateBody:RichTextEditor.createValueFromString(setResult, 'html'),})
         }
       });
 
      this.setState({
-       templateName: template.name,
-       templateSubject: template.subject,
-       templateBody: RichTextEditor.createValueFromString(template.body, 'html'),
-       pValue: null,
-     },
-     ()=>{
-       this.handleClose();
-       this.openMailPreview();
+       templateName: templateName, //template.name,
+       templateSubject: templateSubject, // template.subject,
+       templateBody: RichTextEditor.createValueFromString(templateBody, 'html'),
      });
+     this.handleClose();
+     this.openMailPreview();
     }
     uploadPDF(e){
       let self = this
@@ -653,6 +660,12 @@ class Variables extends React.Component {
          newupload_file_path.push(upload_file_path[k])
        }
      })
+      // _.map(uploadedPDF,(file, key)=>{
+      //   if(filekey != key){
+      //     newuploadedPDF.push(uploadedPDF[key])
+      //     newupload_file_path.push(upload_file_path[key])
+      //   }
+      // })
       this.setState({
         uploadedPDF:newuploadedPDF,
         upload_file:newupload_file_path
@@ -711,12 +724,13 @@ class Variables extends React.Component {
           <div className="form-group" key={i}>
            <label>Enter value for {variable.name} :</label>
            <input type="text" className="form-control" onChange={(e)=>{
-              variable.value = e.target.value;
+               let pValue = this.state.pValue;
+               pValue[i].value = e.target.value;
              this.setState({
-                 pValue: this.state.pValue,
+                 pValue: pValue,
              });
            }}
-           value={variable.value} />
+           value={this.state.pValue[i].value} />
           </div>)
         })
     	return(
@@ -919,8 +933,8 @@ class Variables extends React.Component {
                         </tr>
                     </tbody>
                   </table>
-                 <div className="p-t p-b" style={{borderBottom:'1px solid gainsboro',fontWeight:'600',fontSize:'18px',marginTop: '20px',textAlign:'center'}} dangerouslySetInnerHTML={{__html: this.state.sentMail && this.state.sentMail.email && this.state.sentMail.email[0].subject}}></div>
-                 <div className="p-t p-b" style={{height:'750px'}} dangerouslySetInnerHTML={{__html: this.state.sentMail && this.state.sentMail.email && this.state.sentMail.email[0].body}}></div>
+                 <div className="p-t p-b" style={{fontWeight:'600',fontSize:'18px',marginTop: '20px',textAlign:'center','textDecoration': 'underline'}} dangerouslySetInnerHTML={{__html: this.state.sentMail && this.state.sentMail.email && this.state.sentMail.email[0].subject}}></div>
+                 <div className="p-t p-b" style={{minheight:'750px'}} dangerouslySetInnerHTML={{__html: this.state.sentMail && this.state.sentMail.email && this.state.sentMail.email[0].body}}></div>
                   <table style={styles.pdfFooter}>
                     <tbody>
                         <tr>
