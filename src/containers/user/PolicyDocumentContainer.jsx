@@ -8,11 +8,11 @@ import LoadingIcon from '../../components/generic/LoadingIcon'
 import * as actions_login from '../../actions/login/index'
 import * as actions_salary from '../../actions/salary/index'
 import * as actions_variable from '../../actions/variable'
-import Template from '../../components/attendance/Template'
+import Variables from '../../components/attendance/Variable'
 import { CONFIG } from '../../config/index'
 
 
-class TemplateContainer extends React.Component {
+class PolicyDocumentContainer extends React.Component {
      constructor( props ){
         super( props );
         this.props.onIsAlreadyLogin()
@@ -20,25 +20,19 @@ class TemplateContainer extends React.Component {
         }
     }
     componentWillMount(){
-        //this.props.onFetchVariables( )
+      this.props.onIsUserAcceptedDocumentPolicy()
     }
     componentWillReceiveProps( props ){
 
       //window.scrollTo(0, 0);
-
-      if( props.logged_user.logged_in == -1 ){
-            this.props.router.push('/logout');
-        }else{
-            if( props.logged_user.role == CONFIG.ADMIN || props.logged_user.role == CONFIG.HR){
-            }else{
-                this.props.router.push('/home');
-            }
-        }
+      if (props.logged_user.logged_in == -1) {
+        this.props.router.push('/logout');
+      } else {}
     }
     componentDidUpdate(){
     }
     render(){
-    	//let table =(this.state.empList.length>0)? <SalaryList {...this.props} empList={this.state.empList}/>:""
+      console.log('-------------------');
     	return(
     		<div>
             <Menu {...this.props }/>
@@ -49,11 +43,11 @@ class TemplateContainer extends React.Component {
       				   <i className="material-icons">&#xe5d2;</i>
     				</a>
     			    <div className="navbar-item pull-left h5" id="pageTitle">
-    			       Email Template
+    			       Policy Documents
     			    </div>
 			    </div>
 				</div>
-				<Template {...this.props }/>
+				gfhfghfg
     		</div>
     		</div>
     		)
@@ -62,22 +56,25 @@ class TemplateContainer extends React.Component {
 function mapStateToProps( state ){
     return {
     	frontend : state.frontend.toJS(),
-        logged_user : state.logged_user.toJS()
+      logged_user : state.logged_user.toJS(),
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-    	onIsAlreadyLogin : () => {
-            return dispatch( actions_login.isAlreadyLogin(  ))
+    	  onIsAlreadyLogin: () => {
+            return dispatch( actions_login.isAlreadyLogin())
+        },
+        onIsUserAcceptedDocumentPolicy: () => {
+          return dispatch(actions_login.isUserAcceptedDocumentPolicy())
         }
     }
 }
 
-const VisibleTemplateContainer = connect(
+const VisiblePolicyDocumentContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)( TemplateContainer )
+)( PolicyDocumentContainer )
 
-const RouterVisibleTemplateContainer = withRouter( VisibleTemplateContainer )
+const RouterVisiblePolicyDocumentContainer = withRouter( VisiblePolicyDocumentContainer )
 
-export default RouterVisibleTemplateContainer
+export default RouterVisiblePolicyDocumentContainer
