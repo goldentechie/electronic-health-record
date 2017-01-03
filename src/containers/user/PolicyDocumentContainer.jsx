@@ -20,19 +20,25 @@ class PolicyDocumentContainer extends React.Component {
         }
     }
     componentWillMount(){
-      this.props.onIsUserAcceptedDocumentPolicy()
+        this.props.onFetchVariables( )
     }
     componentWillReceiveProps( props ){
 
       //window.scrollTo(0, 0);
-      if (props.logged_user.logged_in == -1) {
-        this.props.router.push('/logout');
-      } else {}
+
+      if( props.logged_user.logged_in == -1 ){
+            this.props.router.push('/logout');
+        }else{
+            if( props.logged_user.role == CONFIG.ADMIN || props.logged_user.role == CONFIG.HR){
+            }else{
+                this.props.router.push('/home');
+            }
+        }
     }
     componentDidUpdate(){
     }
     render(){
-      console.log('-------------------');
+    	//let table =(this.state.empList.length>0)? <SalaryList {...this.props} empList={this.state.empList}/>:""
     	return(
     		<div>
             <Menu {...this.props }/>
@@ -43,11 +49,11 @@ class PolicyDocumentContainer extends React.Component {
       				   <i className="material-icons">&#xe5d2;</i>
     				</a>
     			    <div className="navbar-item pull-left h5" id="pageTitle">
-    			       Policy Documents
+    			       Template Variable
     			    </div>
 			    </div>
 				</div>
-				gfhfghfg
+				<Variables {...this.props }/>
     		</div>
     		</div>
     		)
@@ -56,16 +62,23 @@ class PolicyDocumentContainer extends React.Component {
 function mapStateToProps( state ){
     return {
     	frontend : state.frontend.toJS(),
-      logged_user : state.logged_user.toJS(),
+        logged_user : state.logged_user.toJS(),
+        variable : state.variable.toJS()
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-    	  onIsAlreadyLogin: () => {
-            return dispatch( actions_login.isAlreadyLogin())
+    	onIsAlreadyLogin : () => {
+            return dispatch( actions_login.isAlreadyLogin(  ))
         },
-        onIsUserAcceptedDocumentPolicy: () => {
-          return dispatch(actions_login.isUserAcceptedDocumentPolicy())
+        onFetchVariables:()=>{
+            return dispatch(actions_variable.get_variable())
+        },
+        onSaveVariable:(id,variable)=>{
+            return dispatch(actions_variable.saveVariable(id,variable))
+        },
+        onDeleteVariable:(id)=>{
+            return dispatch(actions_variable.deleteVariable(id))
         }
     }
 }
