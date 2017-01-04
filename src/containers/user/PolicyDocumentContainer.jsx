@@ -6,8 +6,9 @@ import * as _ from 'lodash'
 import Menu from '../../components/generic/Menu'
 import LoadingIcon from '../../components/generic/LoadingIcon'
 import * as actions_login from '../../actions/login/index'
-import * as actions_policy from '../../actions/policyDocuments/index'
-import DocumentsList from '../../components/policyDocuments/documentsList'
+import * as actions_salary from '../../actions/salary/index'
+import * as actions_variable from '../../actions/variable'
+import Variables from '../../components/attendance/Variable'
 import { CONFIG } from '../../config/index'
 
 
@@ -16,30 +17,28 @@ class PolicyDocumentContainer extends React.Component {
         super( props );
         this.props.onIsAlreadyLogin()
         this.state = {
-          docs:[
-            {id:"111", name:"Policy document 1", link:"http://www.material-ui.com/#/components/card", unread:0},
-            {id:"112", name:"Policy document 2", link:"http://www.material-ui.com/#/components/card", unread:0},
-            {id:"113", name:"Policy document 3", link:"http://www.material-ui.com/#/components/card", unread:1},
-            {id:"114", name:"Policy document 4", link:"http://www.material-ui.com/#/components/card", unread:0},
-          ],
         }
     }
     componentWillMount(){
-      // this.props.onIsUserAcceptedDocumentPolicy().then((msg)=>{
-      //   console.log(msg);
-      // })
+        this.props.onFetchVariables( )
     }
     componentWillReceiveProps( props ){
 
       //window.scrollTo(0, 0);
-      if (props.logged_user.logged_in == -1) {
-        this.props.router.push('/logout');
-      } else {}
+
+      if( props.logged_user.logged_in == -1 ){
+            this.props.router.push('/logout');
+        }else{
+            if( props.logged_user.role == CONFIG.ADMIN || props.logged_user.role == CONFIG.HR){
+            }else{
+                this.props.router.push('/home');
+            }
+        }
     }
     componentDidUpdate(){
     }
     render(){
-      console.log('-------------------');
+    	//let table =(this.state.empList.length>0)? <SalaryList {...this.props} empList={this.state.empList}/>:""
     	return(
     		<div>
             <Menu {...this.props }/>
@@ -50,11 +49,11 @@ class PolicyDocumentContainer extends React.Component {
       				   <i className="material-icons">&#xe5d2;</i>
     				</a>
     			    <div className="navbar-item pull-left h5" id="pageTitle">
-    			       Policy Documents
+    			       Template Variable
     			    </div>
 			    </div>
 				</div>
-				<DocumentsList docs={this.state.docs} {...this.props} />
+				<Variables {...this.props }/>
     		</div>
     		</div>
     		)
@@ -63,19 +62,23 @@ class PolicyDocumentContainer extends React.Component {
 function mapStateToProps( state ){
     return {
     	frontend : state.frontend.toJS(),
-      logged_user : state.logged_user.toJS(),
+        logged_user : state.logged_user.toJS(),
+        variable : state.variable.toJS()
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-    	  onIsAlreadyLogin: () => {
-            return dispatch( actions_login.isAlreadyLogin())
+    	onIsAlreadyLogin : () => {
+            return dispatch( actions_login.isAlreadyLogin(  ))
         },
-        onIsUserAcceptedDocumentPolicy: () => {
-          return dispatch(actions_policy.isUserAcceptedDocumentPolicy())
+        onFetchVariables:()=>{
+            return dispatch(actions_variable.get_variable())
         },
-        onUpdateReadStatus: (doc_id)=>{
-          return dispatch(actions_policy.updateReadStatus())
+        onSaveVariable:(id,variable)=>{
+            return dispatch(actions_variable.saveVariable(id,variable))
+        },
+        onDeleteVariable:(id)=>{
+            return dispatch(actions_variable.deleteVariable(id))
         }
     }
 }
