@@ -43,11 +43,8 @@ class FormGeneratePaySlip extends React.Component {
       total_deduction: "",
       net_salary: "",
       send_email: 0,
-      visible: "show",
-      allowance_bonus:'Special Allowance',
-      key:1,
+      visible: "show"
     }
-    this.loyalty_bonus = this.loyalty_bonus.bind(this)
   }
   componentDidMount() {
     var i;
@@ -273,18 +270,6 @@ class FormGeneratePaySlip extends React.Component {
   monthlyPayslip() {
     this.props.callMonthlyPayslip(this.props.user_id, this.state.year, this.state.month)
   }
-  loyalty_bonus(e){
-    let checked_status = e.target.checked
-    let stateToSet = {}
-    if (checked_status == true) {
-      stateToSet.allowance_bonus = 'Loyalty Bonus'
-      stateToSet.key = 2
-    } else {
-      stateToSet.allowance_bonus = 'Special Allowance'
-      stateToSet.key = 1
-    }
-    this.setState(stateToSet)
-  }
 
   render() {
     let styles = _.cloneDeep(this.constructor.styles);
@@ -318,13 +303,6 @@ class FormGeneratePaySlip extends React.Component {
                     this.props.callMonthlyPayslip(this.props.user_id, this.state.year, evt.target.value)
                   }}></select>
                 </td>
-              </tr>
-              <tr>
-                <td>{'Loyalty Bonus'}<input value={true} type="checkbox" name="loyalty_Bonus" style={{'verticalAlign': 'middle','marginLeft':'20px'}} 
-                onChange={(e)=>{this.loyalty_bonus(e)}}/></td>
-                <td></td>
-                <td></td>
-                <td></td>
               </tr>
               <tr>
                 <td>Employee Name</td>
@@ -401,7 +379,7 @@ class FormGeneratePaySlip extends React.Component {
                 <td>{this.state.misc_deduction}</td>
               </tr>
               <tr>
-                <td>{this.state.allowance_bonus}</td>
+                <td>Special Allowance</td>
                 <td>{this.state.special_allowance}</td>
                 <td>TDS</td>
                 <td>{this.state.tds}</td>
