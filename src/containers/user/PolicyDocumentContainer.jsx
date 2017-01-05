@@ -6,45 +6,39 @@ import * as _ from 'lodash'
 import Menu from '../../components/generic/Menu'
 import LoadingIcon from '../../components/generic/LoadingIcon'
 import * as actions_login from '../../actions/login/index'
-import * as actions_policy from '../../actions/policyDocuments/index'
-import * as actions_myProfile from '../../actions/user/myProfile'
-import DocumentsList from '../../components/policyDocuments/documentsList'
+import * as actions_salary from '../../actions/salary/index'
+import * as actions_variable from '../../actions/variable'
+import Variables from '../../components/attendance/Variable'
 import { CONFIG } from '../../config/index'
 
 
 class PolicyDocumentContainer extends React.Component {
      constructor( props ){
         super( props );
-        this.props.onIsAlreadyLogin();
+        this.props.onIsAlreadyLogin()
         this.state = {
-          docs:[],
         }
     }
     componentWillMount(){
-      this.props.onFetchUserPolicyDocument();
+        this.props.onFetchVariables( )
     }
     componentWillReceiveProps( props ){
+
       //window.scrollTo(0, 0);
-      console.log('this.props.policy_documents',props.policy_documents);
-      if (props.logged_user.logged_in == -1) {
-        this.props.router.push('/logout');
-      } else {
-        let unread = _.find(props.policy_documents.policyDocuments, function(o) { return o.read == 0; });
-        console.log('unread',unread);
-        //_.map(props.policy_documents.policyDocuments,(doc)=>{
-          if(unread.length > 0){
-            //this.props.router.push('/policy_documents');
-          }
-        //});
-      }
-      this.setState({
-        docs:props.policy_documents.policyDocuments,
-      });
+
+      if( props.logged_user.logged_in == -1 ){
+            this.props.router.push('/logout');
+        }else{
+            if( props.logged_user.role == CONFIG.ADMIN || props.logged_user.role == CONFIG.HR){
+            }else{
+                this.props.router.push('/home');
+            }
+        }
     }
     componentDidUpdate(){
     }
     render(){
-
+    	//let table =(this.state.empList.length>0)? <SalaryList {...this.props} empList={this.state.empList}/>:""
     	return(
     		<div>
             <Menu {...this.props }/>
@@ -55,11 +49,11 @@ class PolicyDocumentContainer extends React.Component {
       				   <i className="material-icons">&#xe5d2;</i>
     				</a>
     			    <div className="navbar-item pull-left h5" id="pageTitle">
-    			       Policy Documents
+    			       Template Variable
     			    </div>
 			    </div>
 				</div>
-				<DocumentsList policyDocuments={this.state.docs} {...this.props} />
+				<Variables {...this.props }/>
     		</div>
     		</div>
     		)
@@ -68,20 +62,23 @@ class PolicyDocumentContainer extends React.Component {
 function mapStateToProps( state ){
     return {
     	frontend : state.frontend.toJS(),
-      logged_user : state.logged_user.toJS(),
-      policy_documents: state.policyDocuments.toJS(),
+        logged_user : state.logged_user.toJS(),
+        variable : state.variable.toJS()
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-    	  onIsAlreadyLogin: () => {
-            return dispatch( actions_login.isAlreadyLogin())
+    	onIsAlreadyLogin : () => {
+            return dispatch( actions_login.isAlreadyLogin(  ))
         },
-        onFetchUserPolicyDocument: ()=>{
-          return dispatch(actions_policy.fetchUserPolicyDocument());
+        onFetchVariables:()=>{
+            return dispatch(actions_variable.get_variable())
         },
-        onUpdateReadStatus: (doc_id)=>{
-          return dispatch(actions_policy.updateReadStatus())
+        onSaveVariable:(id,variable)=>{
+            return dispatch(actions_variable.saveVariable(id,variable))
+        },
+        onDeleteVariable:(id)=>{
+            return dispatch(actions_variable.deleteVariable(id))
         }
     }
 }
