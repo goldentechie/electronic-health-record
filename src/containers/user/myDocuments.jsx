@@ -7,7 +7,6 @@ import Menu from '../../components/generic/Menu'
 
 import * as actions_login from '../../actions/login/index'
 import * as actions_myDocument from '../../actions/user/myDocument'
-import * as actions_policy from '../../actions/policyDocuments/index'
 
 import FormMyDocuments from '../../components/myDocuments/FormMyDocuments'
 import LoadingIcon from '../../components/generic/LoadingIcon'
@@ -23,25 +22,21 @@ class MyDoduments extends React.Component {
         }
     }
     componentWillMount(){
-			this.props.onFetchUserPolicyDocument();
-      this.props.onGetMydocuments()
+        this.props.onGetMydocuments()
     }
     componentWillReceiveProps( props ){
         window.scrollTo(0, 0);
         if( props.logged_user.logged_in == -1 ){
-          this.props.router.push('/logout');
+            this.props.router.push('/logout');
         }else{
-					let unread = _.filter(props.policy_documents.policyDocuments, function(o) { return o.read == 0; }) || [];
-	        if(unread.length > 0){
-	          this.props.router.push('/policy_documents');
-	        }
+            
         }
         this.setState({
           my_document:props.myDocuments.my_document,
           message:props.myDocuments.status_message
         })
     }
-
+   
 	render(){
 
         return(
@@ -63,7 +58,7 @@ class MyDoduments extends React.Component {
                 </div>
               </div>
 
-             		 <div className="app-body" id="view">
+             		 <div className="app-body" id="view"> 
 
             			<div className="padding">
                                 <div className="row no-gutter">
@@ -88,7 +83,6 @@ function mapStateToProps( state ){
         logged_user : state.logged_user.toJS(),
         myProfile : state.myProfile.toJS(),
         myDocuments: state.myDocument.toJS(),
-				policy_documents: state.policyDocuments.toJS(),
     }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -101,10 +95,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         onDeleteDocument : ( doc_id ) => {
           return dispatch( actions_myDocument.deleteDocument( doc_id ))
-        },
-				onFetchUserPolicyDocument: ()=>{
-		      return dispatch(actions_policy.fetchUserPolicyDocument());
-		    },
+        }
     }
 }
 
