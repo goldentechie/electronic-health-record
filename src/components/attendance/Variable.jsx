@@ -258,7 +258,7 @@ class Variables extends React.Component {
               style={{marginRight:5}}
             />,
             <RaisedButton
-              label="Submit"
+              label="SAVE"
               primary={true}
               onClick={this.saveVariable}
             />,

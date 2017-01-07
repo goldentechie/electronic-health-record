@@ -11,13 +11,13 @@ import {notify} from '../../services/index'
 import Menu from '../../components/generic/Menu'
 import LoadingIcon from '../../components/generic/LoadingIcon'
 import AlertNotification from '../../components/generic/AlertNotification'
+import Header from '../../components/generic/header'
 
 //-----------------------------------------
 import * as actions_login from '../../actions/login/index'
 import * as actions_usersList from '../../actions/user/usersList'
 import * as actions_manageUsers from '../../actions/admin/manageUsers'
 import * as actions_managePayslips from '../../actions/admin/managePayslips'
-import * as actions_getTeamData from '../../actions/admin/teamList'
 
 import UsersList from '../../components/generic/UsersList'
 
@@ -54,7 +54,6 @@ class ManageUsers extends React.Component {
   }
   componentWillMount() {
     this.props.onUsersList()
-    this.props.onFetchTeam()
   }
   componentWillReceiveProps(props) {
     //window.scrollTo(0, 0);
@@ -147,20 +146,8 @@ class ManageUsers extends React.Component {
 
         <Menu {...this.props }/>
         <div id="content" className="app-content box-shadow-z0" role="main">
-
-          <div className="app-header white box-shadow">
-            <div className="navbar">
-              <a data-toggle="modal" data-target="#aside" className="navbar-item pull-left hidden-lg-up">
-                <i className="material-icons">&#xe5d2;</i>
-              </a>
-              <div className="navbar-item pull-left h5" id="pageTitle">Manage Employees Profile</div>
-            </div>
-            <div className="row no-gutter">
-              <div className="col-12">
-                <LoadingIcon {...this.props}/>
-              </div>
-            </div>
-          </div>
+          
+          <Header pageTitle={"Manage Employees Profile"} {...this.props} />
 
           <div className="app-body" id="view">
             <div className="padding">
@@ -182,7 +169,7 @@ class ManageUsers extends React.Component {
                 <div className="col-md-10 p">
                   <div className="row box">
                     <div className="col-md-7 p-t p-b p-r b-r">
-                      <FormUserProfileDetails user_profile_detail={this.state.user_profile_detail} callUpdateUserProfileDetails={this.callUpdateUserProfileDetails} username={this.state.username} {...this.props}/>
+                      <FormUserProfileDetails user_profile_detail={this.state.user_profile_detail} callUpdateUserProfileDetails={this.callUpdateUserProfileDetails} username={this.state.username}/>
                     </div>
                     <div className="col-md-5 p-t p-b">
                       <div className="col-md-12">
@@ -211,14 +198,7 @@ class ManageUsers extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    frontend: state.frontend.toJS(), 
-    managePayslips: state.managePayslips.toJS(), 
-    logged_user: state.logged_user.toJS(), 
-    usersList: state.usersList.toJS(), 
-    manageUsers: state.manageUsers.toJS(),
-    teamList: state.teamList.toJS()
-  }
+  return {frontend: state.frontend.toJS(), managePayslips: state.managePayslips.toJS(), logged_user: state.logged_user.toJS(), usersList: state.usersList.toJS(), manageUsers: state.manageUsers.toJS()}
 }
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -254,9 +234,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUserManagePayslipsData: (userid) => {
       return dispatch(actions_managePayslips.get_user_manage_payslips_data(userid))
-    },
-    onFetchTeam: () => {
-      return dispatch(actions_getTeamData.get_all_team())
     }
 
   }
