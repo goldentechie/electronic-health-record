@@ -1,10 +1,6 @@
 import React from 'react';
 import * as _ from 'lodash'
 
-import { DateField } from 'react-date-picker'
-import 'react-date-picker/index.css'
-
-
 class FormUserProfileDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -145,13 +141,8 @@ class FormUserProfileDetails extends React.Component {
           <div className="col-md-6 p-r">
             <div className="form-group">
               <label>Date Of Joining ( eg. 2016-12-30 )</label>
-                <DateField
-                  dateFormat="YYYY-MM-DD"
-                  onChange={(date) => this.setState({dateofjoining: date})}
-                  value={this.state.dateofjoining}
-                  className="form-control"
-                />
-              <input type="text" className="form-control" ref="dateofjoining" />
+
+              <input type="text" className="form-control" ref="dateofjoining" onChange={() => this.setState({dateofjoining: this.refs.dateofjoining.value})} value={this.state.dateofjoining}/>
             </div>
 
           </div>
@@ -179,13 +170,8 @@ class FormUserProfileDetails extends React.Component {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>Date Of Birth ( eg. 27/1/1988 )</label>
-                <DateField
-                  dateFormat="DD/MM/YYYY"
-                  onChange={(date) => this.setState({dob: date})}
-                  value={this.state.dob}
-                  className="form-control"
-                />
+              <label>Date Of Birth ( eg. 30/12/2016 )</label>
+              <input type="text" className="form-control" ref="dob" onChange={() => this.setState({dob: this.refs.dob.value})} value={this.state.dob}/>
             </div>
           </div>
         </div>
