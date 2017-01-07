@@ -8,7 +8,6 @@ import {notify} from '../../services/index'
 import {CONFIG} from '../../config/index'
 import Menu from '../../components/generic/Menu'
 import LoadingIcon from '../../components/generic/LoadingIcon'
-import Header from '../../components/generic/header'
 
 //-----------------------------------------
 import * as actions_login from '../../actions/login/index'
@@ -127,7 +126,6 @@ class ManagePayslips extends React.Component {
     })
   }
   callMonthlyPayslip(userid, year, month) {
-    console.log(userid, year, month);
     this.setState({year: year, month: month})
     this.props.onUserMonthlyManagePayslipsData(userid, year, month);
   }
@@ -167,7 +165,21 @@ class ManagePayslips extends React.Component {
       <div>
         <Menu {...this.props }/>
         <div id="content" className="app-content box-shadow-z0" role="main">
-          <Header pageTitle={"Manage Payslips"+status_message} {...this.props} />
+
+          <div className="app-header white box-shadow">
+            <div className="navbar">
+              <a data-toggle="modal" data-target="#aside" className="navbar-item pull-left hidden-lg-up">
+                <i className="material-icons">&#xe5d2;</i>
+              </a>
+              <div className="navbar-item pull-left h5" id="pageTitle">Manage Payslips &nbsp;&nbsp;&nbsp; {status_message}</div>
+            </div>
+            <div className="row no-gutter">
+              <div className="col-12">
+                <LoadingIcon {...this.props}/>
+              </div>
+            </div>
+          </div>
+
           <div className="app-body" id="view">
             <div className="padding">
 
@@ -184,7 +196,7 @@ class ManagePayslips extends React.Component {
                         <h6>Employee Id : {this.state.selected_user_id}</h6>
                         <h6 className="text-center">Generate Payslip</h6>
                         <hr/>
-                        <FormGeneratePaySlip user_id={this.state.selected_user_id} name={this.state.selected_user_name} designation={this.state.selected_user_jobtitle} user_data_for_payslip={this.state.user_data_for_payslip} callCreateUserPayslip={this.callCreateUserPayslip} callMonthlyPayslip={this.callMonthlyPayslip}/>
+                        <FormGeneratePaySlip user_id={this.state.selected_user_id} name={this.state.selected_user_name} designation={this.state.selected_user_jobtitle} user_data_for_payslip={this.state.user_data_for_payslip} callCreateUserPayslip={this.callCreateUserPayslip} callMonthlyPayslip={this.callMonthlyPayslip} pending_leaves={this.props.managePayslips.pending_leaves} />
                       </div>
 
                       <div className="p-a block box">

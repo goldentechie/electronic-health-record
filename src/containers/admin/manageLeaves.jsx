@@ -7,8 +7,6 @@ import {notify} from '../../services/index'
 
 import Menu from '../../components/generic/Menu'
 import LoadingIcon from '../../components/generic/LoadingIcon'
-import Header from '../../components/generic/header'
-
 import { CONFIG } from '../../config/index'
 import ListLeaves from '../../components/manageLeaves/ListLeaves'
 import ViewLeave from '../../components/manageLeaves/ViewLeave'
@@ -67,26 +65,53 @@ class ManageLeaves extends React.Component {
 		return(
     		<div>
     			<Menu {...this.props }/>
-            <div id="content" className="app-content box-shadow-z0" role="main">
-            <Header pageTitle={"Manage Leaves"+status_message} {...this.props} />
-    				<div className="app-body" id="view">
-  						<div className="padding">
-                <div className="row">
+
+                <div id="content" className="app-content box-shadow-z0" role="main">
+
+                     <div className="app-header white box-shadow">
+                <div className="navbar">
+                  <a data-toggle="modal" data-target="#aside" className="navbar-item pull-left hidden-lg-up">
+                    <i className="material-icons">&#xe5d2;</i>
+                  </a>
+                  <div className="navbar-item pull-left h5" id="pageTitle">Manage Leaves &nbsp;&nbsp;&nbsp; {status_message}</div>
+                </div>
+                <div className="row no-gutter">
                   <div className="col-12">
-                    <LeaveColorReference {...this.props}/>
+                    <LoadingIcon {...this.props}/>
                   </div>
                 </div>
-                <div className="row-col row-col-xs b-b">
-                  <div className="col-sm-3 light bg b-r">
-                    <ListLeaves {...this.props}/>
-                  </div>
-                  <div className="col-sm-9 light bg b-r">
-                    <ViewLeave {...this.props} doLeaveStatusChange={this.doLeaveStatusChange} />
-                  </div>
-                </div>
-  	          </div>
+              </div>
+
+
+
+
+    				<div className="app-body" id="view">
+
+
+
+						<div className="padding">
+
+                            <div className="row">
+                                <div className="col-12">
+                                    <LeaveColorReference {...this.props}/>
+                                </div>
+                            </div>
+
+                            <div className="row-col row-col-xs b-b">
+                                <div className="col-sm-3 light bg b-r">
+                                    <ListLeaves {...this.props}/>
+                                </div>
+                                <div className="col-sm-9 light bg b-r">
+                                    <ViewLeave {...this.props} doLeaveStatusChange={this.doLeaveStatusChange} />
+                                </div>
+                            </div>
+
+
+	            		</div>
+
 						</div>
 					</div>
+
     		</div>
     	)
     }
