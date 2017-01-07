@@ -1,10 +1,6 @@
 import React from 'react';
 import * as _ from 'lodash'
 
-import { DateField } from 'react-date-picker'
-import 'react-date-picker/index.css'
-
-
 class FormUserProfileDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +13,7 @@ class FormUserProfileDetails extends React.Component {
       dob: "",
       gender: "",
       marital_status: "",
+      team:"",
       address1: "",
       address2: "",
       emergency_ph1: "",
@@ -31,6 +28,7 @@ class FormUserProfileDetails extends React.Component {
     let user_id = ""
     let name = ""
     let jobtitle = ""
+    let team = ""
     let dateofjoining = ""
     let dob = " "
     let gender = " "
@@ -68,6 +66,9 @@ class FormUserProfileDetails extends React.Component {
     if (typeof props.user_profile_detail.marital_status != 'undefined' && props.user_profile_detail.marital_status != null) {
       marital_status = props.user_profile_detail.marital_status
     }
+    if (typeof props.user_profile_detail.team != 'undefined' && props.user_profile_detail.team != null) {
+      team = props.user_profile_detail.team
+    }
     if (typeof props.user_profile_detail.current_address != 'undefined' && props.user_profile_detail.current_address != null) {
       address1 = props.user_profile_detail.current_address
     }
@@ -95,6 +96,7 @@ class FormUserProfileDetails extends React.Component {
       user_id: user_id,
       name: name,
       jobtitle: jobtitle,
+      team:team,
       dateofjoining: dateofjoining,
       dob: dob,
       gender: gender,
@@ -110,6 +112,7 @@ class FormUserProfileDetails extends React.Component {
   }
 
   render() {
+    let teams = this.props.teamList.teams.length > 0?this.props.teamList.teams:[]
     return (
       <div>
 
@@ -140,18 +143,25 @@ class FormUserProfileDetails extends React.Component {
 
           </div>
         </div>
+        <div className="form-group">
+          <label>Team</label>
+
+          <select className="form-control" ref="team" onChange={() => this.setState({team: this.refs.team.value})} value={this.state.team}>
+            <option value="">--Select team--</option>
+            {_.map(teams, (tm, i) => (
+              <option key={i} value={tm}>{tm}</option>
+            )
+            )}
+          </select>
+
+        </div>
 
         <div className="row no-gutter">
           <div className="col-md-6 p-r">
             <div className="form-group">
               <label>Date Of Joining ( eg. 2016-12-30 )</label>
-                <DateField
-                  dateFormat="YYYY-MM-DD"
-                  onChange={(date) => this.setState({dateofjoining: date})}
-                  value={this.state.dateofjoining}
-                  className="form-control"
-                />
-              <input type="text" className="form-control" ref="dateofjoining" />
+
+              <input type="text" className="form-control" ref="dateofjoining" onChange={() => this.setState({dateofjoining: this.refs.dateofjoining.value})} value={this.state.dateofjoining}/>
             </div>
 
           </div>
@@ -179,13 +189,8 @@ class FormUserProfileDetails extends React.Component {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>Date Of Birth ( eg. 27/1/1988 )</label>
-                <DateField
-                  dateFormat="DD/MM/YYYY"
-                  onChange={(date) => this.setState({dob: date})}
-                  value={this.state.dob}
-                  className="form-control"
-                />
+              <label>Date Of Birth ( eg. 30/12/2016 )</label>
+              <input type="text" className="form-control" ref="dob" onChange={() => this.setState({dob: this.refs.dob.value})} value={this.state.dob}/>
             </div>
           </div>
         </div>
@@ -238,8 +243,8 @@ class FormUserProfileDetails extends React.Component {
 
           <select className="form-control" ref="blood_group" onChange={() => this.setState({blood_group: this.refs.blood_group.value})} value={this.state.blood_group}>
             <option value="">--select your blood group--</option>
-            <option value="O+">O-</option>
-            <option value="O-">O+</option>
+            <option value="O-">O-</option>
+            <option value="O+">O+</option>
             <option value="A+">A+</option>
             <option value="A-">A-</option>
             <option value="B+">B+</option>

@@ -126,6 +126,7 @@ class ManagePayslips extends React.Component {
     })
   }
   callMonthlyPayslip(userid, year, month) {
+    console.log(userid, year, month);
     this.setState({year: year, month: month})
     this.props.onUserMonthlyManagePayslipsData(userid, year, month);
   }
@@ -196,7 +197,7 @@ class ManagePayslips extends React.Component {
                         <h6>Employee Id : {this.state.selected_user_id}</h6>
                         <h6 className="text-center">Generate Payslip</h6>
                         <hr/>
-                        <FormGeneratePaySlip user_id={this.state.selected_user_id} name={this.state.selected_user_name} designation={this.state.selected_user_jobtitle} user_data_for_payslip={this.state.user_data_for_payslip} callCreateUserPayslip={this.callCreateUserPayslip} callMonthlyPayslip={this.callMonthlyPayslip} pending_leaves={this.props.managePayslips.pending_leaves} />
+                        <FormGeneratePaySlip user_id={this.state.selected_user_id} name={this.state.selected_user_name} designation={this.state.selected_user_jobtitle} user_data_for_payslip={this.state.user_data_for_payslip} callCreateUserPayslip={this.callCreateUserPayslip} callMonthlyPayslip={this.callMonthlyPayslip}/>
                       </div>
 
                       <div className="p-a block box">
