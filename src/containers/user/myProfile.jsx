@@ -9,8 +9,6 @@ import Menu from '../../components/generic/Menu'
 import LoadingIcon from '../../components/generic/LoadingIcon'
 import AlertNotification from '../../components/generic/AlertNotification'
 import UserHorizontalView from '../../components/generic/UserHorizontalView'
-import Header from '../../components/generic/header'
-
 import FormProfileDetails from '../../components/myProfile/FormProfileDetails'
 import FormBankDetails from '../../components/myProfile/FormBankDetails'
 import FormUpdatePassword from '../../components/myProfile/FormUpdatePassword'
@@ -18,8 +16,6 @@ import FormUpdatePassword from '../../components/myProfile/FormUpdatePassword'
 import * as actions_login from '../../actions/login/index'
 import * as actions_myProfile from '../../actions/user/myProfile'
 import * as actions_salary from '../../actions/salary/index'
-import * as actions_policy from '../../actions/policyDocuments/index'
-
 import PayslipHistory from '../../components/salary/PayslipHistory'
 
 class MyProfile extends React.Component {
@@ -37,19 +33,13 @@ class MyProfile extends React.Component {
     this.callUpdatePassword = this.callUpdatePassword.bind(this)
   }
   componentWillMount() {
-    this.props.onFetchUserPolicyDocument();
     this.props.onMyProfileDetails()
     this.props.onSalaryDetails()
   }
   componentWillReceiveProps(props) {
     if (props.logged_user.logged_in == -1) {
       this.props.router.push('/logout');
-    } else {
-      let unread = _.filter(props.policy_documents.policyDocuments, function(o) { return o.read == 0; }) || [];
-      if(unread.length > 0){
-        this.props.router.push('/policy_documents');
-      }
-    }
+    } else {}
     let s_payslip_history = []
 
     if (typeof props.salary.payslip_history != 'undefined' && props.salary.payslip_history.length > 0) {
@@ -89,7 +79,20 @@ class MyProfile extends React.Component {
 
         <div id="content" className="app-content box-shadow-z0" role="main">
 
-          <Header pageTitle={"My Profile"} {...this.props} />
+          <div className="app-header white box-shadow">
+            <div className="navbar">
+              <a data-toggle="modal" data-target="#aside" className="navbar-item pull-left hidden-lg-up">
+                <i className="material-icons">&#xe5d2;</i>
+              </a>
+              <div className="navbar-item pull-left h5" id="pageTitle">My Profile</div>
+            </div>
+            <div className="row no-gutter">
+              <div className="col-12">
+                <LoadingIcon {...this.props}/>
+              </div>
+            </div>
+          </div>
+
           <div className="app-body" id="view">
 
             <div className="padding">
@@ -126,13 +129,7 @@ class MyProfile extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    frontend: state.frontend.toJS(),
-    logged_user: state.logged_user.toJS(),
-    myProfile: state.myProfile.toJS(),
-    salary: state.salary.toJS(),
-    policy_documents: state.policyDocuments.toJS(),
-  }
+  return {frontend: state.frontend.toJS(), logged_user: state.logged_user.toJS(), myProfile: state.myProfile.toJS(), salary: state.salary.toJS()}
 }
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -153,10 +150,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     onSalaryDetails: () => {
       return dispatch(actions_salary.getSalaryDetails())
-    },
-    onFetchUserPolicyDocument: ()=>{
-      return dispatch(actions_policy.fetchUserPolicyDocument());
-    },
+    }
   }
 }
 
