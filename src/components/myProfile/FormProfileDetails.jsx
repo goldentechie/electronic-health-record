@@ -14,7 +14,7 @@ class FormProfileDetails extends React.Component {
       dateofjoining: "",
       dob: "",
       gender: "",
-      marital_status: "",
+      marital_status: "Single",
       address1: "",
       address2: "",
       emr_con_1: "",
@@ -26,23 +26,24 @@ class FormProfileDetails extends React.Component {
   }
   componentWillReceiveProps(props) {
     this.setState({
-      name: props.user_profile_detail.name,
-      jobtitle: props.user_profile_detail.jobtitle,
-      dateofjoining: props.user_profile_detail.dateofjoining,
-      dob: props.user_profile_detail.dob,
-      gender: props.user_profile_detail.gender,
-      marital_status: props.user_profile_detail.marital_status,
-      address1: props.user_profile_detail.current_address,
-      address2: props.user_profile_detail.permanent_address,
-      emr_con_1: props.user_profile_detail.emergency_ph1,
-      emr_con_2: props.user_profile_detail.emergency_ph2,
-      work_email: props.user_profile_detail.work_email,
-      blood_group: props.user_profile_detail.blood_group,
-      medical_con: props.user_profile_detail.medical_condition
+      name: props.user_profile_detail.name || "",
+      jobtitle: props.user_profile_detail.jobtitle || "",
+      dateofjoining: props.user_profile_detail.dateofjoining || "",
+      dob: props.user_profile_detail.dob || "",
+      gender: props.user_profile_detail.gender || "",
+      marital_status: props.user_profile_detail.marital_status || 'Single',
+      address1: props.user_profile_detail.current_address || "",
+      address2: props.user_profile_detail.permanent_address || "",
+      emr_con_1: props.user_profile_detail.emergency_ph1 || "",
+      emr_con_2: props.user_profile_detail.emergency_ph2 || "",
+      work_email: props.user_profile_detail.work_email || "",
+      blood_group: props.user_profile_detail.blood_group || "",
+      medical_con: props.user_profile_detail.medical_condition || "",
     })
   }
 
   render() {
+    console.log('this.state',this.state);
     return (
       <div>
         <h6 className="text-center">Personal Details</h6>
@@ -59,6 +60,16 @@ class FormProfileDetails extends React.Component {
             <option value="Married">Married</option>
             <option value="Other">Other</option>
           </select>
+        </div>
+
+        <div className="form-group">
+          <label>Date of Birth</label>
+            <DateField
+              dateFormat="YYYY-MM-DD"
+              value={this.state.dob}
+              onChange={ ( date ) => { this.setState({ dob : date }) }}
+              className="form-control"
+            />
         </div>
 
         <div className="row no-gutter">
@@ -111,7 +122,6 @@ class FormProfileDetails extends React.Component {
           <label>Any Medical Conditions</label>
           <textarea placeholder="your medical conditions..." className="form-control" ref="medical_con" onChange={() => this.setState({medical_con: this.refs.medical_con.value})} value={this.state.medical_con}></textarea>
         </div>
-
         <button className="col-xs-12 md-btn md-raised indigo" onClick={() => this.props.callUpdateProfileDetails(this.state)}>Update Profile Details</button>
       </div>
     )
