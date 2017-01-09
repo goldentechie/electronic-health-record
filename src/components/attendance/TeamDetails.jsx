@@ -1,7 +1,6 @@
 import React from 'react';
 import * as _ from 'lodash'
 const classNames = require('classnames');
-var moment = require('moment');
 
 class TeamDetails extends React.Component {
     constructor( props ){
@@ -37,10 +36,10 @@ class TeamDetails extends React.Component {
                   <li>Reason : {emp.holdin_amt_detail.reason}</li>
                 </ul>:""
               }</td>
-              <td>{moment(emp.dateofjoining).format("Do MMMM YYYY")}</td>
+              <td>{emp.dateofjoining}</td>
               <td>{emp.no_of_days_join}</td>
               <td>{emp.team}</td>
-              <td>{moment(emp.start_increment_date).format("Do MMMM YYYY")}</td>
+              <td>{emp.next_increment_date}</td>
             </tr>
         )
       })
@@ -78,7 +77,7 @@ class TeamDetails extends React.Component {
                         <th>Date of Joining</th>
                         <th >No of Days Since Joined</th>
                         <th >Team</th>
-                        <th >Last Increment Date</th>
+                        <th >Next Increment</th>
                       </tr>
                     </thead>
                     <tbody>
