@@ -32,13 +32,12 @@ class LeavesSummary extends React.Component {
     }
   }
   componentWillMount() {
+    this.props.onFetchUserPolicyDocument();
     let d = new Date();
     let year = d.getFullYear()
     let month = d.getMonth() + 1 // +1 since getMonth starts from 0
 
-    this.props.onFetchUserPolicyDocument().then(()=>{
-      this.props.on_all_leaves_summary(year, month)
-    });
+    this.props.on_all_leaves_summary(year, month)
   }
   componentWillReceiveProps(props) {
     window.scrollTo(0, 0);
@@ -59,6 +58,7 @@ class LeavesSummary extends React.Component {
 
   }
   render() {
+
     return (
       <div>
         <Menu {...this.props }/>
