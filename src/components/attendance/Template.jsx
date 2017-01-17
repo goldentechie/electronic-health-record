@@ -272,9 +272,16 @@ class Variables extends React.Component {
         //value = value.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "");
         //console.log(ss,"replaced value")
       }
+      var index = templ.body.indexOf(str);
+       var i
+        for(i=0;i<=20;i++){
+         if(templ.body.indexOf(str) == -1){
+           break;
+         }
+         templ.body = _.replace(templ.body, str, value);
+        }
       templ.name = _.replace(templ.name, str, value);
       templ.subject = _.replace(templ.subject, str, value);
-      templ.body = _.replace(templ.body, str, value);
     }
       return templ;
     }
@@ -344,6 +351,24 @@ class Variables extends React.Component {
                    value = recipient.work_email
                  }else if(variable.name == '#page_break'){
                    value = "<div style='page-break-after:always;'></div>"
+                 }else if(variable.name == '#employee_user_id'){
+                   value = recipient.user_Id
+                 }else if(variable.name == '#employee_number'){
+                   value = recipient.emergency_ph1
+                 }else if(variable.name == '#training_completion_date'){
+                    var mydate = new Date(recipient.training_completion_date);
+                    if(mydate != 'Invalid Date'){
+                      value = moment(mydate).format("DD/MM/YYYY");
+                    }else{
+                      value = '#training_completion_date'
+                    }
+                 }else if(variable.name == '#termination_date'){
+                   var mydate = new Date(recipient.termination_date);
+                    if(mydate != 'Invalid Date'){
+                      value = moment(mydate).format("DD/MM/YYYY");
+                    }else{
+                      value = '#termination_date'
+                    }
                  }
                  if(dateVariable === false){
                    templ = this.replaceVariablesWithValue(templ, str, value);
@@ -479,10 +504,11 @@ class Variables extends React.Component {
        this.selectUser(label, false, recipientType);
     }
     download_mail_preview(e){
-      let fileName = 'mail-preview';
+      let currentTimeStamp = moment().unix()
+      let fileName = 'mail-preview'
       this.props.onDownloadPdf($('#dialogContent').html(),fileName).then((succ)=>{
         var link = document.createElement('a');
-        link.href = CONFIG.pdf_url+succ.message;
+        link.href = CONFIG.pdf_url+succ.message+'?'+currentTimeStamp;
         link.target = "_blank";
         document.body.appendChild(link);
         link.click();
@@ -526,7 +552,7 @@ class Variables extends React.Component {
           if(state){
             let string = templateName.concat(" ",templateSubject," ", templateBody);
             //let regx = /#[\w\/|-]*/g;
-            let regx = /#[\w-]+\|[\w -]+\||#[\w-]+/ig;
+            let regx = /#[\w-]+\|[\w -\.,@$%&*!%^]+\||#[\w-]+/ig;
             let result = string.match(regx);
             let pendingVariables = [];
             if(result !== null && result.length > 0){
