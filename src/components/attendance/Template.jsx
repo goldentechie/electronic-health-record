@@ -352,29 +352,24 @@ class Variables extends React.Component {
                    value = recipient.work_email
                  }else if(variable.name == '#page_break'){
                    value = "<div style='page-break-after:always;'></div>"
+                 }else if(variable.name == '#employee_user_id'){
+                   value = recipient.user_Id
+                 }else if(variable.name == '#employee_number'){
+                   value = recipient.emergency_ph1
                  }else if(variable.name == '#training_completion_date'){
-                  format = format.toUpperCase();
-                  value = recipient.training_completion_date
-                  value = moment(value).format(format);
-                  if(value == "Invalid date"){
-                    if(dateVariable === false){
-                      value = str
+                    var mydate = new Date(recipient.training_completion_date);
+                    if(mydate != 'Invalid Date'){
+                      value = moment(mydate).format("DD/MM/YYYY");
                     }else{
-                      value = dateVariable
+                      value = '#training_completion_date'
                     }
-                    
-                  }
                  }else if(variable.name == '#termination_date'){
-                  format = format.toUpperCase();
-                  value = recipient.termination_date
-                  value = moment(value).format(format);
-                  if(value == "Invalid date"){
-                    if(dateVariable === false){
-                      value = str
+                   var mydate = new Date(recipient.termination_date);
+                    if(mydate != 'Invalid Date'){
+                      value = moment(mydate).format("DD/MM/YYYY");
                     }else{
-                      value = dateVariable
+                      value = '#termination_date'
                     }
-                  }
                  }
                  if(dateVariable === false){
                    templ = this.replaceVariablesWithValue(templ, str, value);
@@ -510,10 +505,11 @@ class Variables extends React.Component {
        this.selectUser(label, false, recipientType);
     }
     download_mail_preview(e){
-      let fileName = 'mail-preview';
+      let currentTimeStamp = moment().unix()
+      let fileName = 'mail-preview'
       this.props.onDownloadPdf($('#dialogContent').html(),fileName).then((succ)=>{
         var link = document.createElement('a');
-        link.href = CONFIG.pdf_url+succ.message;
+        link.href = CONFIG.pdf_url+succ.message+'?'+currentTimeStamp;
         link.target = "_blank";
         document.body.appendChild(link);
         link.click();
@@ -557,7 +553,7 @@ class Variables extends React.Component {
           if(state){
             let string = templateName.concat(" ",templateSubject," ", templateBody);
             //let regx = /#[\w\/|-]*/g;
-            let regx = /#[\w-]+\|[\w -]+\||#[\w-]+/ig;
+            let regx = /#[\w-]+\|[\w -\.,@$%&*!%^\\\/]+\||#[\w-]+/ig;
             let result = string.match(regx);
             let pendingVariables = [];
             if(result !== null && result.length > 0){
@@ -650,6 +646,8 @@ class Variables extends React.Component {
         var file_data = $("#file_image").prop("files");
         var form_data = new FormData();
         var LinearProgressBar = [];
+        let token = localStorage.getItem('hr_logged_user')
+        form_data.append('token', token)
         for( var i in file_data){
           form_data.append(i.toString(), file_data[i])
         }
@@ -666,7 +664,10 @@ class Variables extends React.Component {
         self.setState({
           LinearProgressBar:LinearProgressBar
         })
-
+        /*form_data.forEach(function(d,i){
+          console.log({d,i})
+        })
+        console.log(form_data,"form_data")*/
       $.ajax({
           url: CONFIG.upload_email_attachment,
           contentType: false,
