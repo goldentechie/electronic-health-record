@@ -19,28 +19,19 @@ class ListLeaves extends React.Component {
   //   }
   // }
   render () {
-    let styles = _.cloneDeep(this.constructor.styles)
-    let listItems = this.props.listItems;
+    var listItems = this.props.listItems;
     let LeavesList = _.map(listItems, (leave, keyval) => {
       return (
             <ListLeavesLeave leave={leave} key={keyval} keyval={keyval} {...this.props} />
       )
     })
     return (
-        <div className="row-col" style={styles.scroll}>
+        <div className="row-col">
             <div className="list inset">
               {LeavesList}
             </div>
         </div>
     )
-  }
-}
-
-ListLeaves.styles = {
-  scroll: {
-    'display': 'block',
-    'maxHeight': '100%',
-    'overflow': 'scroll',
   }
 }
 
