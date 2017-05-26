@@ -7,8 +7,8 @@ import {notify} from '../../services/index'
 import AlertNotification from '../../components/generic/AlertNotification'
 
 import * as actions_manageDevice from '../../actions/admin/inventory'
-import * as actions_login from '../../actions/login/index'
-import * as actions_usersList from '../../actions/user/usersList'
+import * as actions_login from 'appRedux/auth/actions/index';
+import * as actions_usersList from 'appRedux/generic/actions/usersList';
 import * as actions_manageUsers from '../../actions/admin/manageUsers'
 
 import UsersList from '../../components/generic/UsersList'
@@ -19,7 +19,6 @@ import Header from '../../components/generic/header'
 import FormAddNewInventory from '../../components/inventory/AddInventory'
 import ViewUserDevice from '../../components/inventory/ViewUser'
 import InventoryList from '../../components/attendance/InventoryList'
-import DeviceCounter from '../../components/inventory/DeviceCounter'
 // import InventoryColorReference from '../../components/inventory/InventoryColorReference'
 
 class InventorySystem extends React.Component {
@@ -32,10 +31,8 @@ class InventorySystem extends React.Component {
       active: 'active',
       firstArrow: 'show',
       secondArrow: 'hidden',
-      thirdArrow: 'hidden',
       deviceList: 'show',
       viewUser: 'hidden',
-      viewUserNew: 'hidden',
       open: false,
       edit: false,
       deviceId: '',
@@ -62,6 +59,7 @@ class InventorySystem extends React.Component {
   }
   componentWillReceiveProps (props) {
     window.scrollTo(0, 0)
+    console.log(localStorage.getItem('userid'))
 
     if (props.logged_user.logged_in == -1) {
       this.props.router.push('/logout')
@@ -91,6 +89,7 @@ class InventorySystem extends React.Component {
     let selected_user_image = ''
     let selected_user_jobtitle = ''
     let selected_user_id = ''
+    // this.setState({username: username})
 
     if (this.props.usersList.users.length > 0) {
       let userDetails = _.find(this.props.usersList.users, {'user_Id': userid})
@@ -120,37 +119,23 @@ class InventorySystem extends React.Component {
   callFetchDeviceStatus () {
     this.onFetchDeviceStatus()
   }
-
   openPage (toDisplay) {
     if (toDisplay === 'device_list') {
       this.setState({
         deviceList: 'row',
         firstArrow: 'show',
         viewUser: 'hidden',
-        viewUserNew: 'hidden',
-        secondArrow: 'hidden',
-        thirdArrow: 'hidden'
-      })
-    } else if ((toDisplay === 'view_user')) {
-      this.setState({
-        deviceList: 'hidden',
-        firstArrow: 'hidden',
-        viewUser: 'row',
-        secondArrow: 'show',
-        thirdArrow: 'hidden'
+        secondArrow: 'hidden'
       })
     } else {
       this.setState({
         deviceList: 'hidden',
         firstArrow: 'hidden',
-        viewUser: 'hidden',
-        viewUserNew: 'row',
-        secondArrow: 'hidden',
-        thirdArrow: 'show'
+        viewUser: 'row',
+        secondArrow: 'show'
       })
     }
   }
-
   openEditDevice (id) {
     this.props.onGetDeviceById(id).then((val) => {
       this.setState({
@@ -204,15 +189,11 @@ class InventorySystem extends React.Component {
       deleteDevices={this.deleteDevices}
       callFetchDevice={this.callFetchDevice}
       {...this.props} />
-
     let view_user_device = <UsersList
       users={this.props.usersList.users}
       selectedUserId={this.state.selected_user_id}
       onUserClick={this.onUserClick}
       callUpdateUserDeviceDetails={this.callUpdateUserDeviceDetails}
-      {...this.props} />
-
-    let view_user_device2 = <DeviceCounter
       {...this.props} />
 
     return (
@@ -264,17 +245,6 @@ class InventorySystem extends React.Component {
                           <div className={this.state.secondArrow}>
                           <span className="arrow bottom b-accent"></span></div>
                         </li>
-                        <li
-                          onClick={() => { this.openPage('view_user_new') }}
-                          className={'nav-item'}>
-                          <a className="nav-link"
-                            href=""
-                            data-toggle="tab"
-                            data-target="#tab_3"
-                            aria-expanded="false">Device Counter</a>
-                          <div className={this.state.thirdArrow}>
-                          <span className="arrow bottom b-accent"></span></div>
-                        </li>
                       </ul>
                     </div>
                   </div>
@@ -302,20 +272,12 @@ class InventorySystem extends React.Component {
                 <div className={this.state.deviceList}>
                 {device_list}
                 </div>
-
                 <div className={this.state.viewUser}>
                   <div className="col-md-2">
                     {view_user_device}
                   </div>
                   <ViewUserDevice {...this.props} />
                 </div>
-
-                <div className="padding">
-                <div className={this.state.viewUserNew}>
-                  <DeviceCounter {...this.props} />
-                </div>
-              </div>
-
               </div>
             </div>
           </div>
@@ -380,9 +342,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     onDeleteDeviceStatus: (checkValue) => {
       return dispatch(actions_manageDevice.deleteDeviceStatus(checkValue))
-    },
-    onFetchDeviceCount: () => {
-      return dispatch(actions_manageDevice.deviceCount())
     }
   }
 }
