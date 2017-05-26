@@ -2,9 +2,9 @@ import {createAction} from 'redux-actions'
 import {CONFIG} from '../../config/index'
 import * as _ from 'lodash'
 import {fireAjax} from '../../services/index'
-import {show_loading, hide_loading} from '../generic/frontend'
+import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend'
 var moment = require('moment')
-import * as constants from '../constants'
+import * as constants from 'appRedux/constants'
 // -------add New machine
 
 export function success_add_new_machine (data) {
@@ -166,7 +166,7 @@ export function addNewMachine (new_machine_details) {
         n_bill_no,
         n_user_Id).then((json) => {
           dispatch(hide_loading())
-          dispatch(deviceCount())
+
           if (json.error === 0) {
             dispatch(success_add_new_machine(json.message))
             resolve(json.message)
@@ -209,7 +209,6 @@ export function get_machines_detail () {
         dispatch(hide_loading()) // hide loading icon
         if (json.error == 0) {
           dispatch(success_device_list(json.data))
-
           resolve(json.data)
         } else {
           dispatch(empty_device_list([]))
@@ -283,7 +282,6 @@ export function updateDevice (id, data) {
       return getAsync_updateDeviceById(id, data).then((res) => {
         dispatch(hide_loading())
         if (res.error === 0) {
-          dispatch(deviceCount())
           dispatch(success_updateDevice(res.message))
           resolve(res.message)
         }
@@ -311,7 +309,6 @@ export function deleteDevice (id) {
     return new Promise(function (resolve, reject) {
       dispatch(show_loading())
       return getAsync_deleteDeviceById(id).then((res) => {
-        dispatch(deviceCount())
         dispatch(hide_loading())
         if (res.error === 0) {
           dispatch(success_deleteDevice(res.message))
@@ -505,31 +502,6 @@ export function deleteDeviceStatus (checkValue) {
         dispatch(hide_loading())
         resolve(res)
         dispatch(success_deleteDeviceStatus(res))
-      }, (error) => {
-        dispatch(hide_loading())
-        reject(error)
-      })
-    })
-  }
-}
-export function successDeviceCount (data) {
-  return createAction(constants.ACTION_SUCCESS_DEVICE_COUNT)(data)
-}
-
-function getAsyncDeviceCount () {
-  return fireAjax('POST', '', {
-    'action': 'get_machine_count'
-  })
-}
-
-export function deviceCount () {
-  return (dispatch, getState) => {
-    return new Promise(function (resolve, reject) {
-      dispatch(show_loading())
-      return getAsyncDeviceCount().then((res) => {
-        dispatch(hide_loading())
-        dispatch(successDeviceCount(res.data))
-        resolve(res.data)
       }, (error) => {
         dispatch(hide_loading())
         reject(error)
