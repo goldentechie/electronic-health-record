@@ -1,10 +1,13 @@
-import {createAction} from 'redux-actions';
-import * as _ from 'lodash';
+import {createAction} from 'redux-actions'
+import * as _ from 'lodash'
+
+import {CONFIG} from 'src/config/index'
+import {fireAjax} from 'src/services/index'
+import * as constants from 'src/actions/constants'
+
 import * as jwt from 'jwt-simple';
-import {CONFIG} from 'src/config/index';
-import {fireAjax} from 'src/services/index';
-import * as constants from 'appRedux/constants';
-import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
+
+import {show_loading, hide_loading} from 'src/actions/generic/frontend'
 
 export function leave_sucess (data) {
   return createAction(constants.ACTION_LEAVE_SUCCESS)(data)

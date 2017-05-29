@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const HolidaysList = ({holidays}) => {
   let holidaysList = _.map(holidays, (holiday, key) => {
@@ -34,10 +33,6 @@ const HolidaysList = ({holidays}) => {
       </div>
     </div>
   )
-}
-
-HolidaysList.PropTypes = {
-  holidays: PropTypes.array.isRequired
 }
 
 export default HolidaysList;

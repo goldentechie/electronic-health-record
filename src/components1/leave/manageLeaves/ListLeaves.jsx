@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 const styles = {
   leaveDiv: {
@@ -12,7 +11,7 @@ const styles = {
   'overflow': 'scroll',
   }
 }
-const ListLeaves = ({listItems, selectedLeave, selectLeave}) => {
+const LoadingIcon = ({listItems, selectedLeave, selectLeave}) => {
   let LeavesList = _.map(listItems, (leave, key) => {
     let leaveStatusColor = '';
     let selectedDivClass = '';
@@ -51,12 +50,4 @@ const ListLeaves = ({listItems, selectedLeave, selectLeave}) => {
   )
 }
 
-ListLeaves.PropTypes = {
-  listItems: PropTypes.array.isRequired,
-  selectedLeave: PropTypes.shape({
-    id: PropTypes.string.isRequired
-  }).isRequired,
-  selectLeave: PropTypes.func.isRequired
-}
-
-export default ListLeaves;
+export default LoadingIcon

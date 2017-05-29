@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const styles = {
   progressWidth: {
@@ -25,8 +24,4 @@ const LoadingIcon = ({loading}) => {
   );
 }
 
-LoadingIcon.PropTypes = {
-  loading: PropTypes.bool
-}
-
-export default LoadingIcon;
+export default LoadingIcon

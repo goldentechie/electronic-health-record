@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import Avatar from 'material-ui/Avatar';
 
 const styles = {
@@ -15,26 +14,34 @@ const styles = {
 
 const UsersList = ({users, selectedUserId, onUserClick, disabledUser}) => {
   let usersList =  _.map(users, (user, key) => {
-    let avatar = '';
-    let param = '';
-    let arrow = '';
-    let profileImae = '';
-    let backgroundClass = styles.cursorPointer;
-    if (selectedUserId == user.user_Id) {
-      backgroundClass = styles.selectedUser;
-      arrow = <span className="arrow right b-blue"></span>;
+    let userid = user.user_Id
+    let profileImae = disabledUser != undefined ? user.name.charAt(0) : user.slack_profile.image_72;
+    let avatar = disabledUser != undefined ? <Avatar>{profileImae}</Avatar> : <img src={profileImae} />;
+    let backgroundClass = styles.cursorPointer
+    let arrow = ""
+    if( selectedUserId == userid ){
+      backgroundClass = styles.selectedUser
+      arrow = <span className="arrow right b-blue"></span>
     }
-    if (_.isUndefined(disabledUser)) {
-      profileImae = user.slack_profile.image_72;
-      avatar = <img src={profileImae} />;
-      param = user.user_Id;
-    } else {
-      profileImae = user.name.charAt(0);
-      avatar = <Avatar>{profileImae}</Avatar>;
-      param = user;
-    }
+    let param = disabledUser != undefined ? user : user.user_Id;
     return (
       <li className="list-item" key={key} onClick={() => onUserClick(param)}  style={backgroundClass}>
+        {disabledUser != undefined ?
+         <div>
+          <div className="col-md-12">
+            <div className="list-left">
+              <span className="w-40 avatar">
+                {avatar}
+              </span>
+            </div>
+            <div className="list-body">
+              <div>{user.name}</div>
+              <small className="text-muted text-ellipsis">{user.jobtitle}</small>
+              <small className="text-muted text-ellipsis"><b>Emp Id : {userid}</b></small>
+            </div>
+          </div>
+        </div>
+        :
         <div>
           <div className="list-left">
             <span className="w-40 avatar">
@@ -44,9 +51,10 @@ const UsersList = ({users, selectedUserId, onUserClick, disabledUser}) => {
           <div className="list-body">
             <div>{user.name}</div>
             <small className="text-muted text-ellipsis">{user.jobtitle}</small>
-            <small className="text-muted text-ellipsis"><b>Emp Id : {user.user_Id}</b></small>
+            <small className="text-muted text-ellipsis"><b>Emp Id : {userid}</b></small>
           </div>
         </div>
+        }
         {arrow}
       </li>
     )
@@ -64,14 +72,4 @@ const UsersList = ({users, selectedUserId, onUserClick, disabledUser}) => {
   )
 }
 
-UsersList.PropTypes = {
-  users: PropTypes.array.isRequired,
-  selectedUserId: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]).isRequired,
-  onUserClick: PropTypes.func.isRequired,
-  disabledUser: PropTypes.bool
-}
-
-export default UsersList;
+export default UsersList

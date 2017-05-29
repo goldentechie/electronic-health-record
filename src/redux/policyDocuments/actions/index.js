@@ -1,10 +1,10 @@
 import {createAction} from 'redux-actions';
 import * as _ from 'lodash';
-import 'whatwg-fetch';
 import {CONFIG} from 'src/config/index';
 import {fireAjax} from 'src/services/index';
-import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
-import * as constants from 'appRedux/constants';
+import 'whatwg-fetch';
+import {show_loading, hide_loading} from 'src/actions/generic/frontend';
+import * as constants from 'src/actions/constants';
 
 // -----------isUserAcceptedDocumentPolicy-----------
 export function success_fetch_policy_documents (data) {
@@ -28,8 +28,9 @@ export function fetchPolicyDocument () {
       async_fetchPolicyDocument().then(
         (json) => {
           dispatch(hide_loading()) // hide loading icon
-          if (typeof json.error !== 'undefined' && json.error == 0) {
-            dispatch(success_fetch_policy_documents(json.data))
+          if (!_.isUndefined(json.error) && json.error == 0) {
+            let data = _.isNull(json.data) ? [] : json.data;
+            dispatch(success_fetch_policy_documents(data))
             resolve()
           } else {
             dispatch(error_fetch_policy_documents(json.data.message))
