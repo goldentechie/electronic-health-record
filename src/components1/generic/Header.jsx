@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import LoadingIcon from './LoadingIcon';
 
 const Header = ({pageTitle, status, showLoading}) => {
@@ -18,12 +17,6 @@ const Header = ({pageTitle, status, showLoading}) => {
       </div>
     </div>
   );
-}
-
-Header.PropTypes = {
-  pageTitle: PropTypes.string.isRequired,
-  status: PropTypes.string,
-  showLoading: PropTypes.bool.isRequired
 }
 
 export default Header;

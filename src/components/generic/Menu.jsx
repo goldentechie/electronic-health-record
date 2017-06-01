@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Router, browserHistory, Link, withRouter} from 'react-router'
 import * as _ from 'lodash'
 import {CONFIG} from '../../config/index'
+import * as actions_login from '../../actions/login/index'
 import LoggedUserInfo from '../../components/menu/LoggedUserInfo'
 
 const styles = {
