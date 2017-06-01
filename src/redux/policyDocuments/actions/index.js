@@ -7,15 +7,15 @@ import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
 import * as constants from 'appRedux/constants';
 
 // -----------isUserAcceptedDocumentPolicy-----------
-export function successFetchPolicyDocuments (data) {
+export function success_fetch_policy_documents (data) {
   return createAction(constants.ACTION_POLICY_DOCUMENT_SUCCESS)(data)
 }
-export function errorFetchPolicyDocuments (data) {
+export function error_fetch_policy_documents (data) {
   return createAction(constants.ACTION_POLICY_DOCUMENT_FAIL)(data)
 }
 
 // -------------get policy documents for admin section-------------
-function asyncFetchPolicyDocument () {
+function async_fetchPolicyDocument () {
   return fireAjax('POST', '', {
     action: 'get_policy_document'
   })
@@ -25,15 +25,14 @@ export function fetchPolicyDocument () {
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
       dispatch(show_loading()) // show loading icon
-      asyncFetchPolicyDocument().then(
+      async_fetchPolicyDocument().then(
         (json) => {
           dispatch(hide_loading()) // hide loading icon
-          if (!_.isUndefined(json.error) && json.error == 0) {
-            let data = _.isNull(json.data) ? [] : json.data;
-            dispatch(successFetchPolicyDocuments(data))
+          if (typeof json.error !== 'undefined' && json.error == 0) {
+            dispatch(success_fetch_policy_documents(json.data))
             resolve()
           } else {
-            dispatch(errorFetchPolicyDocuments(json.data.message))
+            dispatch(error_fetch_policy_documents(json.data.message))
             reject(json.data.message)
           }
         },
@@ -46,7 +45,7 @@ export function fetchPolicyDocument () {
   }
 }
 // -----------get policy documents for user-----------------
-function asyncFetchUserPolicyDocument () {
+function async_fetchUserPolicyDocument () {
   return fireAjax('POST', '', {
     action: 'get_user_policy_document'
   })
@@ -56,14 +55,14 @@ export function fetchUserPolicyDocument () {
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
       dispatch(show_loading()) // show loading icon
-      asyncFetchUserPolicyDocument().then(
+      async_fetchUserPolicyDocument().then(
         (json) => {
           dispatch(hide_loading()) // hide loading icon
           if (typeof json.error !== 'undefined' || json.error == 0) {
-            dispatch(successFetchPolicyDocuments(json.data))
+            dispatch(success_fetch_policy_documents(json.data))
             resolve()
           } else {
-            dispatch(errorFetchPolicyDocuments(json.data.message))
+            dispatch(error_fetch_policy_documents(json.data.message))
             reject(json.data.message)
           }
         },
@@ -78,7 +77,7 @@ export function fetchUserPolicyDocument () {
 
 // -----------Submit policy document info-----------
 
-function asyncSubmitDocs (docs) {
+function async_submitDocs (docs) {
   return fireAjax('POST', '', {
     action: 'save_policy_document',
     type: 'policy_document',
@@ -90,7 +89,7 @@ export function submitDocs (docs) {
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
       dispatch(show_loading()) // show loading icon
-      asyncSubmitDocs(docs).then(
+      async_submitDocs(docs).then(
         (json) => {
           dispatch(hide_loading()) // hide loading icon
           if (typeof json.error !== 'undefined' && json.error == 0) {
@@ -111,7 +110,7 @@ export function submitDocs (docs) {
 
 // -----------update Read Status of policy document-----------
 
-function asyncUpdateReadStatus (updateDoc) {
+function async_updateReadStatus (updateDoc) {
   return fireAjax('POST', '', {
     action: 'update_user_policy_document',
     policy_document: JSON.stringify(updateDoc)
@@ -122,7 +121,7 @@ export function updateReadStatus (updateDoc) {
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
       dispatch(show_loading()) // show loading icon
-      asyncUpdateReadStatus(updateDoc).then(
+      async_updateReadStatus(updateDoc).then(
         (json) => {
           dispatch(hide_loading()) // hide loading icon
           if (typeof json.error !== 'undefined' && json.error == 0) {

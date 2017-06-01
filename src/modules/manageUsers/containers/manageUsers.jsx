@@ -1,34 +1,31 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Router, browserHistory, Link, withRouter} from 'react-router'
-import ReactDOM from 'react-dom'
-import RaisedButton from 'material-ui/RaisedButton'
-import Dialog from 'material-ui/Dialog'
+import {withRouter} from 'react-router'
 
-import {CONFIG} from '../../config/index'
+import {CONFIG} from 'src/config/index'
 import * as _ from 'lodash'
-import {notify} from '../../services/index'
-import Menu from '../../components/generic/Menu'
-import LoadingIcon from '../../components/generic/LoadingIcon'
-import AlertNotification from '../../components/generic/AlertNotification'
-import Header from '../../components/generic/header'
+import {notify} from 'src/services/index'
+import Menu from 'src/components/generic/Menu'
+// import LoadingIcon from '../../components/generic/LoadingIcon'
+import AlertNotification from 'src/components/generic/AlertNotification'
+import Header from 'src/components/generic/header'
 
 // -----------------------------------------
-import * as actions_login from 'appRedux/auth/actions/index';
-import * as actions_usersList from 'appRedux/generic/actions/usersList';
-import * as actions_policy from 'appRedux/policyDocuments/actions/index';
-import * as actions_manageUsers from '../../actions/admin/manageUsers'
-import * as actions_managePayslips from 'appRedux/salary/actions/managePayslips';
-import * as actions_getTeamData from '../../actions/admin/teamList'
+import * as actions_login from 'appRedux/auth/actions/index'
+import * as actions_usersList from 'appRedux/generic/actions/usersList'
+import * as actions_policy from 'appRedux/policyDocuments/actions/index'
+import * as actions_manageUsers from 'src/actions/admin/manageUsers'
+import * as actions_managePayslips from 'appRedux/salary/actions/managePayslips'
+import * as actions_getTeamData from 'src/actions/admin/teamList'
 
-import UsersList from '../../components/generic/UsersList'
+import UsersList from 'src/components/generic/UsersList'
 
-import FormUserProfileDetails from '../../components/manageUsers/FormUserProfileDetails'
-import FormUserBankDetails from '../../components/manageUsers/FormUserBankDetails'
-import FormUserDeviceDetails from '../../components/manageUsers/FormUserDeviceDetails'
-import FormAddNewEmployee from '../../components/manageUsers/FormAddNewEmployee'
-import UserPayslipsHistory from 'components/salary/managePayslips/UserPayslipsHistory';
-import UpdateEmployeeDocument from '../../components/manageUsers/UpdateEmployeeDocument'
+import FormUserProfileDetails from 'src/modules/manageUsers/component/manageUser/FormUserProfileDetails'
+import FormUserBankDetails from 'src/modules/manageUsers/component/manageUser/FormUserBankDetails'
+import FormUserDeviceDetails from 'src/modules/manageUsers/component/manageUser/FormUserDeviceDetails'
+import FormAddNewEmployee from 'src/modules/manageUsers/component/manageUser/FormAddNewEmployee'
+import UserPayslipsHistory from 'components/salary/managePayslips/UserPayslipsHistory'
+import UpdateEmployeeDocument from 'src/components/manageUsers/UpdateEmployeeDocument'
 
 // ---------------------------------------------
 import ToggleButton from 'react-toggle-button'
@@ -68,13 +65,13 @@ class ManageUsers extends React.Component {
   componentWillReceiveProps (props) {
     // window.scrollTo(0, 0);
 
-    if (props.logged_user.logged_in == -1) {
+    if (props.logged_user.logged_in === -1) {
       this.props.router.push('/logout')
     } else {
-      if (props.logged_user.role == CONFIG.ADMIN || props.logged_user.role == CONFIG.GUEST) {
+      if (props.logged_user.role === CONFIG.ADMIN || props.logged_user.role === CONFIG.GUEST) {
 
-      } else if (props.logged_user.role == CONFIG.HR) {
-        let unread = _.filter(props.policy_documents.policyDocuments, function (o) { return o.read == 0 }) || []
+      } else if (props.logged_user.role === CONFIG.HR) {
+        let unread = _.filter(props.policy_documents.policyDocuments, function (o) { return o.read === 0 }) || []
         if (unread.length > 0) {
           this.props.router.push('/policy_documents')
         }
@@ -82,10 +79,17 @@ class ManageUsers extends React.Component {
         this.props.router.push('/home')
       }
     }
-    this.setState({user_payslip_history: props.managePayslips.user_payslip_history, username: props.manageUsers.username, user_profile_detail: props.manageUsers.user_profile_detail, user_bank_detail: props.manageUsers.user_bank_detail, user_assign_machine: props.manageUsers.user_assign_machine, user_documents: props.manageUsers.user_documents})
+    this.setState({
+      user_payslip_history: props.managePayslips.user_payslip_history,
+      username: props.manageUsers.username,
+      user_profile_detail: props.manageUsers.user_profile_detail,
+      user_bank_detail: props.manageUsers.user_bank_detail,
+      user_assign_machine: props.manageUsers.user_assign_machine,
+      user_documents: props.manageUsers.user_documents
+    })
   }
   componentDidUpdate () {
-    if (this.state.defaultUserDisplay == '') {
+    if (this.state.defaultUserDisplay === '') {
       if (this.props.usersList.users.length > 0) {
         let firstUser = this.props.usersList.users[0]
         let defaultUserId = firstUser.user_Id
@@ -95,22 +99,28 @@ class ManageUsers extends React.Component {
     }
   }
   onUserClick (userid, username) {
-    let selected_user_name = ''
-    let selected_user_image = ''
-    let selected_user_jobtitle = ''
-    let selected_user_id = ''
+    let selectedUserName = ''
+    let selectedUserImage = ''
+    let selectedUserJobtitle = ''
+    let selectedUserId = ''
     // this.setState({username: username})
 
     if (this.props.usersList.users.length > 0) {
       let userDetails = _.find(this.props.usersList.users, {'user_Id': userid})
       if (typeof userDetails !== 'undefined') {
-        selected_user_name = userDetails.name
-        selected_user_image = userDetails.slack_profile.image_192
-        selected_user_jobtitle = userDetails.jobtitle
-        selected_user_id = userDetails.user_Id
+        selectedUserName = userDetails.name
+        selectedUserImage = userDetails.slack_profile.image_192
+        selectedUserJobtitle = userDetails.jobtitle
+        selectedUserId = userDetails.user_Id
       }
     }
-    this.setState({'defaultUserDisplay': userid, 'selected_user_name': selected_user_name, 'selected_user_image': selected_user_image, 'selected_user_jobtitle': selected_user_jobtitle, 'selected_user_id': selected_user_id})
+    this.setState({
+      'defaultUserDisplay': userid,
+      'selected_user_name': selectedUserName,
+      'selected_user_image': selectedUserImage,
+      'selected_user_jobtitle': selectedUserJobtitle,
+      'selected_user_id': selectedUserId
+    })
     this.props.onUserProfileDetails(userid, username)
     this.props.onGetUserDocument(userid)
     this.props.onUserManagePayslipsData(userid)
@@ -127,7 +137,6 @@ class ManageUsers extends React.Component {
     })
   }
   callUpdateUserProfileDetails (new_profile_details) {
-    console.log(new_profile_details)
     this.props.onUpdateUserProfileDetails(new_profile_details).then((data) => {}, (error) => {
       notify(error)
     })
@@ -159,6 +168,7 @@ class ManageUsers extends React.Component {
   handleCloseIframe () {
     this.setState({openIframe: false})
   };
+
   render () {
     return (
       <div>
@@ -175,52 +185,71 @@ class ManageUsers extends React.Component {
               <div className="row">
                 <div className="col-md-4 p-b">
                   <FormAddNewEmployee callAddNewEmployee={this.callAddNewEmployee} />
-                    </div>
-
-          <div style={{'marginTop': ' 7px'}} className="col-md-4 pull-left">
-            <label style={{'float': 'inherit'}}><i className="fa fa-bell-slash fa-lg" aria-hidden="true">
-            </i> Slack Notifications</label>
-              <div style={{'margin': '0 0 0 10px'}} className='pull-left'>
-
-              <ToggleButton
-                value={this.state.user_profile_detail.slack_msg === '0' || false}
-                onToggle={() => {
-                  let user = this.refs.userForm.state
-                  if (user.slack_msg == '0') user.slack_msg = '1'
-                  else if (user.slack_msg == '1') user.slack_msg = '0'
-                  this.callUpdateUserProfileDetails(user)
-                }} />
-              </div>
-            </div>
+                </div>
+                <div style={{'marginTop': ' 7px'}} className="col-md-4 pull-left">
+                  <label style={{'float': 'inherit'}}>
+                    <i className="fa fa-bell-slash fa-lg" aria-hidden="true"></i> Slack Notifications
+                  </label>
+                  <div style={{'margin': '0 0 0 10px'}} className='pull-left'>
+                    <ToggleButton
+                      value={this.state.user_profile_detail.slack_msg === '0' || false}
+                      onToggle={() => {
+                        let user = this.refs.userForm.state
+                        if (user.slack_msg === '0') user.slack_msg = '1'
+                        else if (user.slack_msg === '1') user.slack_msg = '0'
+                        this.callUpdateUserProfileDetails(user)
+                      }}
+                    />
+                  </div>
+                </div>
 
                 <div className="col-md-4 text-center"></div>
                 <div className="col-md-4 text-right">
-                  <button className="btn btn-fw btn-danger" onTouchTap={() => this.changeEmployeeStatus(this.state.selected_user_id, 'Disabled')}>Disable Selected User</button>
+                  <button
+                    className="btn btn-fw btn-danger"
+                    onTouchTap={() => this.changeEmployeeStatus(this.state.selected_user_id, 'Disabled')}
+                  >Disable Selected User</button>
                 </div>
 
               </div>
               <div className="row">
 
                 <div className="col-md-2">
-                  <UsersList users={this.props.usersList.users} selectedUserId={this.state.selected_user_id} onUserClick={this.onUserClick} {...this.props} />
+                  <UsersList
+                    users={this.props.usersList.users}
+                    selectedUserId={this.state.selected_user_id}
+                    onUserClick={this.onUserClick} {...this.props}
+                  />
                 </div>
-
                 <div className="col-md-10 p">
                   <div className="row box">
                     <div className="col-md-7 p-t p-b p-r b-r">
-                      <FormUserProfileDetails ref="userForm" user_profile_detail={this.state.user_profile_detail} callUpdateUserProfileDetails={this.callUpdateUserProfileDetails} username={this.state.username} {...this.props} />
+                      <FormUserProfileDetails
+                        ref="userForm"
+                        user_profile_detail={this.state.user_profile_detail}
+                        callUpdateUserProfileDetails={this.callUpdateUserProfileDetails}
+                        username={this.state.username} {...this.props}
+                      />
                     </div>
                     <div className="col-md-5 p-t p-b">
                       <div className="col-md-12">
-
-                        <FormUserBankDetails user_bank_detail={this.state.user_bank_detail} callUpdateUserBankDetails={this.callUpdateUserBankDetails} />
+                        <FormUserBankDetails
+                          user_bank_detail={this.state.user_bank_detail}
+                          callUpdateUserBankDetails={this.callUpdateUserBankDetails}
+                        />
                       </div>
                       <div className="col-md-12">
-
-                        <FormUserDeviceDetails user_assign_machine={this.state.user_assign_machine} callUpdateUserDeviceDetails={this.callUpdateUserDeviceDetails} />
+                        <FormUserDeviceDetails
+                          user_assign_machine={this.state.user_assign_machine}
+                          callUpdateUserDeviceDetails={this.callUpdateUserDeviceDetails}
+                        />
                       </div>
                       <div className="col-md-12">
-                        <UpdateEmployeeDocument user_documents={this.state.user_documents} user_id={this.state.selected_user_id} onUpdatedocuments={this.props.onUpdatedocuments} {...this.props} />
+                        <UpdateEmployeeDocument
+                          user_documents={this.state.user_documents}
+                          user_id={this.state.selected_user_id}
+                          onUpdatedocuments={this.props.onUpdatedocuments} {...this.props}
+                        />
                       </div>
                       <div className="col-md-12">
                         <h6 className="text-center">
@@ -304,3 +333,22 @@ const VisibleManageUsers = connect(mapStateToProps, mapDispatchToProps)(ManageUs
 const RouterVisibleManageUsers = withRouter(VisibleManageUsers)
 
 export default RouterVisibleManageUsers
+
+ManageUsers.propTypes = {
+  onIsAlreadyLogin: React.PropTypes.func.isRequired,
+  onFetchUserPolicyDocument: React.PropTypes.func.isRequired,
+  onFetchTeam: React.PropTypes.func.isRequired,
+  onUserProfileDetails: React.PropTypes.func.isRequired,
+  onGetUserDocument: React.PropTypes.func.isRequired,
+  onUserManagePayslipsData: React.PropTypes.func.isRequired,
+  onUpdateUserBankDetails: React.PropTypes.func.isRequired,
+  onUpdateUserDeviceDetails: React.PropTypes.func.isRequired,
+  onUpdateUserProfileDetails: React.PropTypes.func.isRequired,
+  onAddNewEmployee: React.PropTypes.func.isRequired,
+  onChangeEmployeeStatus: React.PropTypes.func.isRequired,
+  onUsersList: React.PropTypes.func.isRequired,
+  onUpdatedocuments: React.PropTypes.string.isRequired,
+  usersList: React.PropTypes.string.isRequired,
+  manageUsers: React.PropTypes.string.isRequired,
+  router: React.PropTypes.isRequired
+}
