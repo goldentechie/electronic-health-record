@@ -7,60 +7,67 @@
 // import AppContainer from './containers/AppContainer'
 
 // --start---for HR APP by arun
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {Router, Route, Link, IndexRoute, hashHistory} from 'react-router'
-import {createStore, applyMiddleware, compose} from 'redux'
-import {Provider} from 'react-redux'
-import Immutable from 'immutable'
-import thunk from 'redux-thunk'
-import createLogger from 'redux-logger'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Router, Route, Link, IndexRoute, hashHistory, browserHistory, useRouterHistory} from 'react-router';
+import { createHashHistory } from 'history';
+import {createStore, applyMiddleware, compose} from 'redux';
+import {Provider} from 'react-redux';
+import Immutable from 'immutable';
+import thunk from 'redux-thunk';
+import createLogger from 'redux-logger';
 
-import reducer from './reducers/index'
+import reducer from './reducers/index';
 
-import injectTapEventPlugin from 'react-tap-event-plugin'
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // pages
-import Page_Login from './containers/user/login'
-import Page_Home from './containers/user/home'
-import Page_Logout from './containers/user/logout'
-import Page_ForgotPassword from './containers/user/forgotPassword'
-import Page_PolicyDocument from './containers/user/PolicyDocument'
+// --------new structure import-----
+import Page_Login from './modules/auth/containers/login';
+import Page_Logout from './modules/auth/containers/logout';
+import Page_ForgotPassword from './modules/auth/containers/forgotPassword';
+import Page_ManageLeaves from './modules/leave/containers/manageLeaves';
+import Page_LeavesSummary from './modules/leave/containers/leavesSummary';
+import Page_ApplyLeave from './modules/leave/containers/applyLeave';
+import Page_MyLeaves from './modules/leave/containers/myLeaves';
+import Page_Holidays from './modules/holidays/containers/holidays';
+import Page_PolicyDocument from './modules/policyDocuments/containers/PolicyDocument';
+import Page_UploadPolicyDocument from './modules/policyDocuments/containers/uploadPolicyDocument';
+import Page_ManageSalary from './modules/salary/containers/manageSalary';
+import Page_ViewSalary from './modules/salary/containers/viewSalary';
+import Page_Salary from './modules/salary/containers/salary';
+import Page_ManagePayslips from './modules/salary/containers/managePayslips';
+import Page_Home from './modules/attendance/containers/Home';
+import Page_MonthlyAttendance from './modules/attendance/containers/monthlyAttendance';
+// import Page_AttendanceSummary from './modules/attendance/containers/attendanceSummary';
+import Page_UploadAttendance from './modules/attendance/containers/uploadAttendance';
+// -----------------------------
+
+// import Page_Home from './containers/user/home'
 
 // -admin
-import Page_ManageWorkingHours from './containers/admin/manageWorkingHours'
-import Page_ManageLeaves from './containers/admin/manageLeaves'
-import Page_ManageUserWorkingHours from './containers/admin/manageUserWorkingHours'
-import Page_LeavesSummary from './containers/admin/leavesSummary'
-import Page_ManageSalary from './containers/admin/manageSalary'
-import Page_ManageUsers from './containers/admin/manageUsers'
-import Page_ManageClients from './containers/admin/manageClients'
-import Page_ManagePayslips from './containers/admin/managePayslips'
-import Page_ViewSalary from './containers/admin/viewSalary'
-import Page_DisabledEmployes from './containers/admin/disabledEmployes'
-import Page_UploadAttendance from './containers/admin/uploadAttendance'
-import Page_UploadPolicyDocument from './containers/admin/uploadPolicyDocument'
-import Page_mail_template from './containers/admin/addTemplate'
-import Page_AddVariables from './containers/admin/addVariables'
-import Page_TeamView from './containers/admin/viewTeam'
-import Page_InventorySystem from './containers/admin/manageInventory'
+import Page_ManageWorkingHours from './containers/admin/manageWorkingHours';
+import Page_ManageUserWorkingHours from './containers/admin/manageUserWorkingHours';
+import Page_ManageUsers from './containers/admin/manageUsers';
+import Page_ManageClients from './containers/admin/manageClients';
+import Page_DisabledEmployes from './containers/admin/disabledEmployes';
+import Page_mail_template from './containers/admin/addTemplate';
+import Page_AddVariables from './containers/admin/addVariables';
+import Page_TeamView from './containers/admin/viewTeam';
+import Page_InventorySystem from './containers/admin/manageInventory';
 
 // -user
-import Page_MonthlyAttendance from './containers/user/monthlyAttendance'
-import Page_AttendanceSummary from './containers/user/attendanceSummary'
-import Page_Holidays from './containers/user/holidays'
-import Page_ApplyLeave from './containers/user/applyLeave'
-import Page_MyLeaves from './containers/user/myLeaves'
-import Page_Salary from './containers/user/salary'
-import Page_MyProfile from './containers/user/myProfile'
-import Page_MyInventory from './containers/user/myInventory'
-import Page_MyDocuments from './containers/user/myDocuments'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import 'whatwg-fetch'
+import Page_MyProfile from './containers/user/myProfile';
+import Page_MyInventory from './containers/user/myInventory';
+import Page_MyDocuments from './containers/user/myDocuments';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import 'whatwg-fetch';
 // -for iPhone iPad safari engine
 if (!!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)) {
-  fetch = require('whatwg-fetch')
+  fetch = require('whatwg-fetch');
 }
+
+const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 
 export class APP extends React.Component {
   render () {
@@ -68,19 +75,19 @@ export class APP extends React.Component {
       <div>
         {this.props.children}
       </div>
-    )
+    );
   }
 }
 
-const logger = createLogger()
+const logger = createLogger();
 
-injectTapEventPlugin()
+injectTapEventPlugin();
 
 let store = createStore(reducer, compose(
 // applyMiddleware( thunk, logger),
 applyMiddleware(thunk),
 //window.devToolsExtension ? window.devToolsExtension() : f => f
-))
+));
 
 // --end---for HR APP by arun
 
@@ -137,7 +144,7 @@ let render = (routerKey = null) => {
   ReactDOM.render((
     <MuiThemeProvider>
       <Provider store={store}>
-        <Router history={hashHistory}>
+        <Router history={appHistory} queryKey={false}>
           <Route path="/" component={APP}>
             <IndexRoute component={Page_Login} />
             //this will be the default page which will opens when app starts
@@ -173,8 +180,8 @@ let render = (routerKey = null) => {
         </Router>
       </Provider>
     </MuiThemeProvider>
-  ), document.querySelector('#myApp'))
-}
+  ), document.querySelector('#myApp'));
+};
 // --end------added by arun for HR app
 
 // Enable HMR and catch runtime errors in RedBox
@@ -199,4 +206,4 @@ let render = (routerKey = null) => {
 // ========================================================
 // Go!
 // ========================================================
-render()
+render();
