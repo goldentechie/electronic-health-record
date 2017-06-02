@@ -1,18 +1,19 @@
 import React from 'react'
-// import {connect} from 'react-redux'
-import {Link} from 'react-router'
-// import * as _ from 'lodash'
+import {connect} from 'react-redux'
+import {Router, browserHistory, Link, withRouter} from 'react-router'
+import * as _ from 'lodash'
 import {CONFIG} from '../../config/index'
+import * as actions_login from '../../actions/login/index'
 import LoggedUserInfo from '../../components/menu/LoggedUserInfo'
 
-// const styles = {
-//   headerMain: {
-//     background: '#3EA8F5'
-//   },
-//   textWhite: {
-//     color: 'white'
-//   }
-// }
+const styles = {
+  headerMain: {
+    background: '#3EA8F5'
+  },
+  textWhite: {
+    color: 'white'
+  }
+}
 
 // module.exports = menu;
 
@@ -35,77 +36,77 @@ class Menu extends React.Component {
     }
   }
   render () {
-    let linkAttendanceSummary = <Link to='/attendance_summary'>Attendance Summary</Link>
-    let linkLogout = <Link to='/logout'>Logout</Link>
-    let linkHolidays = <Link to='/holidays'>Holidays</Link>
-    let linkApplyLeave = <Link to='/apply_leave'>Apply Leave</Link>
+    let link_attendance_summary = <Link to='/attendance_summary'>Attendance Summary</Link>
+    let link_logout = <Link to='/logout'>Logout</Link>
+    let link_holidays = <Link to='/holidays'>Holidays</Link>
+    let link_apply_leave = <Link to='/apply_leave'>Apply Leave</Link>
 
     // user
-    let linkMyCalendar = <Link to='/monthly_attendance'>My Attendance</Link>
-    let linkMyLeaves = <Link to='/my_leaves'>My Leaves</Link>
-    let linkMyProfile = <Link to='/my_profile'>My Profile</Link>
-    let linkMyInventory = <Link to='/my_inventory'>My Inventory</Link>
-    let linkSalary = <Link to='/salary'>My Salary</Link>
-    let linkPolicyDocuments = <Link to='/policy_documents'>Policy Documents</Link>
+    let link_my_calendar = <Link to='/monthly_attendance'>My Attendance</Link>
+    let link_my_leaves = <Link to='/my_leaves'>My Leaves</Link>
+    let link_my_profile = <Link to='/my_profile'>My Profile</Link>
+    let link_my_inventory = <Link to='/my_inventory'>My Inventory</Link>
+    let link_salary = <Link to='/salary'>My Salary</Link>
+    let link_policy_documents = <Link to='/policy_documents'>Policy Documents</Link>
 
     // admin
-    let linkUsersList = <Link to='/home'>Employees Attendance</Link>
-    let linkUserAttendanceUpload = <Link to='/uploadAttendance'>Upload Attendance</Link>
-    let linkLeavesSummary = <Link to='/leaves_summary'>Leaves Summary</Link>
-    let linkManageLeaves = <Link to='/manage_leaves'>Leaves</Link>
-    let linkManageWorkingHours = <Link to='/manage_working_hours'>Office Hours</Link>
-    let linkManageUserWorkingHours = <Link to='/manage_user_working_hours'>Employee Hours</Link>
-    let linkManageSalary = <Link to='/manage_salary'>Salaries</Link>
-    let linkManageUsers = <Link to='/manage_users'>Profile</Link>
-    let linkManageClients = <Link to='/manage_clients'>Manage Clients</Link>
-    let linkManagePayslips = <Link to='/manage_payslips'>Payslips</Link>
-    let linkDocuments = <Link to='/documents'>My Documents</Link>
-    let linkViewSalary = <Link to='/view_salary'>View Salary</Link>
-    let linkDisabledEmployes = <Link to='/disabled_employes'>Disable Employee</Link>
-    let linkUploadPolicyDocument = <Link to='/upload_policy_documents'>Upload Documents</Link>
-    let linkUserPolicyDocument = <Link to='/user_policy_documents'>User Policy Documents</Link>
-    let linkMailTemplates = <Link to='/mail_templates'>Mail Templates</Link>
-    let linkTemplateVariable = <Link to='/add_variables'>Add Variables</Link>
-    let linkTeamView = <Link to='/team_view'>Team</Link>
-    let linkInventorySystem = <Link to='/inventory_system'>Inventory</Link>
+    let link_users_list = <Link to='/home'>Employees Attendance</Link>
+    let link_user_attendance_upload = <Link to='/uploadAttendance'>Upload Attendance</Link>
+    let link_leaves_summary = <Link to='/leaves_summary'>Leaves Summary</Link>
+    let link_manage_leaves = <Link to='/manage_leaves'>Leaves</Link>
+    let link_manage_working_hours = <Link to='/manage_working_hours'>Office Hours</Link>
+    let link_manage_user_working_hours = <Link to='/manage_user_working_hours'>Employee Hours</Link>
+    let link_manage_salary = <Link to='/manage_salary'>Salaries</Link>
+    let link_manage_users = <Link to='/manage_users'>Profile</Link>
+    let link_manage_clients = <Link to='/manage_clients'>Manage Clients</Link>
+    let link_manage_payslips = <Link to='/manage_payslips'>Payslips</Link>
+    let link_documents = <Link to='/documents'>My Documents</Link>
+    let link_view_salary = <Link to='/view_salary'>View Salary</Link>
+    let link_disabled_employes = <Link to='/disabled_employes'>Disable Employee</Link>
+    let link_Upload_policy_document = <Link to='/upload_policy_documents'>Upload Documents</Link>
+    let link_user_policy_document = <Link to='/user_policy_documents'>User Policy Documents</Link>
+    let link_mail_templates = <Link to='/mail_templates'>Mail Templates</Link>
+    let link_template_variable = <Link to='/add_variables'>Add Variables</Link>
+    let link_team_view = <Link to='/team_view'>Team</Link>
+    let link_inventory_system = <Link to='/inventory_system'>Inventory</Link>
 
-    let linksToShow = <ul className="nav">
+    let links_to_show = <ul className="nav">
       <li className="hidden-folded">
-        <span >{linkMyCalendar}</span>
+        <span >{link_my_calendar}</span>
       </li>
       <li className="hidden-folded">
-        <span >{linkApplyLeave}</span>
+        <span >{link_apply_leave}</span>
       </li>
       <li className="hidden-folded">
-        <span >{linkHolidays}</span>
+        <span >{link_holidays}</span>
       </li>
       <li className="hidden-folded">
-        <span >{linkMyLeaves}</span>
+        <span >{link_my_leaves}</span>
       </li>
       <li className="hidden-folded">
-        <span >{linkSalary}</span>
+        <span >{link_salary}</span>
       </li>
       <li className="hidden-folded">
-        <span >{linkMyProfile}</span>
+        <span >{link_my_profile}</span>
       </li>
       <li className="hidden-folded">
-        <span >{linkMyInventory}</span>
+        <span >{link_my_inventory}</span>
       </li>
       <li className="hidden-folded">
-        <span>{linkInventorySystem}</span>
+        <span>{link_inventory_system}</span>
       </li>
       <li className="hidden-folded">
-        <span >{linkDocuments}</span>
+        <span >{link_documents}</span>
       </li>
       <li className="hidden-folded">
-        <span >{linkPolicyDocuments}</span>
+        <span >{link_policy_documents}</span>
       </li>
       <li className="hidden-folded">
-        <span >{linkLogout}</span>
+        <span >{link_logout}</span>
       </li>
     </ul>
-    if (this.props.logged_user.role === CONFIG.ADMIN) {
-      linksToShow = <ul className="nav">
+    if (this.props.logged_user.role == CONFIG.ADMIN) {
+      links_to_show = <ul className="nav">
         <li id="Attendance" onClick={() => {
           let a = 'Attendance'
           this.click(a)
@@ -121,13 +122,13 @@ class Menu extends React.Component {
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkUsersList}</span>
+              }}>{link_users_list}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkUserAttendanceUpload}</span>
+              }}>{link_user_attendance_upload}</span>
             </li>
           </ul>
         </li>
@@ -147,13 +148,13 @@ class Menu extends React.Component {
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkManageUsers}</span>
+              }}>{link_manage_users}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkDisabledEmployes}</span>
+              }}>{link_disabled_employes}</span>
             </li>
           </ul>
         </li>
@@ -173,13 +174,13 @@ class Menu extends React.Component {
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkManageWorkingHours}</span>
+              }}>{link_manage_working_hours}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkManageUserWorkingHours}</span>
+              }}>{link_manage_user_working_hours}</span>
             </li>
           </ul>
         </li>
@@ -199,19 +200,19 @@ class Menu extends React.Component {
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkManageLeaves}</span>
+              }}>{link_manage_leaves}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkLeavesSummary}</span>
+              }}>{link_leaves_summary}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkApplyLeave}</span>
+              }}>{link_apply_leave}</span>
             </li>
           </ul>
         </li>
@@ -231,19 +232,19 @@ class Menu extends React.Component {
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkManageSalary}</span>
+              }}>{link_manage_salary}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkViewSalary}</span>
+              }}>{link_view_salary}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkManagePayslips}</span>
+              }}>{link_manage_payslips}</span>
             </li>
           </ul>
         </li>
@@ -263,13 +264,13 @@ class Menu extends React.Component {
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkMailTemplates}</span>
+              }}>{link_mail_templates}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkTemplateVariable}</span>
+              }}>{link_template_variable}</span>
             </li>
           </ul>
         </li>
@@ -289,42 +290,42 @@ class Menu extends React.Component {
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkUploadPolicyDocument}</span>
+              }}>{link_Upload_policy_document}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600,
                 'display': 'none'
-              }}>{linkUserPolicyDocument}</span>
+              }}>{link_user_policy_document}</span>
             </li>
           </ul>
         </li>
 
         <li className="hidden-folded">
-          <span>{linkHolidays}</span>
+          <span>{link_holidays}</span>
         </li>
         <li className="hidden-folded">
-          <span>{linkInventorySystem}</span>
+          <span>{link_inventory_system}</span>
         </li>
 
         <li className="hidden-folded">
-          <span>{linkTeamView}</span>
+          <span>{link_team_view}</span>
         </li>
         <li className="hidden-folded">
-          <span>{linkLogout}</span>
+          <span>{link_logout}</span>
         </li>
 
       </ul>
 
 // Hr---
-    } else if (this.props.logged_user.role === CONFIG.HR) {
-      linksToShow = <ul className="nav">
+    } else if (this.props.logged_user.role == CONFIG.HR) {
+      links_to_show = <ul className="nav">
         <li className="hidden-folded">
-          <span>{linkUsersList}</span>
+          <span>{link_users_list}</span>
         </li>
         <li className="hidden-folded">
-          <span>{linkUserAttendanceUpload}</span>
+          <span>{link_user_attendance_upload}</span>
         </li>
         <li id="ManageHour" onClick={() => {
           let h = 'ManageHour'
@@ -344,13 +345,13 @@ class Menu extends React.Component {
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkManageWorkingHours}</span>
+              }}>{link_manage_working_hours}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkManageUserWorkingHours}</span>
+              }}>{link_manage_user_working_hours}</span>
             </li>
           </ul>
         </li>
@@ -372,45 +373,42 @@ class Menu extends React.Component {
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkManageLeaves}</span>
+              }}>{link_manage_leaves}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkLeavesSummary}</span>
+              }}>{link_leaves_summary}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkApplyLeave}</span>
+              }}>{link_apply_leave}</span>
             </li>
           </ul>
         </li>
 
-        <li id="ManageSalary"
-          onClick={() => {
-            let s = 'ManageSalary'
-            this.click(s)
-          }}
-          className=""
-          >
-          <a>
-            <span className="nav-caret text-muted">
-              <i className="fa fa-caret-down"></i>
-            </span>
-            <span className="nav-text">Manage Salary</span>
-          </a>
-          <ul className="nav-sub">
-            <li className="hidden-folded">
-              <span style={{
-                'fontSize': 11,
-                'fontWeight': 600
-              }}>{linkManageSalary}</span>
-            </li>
-          </ul>
-        </li>
+      <li id="ManageSalary" onClick={() => {
+        let s = 'ManageSalary'
+        this.click(s)
+      }} className="">
+        <a>
+          <span className="nav-caret text-muted">
+            <i className="fa fa-caret-down"></i>
+          </span>
+          <span className="nav-text">Manage Salary</span>
+        </a>
+        <ul className="nav-sub">
+          <li className="hidden-folded">
+            <span style={{
+              'fontSize': 11,
+              'fontWeight': 600
+            }}>{link_manage_salary}</span>
+          </li>
+        </ul>
+      </li>
 
         <li id="Templates" onClick={() => {
           let t = 'Templates'
@@ -427,59 +425,59 @@ class Menu extends React.Component {
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkMailTemplates}</span>
+              }}>{link_mail_templates}</span>
             </li>
             <li className="hidden-folded">
               <span style={{
                 'fontSize': 11,
                 'fontWeight': 600
-              }}>{linkTemplateVariable}</span>
+              }}>{link_template_variable}</span>
             </li>
           </ul>
         </li>
         <li className="hidden-folded">
-          <span>{linkHolidays}</span>
+          <span>{link_holidays}</span>
         </li>
         <li className="hidden-folded">
-          <span>{linkInventorySystem}</span>
+          <span>{link_inventory_system}</span>
         </li>
         <li className="hidden-folded">
-          <span>{linkManageUsers}</span>
+          <span>{link_manage_users}</span>
         </li>
         <li className="hidden-folded">
           <span>
-            {linkDisabledEmployes}</span>
+            {link_disabled_employes}</span>
         </li>
         <li className="hidden-folded">
-          <span >{linkPolicyDocuments}</span>
+          <span >{link_policy_documents}</span>
         </li>
         <li className="hidden-folded">
-          <span>{linkLogout}</span>
+          <span>{link_logout}</span>
         </li>
 
       </ul>
-    } else if (this.props.logged_user.role === CONFIG.GUEST) {
-      linksToShow = <ul className="nav">
+    } else if (this.props.logged_user.role == CONFIG.GUEST) {
+      links_to_show = <ul className="nav">
         <li className="hidden-folded">
-          <span>{linkUsersList}</span>
+          <span>{link_users_list}</span>
         </li>
         <li className="hidden-folded">
-          <span>{linkManageWorkingHours}</span>
+          <span>{link_manage_working_hours}</span>
         </li>
         <li className="hidden-folded">
-          <span>{linkManageLeaves}</span>
+          <span>{link_manage_leaves}</span>
         </li>
         <li className="hidden-folded">
-          <span>{linkManageUserWorkingHours}</span>
+          <span>{link_manage_user_working_hours}</span>
         </li>
         <li className="hidden-folded">
-          <span>{linkLeavesSummary}</span>
+          <span>{link_leaves_summary}</span>
         </li>
         <li className="hidden-folded">
-          <span>{linkHolidays}</span>
+          <span>{link_holidays}</span>
         </li>
         <li className="hidden-folded">
-          <span>{linkLogout}</span>
+          <span>{link_logout}</span>
         </li>
 
       </ul>
@@ -495,7 +493,7 @@ class Menu extends React.Component {
           </div>
           <div className="hide-scroll">
             <nav className="scroll nav-light">
-              {linksToShow}
+              {links_to_show}
             </nav>
           </div>
 
@@ -510,7 +508,3 @@ class Menu extends React.Component {
 }
 
 export default Menu
-
-Menu.propTypes = {
-  logged_user: React.PropTypes.isRequired
-}
