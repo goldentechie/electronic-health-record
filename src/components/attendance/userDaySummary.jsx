@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux'
+import * as actions_userDaySummary from '../../actions/user/userDaySummary'
 import {notify} from '../../services/index'
 import { CONFIG } from '../../config/index'
 import LoadingIcon from '../../components/generic/LoadingIcon'

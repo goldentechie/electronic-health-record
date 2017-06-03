@@ -4,6 +4,7 @@ import {Router, browserHistory, Link, withRouter} from 'react-router'
 import {CONFIG} from '../../config/index'
 import * as _ from 'lodash'
 import {notify} from '../../services/index'
+import AlertNotification from '../../components/generic/AlertNotification'
 
 import Menu from '../../components/generic/Menu'
 import LoadingIcon from '../../components/generic/LoadingIcon'

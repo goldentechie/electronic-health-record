@@ -5,26 +5,31 @@ import * as actions_monthlyAttendance from '../../actions/user/monthlyAttendance
 import * as _ from 'lodash'
 
 import Day from '../../components/generic/Day'
+
 import UserDetails from './UserDetails'
 import MonthSummary from './MonthSummary'
 
-class WorkingHoursSummary extends React.Component {
+class UserMonthlyAttendance extends React.Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {}
   componentWillMount() {}
   componentWillReceiveProps(props) {}
 
-  _getWeekHtml(w) {
+  _getWeekHtml(userid, w) {
     return _.map(w, (dayData, key) => {
       let dayHtml = ''
       if (dayData.day_type == 'NON_WORKING_DAY') {
-        //dayHtml = <DayNonWorking dayData={dayData}/>
-        dayHtml = <Day forEmployeeHours={true} class="fc-day-grid-event fc-h-event fc-event fc-start fc-end yellow fc-draggable" day="Non Working day" dayData={dayData} {...this.props}/>
+        dayHtml = <Day forEmployeeHours={false} class="fc-day-grid-event fc-h-event fc-event fc-start fc-end yellow fc-draggable" day="Non Working day" dayData={dayData}/>
+      } else if (dayData.day_type == 'LEAVE_DAY') {
+        dayHtml = <Day forEmployeeHours={false} class="fc-day-grid-event fc-h-event fc-event fc-start fc-end red fc-draggable" day="On Leave" dayData={dayData}/>
+      } else if (dayData.day_type == 'HALF_DAY') {
+        dayHtml = <Day forEmployeeHours={false} class="fc-day-grid-event fc-h-event fc-event fc-start fc-end red-100 fc-draggable" dayData={dayData}/>
       } else if (dayData.day_type == 'FUTURE_WORKING_DAY') {
         dayHtml = <Day forEmployeeHours={false} class="fc-day-grid-event fc-h-event fc-event fc-start fc-end white fc-draggable" dayData={dayData}/>
       } else {
-        dayHtml = <Day forEmployeeHours={true} dayData={dayData} {...this.props}/>
+        dayHtml = <Day forEmployeeHours={false} dayData={dayData} showDaySummary={this.props.onShowDaySummary} userid={userid}/>
       }
 
       return (
@@ -35,11 +40,10 @@ class WorkingHoursSummary extends React.Component {
     })
   }
 
-  _getMonthHtml(styles, m) {
+  _getMonthHtml(styles, userid, m) {
     let weekWise = _.chunk(m, 7)
     return _.map(weekWise, (week, key) => {
-
-      let weekHtml = this._getWeekHtml(week)
+      let weekHtml = this._getWeekHtml(userid, week)
       return (
         <div key={key} className="fc-row fc-week fc-widget-content" style={styles.height100per}>
           <div className="fc-bg">
@@ -60,17 +64,18 @@ class WorkingHoursSummary extends React.Component {
 
   _onChangeMonth(check) {
     if (check == 'previous') {
-      this.props.onWorkingHoursSummary(this.props.workingHoursSummary.previousMonth.year, this.props.workingHoursSummary.previousMonth.month)
+      this.props.monthToggle(this.props.monthlyAttendance.userid, this.props.monthlyAttendance.previousMonth.year, this.props.monthlyAttendance.previousMonth.month)
     } else if (check == 'next') {
-      this.props.onWorkingHoursSummary(this.props.workingHoursSummary.nextMonth.year, this.props.workingHoursSummary.nextMonth.month)
+      this.props.monthToggle(this.props.monthlyAttendance.userid, this.props.monthlyAttendance.nextMonth.year, this.props.monthlyAttendance.nextMonth.month)
     }
 
   }
 
   render() {
 
+    let user_id = this.props.monthlyAttendance.userid;
     let styles = _.cloneDeep(this.constructor.styles);
-    let calendarStructure = this._getMonthHtml(styles, this.props.workingHoursSummary.monthSummary)
+    let calendarStructure = this._getMonthHtml(styles, user_id, this.props.monthlyAttendance.attendance)
 
     return (
       <div >
@@ -96,14 +101,18 @@ class WorkingHoursSummary extends React.Component {
                   <div className="fc-center">
 
                     <h2>
-                      {this.props.workingHoursSummary.monthName}
-                      -{this.props.workingHoursSummary.year}</h2>
+                      {this.props.monthlyAttendance.monthName}
+                      {this.props.monthlyAttendance.year}</h2>
 
                   </div>
                   <div className="fc-clear"></div>
                 </div>
 
                 <br/>
+
+                <UserDetails {...this.props }/>
+
+                <MonthSummary {...this.props }/>
 
                 <div className="fc-view-container">
                   <div className="fc-view fc-month-view fc-basic-view">
@@ -139,10 +148,10 @@ class WorkingHoursSummary extends React.Component {
   }
 }
 
-WorkingHoursSummary.styles = {
+UserMonthlyAttendance.styles = {
   height100per: {
     'minHeight': '150px'
   }
 };
 
-export default WorkingHoursSummary
+export default UserMonthlyAttendance
