@@ -1,23 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Input = ({ ref, placeHolder, onchange, id, name, value, style }) => (
-  <input
-    type="text"
-    className="form-control"
-    ref={ref}
-    placeholder={placeHolder}
-    onChange={onchange}
-    id={id} required
-    name={name}
-    value={value}
-    style={style}
-  />
-);
+const InputText = ({ className, ref, placeHolder, onchange, id, name, value, style }) => {
+  let classname = 'form-control' + (className || '');
+  return (
+    <input
+      type="text"
+      className={classname}
+      ref={ref}
+      placeholder={placeHolder}
+      onChange={onchange}
+      id={id} required
+      name={name}
+      value={value}
+      style={style}
+    />
+  );
+};
 
-export default Input;
+export default InputText;
 
-Input.PropTypes = {
+InputText.PropTypes = {
+  className: PropTypes.string.isRequired,
   placeHolder: PropTypes.string.isRequired,
   onchange: PropTypes.func.isRequired,
   id: PropTypes.number,
