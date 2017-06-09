@@ -5,6 +5,7 @@ import LoadingIcon from '../../components/generic/LoadingIcon';
 import Paper from 'material-ui/Paper';
 var moment = require('moment');
 import { CONFIG } from '../../config/index';
+import UsersList from 'components/generic/UsersList';
 
 export default class ViewUserDevice extends React.Component {
   constructor (props) {

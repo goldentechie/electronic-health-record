@@ -1,10 +1,11 @@
-import { createAction } from 'redux-actions'
-import * as _ from 'lodash'
-import * as jwt from 'jwt-simple'
-import { CONFIG } from 'src/config/index'
-import {fireAjax} from 'src/services/index'
-import * as constants from 'appRedux/constants'
-import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend'
+import { createAction } from 'redux-actions';
+import * as _ from 'lodash';
+import * as jwt from 'jwt-simple';
+import { CONFIG } from 'src/config/index';
+import {fireAjax} from 'src/services/index';
+import * as constants from 'appRedux/constants';
+import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
+
 
 export function login_sucess (data) {
   return createAction(constants.ACTION_LOGIN_SUCCESS)(data)
@@ -100,13 +101,13 @@ export function logout () {
         (json) => {
           // localStorage.setItem('hr_logged_user', '')
           // localStorage.setItem('userid', '')
-          localStorage.clear()
+          localStorage.clear();
           dispatch(logout_sucess())
         },
         (error) => {
           // localStorage.setItem('hr_logged_user', '')
           // localStorage.setItem('userid', '')
-          localStorage.clear()
+          localStorage.clear();
           dispatch(logout_sucess())
         }
       )

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import React, {PropTypes} from 'react';
 import { CONFIG } from '../../config/index';
+import * as actions_login from 'appRedux/auth/actions/index';
 import LoadingIcon from '../../components/generic/LoadingIcon';
 
 export default class DeviceCounter extends React.Component {
