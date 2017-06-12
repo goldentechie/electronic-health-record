@@ -4,7 +4,6 @@ import {withRouter} from 'react-router';
 import * as _ from 'lodash';
 import {notify} from 'src/services/index';
 import { CONFIG } from 'src/config/index';
-import {isNotUserValid} from 'src/services/generic';
 import Menu from 'src/components/generic/Menu';
 import LoadingIcon from 'components/generic/LoadingIcon';
 import Header from 'components/generic/Header';
@@ -24,9 +23,6 @@ class Holidays extends React.Component {
   }
   componentWillReceiveProps (props) {
     // window.scrollTo(0, 0);
-    if (isNotUserValid(this.props.route.path)) {
-      this.props.router.push('/logout');
-    }
     if (props.logged_user.logged_in == -1) {
       this.props.router.push('/logout');
     } else {
@@ -42,7 +38,7 @@ class Holidays extends React.Component {
   render () {
     return (
       <div>
-        <Menu {...this.props} />0
+        <Menu {...this.props} />
         <div id="content" className="app-content box-shadow-z0" role="main">
           <Header pageTitle={'Holidays List'} showLoading={this.props.frontend.show_loading} />
           <div className="app-footer">
