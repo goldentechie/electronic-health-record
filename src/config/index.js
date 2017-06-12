@@ -1,4 +1,4 @@
-const token = localStorage.getItem('hr_logged_user')
+const token = localStorage.getItem('hr_logged_user');
 export const CONFIG = {
   ADMIN: 'Admin',
   HR: 'HR',
@@ -6,6 +6,7 @@ export const CONFIG = {
   EMPLOYEE: 'Employee',
   WORKING_DAY: 'WORKING_DAY',
   LEAVE_DAY: 'LEAVE_DAY',
+  DEFAULT_PASSWORD: 'java@123',
   // dev apis
   api_url: 'http://dev.hr.excellencetechnologies.in/hr/attendance/API_HR/api.php',
   other_api_url: 'http://dev.hr.excellencetechnologies.in/hr/attendance/sal_info/api.php',
@@ -32,6 +33,6 @@ export const CONFIG = {
   // upload_email_attachment: 'https://hr.excellencetechnologies.in/attendance/sal_info/upload_file_attachment.php',
   // transfer_link: 'https://hr.excellencetechnologies.in/attendance/sal_info/display_user_info.php',
 
-  jwt_secret_key: 'HR_APP'
-
-}
+  jwt_secret_key: 'HR_APP',
+  ROLEPAGES: ''
+};

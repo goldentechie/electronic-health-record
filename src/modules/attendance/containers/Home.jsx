@@ -4,6 +4,7 @@ import {withRouter} from 'react-router';
 import * as _ from 'lodash';
 import {notify} from 'src/services/index';
 import {CONFIG} from 'src/config/index';
+import {isNotUserValid} from 'src/services/generic';
 import Menu from 'src/components/generic/Menu';
 import UsersList from 'components/generic/UsersList';
 import Header from 'components/generic/Header';
@@ -43,14 +44,17 @@ class Home extends React.Component {
   }
   componentWillReceiveProps (props) {
     // window.scrollTo(0, 0);
-    if (props.logged_user.logged_in == -1) {
+    if (isNotUserValid(this.props.route.path)) {
+      this.props.router.push('/logout');
+    }
+    if (props.logged_user.logged_in === -1) {
       this.props.router.push('/logout');
     } else {
-      if (props.logged_user.role == CONFIG.ADMIN || props.logged_user.role == CONFIG.GUEST) {
+      if (props.logged_user.role === CONFIG.ADMIN || props.logged_user.role === CONFIG.GUEST) {
 
-      } else if (props.logged_user.role == CONFIG.HR) {
+      } else if (props.logged_user.role === CONFIG.HR) {
         // this.props.onUsersList( )
-        let unread = _.filter(props.policy_documents.policyDocuments, function (o) { return o.read == 0; }) || [];
+        let unread = _.filter(props.policy_documents.policyDocuments, function (o) { return o.read === 0; }) || [];
         if (unread.length > 0) {
           this.props.router.push('/policy_documents');
         }
@@ -59,11 +63,11 @@ class Home extends React.Component {
       }
     }
 
-    if (props.userDaySummary.status_message != '') {
+    if (props.userDaySummary.status_message !== '') {
       notify(props.userDaySummary.status_message);
     }
 
-    if (this.state.defaultUserDisplay == '') {
+    if (this.state.defaultUserDisplay === '') {
       if (props.usersList.users.length > 0) {
         let firstUser = props.usersList.users[0];
         let defaultUserId = firstUser.user_Id;
