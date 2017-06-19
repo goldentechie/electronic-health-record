@@ -45,7 +45,8 @@ import Page_MyDocuments from './modules/myDocuments/containers/myDocuments';
 import PageManageUsers from './modules/manageUsers/containers/manageUsers';
 import Page_ManageWorkingHours from './modules/workingHours/containers/manageWorkingHours';
 import Page_ManageUserWorkingHours from './modules/workingHours/containers/manageUserWorkingHours';
-import PageManageRoles from './modules/manageRoles/containers/manageRoles';
+import Page_InventorySystem from './modules/inventory/containers/manageInventory';
+import Page_MyInventory from './modules/inventory/containers/myInventory';
 // -----------------------------
 
 // -admin
@@ -54,11 +55,9 @@ import PageDisabledEmployes from 'modules/manageUsers/containers/disabledEmploye
 import Page_mail_template from './containers/admin/addTemplate';
 import Page_AddVariables from './containers/admin/addVariables';
 import Page_TeamView from './containers/admin/viewTeam';
-import Page_InventorySystem from './containers/admin/manageInventory';
 
 // -user
 import Page_MyProfile from './containers/user/myProfile';
-import Page_MyInventory from './containers/user/myInventory';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import 'whatwg-fetch';
 // -for iPhone iPad safari engine
@@ -164,7 +163,6 @@ let render = (routerKey = null) => {
             <Route path="my_profile" component={Page_MyProfile} />
             <Route path="my_inventory" component={Page_MyInventory} />
             <Route path="manage_users" component={PageManageUsers} />
-            <Route path="manage_roles" component={PageManageRoles} />
             <Route path="manage_clients" component={Page_ManageClients} />
             <Route path="manage_payslips" component={Page_ManagePayslips} />
             <Route path="forgot_password" component={Page_ForgotPassword} />

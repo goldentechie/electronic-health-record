@@ -1,7 +1,7 @@
 .DS_STORE
 *.log
-src/static
+
 node_modules
 
-/dist
+dist
 coverage
