@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router';
-import {CONFIG} from 'src/config/';
-import LoggedUserInfo from 'components/menu/LoggedUserInfo';
+import {CONFIG} from '../../config/index';
+import LoggedUserInfo from '../../components/menu/LoggedUserInfo';
 
 class Menu extends React.Component {
   constructor (props) {
     super(props);
-    this.state = {
-      role: props.logged_user.role
-    };
+    this.state = { role: props.logged_user.role };
     this.click = this.click.bind(this);
   }
   click (a) {
@@ -56,7 +54,6 @@ class Menu extends React.Component {
     let linkTemplateVariable = <Link to='/add_variables'>Add Variables</Link>;
     let linkTeamView = <Link to='/team_view'>Team</Link>;
     let linkInventorySystem = <Link to='/inventory_system'>Inventory</Link>;
-    let linkManagePendingHours = <Link to='/manage_user_pending_hours'>Pending Hours</Link>;
 
     let linksToShow = <ul className="nav">
       <li className="hidden-folded"><span>{linkMyCalendar}</span></li>
@@ -67,7 +64,6 @@ class Menu extends React.Component {
       <li className="hidden-folded"><span>{linkMyProfile}</span></li>
       <li className="hidden-folded"><span>{linkMyInventory}</span></li>
       <li className="hidden-folded"><span>{linkInventorySystem}</span></li>
-      <li className="hidden-folded"><span>{linkManagePendingHours}</span></li>
       <li className="hidden-folded"><span>{linkDocuments}</span></li>
       <li className="hidden-folded"><span>{linkPolicyDocuments}</span></li>
       <li className="hidden-folded"><span>{linkLogout}</span></li>
@@ -75,29 +71,40 @@ class Menu extends React.Component {
     if (this.props.logged_user.role === CONFIG.ADMIN) {
       linksToShow = <ul className="nav">
         <li id="Attendance" onClick={() => { let a = 'Attendance'; this.click(a); }} className="">
-          <a><span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span><span className="nav-text">Attendance</span></a>
+          <a>
+            <span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span>
+            <span className="nav-text">Attendance</span>
+          </a>
           <ul className="nav-sub">
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkUsersList}</span></li>
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkUserAttendanceUpload}</span></li>
           </ul>
         </li>
         <li id="ManageEmp" onClick={() => { let m = 'ManageEmp'; this.click(m); }} className="">
-          <a><span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span><span className="nav-text">Manage Employees</span></a>
+          <a>
+            <span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span>
+            <span className="nav-text">Manage Employees</span>
+          </a>
           <ul className="nav-sub">
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkManageUsers}</span></li>
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkDisabledEmployes}</span></li>
           </ul>
         </li>
         <li id="ManageHour" onClick={() => { let h = 'ManageHour'; this.click(h); }} className="">
-          <a><span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span><span className="nav-text">Manage Hours</span></a>
+          <a>
+            <span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span>
+            <span className="nav-text">Manage Hours</span>
+          </a>
           <ul className="nav-sub">
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkManageWorkingHours}</span></li>
-            <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkManagePendingHours}</span></li>
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkManageUserWorkingHours}</span></li>
-        </ul>
+          </ul>
         </li>
         <li id="ManageLeave" onClick={() => { let l = 'ManageLeave'; this.click(l); }} className="">
-          <a><span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span><span className="nav-text">Manage Leaves</span></a>
+          <a>
+            <span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span>
+            <span className="nav-text">Manage Leaves</span>
+          </a>
           <ul className="nav-sub">
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkManageLeaves}</span></li>
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkLeavesSummary}</span></li>
@@ -105,7 +112,10 @@ class Menu extends React.Component {
           </ul>
         </li>
         <li id="ManageSalary" onClick={() => { let s = 'ManageSalary'; this.click(s); }} className="">
-          <a><span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span><span className="nav-text">Manage Salary</span></a>
+          <a>
+            <span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span>
+            <span className="nav-text">Manage Salary</span>
+          </a>
           <ul className="nav-sub">
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkManageSalary}</span></li>
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkViewSalary}</span></li>
@@ -113,14 +123,20 @@ class Menu extends React.Component {
           </ul>
         </li>
         <li id="Templates" onClick={() => { let t = 'Templates'; this.click(t); }} className="">
-          <a><span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span><span className="nav-text">Templates</span></a>
+          <a>
+            <span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span>
+            <span className="nav-text">Templates</span>
+          </a>
           <ul className="nav-sub">
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkMailTemplates}</span></li>
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkTemplateVariable}</span></li>
           </ul>
         </li>
         <li id="PolicyDocs" onClick={() => { let p = 'PolicyDocs'; this.click(p); }} className="">
-          <a><span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span><span className="nav-text">Policy Documents</span></a>
+          <a>
+            <span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span>
+            <span className="nav-text">Policy Documents</span>
+          </a>
           <ul className="nav-sub">
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkUploadPolicyDocument}</span></li>
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600, 'display': 'none'}}>{linkUserPolicyDocument}</span></li>
@@ -161,13 +177,19 @@ class Menu extends React.Component {
           </ul>
         </li>
         <li id="ManageSalary"onClick={() => { let s = 'ManageSalary'; this.click(s); }} className="">
-          <a><span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span><span className="nav-text">Manage Salary</span></a>
+          <a>
+            <span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span>
+            <span className="nav-text">Manage Salary</span>
+          </a>
           <ul className="nav-sub">
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkManageSalary}</span></li>
           </ul>
         </li>
         <li id="Templates" onClick={() => { let t = 'Templates'; this.click(t); }} className="">
-          <a><span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span><span className="nav-text">Templates</span></a>
+          <a>
+            <span className="nav-caret text-muted"><i className="fa fa-caret-down"></i></span>
+            <span className="nav-text">Templates</span>
+          </a>
           <ul className="nav-sub">
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkMailTemplates}</span></li>
             <li className="hidden-folded"><span style={{'fontSize': 11, 'fontWeight': 600}}>{linkTemplateVariable}</span></li>
@@ -200,7 +222,7 @@ class Menu extends React.Component {
           <div className="hide-scroll">
             <nav className="scroll nav-light">{linksToShow}</nav>
           </div>
-          <LoggedUserInfo loggedUser={this.props.logged_user} />
+          <LoggedUserInfo {...this.props} />
         </div>
       </div>
     );
