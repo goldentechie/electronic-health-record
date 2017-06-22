@@ -45,11 +45,12 @@ import Page_MyDocuments from './modules/myDocuments/containers/myDocuments';
 import PageManageUsers from './modules/manageUsers/containers/manageUsers';
 import Page_ManageWorkingHours from './modules/workingHours/containers/manageWorkingHours';
 import Page_ManageUserWorkingHours from './modules/workingHours/containers/manageUserWorkingHours';
-import PageManageRoles from './modules/manageRoles/containers/manageRoles';
+import Page_ManageUserPendingHours from './modules/workingHours/containers/manageUserPendingHours';
+
 // -----------------------------
 
 // -admin
-import Page_ManageClients from './containers/admin/manageClients';
+import PageManageClients from 'modules/manageClients/containers/manageClients';
 import PageDisabledEmployes from 'modules/manageUsers/containers/disabledEmployes';
 import Page_mail_template from './containers/admin/addTemplate';
 import Page_AddVariables from './containers/admin/addVariables';
@@ -140,6 +141,7 @@ applyMiddleware(thunk),
 
 // --start----added by arun for HR app
 let render = (routerKey = null) => {
+  // console.log('aaaaa');
   ReactDOM.render((
     <MuiThemeProvider>
       <Provider store={store}>
@@ -158,14 +160,14 @@ let render = (routerKey = null) => {
             <Route path="my_leaves" component={Page_MyLeaves} />
             <Route path="disabled_employes" component={PageDisabledEmployes} />
             <Route path="manage_user_working_hours" component={Page_ManageUserWorkingHours} />
+            <Route path="manage_user_pending_hours" component={Page_ManageUserPendingHours} />
             <Route path="leaves_summary" component={Page_LeavesSummary} />
             <Route path="salary" component={Page_Salary} />
             <Route path="manage_salary" component={Page_ManageSalary} />
             <Route path="my_profile" component={Page_MyProfile} />
             <Route path="my_inventory" component={Page_MyInventory} />
             <Route path="manage_users" component={PageManageUsers} />
-            <Route path="manage_roles" component={PageManageRoles} />
-            <Route path="manage_clients" component={Page_ManageClients} />
+            <Route path="manage_clients" component={PageManageClients} />
             <Route path="manage_payslips" component={Page_ManagePayslips} />
             <Route path="forgot_password" component={Page_ForgotPassword} />
             <Route path="documents" component={Page_MyDocuments} />
