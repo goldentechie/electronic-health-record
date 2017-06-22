@@ -1,13 +1,14 @@
-import React from 'react';
+import React from 'react'
 
 class UserHorizontalView extends React.Component {
   constructor (props) {
-    super(props);
+    super(props)
   }
   componentWillReceiveProps (props) {}
 
   render () {
     return (
+
       <div className="item">
         <div className="item-bg">
           <img src={this.props.profileImage} className="blur opacity-3" />
@@ -31,8 +32,10 @@ class UserHorizontalView extends React.Component {
                     <span className="m-r">Joining Date : {this.props.dateofjoining}</span>
                   </p>
                 }
+
               </div>
             </div>
+
             {this.props.inventory ? null
               : <div className="col-sm-5">
                 <p className="text-muted">
@@ -52,10 +55,12 @@ class UserHorizontalView extends React.Component {
                 </p>
               </div>
             }
+
           </div>
         </div>
       </div>
-    );
+
+    )
   }
 }
 UserHorizontalView.propTypes = {
@@ -65,5 +70,5 @@ UserHorizontalView.propTypes = {
   dob: React.PropTypes.string,
   Gender: React.PropTypes.string,
   Email: React.PropTypes.string
-};
-export default UserHorizontalView;
+}
+export default UserHorizontalView
