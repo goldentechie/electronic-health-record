@@ -5,21 +5,15 @@ import {Router, browserHistory, Link, withRouter} from 'react-router';
 
 import * as _ from 'lodash';
 import {notify} from '../../services/index';
+
+import Menu from '../../components/generic/Menu';
 import LoadingIcon from './LoadingIcon';
 
 class Header extends React.Component {
   constructor (props) {
     super(props);
-    this.state = {
-
-    };
   }
-  componentWillMount () {
 
-  }
-  componentWillReceiveProps (props) {
-
-  }
   render () {
     return (
           <div className="app-header white box-shadow m-b">
