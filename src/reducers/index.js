@@ -20,7 +20,6 @@ import { manageSalary } from 'appRedux/salary/reducers/manageSalary';
 import { myProfile } from './user/myProfile';
 import { myDocument } from './user/myDocument';
 import { manageUsers } from './admin/manageUsers';
-import { manageRoles } from 'appRedux/manageRoles/reducers/manageRoles';
 import { clientsList } from './admin/clientsList';
 import { manageClients } from 'appRedux/manageClients/reducers/manageClients';
 import { managePayslips } from 'appRedux/salary/reducers/managePayslips';
@@ -51,7 +50,6 @@ export default combineReducers({
   myProfile,
   myDocument,
   manageUsers,
-  manageRoles,
   clientsList,
   manageClients,
   managePayslips,
