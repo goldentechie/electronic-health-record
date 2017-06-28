@@ -4,7 +4,6 @@ import {withRouter} from 'react-router';
 import * as _ from 'lodash';
 import {notify} from 'src/services/index';
 import {CONFIG} from 'src/config/index';
-import {isNotUserValid} from 'src/services/generic';
 import Menu from 'src/components/generic/Menu';
 import UsersList from 'components/generic/UsersList';
 import Header from 'components/generic/Header';
@@ -44,9 +43,6 @@ class Home extends React.Component {
   }
   componentWillReceiveProps (props) {
     // window.scrollTo(0, 0);
-    if (isNotUserValid(this.props.route.path)) {
-      this.props.router.push('/home');
-    }
     if (props.logged_user.logged_in === -1) {
       this.props.router.push('/logout');
     } else {

@@ -1,18 +1,19 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Router, browserHistory, Link, withRouter} from 'react-router';
+
 import * as _ from 'lodash';
 import {notify} from '../../services/index';
-import {isNotUserValid} from 'src/services/generic';
+
 import Menu from '../../components/generic/Menu';
 import LoadingIcon from '../../components/generic/LoadingIcon';
-import UserHorizontalView from '../../components/generic/UserHorizontalView';
+import UserHorizontalView from 'components/generic/UserHorizontalView';
 import Header from '../../components/generic/header';
 
 import FormProfileDetails from '../../components/myProfile/FormProfileDetails';
 import FormBankDetails from '../../components/myProfile/FormBankDetails';
 import FormUpdatePassword from '../../components/myProfile/FormUpdatePassword';
-import FormDeviceDetails from '../../components/myProfile/FormDeviceDetails';
+import DeviceDetails from 'components/inventory/deviceDetails';
 
 import * as actions_login from 'appRedux/auth/actions/index';
 import * as actions_policy from 'appRedux/policyDocuments/actions/index';
@@ -43,9 +44,6 @@ class MyProfile extends React.Component {
     this.props.onSalaryDetails();
   }
   componentWillReceiveProps (props) {
-    if (isNotUserValid(this.props.route.path)) {
-      this.props.router.push('/home');
-    }
     if (props.logged_user.logged_in == -1) {
       this.props.router.push('/logout');
     } else {
@@ -115,7 +113,7 @@ class MyProfile extends React.Component {
                     <br />
                     <br />
                     <br />
-                <FormDeviceDetails user_assign_machine={this.state.user_assign_machine} callUpdateUserDeviceDetails={this.callUpdateUserDeviceDetails} />
+                <DeviceDetails user_assign_machine={this.state.user_assign_machine} callUpdateUserDeviceDetails={this.callUpdateUserDeviceDetails} />
                 </div>
                 <div className="col-xs-6 p-t p-l">
                   <FormBankDetails user_bank_detail={this.state.user_bank_detail} callUpdateBankDetails={this.callUpdateBankDetails} />

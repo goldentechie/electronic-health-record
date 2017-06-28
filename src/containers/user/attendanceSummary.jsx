@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import _ from 'lodash';
-import {isNotUserValid} from 'src/services/generic';
 import Menu from 'src/components/generic/Menu';
 import LoadingIcon from 'components/generic/LoadingIcon';
 import * as actions_attendanceSummary from 'appRedux/attendance/actions/attendanceSummary';
@@ -12,9 +11,6 @@ class AttendanceSummary extends React.Component {
     super(props);
   }
   componentWillMount () {
-    if (isNotUserValid(this.props.route.path)) {
-      this.props.router.push('/home');
-    }
     if (this.props.logged_user.logged_in != 1) {
       this.props.router.push('/');
     } else {
@@ -51,14 +47,14 @@ class AttendanceSummary extends React.Component {
     if (d.extra_time_status == '-') {
       extraTime = <a className="fc-day-grid-event fc-h-event fc-event fc-start fc-end red fc-draggable">
             <div className="fc-content">
-              <span className="fc-time">                                                                                                                                                                                                                                                  {d.extra_time}</span>
+              <span className="fc-time">                                                                                                                                                                                                                    {d.extra_time}</span>
               <span className="fc-title"></span>
             </div>
           </a>;
     } else if (d.extra_time_status == '+') {
       extraTime = <a className="fc-day-grid-event fc-h-event fc-event fc-start fc-end green fc-draggable">
             <div className="fc-content">
-              <span className="fc-time">                                                                                                                                                                                                                                                  {d.extra_time}</span>
+              <span className="fc-time">                                                                                                                                                                                                                    {d.extra_time}</span>
               <span className="fc-title"></span>
             </div>
           </a>;
@@ -71,7 +67,7 @@ class AttendanceSummary extends React.Component {
 
           <a className="fc-day-grid-event fc-h-event fc-event fc-start fc-end white fc-draggable">
             <div className="fc-content">
-              <span className="fc-title">                                                                                                                                                                                                                                                  {d.in_time}</span>
+              <span className="fc-title">                                                                                                                                                                                                                    {d.in_time}</span>
             </div>
           </a>
 
@@ -113,7 +109,7 @@ class AttendanceSummary extends React.Component {
 
           <a className="fc-day-grid-event fc-h-event fc-event fc-start fc-end yellow fc-draggable">
             <div className="fc-content">
-              <span className="fc-title"> Non working day                                                                                                                                                                                                                                                  </span>
+              <span className="fc-title"> Non working day                                                                                                                                                                                                                    </span>
               <span className="fc-title"></span>
             </div>
           </a>
@@ -195,14 +191,14 @@ class AttendanceSummary extends React.Component {
           <a className="fc-day-grid-event fc-h-event fc-event fc-start fc-end red-100 fc-draggable">
             <div className="fc-content">
               <span className="fc-time"> </span>
-              <span className="fc-title"> {d.out_time}                                                                                                                                                                                                                                                  </span>
+              <span className="fc-title"> {d.out_time}                                                                                                                                                                                                                    </span>
             </div>
           </a>
 
           <a className="fc-day-grid-event fc-h-event fc-event fc-start fc-end red-100 fc-draggable">
             <div className="fc-content">
               <span className="fc-time">{d.day_text} </span>
-              <span className="fc-title">                                                                                                                                                                                                                                                  </span>
+              <span className="fc-title">                                                                                                                                                                                                                    </span>
             </div>
           </a>
 
@@ -297,10 +293,10 @@ class AttendanceSummary extends React.Component {
                 {userData.name}
                 <span className="text-sm"> </span></h4>
 
-              <small className="text-muted"> {userData.jobtitle}                                                                                                                                                                                                                                                  </small><br /><br />
-              <small className="text-muted"> Total Working Hours - {userData.monthSummary.actual_working_hours}                                                                                                                                                                                                                                                  </small><br />
-              <small className="text-muted"> Completed - {userData.monthSummary.completed_working_hours}                                                                                                                                                                                                                                                  </small><br />
-              <small className="text-muted"> Pending - {userData.monthSummary.pending_working_hours}                                                                                                                                                                                                                                                  </small><br />
+              <small className="text-muted"> {userData.jobtitle}                                                                                                                                                                                                                    </small><br /><br />
+              <small className="text-muted"> Total Working Hours - {userData.monthSummary.actual_working_hours}                                                                                                                                                                                                                    </small><br />
+              <small className="text-muted"> Completed - {userData.monthSummary.completed_working_hours}                                                                                                                                                                                                                    </small><br />
+              <small className="text-muted"> Pending - {userData.monthSummary.pending_working_hours}                                                                                                                                                                                                                    </small><br />
             </div>
           </div>
       </div>
