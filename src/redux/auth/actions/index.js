@@ -37,7 +37,6 @@ export function isAlreadyLogin () {
     let token = localStorage.getItem('hr_logged_user');
     if (typeof token !== 'undefined' && token != null && token != '') {
       let tokenData = jwt.decode(token, 'HR_APP');
-      // console.log(tokenData, 'log1');
       localStorage.setItem('userid', tokenData.id);
       dispatch(login_sucess(tokenData));
 			// return token
@@ -61,13 +60,13 @@ export function login (username, password) {
       dispatch(show_loading()); // show loading icon
       loginAsync(username, password).then(
 				(json) => {
-  // console.log(json)
   dispatch(hide_loading()); // hide loading icon
   if (json.error == 0) {
     let token = json.data.token;
     localStorage.setItem('hr_logged_user', token);
     localStorage.setItem('userid', json.data.userid);
     let tokenData = jwt.decode(token, CONFIG.jwt_secret_key);
+    CONFIG.PAGEROLES = tokenData.role_pages;
     dispatch(login_sucess(tokenData));
 		 			} else {
 		 				dispatch(login_fail({}));
