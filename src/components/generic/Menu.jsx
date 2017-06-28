@@ -69,6 +69,7 @@ class Menu extends React.Component {
       <li className="hidden-folded"><span>{linkSalary}</span></li>
       <li className="hidden-folded"><span>{linkMyProfile}</span></li>
       <li className="hidden-folded"><span>{linkMyInventory}</span></li>
+      <li className="hidden-folded"><span>{linkInventorySystem}</span></li>
       <li className="hidden-folded"><span>{linkManagePendingHours}</span></li>
       <li className="hidden-folded"><span>{linkDocuments}</span></li>
       <li className="hidden-folded"><span>{linkPolicyDocuments}</span></li>

@@ -8,21 +8,20 @@ export function notify (text) {
 export function fireAjax (method, url, data) {
   let URL = CONFIG.api_url + url;
   let headers = {};
-  let action = data.action;
   if (method == 'GET') {
     headers = {
       method: 'GET',
-      mode:   'cors',
-      cache:  'no-cache'
+      mode: 'cors',
+      cache: 'no-cache'
     };
   } else if (method == 'POST') {
     let token = localStorage.getItem('hr_logged_user');
     data.token = token;
     headers = {
       method: 'POST',
-      mode:   'cors',
-      cache:  'no-cache',
-      body:   JSON.stringify(data)
+      mode: 'cors',
+      cache: 'no-cache',
+      body: JSON.stringify(data)
     };
   }
 
@@ -38,9 +37,9 @@ export function fireAjax (method, url, data) {
     data.token = token;
     headers = {
       method: 'POST',
-      mode:   'cors',
-      cache:  'no-cache',
-      body:   JSON.stringify(data)
+      mode: 'cors',
+      cache: 'no-cache',
+      body: JSON.stringify(data)
     };
     URL = CONFIG.api_url_salary + '/add_sal_structure.php';
   } else if (data.action == 'add_user_holding') {
@@ -49,9 +48,9 @@ export function fireAjax (method, url, data) {
     data.token = token;
     headers = {
       method: 'POST',
-      mode:   'cors',
-      cache:  'no-cache',
-      body:   JSON.stringify(data)
+      mode: 'cors',
+      cache: 'no-cache',
+      body: JSON.stringify(data)
     };
     URL = CONFIG.api_url_salary + '/add_holding_info.php';
   }
@@ -80,21 +79,19 @@ export function fireAjax (method, url, data) {
     data.token = token;
     headers = {
       method: 'POST',
-      mode:   'cors',
-      cache:  'no-cache',
-      body:   JSON.stringify(data)
+      mode: 'cors',
+      cache: 'no-cache',
+      body: JSON.stringify(data)
     };
     URL = CONFIG.other_api_url;
-  } else if (data.action == 'admin_user_apply_leave' || data.action == 'change_employee_status' || data.action == 'show_disabled_users' ||
-  data.action == 'add_roles' || data.action == 'list_all_roles' || data.action == 'update_role' || data.action == 'assign_user_role' ||
-  data.action == 'delete_role') {
+  } else if (data.action == 'admin_user_apply_leave' || data.action == 'change_employee_status' || data.action == 'show_disabled_users' || data.action == 'add_roles' || data.action == 'list_all_roles' || data.action == 'update_role' || data.action == 'assign_user_role' || data.action == 'delete_role') {
     let token = localStorage.getItem('hr_logged_user');
     data.token = token;
     headers = {
       method: 'POST',
-      mode:   'cors',
-      cache:  'no-cache',
-      body:   JSON.stringify(data)
+      mode: 'cors',
+      cache: 'no-cache',
+      body: JSON.stringify(data)
     };
     URL = CONFIG.api_url;
   }
@@ -108,14 +105,9 @@ export function fireAjax (method, url, data) {
       });
     } else if (response.status === 401) {
       // alert('401 hai ')	;
-      if (action === 'login') {
-        notify('Unauthorized Action login- Contact Admin!!');
-        localStorage.removeItem('hr_logged_user');
-        location.href = CONFIG.login_page_url;
-      } else {
-        notify('Unauthorized Action ' + action + ' - Contact Admin!!');
-        location.href = CONFIG.BASE_URL + '/#/home';
-      }
+      localStorage.removeItem('hr_logged_user');
+      let login_page_url = CONFIG.login_page_url;
+      location.href = login_page_url;
     } else {
       return response.json();
     }
