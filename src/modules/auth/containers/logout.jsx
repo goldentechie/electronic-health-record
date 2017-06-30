@@ -1,8 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import * as actions_login from 'appRedux/auth/actions/index';
-import {notify} from 'src/services/index';
+import * as actions from 'appRedux/actions';
 
 class Logout extends React.Component {
   constructor (props) {
@@ -33,7 +32,7 @@ function mapStateToProps (state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogout: () => {
-      return dispatch(actions_login.logout());
+      return dispatch(actions.requestLogout());
     }
   };
 };

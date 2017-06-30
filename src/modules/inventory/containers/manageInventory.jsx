@@ -2,8 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import _ from 'lodash';
+import {CONFIG} from 'src/config/index';
 import {notify} from 'src/services/index';
-import {isNotUserValid} from 'src/services/generic';
 import Menu from 'src/components/generic/Menu';
 import LoadingIcon from 'components/generic/LoadingIcon';
 import Header from 'components/generic/Header';
@@ -59,9 +59,14 @@ class InventorySystem extends React.Component {
   }
   componentWillReceiveProps (props) {
     window.scrollTo(0, 0);
-    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
-    if (isNotValid.status) {
-      this.props.router.push(isNotValid.redirectTo);
+
+    if (props.logged_user.logged_in === -1) {
+      this.props.router.push('/logout');
+    } else {
+      if (props.logged_user.role === CONFIG.ADMIN || props.logged_user.role === CONFIG.HR || localStorage.getItem('userid') === '375') {
+      } else {
+        this.props.router.push('/home');
+      }
     }
     this.setState({
       username:            props.manageUsers.username,
@@ -195,6 +200,7 @@ class InventorySystem extends React.Component {
     });
   }
   render () {
+    console.log(this.props, 'this.props');
     return (
       <div>
         <AlertNotification message={this.state.status_message} />
