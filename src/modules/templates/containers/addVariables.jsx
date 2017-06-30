@@ -1,8 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Router, withRouter } from 'react-router';
+import {connect} from 'react-redux';
+import {Router, withRouter} from 'react-router';
 import * as _ from 'lodash';
-import Menu from 'src/components/generic/Menu';
+import Menu from 'components/generic/Menu';
 import LoadingIcon from 'components/generic/LoadingIcon';
 import Header from 'components/generic/Header';
 import * as actions_login from 'appRedux/auth/actions/index';
@@ -52,9 +52,9 @@ class VariablesContainer extends React.Component {
 }
 function mapStateToProps (state) {
   return {
-    frontend: state.frontend.toJS(),
-    logged_user: state.logged_user.toJS(),
-    variable: state.template.toJS(),
+    frontend:         state.frontend.toJS(),
+    logged_user:      state.logged_user.toJS(),
+    variable:         state.template.toJS(),
     policy_documents: state.policyDocuments.toJS()
   };
 }
