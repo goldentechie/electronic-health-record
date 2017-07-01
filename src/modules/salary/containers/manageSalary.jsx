@@ -5,15 +5,15 @@ import moment from 'moment';
 import * as _ from 'lodash';
 import {notify} from 'src/services/index';
 import {CONFIG} from 'src/config/index';
-import Menu from 'src/components/generic/Menu';
-import LoadingIcon from 'components/generic/LoadingIcon';
+import Menu from 'components/generic/Menu';
+import {isNotUserValid} from 'src/services/generic';
 import Header from 'components/generic/Header';
 import UsersList from 'components/generic/UsersList';
 import UserSalaryHistory from 'components/salary/manageSalary/UserSalaryHistory';
 import UserHoldingHistory from 'components/salary/manageSalary/UserHoldingHistory';
 import FormAddHolding from 'modules/salary/components/manageSalary/FormAddHolding';
 import FormAddSalary from 'modules/salary/components/manageSalary/FormAddSalary';
-import * as actions from 'appRedux/actions';
+import * as actions_login from 'appRedux/auth/actions/index';
 import * as actions_usersList from 'appRedux/generic/actions/usersList';
 import * as actions_manageSalary from 'appRedux/salary/actions/manageSalary';
 
@@ -49,21 +49,14 @@ class ManageSalary extends React.Component {
   }
 
   componentWillReceiveProps (props) {
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
+    if (isNotValid.status) {
+      this.props.router.push(isNotValid.redirectTo);
+    }
     let userListHR = _.filter(this.props.usersList.users, (user) => {
       return (moment().diff(moment(user.dateofjoining), 'months') < 8);
     });
     this.setState({subList: userListHR});
-    // window.scrollTo(0, 0);
-    if (props.logged_user.logged_in == -1) {
-      this.props.router.push('/logout');
-    } else {
-      if (props.logged_user.role == CONFIG.ADMIN || props.logged_user.role == CONFIG.HR) {
-      } else {
-        this.props.router.push('/home');
-      }
-    }
-
-    // ////////////////
     let s_salary_history = [];
     let s_user_latest_salary_details = {};
     let s_holding_history = [];
@@ -218,7 +211,7 @@ function mapStateToProps (state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actions_login.isAlreadyLogin());
     },
     onUsersList: () => {
       return dispatch(actions_usersList.get_users_list());

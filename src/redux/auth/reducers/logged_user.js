@@ -1,28 +1,15 @@
 import Immutable from 'immutable';
-import {handleActions} from 'redux-actions';
-import update from 'immutability-helper';
 
-// let initialState = {
-//   userLogin: {
-//     data:       [],
-//     isLoggedIn: false,
-//     isLoading:  false,
-//     isError:    false,
-//     isSucess:   false,
-//     errors:     []
-//   }
-// };
 let initialState = {
-  login_status_message:  '',
-  forgotPasswordMessage: '',
-  logged_in:             0,
-  userid:                '-1',
-  username:              '-1',
-  role:                  '-1',
-  name:                  '-1',
-  jobtitle:              '-1',
-  profileImage:          ''
-
+  login_status_message: '',
+  logged_in:            0,
+  userid:               '-1',
+  username:             '-1',
+  role:                 '-1',
+  rolePages:            {},
+  name:                 '-1',
+  jobtitle:             '-1',
+  profileImage:         ''
 };
 
 export function logged_user (state = Immutable.Map(initialState), action) {
@@ -34,6 +21,7 @@ export function logged_user (state = Immutable.Map(initialState), action) {
         .set('userid', action.payload.id)
         .set('username', action.payload.username)
         .set('role', action.payload.role)
+        .set('rolePages', action.payload.role_pages)
         .set('name', action.payload.name)
         .set('jobtitle', action.payload.jobtitle)
         .set('profileImage', action.payload.profileImage)
@@ -45,19 +33,17 @@ export function logged_user (state = Immutable.Map(initialState), action) {
     return state.set('logged_in', -1)
         .set('login_status_message', action.payload)
         .set('stateTimestamp', timestamp);
-  } else if (action.type === 'LOGOUT_SUCCESS') {
+  } else if (action.type === 'ACTION_LOGOUT') {
     return state.set('logged_in', 0)
         .set('userid', '-1')
         .set('username', '-1')
         .set('role', '-1')
+        .set('rolePages', {})
         .set('name', '-1')
         .set('jobtitle', '-1')
         .set('profileImage', '')
         .set('login_status_message', '');
-  } else if (action.type === 'ACTION_SUCCESS_FORGOT_PASSWORD') {
-    return state.set('forgotPasswordMessage', action.payload);
   } else {
-    return state.set('login_status_message', '')
-      .set('forgotPasswordMessage', '');
+    return state.set('login_status_message', '');
   }
 }

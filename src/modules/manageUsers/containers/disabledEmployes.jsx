@@ -2,14 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import _ from 'lodash';
-import {CONFIG} from 'src/config/index';
-import Menu from 'src/components/generic/Menu';
+import Menu from 'components/generic/Menu';
+import {isNotUserValid} from 'src/services/generic';
 import Header from 'components/generic/Header';
 import UsersList from 'components/generic/UsersList';
 import DisabledUserDetails from 'components/manageUser/DisabledUserDetails';
 import UserPayslipsHistory from 'components/salary/managePayslips/UserPayslipsHistory';
 import UpdateEmployeeDocument from 'modules/manageUsers/components/UpdateEmployeeDocument';
-import * as actions from 'appRedux/actions';
+import * as actionsLogin from 'appRedux/auth/actions/index';
 import * as actionsDisabledEmployee from 'src/actions/user/usersList';
 import * as actionsManageUsers from 'appRedux/manageUsers/actions/manageUsers';
 import * as actionsManagePayslips from 'appRedux/salary/actions/managePayslips';
@@ -37,19 +37,13 @@ class PageDisabledEmployes extends React.Component {
   }
   componentWillMount () {
     window.scrollTo(0, 0);
-    if (this.props.logged_user.logged_in === -1) {
-      this.props.router.push('/logout');
-    } else {
-      this.props.onFetchDisabledEmployee();
-    }
+    this.props.onFetchDisabledEmployee();
   }
   componentWillReceiveProps (props) {
     window.scrollTo(0, 0);
-    if (props.logged_user.logged_in === -1) {
-      props.router.push('/logout');
-    }
-    if (props.logged_user.role === CONFIG.ADMIN || props.logged_user.role === CONFIG.HR) {} else {
-      this.props.router.push('/home');
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
+    if (isNotValid.status) {
+      this.props.router.push(isNotValid.redirectTo);
     }
     this.setState({
       user_payslip_history: props.managePayslips.user_payslip_history,
@@ -151,7 +145,7 @@ function mapStateToProps (state) {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    onIsAlreadyLogin:         () => { return dispatch(actions.isAlreadyLogin()); },
+    onIsAlreadyLogin:         () => { return dispatch(actionsLogin.isAlreadyLogin()); },
     onFetchDisabledEmployee:  () => { return dispatch(actionsDisabledEmployee.getDisabledUsersList()); },
     onChangeEmployeeStatus:   (userid, status) => { return dispatch(actionsManageUsers.changeEmployeeStatus(userid, status)); },
     onDeleteDocument:         (docId) => { return dispatch(actionsManageUsers.deleteDocument(docId)); },

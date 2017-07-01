@@ -1,13 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter, Link} from 'react-router';
-import * as _ from 'lodash';
 import {notify} from 'src/services/index';
 import {CONFIG} from 'src/config/index';
 import LoadingIcon from 'components/generic/LoadingIcon';
 import {Button} from 'components/generic/buttons';
 import * as actions_login from 'appRedux/auth/actions/index';
-import * as actions from 'appRedux/actions';
 
 class ForgotPassword extends React.Component {
   constructor (props) {
@@ -31,8 +29,8 @@ class ForgotPassword extends React.Component {
       this.setState({
         form_login_status: props.logged_user.login_status_message
       });
-      if (props.logged_user.forgotPasswordMessage != '') {
-        notify(props.logged_user.forgotPasswordMessage);
+      if (props.logged_user.login_status_message != '') {
+        notify(props.logged_user.login_status_message);
       }
     }
   }
@@ -42,14 +40,12 @@ class ForgotPassword extends React.Component {
     if (this.state.form_username == '') {
       alert('Enter username!!');
     } else {
-      this.props.onForgotPassword(this.state.form_username);
-      // .then(
-      //     (data) => {
-      //       console.log(data);
-      //       notify(data);
-      //     }, (error) => {
-      //       notify(error);
-      //     });
+      this.props.onForgotPassword(this.state.form_username).then(
+          (data) => {
+            notify(data);
+          }, (error) => {
+        notify(error);
+      });
     }
   }
   render () {
@@ -72,7 +68,7 @@ class ForgotPassword extends React.Component {
             <div className="md-form-group float-label">
                 <input
                   className="md-input"
-                  type="text"
+                  required type="text"
                   onChange={(e) => this.setState({form_username: e.target.value})}
                   value={this.state.form_username} />
                 <label>Enter Username</label>
@@ -99,11 +95,14 @@ function mapStateToProps (state) {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
+    onLogin: (username, password) => {
+      return dispatch(actions_login.login(username, password));
+    },
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actions_login.isAlreadyLogin());
     },
     onForgotPassword: (username) => {
-      return dispatch(actions.forgotPassword({username}));
+      return dispatch(actions_login.forgotPassword(username));
     }
   };
 };

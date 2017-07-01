@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import * as actions from 'appRedux/actions';
+import * as actions_login from 'appRedux/auth/actions/index';
+import {notify} from 'src/services/index';
 
 class Logout extends React.Component {
   constructor (props) {
@@ -11,12 +12,10 @@ class Logout extends React.Component {
     if (this.props.logged_user.logged_in == 0) {
       this.props.router.push('/');
     } else {
-      console.log('aaaaaaaaaaa');
       this.props.onLogout();
     }
   }
   componentWillReceiveProps (props) {
-    console.log('sssssssssss');
     props.router.push('/');
   }
   render () {
@@ -34,7 +33,7 @@ function mapStateToProps (state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogout: () => {
-      return dispatch(actions.requestLogout());
+      return dispatch(actions_login.logout());
     }
   };
 };

@@ -2,13 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import * as _ from 'lodash';
-import {notify} from 'src/services/index';
 import {CONFIG} from 'src/config/index';
-import Menu from 'src/components/generic/Menu';
+import Menu from 'components/generic/Menu';
+import {isNotUserValid} from 'src/services/generic';
 import Header from 'components/generic/Header';
-import LoadingIcon from 'components/generic/LoadingIcon';
 import SalaryList from 'modules/salary/components/viewSalary/SalaryList';
-import * as actions from 'appRedux/actions';
+import * as actions_login from 'appRedux/auth/actions/index';
 import * as actions_salary from 'appRedux/salary/actions/viewSalary';
 
 class ViewSalary extends React.Component {
@@ -23,20 +22,14 @@ class ViewSalary extends React.Component {
     this.props.onFetchUserSalaryDetails();
   }
   componentWillReceiveProps (props) {
-    if (props.logged_user.logged_in == -1) {
-      this.props.router.push('/logout');
-    } else {
-      if (props.logged_user.role == CONFIG.ADMIN) {
-
-      } else {
-        this.props.router.push('/home');
-      }
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
+    if (isNotValid.status) {
+      this.props.router.push(isNotValid.redirectTo);
     }
-
     // When Admin Login---
 
     let emp = [];
-    if (props.logged_user.role == CONFIG.ADMIN) {
+    if (props.logged_user.role === CONFIG.ADMIN) {
       if (props.employee.employee.length > 0) {
         _.forEach(props.employee.employee, function (ob, i) {
           emp.push({
@@ -56,8 +49,8 @@ class ViewSalary extends React.Component {
     }
 
 // Hr
-    else if (props.logged_user.role == CONFIG.HR) {
-      let subList = _.filter(props.employee.employee, (empl) => (empl.previous_increment == ''));
+    else if (props.logged_user.role === CONFIG.HR) {
+      let subList = _.filter(props.employee.employee, (empl) => (empl.previous_increment === ''));
       let emp = [];
       if (subList.length > 0) {
         _.forEach(subList, function (ob, i) {
@@ -103,7 +96,7 @@ function mapStateToProps (state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actions_login.isAlreadyLogin());
     },
     onFetchUserSalaryDetails: () => {
       return dispatch(actions_salary.fetchUserSalaryDetails());
