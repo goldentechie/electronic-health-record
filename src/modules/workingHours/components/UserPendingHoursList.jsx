@@ -12,7 +12,6 @@ import * as actions_login from 'appRedux/auth/actions/index';
 import PendingHourSummary from './PendingHourSummary';
 import AddUserPendingHour from './AddUserPendingHour';
 import AddAsLeaveHour from './AddAsLeaveHour';
-import AddAsHalfDayLeave from './AddAsHalfDayLeave';
 
 var moment = require('moment');
 
@@ -42,10 +41,10 @@ export default class UserPendingHoursList extends React.Component {
 
   componentWillReceiveProps (props) {
     window.scrollTo(0, 0);
-    if (props.logged_user.logged_in == -1) {
+    if (!props.loggedUser.isLoggedIn) {
       this.props.router.push('/logout');
     } else {
-      if (props.logged_user.role === CONFIG.ADMIN) {
+      if (props.loggedUser.data.role === CONFIG.ADMIN) {
       } else {
         this.props.router.push('/home');
       }
@@ -100,10 +99,9 @@ export default class UserPendingHoursList extends React.Component {
         handleOpenMerge={this.props.handleOpenMerge}
         callAddUserPendingHours={this.callAddUserPendingHours}
         {...this.props} />;
-      let HalfdayButton = <AddAsHalfDayLeave val={val} {...this.props} />;
+
       let leaveButton = <AddAsLeaveHour val={val}
         {...this.props} />;
-
       // Map pendingMessage -->
       let pendingMessage = val.time_detail.t_detail;
       let pendingMsgMap = pendingMessage.map((msg, i) => {
@@ -141,7 +139,7 @@ export default class UserPendingHoursList extends React.Component {
 
         {val.status
           ? <td> <mark>{'No Action Required'} </mark></td>
-          : <td style={{float: 'right'}}>{addButton} {HalfdayButton} {leaveButton}</td>
+          : <td>{addButton} {leaveButton}</td>
       }
         </tr>
       );

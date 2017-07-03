@@ -7,7 +7,7 @@ import Header from 'components/generic/Header';
 import Message from 'components/generic/Message';
 import FormUploadPolicyDocument from 'modules/policyDocuments/components/formUploadPolicyDocument';
 import ListAllPolicyDocument from 'components/policyDocuments/ListAllPolicyDocument';
-import * as actions_login from 'appRedux/auth/actions/index';
+import * as actions from 'appRedux/actions';
 import * as actions_policy from 'appRedux/policyDocuments/actions/index';
 
 const styles = {
@@ -34,7 +34,7 @@ class UploadPolicyDocumentContainer extends React.Component {
   }
 
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
+    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser.isLoggedIn, props.policy_documents.policyDocuments);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -103,14 +103,14 @@ class UploadPolicyDocumentContainer extends React.Component {
 function mapStateToProps (state) {
   return {
     frontend:         state.frontend.toJS(),
-    logged_user:      state.logged_user.toJS(),
+    loggedUser:       state.logged_user.userLogin,
     policy_documents: state.policyDocuments.toJS()
   };
 }
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actions_login.isAlreadyLogin());
+      return dispatch(actions.isAlreadyLogin());
     },
     onSubmitDocs: (docs) => {
       return dispatch(actions_policy.submitDocs(docs));

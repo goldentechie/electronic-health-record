@@ -13,7 +13,7 @@ import FormAddNewClient from 'modules/manageClients/components/FormAddNewClient'
 import FormClientDetails from 'modules/manageClients/components/FormClientDetails';
 import FormCreateClientInvoice from 'modules/manageClients/components/FormCreateClientInvoice';
 import InvoicesList from 'components/manageClients/InvoicesList';
-import * as actionsLogin from 'appRedux/auth/actions/index';
+import * as actions from 'appRedux/actions';
 import * as actionsClientsList from 'appRedux/manageClients/actions/clientsList';
 import * as actionsManageClients from 'appRedux/manageClients/actions/manageClients';
 
@@ -41,7 +41,7 @@ class ManageClients extends React.Component {
     this.props.onClientsList();
   }
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
+    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser.isLoggedIn, props.policy_documents.policyDocuments);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -177,15 +177,16 @@ class ManageClients extends React.Component {
 }
 function mapStateToProps (state) {
   return {
-    frontend:      state.frontend.toJS(),
-    logged_user:   state.logged_user.toJS(),
-    clientsList:   state.clientsList.toJS(),
-    manageClients: state.manageClients.toJS()
+    frontend:         state.frontend.toJS(),
+    loggedUser:       state.logged_user.userLogin,
+    clientsList:      state.clientsList.toJS(),
+    manageClients:    state.manageClients.toJS(),
+    policy_documents: state.policyDocuments.toJS()
   };
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    onIsAlreadyLogin:      () => { return dispatch(actionsLogin.isAlreadyLogin()); },
+    onIsAlreadyLogin:      () => { return dispatch(actions.isAlreadyLogin()); },
     onClientsList:         () => { return dispatch(actionsClientsList.get_clients_list()); },
     onClientDetails:       (clientid) => { return dispatch(actionsManageClients.getClientDetails(clientid)); },
     onAddNewClient:        (newClientDetails) => { return dispatch(actionsManageClients.addNewClient(newClientDetails)); },
@@ -211,9 +212,9 @@ ManageClients.PropTypes = {
     clients: PropTypes.object.isRequired
   }).isRequired,
   onClientsList: PropTypes.func.isRequired,
-  logged_user:   PropTypes.shape({
-    logged_in:   PropTypes.string.isRequired,
-    logged_role: PropTypes.string.isRequired
+  loggedUser:    PropTypes.shape({
+    isLoggedIn: PropTypes.bool.isRequired,
+    data:       PropTypes.object.isRequired
   }).isRequired,
   router:                PropTypes.object.isRequired,
   onClientDetails:       PropTypes.func.isRequired,

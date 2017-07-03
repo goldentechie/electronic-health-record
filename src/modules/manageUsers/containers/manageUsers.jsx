@@ -18,7 +18,7 @@ import UserPayslipsHistory from 'components/salary/managePayslips/UserPayslipsHi
 import FormAddNewEmployee from 'modules/manageUsers/components/FormAddNewEmployee';
 import FormUserProfileDetails from 'modules/manageUsers/components/FormUserProfileDetails';
 import * as actionsGetTeamData from 'src/actions/admin/teamList';
-import * as actionsLogin from 'appRedux/auth/actions/index';
+import * as actions from 'appRedux/actions';
 import * as actionsUsersList from 'appRedux/generic/actions/usersList';
 import * as actionsManageUsers from 'src/redux/manageUsers/actions/manageUsers';
 import * as actionsPolicy from 'appRedux/policyDocuments/actions/index';
@@ -54,7 +54,7 @@ class ManageUsers extends React.Component {
     this.props.onFetchTeam();
   }
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
+    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser.isLoggedIn, props.policy_documents.policyDocuments);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -234,7 +234,7 @@ function mapStateToProps (state) {
   return {
     frontend:         state.frontend.toJS(),
     managePayslips:   state.managePayslips.toJS(),
-    logged_user:      state.logged_user.toJS(),
+    loggedUser:       state.logged_user.userLogin,
     usersList:        state.usersList.toJS(),
     manageUsers:      state.manageUsers.toJS(),
     policy_documents: state.policyDocuments.toJS(),
@@ -245,7 +245,7 @@ function mapStateToProps (state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actionsLogin.isAlreadyLogin());
+      return dispatch(actions.isAlreadyLogin());
     },
     onUsersList: () => {
       return dispatch(actionsUsersList.get_users_list());
