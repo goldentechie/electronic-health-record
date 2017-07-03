@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const DeviceCounter = ({deviceData, deviceName}) => {
-  console.log('deviceData', deviceData);
   let list = Object.keys(deviceData).map((k, idx) => {
     if (k === 'User_Assign' || k === 'User_Not_Assign' || k === 'Assigned') {
       return;
@@ -52,9 +51,9 @@ const DeviceCounter = ({deviceData, deviceName}) => {
 
 DeviceCounter.propTypes = {
   deviceData: PropTypes.shape({
-    total:           PropTypes.number.isRequired,
-    User_Assign:     PropTypes.number,
-    User_Not_Assign: PropTypes.number
+    total:           PropTypes.string.isRequired,
+    User_Assign:     PropTypes.string.isRequired,
+    User_Not_Assign: PropTypes.string.isRequired
   }),
   deviceName: PropTypes.string.isRequired
 };

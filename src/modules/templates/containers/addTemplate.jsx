@@ -5,7 +5,7 @@ import Menu from 'components/generic/Menu';
 import {isNotUserValid} from 'src/services/generic';
 import Header from 'components/generic/Header';
 import Template from '../components/Template';
-import * as actions from 'appRedux/actions';
+import * as actions_login from 'appRedux/auth/actions/index';
 import * as actions_policy from 'appRedux/policyDocuments/actions/index';
 import * as actions_salary from 'appRedux/salary/actions/viewSalary';
 import * as actions_templates from 'appRedux/templates/actions/templates';
@@ -23,7 +23,7 @@ class TemplateContainer extends React.Component {
     });
   }
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser.isLoggedIn, props.policy_documents.policyDocuments);
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -44,7 +44,7 @@ class TemplateContainer extends React.Component {
 function mapStateToProps (state) {
   return {
     frontend:         state.frontend.toJS(),
-    loggedUser:       state.logged_user.userLogin,
+    logged_user:      state.logged_user.toJS(),
     templates:        state.template.toJS(),
     employee:         state.empSalaryList.toJS(),
     policy_documents: state.policyDocuments.toJS()
@@ -53,7 +53,7 @@ function mapStateToProps (state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actions_login.isAlreadyLogin());
     },
     onFetchUserPolicyDocument: () => {
       return dispatch(actions_policy.fetchUserPolicyDocument());

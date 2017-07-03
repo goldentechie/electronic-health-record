@@ -8,11 +8,11 @@ import UsersList from 'components/generic/UsersList';
 import Header from 'components/generic/Header';
 import UserMonthlyAttendance from 'components/attendance/UserMonthlyAttendance';
 import UserDaySummary from 'modules/attendance/components/UserDaySummary';
+import * as actionsLogin from 'appRedux/auth/actions/index';
 import * as actionsUsersList from 'appRedux/generic/actions/usersList';
 import * as actionsPolicy from 'appRedux/policyDocuments/actions/index';
 import * as actionsMonthlyAttendance from 'appRedux/attendance/actions/monthlyAttendance';
 import * as actionsUserDaySummary from 'appRedux/attendance/actions/userDaySummary';
-import * as actions from 'appRedux/actions';
 
 class Home extends React.Component {
   constructor (props) {
@@ -40,7 +40,7 @@ class Home extends React.Component {
     this.setState({year: year, month: month});
   }
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser.isLoggedIn, props.policy_documents.policyDocuments);
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -97,7 +97,7 @@ class Home extends React.Component {
 function mapStateToProps (state) {
   return {
     frontend:          state.frontend.toJS(),
-    loggedUser:        state.logged_user.userLogin,
+    logged_user:       state.logged_user.toJS(),
     usersList:         state.usersList.toJS(),
     monthlyAttendance: state.monthlyAttendance.toJS(),
     userDaySummary:    state.userDaySummary.toJS(),
@@ -107,7 +107,7 @@ function mapStateToProps (state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actionsLogin.isAlreadyLogin());
     },
     onUsersList: () => {
       return dispatch(actionsUsersList.get_users_list());

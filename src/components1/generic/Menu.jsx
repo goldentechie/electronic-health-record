@@ -7,7 +7,7 @@ class Menu extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      role: props.loggedUser.data.role
+      role: props.logged_user.role
     };
     this.click = this.click.bind(this);
   }
@@ -26,17 +26,12 @@ class Menu extends React.Component {
       <div id="aside" className="app-aside modal fade nav-dropdown">
         <div className="left navside dark dk">
           <div className="navbar no-radius">
-            <a className="navbar-brand">
-              <img src="./favicon.ico" />
-              <span className="hidden-folded inline">HR</span>
-            </a>
+            <a className="navbar-brand"><img src="./favicon.ico" /><span className="hidden-folded inline">HR</span></a>
           </div>
           <div className="hide-scroll">
-            <nav className="scroll nav-light">
-              <DisplayMenuList rolePages={this.props.loggedUser.data.role_pages} click={(id) => this.click(id)} />
-            </nav>
+            <nav className="scroll nav-light"><DisplayMenuList rolePages={this.props.logged_user.rolePages} click={(id) => this.click(id)} /></nav>
           </div>
-          <LoggedUserInfo loggedUser={this.props.loggedUser.data} />
+          <LoggedUserInfo loggedUser={this.props.logged_user} />
         </div>
       </div>
     );

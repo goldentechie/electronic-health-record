@@ -14,7 +14,7 @@ import ViewUserDevice from 'components/inventory/ViewUser';
 import InventoryList from 'modules/inventory/components/InventoryList';
 import DeviceCounterTab from 'components/inventory/DeviceCounterTab';
 import * as actionsManageDevice from 'appRedux/inventory/actions/inventory';
-import * as actions from 'appRedux/actions';
+import * as actionsLogin from 'appRedux/auth/actions/index';
 import * as actionsUsersList from 'appRedux/generic/actions/usersList';
 import * as actionsManageUsers from 'appRedux/manageUsers/actions/manageUsers';
 
@@ -59,7 +59,7 @@ class InventorySystem extends React.Component {
   }
   componentWillReceiveProps (props) {
     window.scrollTo(0, 0);
-    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser.isLoggedIn, props.policy_documents.policyDocuments);
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -294,7 +294,7 @@ function mapStateToProps (state) {
     frontend:         state.frontend.toJS(),
     usersList:        state.usersList.toJS(),
     manageUsers:      state.manageUsers.toJS(),
-    loggedUser:       state.logged_user.userLogin,
+    logged_user:      state.logged_user.toJS(),
     policy_documents: state.policyDocuments.toJS(),
     manageDevice:     state.manageDevice.toJS()
   };
@@ -302,7 +302,7 @@ function mapStateToProps (state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actionsLogin.isAlreadyLogin());
     },
     onUsersList: () => {
       return dispatch(actionsUsersList.get_users_list());
