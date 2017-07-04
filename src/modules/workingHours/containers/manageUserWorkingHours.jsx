@@ -9,6 +9,7 @@ import Header from 'components/generic/Header';
 import ListUserWorkingHours from 'components/workingHours/ListUserWorkingHours';
 import FormAddUserWorkingHours from 'modules/workingHours/components/FormAddUserWorkingHours';
 import * as actionsLogin from 'appRedux/auth/actions/index';
+import * as actionsPolicy from 'appRedux/policyDocuments/actions/index';
 import * as actionsUsersList from 'appRedux/generic/actions/usersList';
 import * as actionsManageUserWorkingHours from 'appRedux/workingHours/actions/manageUserWorkingHours';
 
@@ -26,10 +27,11 @@ class ManageUserWorkingHours extends React.Component {
     this.callAddUserWorkingHours = this.callAddUserWorkingHours.bind(this);
   }
   componentWillMount () {
+    this.props.onFetchUserPolicyDocument();
     this.props.onUsersList();
   }
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user);
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -151,7 +153,11 @@ const mapDispatchToProps = (dispatch) => {
     },
     onAddUserWorkingHours: (userid, date, workingHours, reason) => {
       return dispatch(actionsManageUserWorkingHours.add_user_working_hours(userid, date, workingHours, reason));
+    },
+    onFetchUserPolicyDocument: () => {
+      return dispatch(actionsPolicy.fetchUserPolicyDocument());
     }
+
   };
 };
 

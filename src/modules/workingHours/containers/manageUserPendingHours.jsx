@@ -10,6 +10,7 @@ import UsersList from 'components/generic/UsersList';
 import AddAsLeaveHour from '../components/AddAsLeaveHour';
 import * as actionsLogin from 'appRedux/auth/actions/index';
 import UserPendingHoursList from '../components/UserPendingHoursList';
+import * as actionsPolicy from 'appRedux/policyDocuments/actions/index';
 import * as actionsUsersList from 'appRedux/generic/actions/usersList';
 import * as actionPendingHour from 'appRedux/workingHours/actions/managePendingLeave';
 import * as actions_apply_leave from 'appRedux/leave/actions/applyLeave';
@@ -44,9 +45,10 @@ class ManageUserPendingHours extends React.Component {
     let month = (months + 1 < 10 ? ('0' + months) : months);
     this.props.onUserPendingHoursData(year, month);
     this.props.onUsersList();
+    this.props.onFetchUserPolicyDocument();
   }
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user);
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -197,6 +199,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onAddUserPendingHours: (userId, pendingHour, empId, year, month) => {
       return dispatch(actionsManageUserPendingHours.addUserPendingHour(userId, pendingHour, empId, year, month));
+    },
+    onFetchUserPolicyDocument: () => {
+      return dispatch(actionsPolicy.fetchUserPolicyDocument());
     },
     onApplyHalfLeave: (no_of_days, userId, day_status, pending_id, year, month) => {
       return dispatch(actionPendingHour.applyPendingLeave(no_of_days, userId, day_status, pending_id, year, month));

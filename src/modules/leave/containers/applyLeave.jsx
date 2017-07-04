@@ -11,6 +11,7 @@ import Header from 'components/generic/Header';
 import ApplyLeaveForm from 'modules/leave/components/applyLeave/ApplyLeaveForm';
 import * as actions_login from 'appRedux/auth/actions/index';
 import * as actions_usersList from 'appRedux/generic/actions/usersList';
+import * as actions_policy from 'appRedux/policyDocuments/actions/index';
 import * as actions_apply_leave from 'appRedux/leave/actions/applyLeave';
 
 const styles = {
@@ -34,9 +35,13 @@ class ApplyLeave extends React.Component {
     this.onUserClick = this.onUserClick.bind(this);
     this.doApplyLeave = this.doApplyLeave.bind(this);
   }
+  componentDidMount () {}
+  componentWillMount () {
+    this.props.onFetchUserPolicyDocument();
+  }
   componentWillReceiveProps (props) {
     window.scrollTo(0, 0);
-    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user);
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user.logged_in, props.policy_documents.policyDocuments);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -169,6 +174,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUsersList: () => {
       return dispatch(actions_usersList.get_users_list());
+    },
+    onFetchUserPolicyDocument: () => {
+      return dispatch(actions_policy.fetchUserPolicyDocument());
     }
   };
 };
