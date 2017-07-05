@@ -1,42 +1,37 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter, Link} from 'react-router';
+import {withRouter} from 'react-router';
+import {bindActionCreators} from 'redux';
 import {notify} from 'src/services/index';
-import {CONFIG} from 'src/config/index';
+import {isNotUserValid} from 'src/services/generic';
 import GetLogo from 'components/auth/login/GetLogo';
 import Navbar from 'components/auth/login/Navbar';
 import LoginForm from 'modules/auth/components/login/LoginForm';
 import LoginFormFooter from 'components/auth/login/LoginFormFooter';
 import LoadingIcon from 'components/generic/LoadingIcon';
-import * as actions_login from 'appRedux/auth/actions/index';
+import * as actions from 'appRedux/actions';
 
 class Login extends React.Component {
   constructor (props) {
     super(props);
-    this.props.onIsAlreadyLogin();
-    this.state = {
-      form_login_status: ''
-    };
+    this.props.isAlreadyLogin();
     this.doGuestLogin = this.doGuestLogin.bind(this);
+    this.doLogin = this.doLogin.bind(this);
   }
   componentWillReceiveProps (props) {
-    let logged_user = props.logged_user;
-    if (typeof logged_user.logged_in !== 'undefined' && logged_user.logged_in == 1) {
-      if (props.logged_user.role == CONFIG.ADMIN || props.logged_user.role == CONFIG.GUEST || props.logged_user.role == CONFIG.HR) {
-        this.props.router.push('/home');
-      } else {
-        this.props.router.push('/monthly_attendance');
-      }
-    } else {
-      this.setState({form_login_status: props.logged_user.login_status_message});
-      if (props.logged_user.login_status_message != '') {
-        notify(props.logged_user.login_status_message);
-      }
+    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
+    if (isNotValid.status && isNotValid.redirectTo !== '/logout') {
+      this.props.router.push(isNotValid.redirectTo);
+    }
+    if (props.loggedUser.isError) {
+      notify(props.loggedUser.message);
     }
   }
-
+  doLogin (username, password) {
+    return this.props.userLoginRequest({username, password});
+  }
   doGuestLogin (evt) {
-    this.props.onLogin('global_guest', 'global_guest').then((data) => {}, (error) => {
+    this.doLogin('global_guest', 'global_guest').then((data) => {}, (error) => {
       notify(error);
     });
   }
@@ -47,12 +42,12 @@ class Login extends React.Component {
           <GetLogo />
           <Navbar />
           <div className="p-a-md box-color r box-shadow-z1 text-color m-a">
-            <LoadingIcon loading={this.props.frontend.show_loading} />
+            <LoadingIcon loading={this.props.loggedUser.isLoading} />
             <br />
             <div className="m-b text-sm">
               Sign in with your username
             </div>
-            <LoginForm {...this.props} />
+            <LoginForm onLogin={this.doLogin} {...this.props} />
             <LoginFormFooter doGuestLogin={this.doGuestLogin} />
           </div>
         </div>
@@ -63,20 +58,12 @@ class Login extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    frontend:    state.frontend.toJS(),
-    logged_user: state.logged_user.toJS()
+    loggedUser: state.logged_user.userLogin
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    onLogin: (username, password) => {
-      return dispatch(actions_login.login(username, password));
-    },
-    onIsAlreadyLogin: () => {
-      return dispatch(actions_login.isAlreadyLogin());
-    }
-  };
+  return bindActionCreators(actions, dispatch);
 };
 
 const VisibleLogin = connect(mapStateToProps, mapDispatchToProps)(Login);
