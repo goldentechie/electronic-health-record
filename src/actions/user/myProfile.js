@@ -1,8 +1,9 @@
 import {createAction} from 'redux-actions';
-import {CONFIG} from 'src/config/index';
-import {fireAjax} from 'src/services/index';
-import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
+import * as _ from 'lodash';
+import {fireAjax} from '../../services/index';
 import * as constants from 'appRedux/constants';
+
+import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
 
 export function success_my_profile (data) {
   return createAction(constants.ACTION_SUCCESS_MY_PROFILE)(data);
