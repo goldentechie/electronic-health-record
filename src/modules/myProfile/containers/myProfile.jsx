@@ -1,20 +1,19 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {notify} from '../../services/index';
+import PropTypes from 'prop-types';
+import {notify} from 'src/services/index';
 import Menu from 'components/generic/Menu';
 import {isNotUserValid} from 'src/services/generic';
+import Header from 'components/generic/Header';
 import UserHorizontalView from 'components/generic/UserHorizontalView';
-import Header from '../../components/generic/header';
-import FormProfileDetails from '../../components/myProfile/FormProfileDetails';
-import FormBankDetails from '../../components/myProfile/FormBankDetails';
-import FormUpdatePassword from '../../components/myProfile/FormUpdatePassword';
-import DeviceDetails from 'components/inventory/deviceDetails';
-import * as actions from 'appRedux/actions';
-import * as actions_myProfile from '../../actions/user/myProfile';
-import * as actions_salary from 'appRedux/salary/actions/viewSalary';
-
+import FormProfileDetails from 'modules/myProfile/components/FormProfileDetails';
+import FormBankDetails from 'modules/myProfile/components/FormBankDetails';
+import FormUpdatePassword from 'modules/myProfile/components/FormUpdatePassword';
 import PayslipHistory from 'components/salary/userSalary/PayslipHistory';
+import * as actionsLogin from 'appRedux/auth/actions/index';
+import * as actionsMyProfile from 'appRedux/myProfile/actions/myProfile';
+import * as actionsSalary from 'appRedux/salary/actions/viewSalary';
 
 class MyProfile extends React.Component {
   constructor (props) {
@@ -37,7 +36,7 @@ class MyProfile extends React.Component {
     this.props.onSalaryDetails();
   }
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -65,7 +64,7 @@ class MyProfile extends React.Component {
   }
   callUpdatePassword (new_password) {
     new_password = new_password.trim();
-    if (new_password == '') {
+    if (new_password === '') {
       notify('Enter Password !!');
     } else {
       this.props.onUpdatePassword(new_password).then((data) => {
@@ -85,7 +84,7 @@ class MyProfile extends React.Component {
           <div className="app-body" id="view">
             <div className="padding">
               <div className="row no-gutter">
-                <UserHorizontalView profileImage={this.props.loggedUser.data.profileImage} name={this.state.user_profile_detail.name} jobtitle={this.state.user_profile_detail.jobtitle} dateofjoining={this.state.user_profile_detail.dateofjoining} gender={this.state.user_profile_detail.gender} dob={this.state.user_profile_detail.dob} work_email={this.state.user_profile_detail.work_email} />
+                <UserHorizontalView profileImage={this.props.logged_user.profileImage} name={this.state.user_profile_detail.name} jobtitle={this.state.user_profile_detail.jobtitle} dateofjoining={this.state.user_profile_detail.dateofjoining} gender={this.state.user_profile_detail.gender} dob={this.state.user_profile_detail.dob} work_email={this.state.user_profile_detail.work_email} />
               </div>
               <div className="row no-gutter">
                 <div className="col-xs-6 p-t p-r b-r">
@@ -93,7 +92,6 @@ class MyProfile extends React.Component {
                   <br /><br /><br />
                   <FormUpdatePassword callUpdatePassword={this.callUpdatePassword} />
                   <br /><br /><br />
-                  <DeviceDetails user_assign_machine={this.state.user_assign_machine} callUpdateUserDeviceDetails={this.callUpdateUserDeviceDetails} />
                 </div>
                 <div className="col-xs-6 p-t p-l">
                   <FormBankDetails user_bank_detail={this.state.user_bank_detail} callUpdateBankDetails={this.callUpdateBankDetails} />
@@ -112,40 +110,45 @@ class MyProfile extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    frontend:   state.frontend.toJS(),
-    loggedUser: state.logged_user.userLogin,
-    myProfile:  state.myProfile.toJS(),
-    salary:     state.salary.toJS()
+    frontend:         state.frontend.toJS(),
+    logged_user:      state.logged_user.toJS(),
+    myProfile:        state.myProfile.toJS(),
+    salary:           state.salary.toJS(),
+    policy_documents: state.policyDocuments.toJS()
   };
 }
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actionsLogin.isAlreadyLogin());
     },
     onMyProfileDetails: () => {
-      return dispatch(actions_myProfile.getMyProfileDetails());
+      return dispatch(actionsMyProfile.getMyProfileDetails());
     },
     onUpdateBankDetails: (new_bank_details) => {
-      return dispatch(actions_myProfile.updateBankDetails(new_bank_details));
+      return dispatch(actionsMyProfile.updateBankDetails(new_bank_details));
     },
     onUpdateProfileDetails: (new_profile_details) => {
-      return dispatch(actions_myProfile.updateProfileDetails(new_profile_details));
+      return dispatch(actionsMyProfile.updateProfileDetails(new_profile_details));
     },
     onUpdateDeviceDetails: (new_device_details) => {
-      return dispatch(actions_myProfile.updateUserDeviceDetails(new_device_details));
+      return dispatch(actionsMyProfile.updateUserDeviceDetails(new_device_details));
     },
     onUpdatePassword: (new_password) => {
-      return dispatch(actions_myProfile.updatePassword(new_password));
+      return dispatch(actionsMyProfile.updatePassword(new_password));
     },
     onSalaryDetails: () => {
-      return dispatch(actions_salary.getSalaryDetails());
+      return dispatch(actionsSalary.getSalaryDetails());
     }
   };
 };
-
+MyProfile.propTypes = {
+  user_bank_detail:    PropTypes.array,
+  user_profile_detail: PropTypes.object,
+  payslip_history:     PropTypes.array,
+  user_assign_machine: PropTypes.array
+};
 const VisibleMyProfile = connect(mapStateToProps, mapDispatchToProps)(MyProfile);
-
 const RouterVisibleMyProfile = withRouter(VisibleMyProfile);
 
 export default RouterVisibleMyProfile;

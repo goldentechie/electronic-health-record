@@ -8,7 +8,7 @@ import UsersList from 'components/generic/UsersList';
 import Header from 'components/generic/Header';
 import ListUserWorkingHours from 'components/workingHours/ListUserWorkingHours';
 import FormAddUserWorkingHours from 'modules/workingHours/components/FormAddUserWorkingHours';
-import * as actions from 'appRedux/actions';
+import * as actionsLogin from 'appRedux/auth/actions/index';
 import * as actionsUsersList from 'appRedux/generic/actions/usersList';
 import * as actionsManageUserWorkingHours from 'appRedux/workingHours/actions/manageUserWorkingHours';
 
@@ -29,7 +29,7 @@ class ManageUserWorkingHours extends React.Component {
     this.props.onUsersList();
   }
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -132,15 +132,16 @@ class ManageUserWorkingHours extends React.Component {
 function mapStateToProps (state) {
   return {
     frontend:               state.frontend.toJS(),
-    loggedUser:             state.logged_user.userLogin,
+    logged_user:            state.logged_user.toJS(),
     usersList:              state.usersList.toJS(),
-    manageUserWorkingHours: state.manageUserWorkingHours.toJS()
+    manageUserWorkingHours: state.manageUserWorkingHours.toJS(),
+    policy_documents:       state.policyDocuments.toJS()
   };
 }
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actionsLogin.isAlreadyLogin());
     },
     onUsersList: () => {
       return dispatch(actionsUsersList.get_users_list());

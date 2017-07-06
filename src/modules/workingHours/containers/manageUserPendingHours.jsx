@@ -5,10 +5,10 @@ import {notify} from 'src/services/index';
 import Menu from 'components/generic/Menu';
 import LoadingIcon from 'components/generic/LoadingIcon';
 import {isNotUserValid} from 'src/services/generic';
-import Header from 'components1/generic/Header';
+import Header from 'components/generic/Header';
 import UsersList from 'components/generic/UsersList';
 import AddAsLeaveHour from '../components/AddAsLeaveHour';
-import * as actions from 'appRedux/actions';
+import * as actionsLogin from 'appRedux/auth/actions/index';
 import UserPendingHoursList from '../components/UserPendingHoursList';
 import * as actionsUsersList from 'appRedux/generic/actions/usersList';
 import * as actionPendingHour from 'appRedux/workingHours/actions/managePendingLeave';
@@ -46,7 +46,7 @@ class ManageUserPendingHours extends React.Component {
     this.props.onUsersList();
   }
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -177,16 +177,17 @@ class ManageUserPendingHours extends React.Component {
 function mapStateToProps (state) {
   return {
     frontend:               state.frontend.toJS(),
-    loggedUser:             state.logged_user.userLogin,
+    logged_user:            state.logged_user.toJS(),
     usersList:              state.usersList.toJS(),
     manageUserPendingHours: state.manageUserPendingHours.toJS(),
+    policy_documents:       state.policyDocuments.toJS(),
     applyLeave:             state.applyLeave.toJS()
   };
 }
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actionsLogin.isAlreadyLogin());
     },
     onUsersList: () => {
       return dispatch(actionsUsersList.get_users_list());

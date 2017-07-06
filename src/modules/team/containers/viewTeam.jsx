@@ -1,12 +1,14 @@
 import React from 'react';
+import * as _ from 'lodash';
 import {connect} from 'react-redux';
+import {CONFIG} from 'src/config/index';
 import {withRouter} from 'react-router';
 import Menu from 'components/generic/Menu';
 import {isNotUserValid} from 'src/services/generic';
 import TeamList from 'modules/team/components/TeamList';
 import TeamDetails from 'modules/team/components/TeamDetails';
 import LoadingIcon from 'components/generic/LoadingIcon';
-import * as actions from 'appRedux/actions';
+import * as actionsLogin from 'appRedux/auth/actions/index';
 import * as actionsGetTeamData from 'appRedux/team/actions/teamList';
 
 class ViewTeam extends React.Component {
@@ -30,7 +32,7 @@ class ViewTeam extends React.Component {
   }
   componentWillReceiveProps (props) {
     window.scrollTo(0, 0);
-    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -111,17 +113,18 @@ class ViewTeam extends React.Component {
 }
 function mapStateToProps (state) {
   return {
-    frontend:   state.frontend.toJS(),
-    loggedUser: state.logged_user.userLogin,
-    usersList:  state.usersList.toJS(),
-    employee:   state.empSalaryList.toJS(),
-    teamList:   state.teamList.toJS()
+    frontend:         state.frontend.toJS(),
+    logged_user:      state.logged_user.toJS(),
+    policy_documents: state.policyDocuments.toJS(),
+    usersList:        state.usersList.toJS(),
+    employee:         state.empSalaryList.toJS(),
+    teamList:         state.teamList.toJS()
   };
 }
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actionsLogin.isAlreadyLogin());
     },
     onFetchTeam: () => {
       return dispatch(actionsGetTeamData.get_all_team());

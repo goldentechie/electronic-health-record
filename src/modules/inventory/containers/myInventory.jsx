@@ -7,8 +7,8 @@ import {isNotUserValid} from 'src/services/generic';
 import Header from 'components/generic/Header';
 import UserHorizontalView from 'components/generic/UserHorizontalView';
 import DeviceDetails from 'components/inventory/deviceDetails';
-import * as actions from 'appRedux/actions';
-import * as actionsMyProfile from 'src/actions/user/myProfile';
+import * as actionsLogin from 'appRedux/auth/actions/index';
+import * as actionsMyProfile from 'appRedux/myProfile/actions/myProfile';
 
 class MyInventory extends React.Component {
   constructor (props) {
@@ -25,7 +25,7 @@ class MyInventory extends React.Component {
     this.props.onMyProfileDetails();
   }
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -49,7 +49,7 @@ class MyInventory extends React.Component {
             <div className="padding">
               <div className="row no-gutter">
                 <UserHorizontalView
-                  profileImage={this.props.loggedUser.data.profileImage}
+                  profileImage={this.props.logged_user.profileImage}
                   name={this.state.user_profile_detail.name}
                   jobtitle={this.state.user_profile_detail.jobtitle}
                   inventory
@@ -71,15 +71,16 @@ class MyInventory extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    frontend:   state.frontend.toJS(),
-    loggedUser: state.logged_user.userLogin,
-    myProfile:  state.myProfile.toJS()
+    frontend:         state.frontend.toJS(),
+    logged_user:      state.logged_user.toJS(),
+    myProfile:        state.myProfile.toJS(),
+    policy_documents: state.policyDocuments.toJS()
   };
 }
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actionsLogin.isAlreadyLogin());
     },
     onMyProfileDetails: () => {
       return dispatch(actionsMyProfile.getMyProfileDetails());

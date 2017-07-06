@@ -5,7 +5,7 @@ import Menu from 'components/generic/Menu';
 import {isNotUserValid} from 'src/services/generic';
 import Header from 'components/generic/Header';
 import UserMonthlyAttendance from 'components/attendance/UserMonthlyAttendance';
-import * as actions from 'appRedux/actions';
+import * as actionsLogin from 'appRedux/auth/actions/index';
 import * as actionsMonthlyAttendance from 'appRedux/attendance/actions/monthlyAttendance';
 import * as actionsUserDaySummary from 'appRedux/attendance/actions/userDaySummary';
 
@@ -26,8 +26,7 @@ class MonthlyAttendance extends React.Component {
     this.props.onIsAlreadyLogin();
   }
   componentWillMount () {
-    this.props.onIsAlreadyLogin();
-    let user_id = this.props.loggedUser.data.id;
+    let user_id = this.props.logged_user.userid;
     this.setState({'defaultUserDisplay': user_id});
     let d = new Date();
     let year = d.getFullYear();
@@ -36,7 +35,7 @@ class MonthlyAttendance extends React.Component {
     this.props.onMonthAttendance(localStorage.getItem('userid'), year, month);
   }
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
+    let isNotValid = isNotUserValid(this.props.route.path, props.logged_user);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
@@ -84,7 +83,7 @@ function mapStateToProps (state) {
   return {
     frontend:          state.frontend.toJS(),
     userDaySummary:    state.userDaySummary.toJS(),
-    loggedUser:        state.logged_user.userLogin,
+    logged_user:       state.logged_user.toJS(),
     monthlyAttendance: state.monthlyAttendance.toJS(),
     policy_documents:  state.policyDocuments.toJS()
   };
@@ -95,7 +94,7 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(actionsMonthlyAttendance.get_monthly_attendance(userid, year, month));
     },
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actionsLogin.isAlreadyLogin());
     },
     onUserDaySummary: (userid, date) => {
       return dispatch(actionsUserDaySummary.getUserDaySummary(userid, date));

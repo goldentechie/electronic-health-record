@@ -9,7 +9,7 @@ import Header from 'components/generic/Header';
 import ListLeaves from 'components/leave/manageLeaves/ListLeaves';
 import ViewLeave from 'modules/leave/components/manageLeaves/ViewLeave';
 import LeaveColorReference from 'components/leave/manageLeaves/LeaveColorReference';
-import * as actions from 'appRedux/actions';
+import * as actions_login from 'appRedux/auth/actions/index';
 import * as actions_listLeaves from 'appRedux/leave/actions/listLeaves';
 import * as actions_manageLeave from 'appRedux/leave/actions/manageLeave';
 
@@ -29,17 +29,17 @@ class ManageLeaves extends React.Component {
     this.selectLeave = this.selectLeave.bind(this);
   }
   componentDidMount () {
-    this.props.onListLeaves(this.props.loggedUser.data.role);
+    this.props.onListLeaves(this.props.logged_user.role);
   }
   componentWillReceiveProps (props) {
     let selectedTab = '';
-    let isNotValid = isNotUserValid(this.props.route.path, this.props.loggedUser);
+    let isNotValid = isNotUserValid(this.props.route.path, this.props.logged_user);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
-    if (props.loggedUser.data.role === CONFIG.ADMIN || props.loggedUser.data.role === CONFIG.GUEST) {
+    if (props.logged_user.role === CONFIG.ADMIN || props.logged_user.role === CONFIG.GUEST) {
       selectedTab = 'ApprovedByHr';
-    } else if (props.loggedUser.data.role === CONFIG.HR) {
+    } else if (props.logged_user.role === CONFIG.HR) {
       selectedTab = 'Pending';
     }
     if (!_.isEqual(props.listLeaves.all_leaves, this.state.all_leaves)) {
@@ -132,7 +132,7 @@ class ManageLeaves extends React.Component {
             <div className="padding">
               <div className="row">
                 <div className="col-12">
-                  <LeaveColorReference filterLeaveList={this.filterLeaveList} selectedTab={this.state.selectedTab} userRole={this.props.loggedUser.data.role} />
+                  <LeaveColorReference filterLeaveList={this.filterLeaveList} selectedTab={this.state.selectedTab} userRole={this.props.logged_user.role} />
                 </div>
               </div>
               {tabContent}
@@ -156,16 +156,17 @@ ManageLeaves.styles = {
 };
 function mapStateToProps (state) {
   return {
-    frontend:    state.frontend.toJS(),
-    loggedUser:  state.logged_user.userLogin,
-    listLeaves:  state.listLeaves.toJS(),
-    manageLeave: state.manageLeave.toJS()
+    frontend:         state.frontend.toJS(),
+    logged_user:      state.logged_user.toJS(),
+    listLeaves:       state.listLeaves.toJS(),
+    manageLeave:      state.manageLeave.toJS(),
+    policy_documents: state.policyDocuments.toJS()
   };
 }
 const mapDispatchToProps = (dispatch) => {
   return {
     onIsAlreadyLogin: () => {
-      return dispatch(actions.isAlreadyLogin());
+      return dispatch(actions_login.isAlreadyLogin());
     },
     onListLeaves: (role) => {
       return dispatch(actions_listLeaves.getAllLeaves(role));
