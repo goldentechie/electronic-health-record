@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {bindActionCreators} from 'redux';
 import {notify} from 'src/services/index';
-import {isNotUserValid} from 'src/services/generic';
+import {CONFIG} from 'src/config/index';
 import GetLogo from 'components/auth/login/GetLogo';
 import Navbar from 'components/auth/login/Navbar';
 import LoginForm from 'modules/auth/components/login/LoginForm';
@@ -19,12 +19,17 @@ class Login extends React.Component {
     this.doLogin = this.doLogin.bind(this);
   }
   componentWillReceiveProps (props) {
-    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
-    if (isNotValid.status && isNotValid.redirectTo !== '/logout') {
-      this.props.router.push(isNotValid.redirectTo);
-    }
-    if (props.loggedUser.isError) {
-      notify(props.loggedUser.message);
+    let loggedUser = props.loggedUser;
+    if (loggedUser.isLoggedIn) {
+      if (loggedUser.data.role === CONFIG.ADMIN || loggedUser.data.role === CONFIG.GUEST || loggedUser.data.role === CONFIG.HR) {
+        this.props.router.push('/home');
+      } else {
+        this.props.router.push('/monthly_attendance');
+      }
+    } else {
+      if (loggedUser.isError) {
+        notify(loggedUser.message);
+      }
     }
   }
   doLogin (username, password) {
