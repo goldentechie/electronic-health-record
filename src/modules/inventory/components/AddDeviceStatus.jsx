@@ -41,13 +41,13 @@ export default class AddDeviceStatus extends React.Component {
         background: ''
       });
     } else {
-      notify('First Fill Status Type & Color');
+      notify('Warning !', 'First Fill Status Type & Color', 'warning');
     }
   }
 
   handleChangeComplete (color) {
     this.setState({background: color.hex});
-  };
+  }
 
   handleDelete () {
     this.props.callDeleteDeviceStatus(this.state.checkValue);
@@ -70,7 +70,7 @@ export default class AddDeviceStatus extends React.Component {
           if (this.state.checkValue !== '') {
             if (confirm('Are you sure you want to delete this Device Status ?')) {
               this.handleDelete();
-            };
+            }
           }
         }}
         style={{marginRight: 5}}

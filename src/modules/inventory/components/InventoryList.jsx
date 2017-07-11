@@ -78,11 +78,11 @@ class InventoryList extends React.Component {
         background: '',
         checkValue: ''
       });
-      notify(message);
+      notify('', message, 'success');
       this.props.onFetchDeviceStatus();
       this.handleStatusClose();
     }, (error) => {
-      notify(error);
+      notify('', error, 'error');
     });
   }
 
@@ -93,7 +93,7 @@ class InventoryList extends React.Component {
       });
       this.props.onFetchDeviceType();
     }, (error) => {
-      notify(error);
+      notify('', error, 'error');
     });
   }
   handleStatusClose () {
@@ -135,13 +135,13 @@ class InventoryList extends React.Component {
           background: '',
           checkValue: ''
         });
-        notify('This Device Status Type Is In Use');
+        notify('Error !', 'This Device Status Type Is In Use', 'error');
         this.handleStatusClose();
       } else if (val.message) {
         this.setState({
           status_message: val.message
         });
-        notify(this.state.status_message);
+        notify('', this.state.status_message);
         this.handleStatusClose();
       } else {
         this.setState({

@@ -35,10 +35,11 @@ export default class AddDeviceDialoge extends React.Component {
     this.props.onCallDeviceType(deviceList).then((val) => {
       if (val.data.not_delete) {
         this.setState({deviceList: this.state.deviceList, checkValue: []});
-        notify('This Device Type Is In Use');
+        notify('Oops', 'This Device Type Is In Use', 'error');
         this.props.handleClose();
       } else {
         this.setState({deviceList, deviceType: '', checkValue: []});
+        notify('Success', 'Device Type Deleted', 'success');
         this.props.handleClose();
       }
     });
@@ -63,7 +64,7 @@ export default class AddDeviceDialoge extends React.Component {
       var deviceList = this.state.deviceList;
       let arr = _.filter(deviceList, device => device === this.state.deviceType);
       if (arr.length > 0) {
-        notify('This Device Type Already In Use');
+        notify('Oops', 'This Device Type Already In Use', 'error');
         this.setState({
           deviceType: ''
         });
@@ -82,9 +83,11 @@ export default class AddDeviceDialoge extends React.Component {
     const actions = [
       <FlatButton label="Delete" secondary style={{marginRight: 5}} onTouchTap={() => {
         if (this.state.checkValue !== '') {
-          if (confirm('Are you sure you want to delete this Device Type ?')) {
-            this.handleDelete();
-          }
+          confirm('Are you sure you want to delete this Device Type ?').then((res) => {
+            if (res) {
+              this.handleDelete();
+            }
+          });
         }
       }} />,
       <FlatButton label="Cancel" primary onTouchTap={this.props.handleClose} style={{marginRight: 5}} />,

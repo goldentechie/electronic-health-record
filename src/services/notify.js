@@ -1,21 +1,4 @@
 
 export function notify (title, text, type) {
-  sweetAlert(title, text, type);
-}
-
-export function confirm (title, text, type) {
-  return new Promise((resolve, reject) => {
-    swal({
-      title:             title,
-      text:              text,
-      type:              type,
-      showCancelButton:  true,
-      confirmButtonText: 'OK',
-      closeOnConfirm:    false,
-      html:              true
-    },
-    (isConfirm) => {
-      resolve(isConfirm);
-    });
-  });
+  swal(title, text, type);
 }

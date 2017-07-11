@@ -24,14 +24,16 @@ class Login extends React.Component {
       this.props.router.push(isNotValid.redirectTo);
     }
     if (props.loggedUser.isError) {
-      notify(props.loggedUser.message);
+      notify('Error !', props.loggedUser.message, 'error');
     }
   }
   doLogin (username, password) {
-    this.props.userLoginRequest({username, password});
+    return this.props.userLoginRequest({username, password});
   }
   doGuestLogin (evt) {
-    this.doLogin('global_guest', 'global_guest');
+    this.doLogin('global_guest', 'global_guest').then((data) => {}, (error) => {
+      notify('Oops!', error, 'warning');
+    });
   }
   render () {
     return (
