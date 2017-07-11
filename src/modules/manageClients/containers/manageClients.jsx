@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import PropTypes from 'prop-types';
 import * as _ from 'lodash';
-import {notify} from 'src/services/notify';
+import {notify} from 'src/services/index';
 import {isNotUserValid} from 'src/services/generic';
 import AlertNotification from 'components/generic/AlertNotification';
 import Header from 'components/generic/Header';

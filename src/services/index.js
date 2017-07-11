@@ -1,7 +1,10 @@
-import {CONFIG} from 'src/config/index';
+import {CONFIG} from '../config/index';
 import _ from 'lodash';
-import {confirm} from 'src/services/notify';
 import 'whatwg-fetch';
+
+export function notify (text) {
+  alert(text);
+}
 
 const actionsForOtherAPIurl = ['get_user_profile_detail', 'get_user_profile_detail_by_id', 'update_user_bank_detail', 'update_user_profile_detail', 'get_all_clients', 'get_client_detail', 'create_new_client', 'create_client_invoice',
   'update_client_details', 'delete_invoice', 'get_user_manage_payslips_data', 'create_employee_salary_slip', 'delete_salary', 'send_payslips_to_employees', 'get_user_document', 'insert_user_document',
@@ -47,10 +50,9 @@ export function fireAjax (method, url, data) {
         });
       });
     } else if (response.status === 401) {
-      confirm('401 ! Access denied!', '<span style="color:#f27474;font-size:18px;font-weight:600">' + action + '</span><br/>You are unauthorized to the Action - Contact Admin!!', 'error').then((res) => {
-        localStorage.removeItem('hr_logged_user');
-        location.href = CONFIG.BASE_URL;
-      });
+      notify('Unauthorized Action ' + action + ' - Contact Admin!!');
+      localStorage.removeItem('hr_logged_user');
+      location.href = CONFIG.BASE_URL;
     } else {
       return response.json();
     }
