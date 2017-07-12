@@ -1,7 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import _ from 'lodash';
-import {notify} from 'src/services/notify';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -35,7 +34,7 @@ export default class AddDeviceDialoge extends React.Component {
     this.props.onCallDeviceType(deviceList).then((val) => {
       if (val.data.not_delete) {
         this.setState({deviceList: this.state.deviceList, checkValue: []});
-        notify('This Device Type Is In Use');
+        alert('This Device Type Is In Use');
         this.props.handleClose();
       } else {
         this.setState({deviceList, deviceType: '', checkValue: []});
@@ -63,7 +62,7 @@ export default class AddDeviceDialoge extends React.Component {
       var deviceList = this.state.deviceList;
       let arr = _.filter(deviceList, device => device === this.state.deviceType);
       if (arr.length > 0) {
-        notify('This Device Type Already In Use');
+        alert('This Device Type Already In Use');
         this.setState({
           deviceType: ''
         });
@@ -84,7 +83,7 @@ export default class AddDeviceDialoge extends React.Component {
         if (this.state.checkValue !== '') {
           if (confirm('Are you sure you want to delete this Device Type ?')) {
             this.handleDelete();
-          }
+          };
         }
       }} />,
       <FlatButton label="Cancel" primary onTouchTap={this.props.handleClose} style={{marginRight: 5}} />,

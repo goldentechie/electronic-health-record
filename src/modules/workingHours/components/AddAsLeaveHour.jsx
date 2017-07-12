@@ -8,7 +8,7 @@ import 'react-date-picker/index.css';
 import {Button, ButtonFlat} from 'components/generic/buttons';
 import ButtonRaised from 'components/generic/buttons/ButtonRaised';
 import {Calendar} from 'react-date-range';
-import {notify} from 'src/services/notify';
+import {notify} from 'src/services/index';
 
 var moment = require('moment');
 
