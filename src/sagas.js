@@ -2,6 +2,10 @@ import {takeLatest} from 'redux-saga/effects';
 import * as constants from 'appRedux/constants';
 import {loginRequest, isAlreadyLoggedIn, forgotPassword, logout} from 'appRedux/auth/actions';
 import {holidayList} from 'appRedux/holidays/actions';
+import {userMonthlyAttendance} from 'appRedux/attendance/actions/monthlyAttendance';
+import {getUserDaySummary, updateUserDaySummary} from 'appRedux/attendance/actions/userDaySummary';
+import {getUsersList} from 'appRedux/generic/actions/usersList';
+import {getAllTeam, saveTeam, getTeamCandidate} from 'appRedux/team/actions/teamList';
 
 export function* watchActions () {
   yield takeLatest(constants.USER_LOGIN_REQUEST, loginRequest);
@@ -10,6 +14,16 @@ export function* watchActions () {
   yield takeLatest(constants.REQUEST_LOGOUT, logout);
 
   yield takeLatest(constants.REQUEST_HOLIDAYSLIST, holidayList);
+
+  yield takeLatest(constants.REQUEST_USER_ATTENDANCE, userMonthlyAttendance);
+  yield takeLatest(constants.REQUEST_USER_DAY_SUMMARY, getUserDaySummary);
+  yield takeLatest(constants.REQUEST_UPDATE_USER_DAY_SUMMARY, updateUserDaySummary);
+
+  yield takeLatest(constants.REQUEST_USERSLIST, getUsersList);
+
+  yield takeLatest(constants.REQUEST_TEAM_LIST, getAllTeam);
+  yield takeLatest(constants.REQUEST_ADD_TEAM, saveTeam);
+  yield takeLatest(constants.REQUEST_GET_TEAM_CANDIDATE, getTeamCandidate);
 }
 
 export default function* rootSaga () {
