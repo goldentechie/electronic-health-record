@@ -1,7 +1,7 @@
 import React from 'react';
 import 'react-date-picker/index.css';
 import ButtonRaised from 'components/generic/buttons/ButtonRaised';
-import {notify} from 'src/services/notify';
+import {notify} from 'src/services/index';
 
 class AddAsHalfDayLeave extends React.Component {
   constructor (props) {
@@ -46,7 +46,7 @@ class AddAsHalfDayLeave extends React.Component {
         this.state.year,
         this.state.month,
         ).then((data) => {
-          notify('Success !','Half day leave Applied','success');
+          notify('Half day leave Applied');
           this.setState({
             form_no_of_days:     '',
             pending_id:          '',
@@ -56,7 +56,7 @@ class AddAsHalfDayLeave extends React.Component {
             show_status_message: true
           });
         }).catch((error) => {
-          notify('Error !',error,'error');
+          notify(error);
         });
     } else if (shift === 2) {
       let day_status = '';
@@ -68,7 +68,7 @@ class AddAsHalfDayLeave extends React.Component {
         this.state.year,
         this.state.month,
         ).then((data) => {
-          notify('Success !','full day leave Applied','success');
+          notify('full day leave Applied');
           this.setState({
             form_no_of_days:     '',
             pending_id:          '',
@@ -78,7 +78,7 @@ class AddAsHalfDayLeave extends React.Component {
             show_status_message: true
           });
         }).catch((error) => {
-          notify('Error !',error,'error');
+          notify(error);
         });
     }
   }

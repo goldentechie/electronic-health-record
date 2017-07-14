@@ -6,7 +6,7 @@ import {monthlyAttendance} from 'appRedux/attendance/reducers/monthlyAttendance'
 import {userDaySummary} from 'appRedux/attendance/reducers/userDaySummary';
 import {usersList} from 'appRedux/generic/reducers/usersList';
 import {workingHoursSummary} from 'appRedux/workingHours/reducers/workingHoursSummary';
-import holidaysList from 'appRedux/holidays/reducers/holidaysList';
+import {holidaysList} from 'appRedux/holidays/reducers/holidaysList';
 import {applyLeave} from 'appRedux/leave/reducers/applyLeave';
 import {listLeaves} from 'appRedux/leave/reducers/listLeaves';
 import {manageLeave} from 'appRedux/leave/reducers/manageLeave';
@@ -26,7 +26,7 @@ import {managePayslips} from 'appRedux/salary/reducers/managePayslips';
 import {empSalaryList} from 'appRedux/salary/reducers/empSalaryDetails';
 import {policyDocuments} from 'appRedux/policyDocuments/reducers/policyDocuments';
 import {template} from 'appRedux/templates/reducers/template';
-import teamList from 'appRedux/team/reducers/teamList';
+import {teamList} from 'appRedux/team/reducers/teamList';
 import {manageDevice} from 'appRedux/inventory/reducers/inventory';
 
 export default combineReducers({

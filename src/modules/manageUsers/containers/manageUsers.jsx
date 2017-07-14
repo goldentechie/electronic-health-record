@@ -4,7 +4,7 @@ import {withRouter} from 'react-router';
 import * as _ from 'lodash';
 import ToggleButton from 'react-toggle-button';
 import PropTypes from 'prop-types';
-import {notify} from 'src/services/notify';
+import {notify} from 'src/services/index';
 import Menu from 'components/generic/Menu';
 import {isNotUserValid} from 'src/services/generic';
 import Header from 'components/generic/Header';
@@ -17,6 +17,7 @@ import DisplayUserDeviceDetails from 'components/manageUser/DisplayUserDeviceDet
 import UserPayslipsHistory from 'components/salary/managePayslips/UserPayslipsHistory';
 import FormAddNewEmployee from 'modules/manageUsers/components/FormAddNewEmployee';
 import FormUserProfileDetails from 'modules/manageUsers/components/FormUserProfileDetails';
+import EmployeeLifeCycle from 'modules/manageUsers/components/EmployeeLifeCycle';
 import * as actions from 'appRedux/actions';
 import * as actionsGetTeamData from 'appRedux/team/actions/teamList';
 import * as actionsUsersList from 'appRedux/generic/actions/usersList';
@@ -46,12 +47,14 @@ class ManageUsers extends React.Component {
     this.handleOpenIframe = this.handleOpenIframe.bind(this);
     this.handleCloseIframe = this.handleCloseIframe.bind(this);
     this.changeEmployeeStatus = this.changeEmployeeStatus.bind(this);
+    this.handleChangeSteps = this.handleChangeSteps.bind(this);
   }
   componentWillMount () {
     this.props.onUsersList();
     this.props.onFetchTeam();
   }
   componentWillReceiveProps (props) {
+    this.props.onGetStages(this.props.loggedUser.data.id);
     let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
@@ -134,6 +137,9 @@ class ManageUsers extends React.Component {
       });
     });
   }
+  handleChangeSteps (stageid, stepid, userid) {
+    this.props.onHandleChangeSteps(stageid, userid, stepid);
+  }
   handleOpenIframe () {
     this.setState({openIframe: true});
   }
@@ -186,6 +192,9 @@ class ManageUsers extends React.Component {
                   />
                 </div>
                 <div className="col-md-10 p">
+                  <div className="row box p-t">
+                    <EmployeeLifeCycle data={this.props.manageUsers.stages} handleChangeSteps={(stageid, stepid) => this.handleChangeSteps(stageid, stepid, this.state.selected_user_id)} />
+                  </div>
                   <div className="row box">
                     <div className="col-md-7 p-t p-b p-r b-r">
                       <FormUserProfileDetails
@@ -279,6 +288,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     onFetchTeam: () => {
       return dispatch(actionsGetTeamData.get_all_team());
+    },
+    onGetStages: (id) => {
+      return dispatch(actionsManageUsers.getSteps(id));
+    },
+    onHandleChangeSteps: (stageid, userid, stepid) => {
+      return dispatch(actionsManageUsers.changeSteps(stageid, userid, stepid));
     }
   };
 };
