@@ -6,10 +6,11 @@ var moment = require('moment');
 const TeamDetails = ({teamListData, fetchUserDetails}) => {
   const onSelectTeam = (emp) => {
     let selectedTeam = emp.target.value;
+    console.log(selectedTeam, 'selectedTeam');
     fetchUserDetails(selectedTeam);
   };
-  let teams = teamListData && teamListData.teams || [];
-  let teamData = teamListData && teamListData.candidateByTeam || [];
+  let teams = teamListData.teamList && teamListData.teamList.data || [];
+  let teamData = teamListData.candidateByTeam && teamListData.candidateByTeam.data || [];
   let row = _.map(teamData, (emp, key) => {
     return (
       <tr key={key}>
