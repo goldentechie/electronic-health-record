@@ -1,7 +1,10 @@
 import 'whatwg-fetch';
+import 'sweetalert';
+import 'sweetalert/dist/sweetalert.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRoute, hashHistory, browserHistory, useRouterHistory} from 'react-router';
+import {Router, Route, IndexRoute, useRouterHistory} from 'react-router';
 import {createHashHistory} from 'history';
 import {Provider} from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
