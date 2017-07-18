@@ -46,10 +46,11 @@ class MyLeaves extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    frontend:   state.frontend.toJS(),
-    loggedUser: state.logged_user.userLogin,
-    userLeaves: state.userLeaves.toJS(),
-    applyLeave: state.applyLeave.toJS()
+    frontend:     state.frontend.toJS(),
+    loggedUser:   state.logged_user.userLogin,
+    holidaysList: state.holidaysList.toJS(),
+    userLeaves:   state.userLeaves.toJS(),
+    applyLeave:   state.applyLeave.toJS()
   };
 }
 const mapDispatchToProps = (dispatch) => {
