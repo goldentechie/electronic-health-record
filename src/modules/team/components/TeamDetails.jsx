@@ -3,13 +3,13 @@ import 'whatwg-fetch';
 import * as _ from 'lodash';
 var moment = require('moment');
 
-const TeamDetails = ({teamList, team, fetchUserDetails}) => {
+const TeamDetails = ({teamListData, fetchUserDetails}) => {
   const onSelectTeam = (emp) => {
     let selectedTeam = emp.target.value;
     fetchUserDetails(selectedTeam);
   };
-  let teams = teamList && teamList.data || [];
-  let teamData = team && team.data || [];
+  let teams = teamListData && teamListData.teams || [];
+  let teamData = teamListData && teamListData.candidateByTeam || [];
   let row = _.map(teamData, (emp, key) => {
     return (
       <tr key={key}>
