@@ -8,7 +8,7 @@ import 'react-date-picker/index.css';
 import {Button, ButtonFlat} from 'components/generic/buttons';
 import ButtonRaised from 'components/generic/buttons/ButtonRaised';
 import {Calendar} from 'react-date-range';
-import {notify} from 'src/services/notify';
+import {notify} from 'src/services/index';
 
 var moment = require('moment');
 
@@ -129,7 +129,7 @@ class AddAsLeaveHour extends React.Component {
       this.state.year,
       this.state.month,
       ).then((data) => {
-        notify('Success','leave Applied','success');
+        notify('leave Applied');
         this.handleClose();
         // this.props.onUserPendingHoursData(this.state.year, this.state.month);
         this.setState({
@@ -148,7 +148,7 @@ class AddAsLeaveHour extends React.Component {
           show_status_message:  true
         });
       }).catch((error) => {
-        notify('Error !',error,'error');
+        notify(error);
       });
   }
 

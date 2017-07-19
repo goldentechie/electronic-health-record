@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import _ from 'lodash';
-import {notify} from 'src/services/notify';
+import {notify} from 'src/services/index';
 import Menu from 'components/generic/Menu';
 import {isNotUserValid} from 'src/services/generic';
 import LoadingIcon from 'components/generic/LoadingIcon';
@@ -106,7 +106,7 @@ class InventorySystem extends React.Component {
 
   callUpdateUserDeviceDetails (newDeviceDetails) {
     this.props.onUpdateUserDeviceDetails(newDeviceDetails).then((data) => {}, (error) => {
-      notify('Error !', error, 'error');
+      notify(error);
     });
   }
   callFetchDeviceType () {
@@ -190,7 +190,7 @@ class InventorySystem extends React.Component {
       });
       this.props.onFetchDevice();
     }, (error) => {
-      notify('Error !', error, '');
+      notify(error);
     });
   }
   render () {

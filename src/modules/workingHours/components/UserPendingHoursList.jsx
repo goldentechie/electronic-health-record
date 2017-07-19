@@ -1,13 +1,20 @@
 import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import Paper from 'material-ui/Paper';
+import {connect} from 'react-redux';
+
 import 'react-date-picker/index.css';
 import {CONFIG} from 'src/config/index';
-import {notify} from 'src/services/notify';
+import {notify} from 'src/services/index';
+import * as actions_login from 'appRedux/auth/actions/index';
+
 import PendingHourSummary from './PendingHourSummary';
 import AddUserPendingHour from './AddUserPendingHour';
 import AddAsLeaveHour from './AddAsLeaveHour';
 import AddAsHalfDayLeave from './AddAsHalfDayLeave';
+
+var moment = require('moment');
 
 export default class UserPendingHoursList extends React.Component {
   constructor (props) {
@@ -54,10 +61,10 @@ export default class UserPendingHoursList extends React.Component {
       this.setState({
         reason: ''
       });
-      notify('Success !', message, 'success');
+      notify(message);
       this.handleCloseMerge();
     }, (error) => {
-      notify('Error !', error, 'error');
+      notify(error);
     });
   }
   handleOpenMerge () {
@@ -133,9 +140,9 @@ export default class UserPendingHoursList extends React.Component {
             : <td><mark>{'Pending'}</mark></td>
         }
 
-        {val.status_merged === 0
-          ? <td>{addButton} {HalfdayButton} {leaveButton}</td>
-          : <td> <mark>{'No Action Required'} </mark></td>
+        {val.status
+          ? <td> <mark>{'No Action Required'} </mark></td>
+          : <td>{addButton} {HalfdayButton} {leaveButton}</td>
       }
         </tr>
       );
