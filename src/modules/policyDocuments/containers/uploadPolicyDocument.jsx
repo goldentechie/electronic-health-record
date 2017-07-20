@@ -61,7 +61,6 @@ class UploadPolicyDocumentContainer extends React.Component {
     });
   }
   submitDocs (docs) {
-    console.log(typeof docs, docs);
     this.props.onSubmitDocs(docs).then(() => {
       this.setState({
         errClass: 'alert-success pull-left',
@@ -111,7 +110,7 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(actions.isAlreadyLogin());
     },
     onSubmitDocs: (docs) => {
-      return dispatch(actions.requestSubmitDocs(docs));
+      return dispatch(actions_policy.submitDocs(docs));
     }
   };
 };
