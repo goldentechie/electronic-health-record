@@ -55,7 +55,6 @@ webpackConfig.output = {
 // Plugins
 // ------------------------------------
 webpackConfig.plugins = [
-  new ExtractTextPlugin('main.css'),
   new webpack.DefinePlugin(config.globals),
   new HtmlWebpackPlugin({
     template: './src/index.html', // paths.client('index.html'),
@@ -102,11 +101,12 @@ webpackConfig.module.rules = [{
 // ------------------------------------
 webpackConfig.module.rules.push({
   test: /\.(css|sass|scss)$/,
-  use:  ExtractTextPlugin.extract({
-    fallback: 'style-loader',
-          // resolve-url-loader may be chained before sass-loader if necessary
-    use:      ['css-loader', 'sass-loader', 'postcss-loader']
-  })
+  use:  [
+    'style-loader',
+    'css-loader',
+    'sass-loader',
+    'postcss-loader'
+  ]
 });
 
 // File loaders
