@@ -1,6 +1,7 @@
 import React from 'react';
 import * as _ from 'lodash';
 import Paper from 'material-ui/Paper';
+import {CONFIG} from 'src/config/index';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
