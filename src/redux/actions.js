@@ -34,14 +34,17 @@ export const requestUsersList = createAction(constants.REQUEST_USERSLIST);
 export const successUsersList = createAction(constants.SUCCESS_USERSLIST);
 export const errorUsersList = createAction(constants.ERROR_USERSLIST);
 
-export const requestTeamList = createAction(constants.REQUEST_TEAM_LIST);
-export const successTeamList = createAction(constants.SUCCESS_TEAM_LIST);
-export const errorTeamList = createAction(constants.ERROR_TEAM_LIST);
+export const requestfetchPolicyDocument = createAction(constants.REQUEST_POLICY_DOCUMENT);
 
-export const requestAddTeam = createAction(constants.REQUEST_ADD_TEAM);
-export const successAddTeam = createAction(constants.SUCCESS_ADD_TEAM);
-export const errorAddTeam = createAction(constants.ERROR_ADD_TEAM);
+export const requestfetchUserPolicyDocument = createAction(constants.REQUEST_USER_POLICY_DOCUMENT);
+export const successFetchPolicyDocuments = createAction(constants.POLICY_DOCUMENT_SUCCESS);
+export const errorFetchPolicyDocuments = createAction(constants.POLICY_DOCUMENT_FAIL);
 
-export const requestGetTeam = createAction(constants.REQUEST_GET_TEAM);
-export const successGetTeam = createAction(constants.SUCCESS_GET_TEAM);
-export const errorGetTeam = createAction(constants.ERROR_GET_TEAM);
+export const userDataUpdated = createAction(constants.USER_LOGIN_SUCCESS);
+
+export const requestSubmitDocs = createAction(constants.REQUEST_SUBMIT_DOCS);
+export const successSubmitDocs = createAction(constants.SUCCESS_SUBMIT_DOCS);
+export const errorSubmitDocs = createAction(constants.ERROR_SUBMIT_DOCS);
+
+export const requestUpdateReadStatus = createAction(constants.REQUEST_UPDATE_READ);
+export const errorUpdateReadStatus = createAction(constants.ERROR_UPDATE_READ);

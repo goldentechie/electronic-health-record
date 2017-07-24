@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {Card, CardHeader} from 'material-ui/Card';
-import LoadingIcon from 'components/generic/LoadingIcon';
 import Message from 'components/generic/Message';
 
 const styles = {
@@ -16,7 +15,7 @@ class DocumentsList extends React.Component {
     super(props);
     this.state = {
       errClass: 'hidden',
-      errMsg: ''
+      errMsg:   ''
     };
     this.hideError = this.hideError.bind(this);
     this.updateReadStatus = this.updateReadStatus.bind(this);
@@ -25,7 +24,7 @@ class DocumentsList extends React.Component {
     e.preventDefault();
     this.setState({
       errClass: 'hidden',
-      errMsg: ''
+      errMsg:   ''
     });
   }
   updateReadStatus (doc, e) {
@@ -36,48 +35,41 @@ class DocumentsList extends React.Component {
       }
     });
     updateDoc.push(doc.name);
-    this.props.onUpdateReadStatus(updateDoc).then((updated) => {
-      this.setState({
-        errClass: 'alert-success pull-left',
-        errMsg: updated
-      });
-    }).catch((err) => {
-      this.setState({
-        errClass: 'alert-danger pull-left',
-        errMsg: err
-      });
-    });
+    this.props.onUpdateReadStatus(updateDoc);
   }
   render () {
-    let documentsList = _.map(this.props.policyDocuments, (doc, i) => (
-      <Card key={i} style={{boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 0px 1px, rgba(0, 0, 0, 0.117647) 0px 0px 0px'}} >
-        <CardHeader
-          title={<span>{doc.name}</span>}
-          subtitle={<a href={doc.link} target="_blanck" onClick={() => this.updateReadStatus(doc)}>{doc.link}</a>}
-          style={{marginTop: '10px', borderLeft: doc.read ? '5px solid rgb(76, 175, 80)' : '5px solid rgb(255, 0, 0)'}}
-          titleStyle={{color: doc.read ? 'rgba(12, 12, 12, 0.54)' : '#000000', fontSize: '18px'}}
-        />
-      </Card>
-    ));
+    let documentsList = _.map(this.props.policyDocuments, (doc, i) => {
+      console.log(this.props.policyDocuments, doc, '=========DocumentsList');
+      return (
+        <Card key={i} style={{boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 0px 1px, rgba(0, 0, 0, 0.117647) 0px 0px 0px'}} >
+          <CardHeader
+            title={<span>{doc.name}</span>}
+            subtitle={<a href={doc.link} target="_blanck" onClick={() => this.updateReadStatus(doc)}>{doc.link}</a>}
+            style={{marginTop: '10px', borderLeft: doc.read ? '5px solid rgb(76, 175, 80)' : '5px solid rgb(255, 0, 0)'}}
+            titleStyle={{color: doc.read ? 'rgba(12, 12, 12, 0.54)' : '#000000', fontSize: '18px'}}
+          />
+        </Card>
+      );
+    });
     return (
       <div className="app-body" id="view" style={{'marginTop': 10}}>
-        <div className="col-xs-12 col-sm-12" style={{ 'float': 'right'}}>
-           <div className="row" style={{margin: '0px 4px 0px'}}>
-             <div className='col-xs-12' style={{paddingTop: '10px', textAlign: 'center'}}>
-               <Message className={this.state.errClass} style={styles.errorAlert} message={this.state.errMsg} onClick={this.hideError} />
-             </div>
-             <div className="col-xs-12">
-               <Card style={{boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 0px 1px, rgba(0, 0, 0, 0.117647) 0px 0px 0px'}} >
-                 <CardHeader
-                   title="Policy Documents List"
-                   subtitle={<span>(Please read & accept all the policy documents to get access to this site. Incase of issues contact HR)</span>}
-                   subtitleStyle={{color: 'rgba(255, 0, 0, 0.66)', fontSize: '12px', fontStyle: 'italic'}}
-                   style={{marginBottom: '10px'}}
-                 />
-               </Card>
-               {documentsList}
-             </div>
-           </div>
+        <div className="col-xs-12 col-sm-12" style={{'float': 'right'}}>
+          <div className="row" style={{margin: '0px 4px 0px'}}>
+            <div className='col-xs-12' style={{paddingTop: '10px', textAlign: 'center'}}>
+              <Message className={this.state.errClass} style={styles.errorAlert} message={this.state.errMsg} onClick={this.hideError} />
+            </div>
+            <div className="col-xs-12">
+              <Card style={{boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 0px 1px, rgba(0, 0, 0, 0.117647) 0px 0px 0px'}} >
+                <CardHeader
+                  title="Policy Documents List"
+                  subtitle={<span>(Please read & accept all the policy documents to get access to this site. Incase of issues contact HR)</span>}
+                  subtitleStyle={{color: 'rgba(255, 0, 0, 0.66)', fontSize: '12px', fontStyle: 'italic'}}
+                  style={{marginBottom: '10px'}}
+                />
+              </Card>
+              {documentsList}
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -85,7 +77,7 @@ class DocumentsList extends React.Component {
 }
 
 DocumentsList.PropTypes = {
-  policyDocuments: PropTypes.array.isRequired,
+  policyDocuments:    PropTypes.array.isRequired,
   onUpdateReadStatus: PropTypes.func.isRequired
 };
 
