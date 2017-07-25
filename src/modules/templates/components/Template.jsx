@@ -17,7 +17,6 @@ import Delete from 'material-ui/svg-icons/action/delete';
 import LoadingIcon from 'components/generic/LoadingIcon';
 import EditableDiv from 'components/editor/EditableDiv';
 import FilterLabel from 'components/template/FilterLabel';
-import {getToken} from 'src/services/generic';
 import {Router, browserHistory, Link, withRouter} from 'react-router';
 import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 var FormData = require('form-data');
@@ -601,7 +600,8 @@ class Variables extends React.Component {
     var file_data = $('#file_image').prop('files');
     var form_data = new FormData();
     var LinearProgressBar = [];
-    form_data.append('token', getToken());
+    let token = localStorage.getItem('hr_logged_user');
+    form_data.append('token', token);
     for (var i in file_data) {
       form_data.append(i.toString(), file_data[i]);
     }
@@ -851,7 +851,7 @@ class Variables extends React.Component {
                             <span className="b-b" onClick={() => this.deleteTemplate(tmp)} ><i className="fa fa-trash tempalate-btn delete" aria-hidden="true" title="Delete"></i>Delete Template</span>
                           </div>
                         </div>
-                        <div className="col-xs-12 m-b"><span style={{display: 'inline-flex'}}><b>Name:                                                                                                                                                                                                                                                                                                                        </b><div className="p-l" dangerouslySetInnerHTML={{__html: tmp.name}}></div></span></div>
+                        <div className="col-xs-12 m-b"><span style={{display: 'inline-flex'}}><b>Name:                                                                                                                                                                                                                                                                      </b><div className="p-l" dangerouslySetInnerHTML={{__html: tmp.name}}></div></span></div>
                         <div className="col-xs-12 m-b"><span style={{display: 'inline-flex'}}><b>Subject: </b><div className="p-l" dangerouslySetInnerHTML={{__html: tmp.subject}}></div></span></div>
                         <div className="col-xs-12 m-b"><span style={{display: 'inline-flex'}}><b>Body: </b><div className="p-l" dangerouslySetInnerHTML={{__html: tmp.body}}></div></span></div>
                     </Paper>
