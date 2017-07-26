@@ -152,11 +152,11 @@ ApplyLeave.styles = {
 
 function mapStateToProps (state) {
   return {
-    frontend:        state.frontend.toJS(),
-    loggedUser:      state.logged_user.userLogin,
-    usersList:       state.usersList.toJS(),
-    applyLeave:      state.applyLeave.toJS(),
-    policyDocuments: state.policyDocuments.policyDocument.data
+    frontend:         state.frontend.toJS(),
+    loggedUser:       state.logged_user.userLogin,
+    usersList:        state.usersList.toJS(),
+    applyLeave:       state.applyLeave.toJS(),
+    policy_documents: state.policyDocuments.toJS()
 
   };
 }
@@ -175,7 +175,7 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(actions_usersList.get_users_list());
     },
     onFetchUserPolicyDocument: () => {
-      return dispatch(actions.requestUserPolicyDocument());
+      return dispatch(actions_policy.fetchUserPolicyDocument());
     }
   };
 };
