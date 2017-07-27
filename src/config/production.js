@@ -1,6 +1,4 @@
-import {getToken} from 'src/services/generic';
-
-const token = getToken();
+const token = localStorage.getItem('hr_logged_user');
 
 const CONFIG = {
   BASE_URL:                  window.location.href.split('/#')[0] || 'http://hr.excellencetechnologies.in/',
