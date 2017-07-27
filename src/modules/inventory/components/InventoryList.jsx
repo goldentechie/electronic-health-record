@@ -232,13 +232,10 @@ class InventoryList extends React.Component {
           {<b>Warranty Expire : </b>}
           {moment(device.warranty_end_date).format('Do MMMM YYYY')}
         </td>
-        {device.mac_address
-        ? <td style={{align: 'center'}}>
+        <td style={{align: 'center'}}>
           {device.mac_address}
           <br />
-        </td> : <td style={{align: 'center'}}>
-        {'Not Required'} </td>
-      }
+        </td>
         <td style={{align: 'center'}}>{'₹'}{device.machine_price}</td>
         <td style={{align: 'center'}}>
           {device.serial_number}
@@ -271,7 +268,6 @@ class InventoryList extends React.Component {
             confirm('Are you sure ?', 'Do you want to delete this record ?', 'warning').then((res) => {
               if (res) {
                 this.deleteDevices(device.id);
-                notify('Deleted !', '', 'success');
               }
             });
           }} aria-hidden="true"></i>
