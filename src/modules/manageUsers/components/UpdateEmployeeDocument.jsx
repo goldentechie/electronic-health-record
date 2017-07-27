@@ -2,7 +2,6 @@ import React from 'react';
 import * as _ from 'lodash';
 import Dialog from 'material-ui/Dialog';
 import {notify} from 'src/services/notify';
-import {getToken} from 'src/services/generic';
 import {CONFIG} from 'src/config/index';
 import 'react-date-picker/index.css';
 
@@ -10,9 +9,9 @@ class UpdateEmployeeDocument extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      user_id:    '',
-      open:       false,
-      doc_type:   '',
+      user_id: '',
+      open: false,
+      doc_type: '',
       user_token: ''
     };
     this.deleteDocument = this.deleteDocument.bind(this);
@@ -21,7 +20,8 @@ class UpdateEmployeeDocument extends React.Component {
     this.callUpdateDocuments = this.callUpdateDocuments.bind(this);
   }
   componentWillReceiveProps (props) {
-    this.setState({user_token: getToken()});
+    let token = localStorage.getItem('hr_logged_user');
+    this.setState({user_token: token});
     if (typeof props.user_id !== 'undefined' && props.user_id !== null) {
       this.setState({user_id: props.user_id});
     }
@@ -145,7 +145,7 @@ class UpdateEmployeeDocument extends React.Component {
 }
 
 UpdateEmployeeDocument.styles = {
-  checkbox:     {verticalAlign: 'middle'},
+  checkbox: {verticalAlign: 'middle'},
   declearation: {display: 'inline-flex', width: '90%', marginLeft: '10px'}
 };
 
