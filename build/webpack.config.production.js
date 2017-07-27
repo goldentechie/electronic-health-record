@@ -37,8 +37,7 @@ const webpackConfig = {
       src:        `${projectRoot}/src`,
       components: `${projectRoot}/src/components`,
       modules:    `${projectRoot}/src/modules`,
-      appRedux:   `${projectRoot}/src/redux`,
-      styles:     `${projectRoot}/src/styles`
+      appRedux:   `${projectRoot}/src/redux`
     },
     extensions: ['.js', '.jsx', '.json'],
     modules:    [
@@ -72,7 +71,6 @@ webpackConfig.output = {
 // Plugins
 // ------------------------------------
 webpackConfig.plugins = [
-  new ExtractTextPlugin('[name].[hash].css'),
   new webpack.DefinePlugin(config.globals),
   new HtmlWebpackPlugin({
     template: './src/index.html', // paths.client('index.html'),
@@ -155,9 +153,9 @@ webpackConfig.module.rules = [{
     plugins:        ['transform-runtime'],
     presets:        ['es2015', 'react', 'stage-0'],
     env:            {
-      production: {
-        presets: ['react-optimize']
-      }
+      // production: {
+      //   presets: ['react-optimize']
+      // }
     }
   }
 },
@@ -211,10 +209,12 @@ webpackConfig.module.rules = [{
 
 webpackConfig.module.rules.push({
   test: /\.(css|sass|scss)$/,
-  use:  ExtractTextPlugin.extract({
-    fallback: 'style-loader',
-    use:      ['css-loader', 'sass-loader', 'postcss-loader']
-  })
+  use:  [
+    'style-loader',
+    'css-loader',
+    'sass-loader',
+    'postcss-loader'
+  ]
 });
 
 // }
