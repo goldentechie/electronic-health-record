@@ -268,7 +268,6 @@ class InventoryList extends React.Component {
             confirm('Are you sure ?', 'Do you want to delete this record ?', 'warning').then((res) => {
               if (res) {
                 this.deleteDevices(device.id);
-                notify('Deleted !', '', 'success');
               }
             });
           }} aria-hidden="true"></i>
