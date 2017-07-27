@@ -1,7 +1,6 @@
 import React from 'react';
 import * as _ from 'lodash';
 import {CONFIG} from 'src/config/index';
-import {getToken} from 'src/services/generic';
 import {ButtonRaised, ButtonFlat} from 'components/generic/buttons';
 
 class ViewLeave extends React.Component {
@@ -11,9 +10,11 @@ class ViewLeave extends React.Component {
       messagetouser:     '',
       notifyMsg:         'Document Required Notification Sent',
       document_required: true,
+      user_token:        '',
       messageByHr:       '',
       edit:              false,
       editedComment:     ''
+
     };
     this.handleNotify = this.handleNotify.bind(this);
     this.handleComment = this.handleComment.bind(this);
@@ -24,6 +25,8 @@ class ViewLeave extends React.Component {
   }
 
   componentWillReceiveProps (props) {
+    let token = localStorage.getItem('hr_logged_user');
+    this.setState({user_token: token});
     this.setState({messagetouser: '', edit: false});
   }
   handleSave (data) {
@@ -43,7 +46,7 @@ class ViewLeave extends React.Component {
   }
 
   handleExtraDay (day) {
-    this.props.onAddExtraDay(this.props.selectedLeave.id, getToken(), day);
+    this.props.onAddExtraDay(this.props.selectedLeave.id, this.state.user_token, day);
   }
   handleNotify () {
     this.props.onDocRequired(this.props.selectedLeave.id, '1', '');
@@ -98,11 +101,11 @@ class ViewLeave extends React.Component {
         <div className="sl-item b-info" key={k}>
           <div className="sl-content">
             <div className="sl-date text-muted">  Applied On  : {d.applied_on}</div>
-            <div className="sl-date text-muted">{d.from_date} to {d.to_date} / No of Days : {d.no_of_days}</div>
-            <div>
-              {d.status} - {d.reason}
+              <div className="sl-date text-muted">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          {d.from_date} to {d.to_date} / No of Days : {d.no_of_days}</div>
+              <div>
+            {d.status} - {d.reason}
+              </div>
             </div>
-          </div>
         </div>
       );
     });
@@ -173,7 +176,7 @@ class ViewLeave extends React.Component {
               </div>
             </div>
             <div className="col-sm-8">
-            <div>Status - <i><b>{status}</b></i></div>
+            <div>Status - <i><b>{status}</b>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </i></div>
             <div>Applied On <i><b>{this.props.selectedLeave.applied_on}</b></i></div>
             <div><b>{this.props.selectedLeave.from_date} To {this.props.selectedLeave.to_date}</b></div>
             <div>No. of Days - <i><b>{this.props.selectedLeave.no_of_days}</b></i></div>
