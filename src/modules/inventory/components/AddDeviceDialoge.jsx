@@ -62,7 +62,7 @@ export default class AddDeviceDialoge extends React.Component {
   addMoreDevice () {
     if (!_.isEmpty(this.state.deviceType)) {
       var deviceList = this.state.deviceList;
-      let arr = _.filter(deviceList, device => device.toLowerCase() === this.state.deviceType.trim().toLowerCase());
+      let arr = _.filter(deviceList, device => device === this.state.deviceType);
       if (arr.length > 0) {
         notify('Oops', 'This Device Type Already In Use', 'error');
         this.setState({
@@ -75,8 +75,8 @@ export default class AddDeviceDialoge extends React.Component {
           deviceList: deviceList
         });
       }
-      this.props.callAddDevice(this.state.deviceList);
     }
+    this.props.callAddDevice(this.state.deviceList);
   }
 
   render () {
