@@ -11,7 +11,7 @@ export function confirm (title, text, type) {
       type:              type,
       showCancelButton:  true,
       confirmButtonText: 'OK',
-      closeOnConfirm:    true,
+      closeOnConfirm:    false,
       html:              true
     },
     (isConfirm) => {

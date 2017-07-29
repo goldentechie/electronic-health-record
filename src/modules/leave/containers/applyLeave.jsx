@@ -14,6 +14,12 @@ import * as actions_usersList from 'appRedux/generic/actions/usersList';
 import * as actions_policy from 'appRedux/policyDocuments/actions/index';
 import * as actions_apply_leave from 'appRedux/leave/actions/applyLeave';
 
+const styles = {
+  content: {
+    'paddingTop': '50px'
+  }
+};
+
 class ApplyLeave extends React.Component {
   constructor (props) {
     super(props);
@@ -128,7 +134,7 @@ class ApplyLeave extends React.Component {
         <div id="content" className="app-content box-shadow-z0" role="main">
           <Header pageTitle={'Apply Leave'} status={status_message} showLoading={this.props.frontend.show_loading} />
           <div className="app-body" id="view">
-            <div className="padding p-t-lg">
+            <div style={styles.content} className="padding">
               {mainDivs}
             </div>
           </div>
@@ -146,11 +152,12 @@ ApplyLeave.styles = {
 
 function mapStateToProps (state) {
   return {
-    frontend:        state.frontend.toJS(),
-    loggedUser:      state.logged_user.userLogin,
-    usersList:       state.usersList.toJS(),
-    applyLeave:      state.applyLeave.toJS(),
-    policyDocuments: state.policyDocuments.policyDocument
+    frontend:         state.frontend.toJS(),
+    loggedUser:       state.logged_user.userLogin,
+    usersList:        state.usersList.toJS(),
+    applyLeave:       state.applyLeave.toJS(),
+    policy_documents: state.policyDocuments.toJS()
+
   };
 }
 const mapDispatchToProps = (dispatch) => {
@@ -168,7 +175,7 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(actions_usersList.get_users_list());
     },
     onFetchUserPolicyDocument: () => {
-      return dispatch(actions.requestUserPolicyDocument());
+      return dispatch(actions_policy.fetchUserPolicyDocument());
     }
   };
 };
