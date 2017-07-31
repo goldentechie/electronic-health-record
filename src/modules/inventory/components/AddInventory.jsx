@@ -1,4 +1,5 @@
 import React from 'react';
+import * as _ from 'lodash';
 import 'react-date-picker/index.css';
 import Dialog from 'material-ui/Dialog';
 import {DateField} from 'react-date-picker';
@@ -10,7 +11,6 @@ export default class FormAddNewInventory extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      hide:             true,
       open:             false,
       edit:             false,
       id:               '',
@@ -108,8 +108,7 @@ export default class FormAddNewInventory extends React.Component {
       warranty:         this.state.warranty,
       user_Id:          this.state.user_Id
     };
-
-    if (this.state.machine_type.toLowerCase() === 'laptop' || 'cpu') {
+    if (this.state.machine_type === 'Laptop' || this.state.machine_type === 'CPU') {
       let mac = this.state.mac_address;
       // regex for mac_address
       var pattern = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/i;
@@ -213,11 +212,11 @@ export default class FormAddNewInventory extends React.Component {
           title={this.state.edit ? 'UPDATE INVENTORY' : 'ADD INVENTORY'}
           titleStyle={{opacity: '0.56'}}
           modal={false}
-          open={this.state.open}
-          onRequestClose={this.props.handleClose}
-          contentStyle={{width: '70%', maxWidth: 'none'}}
-          autoScrollBodyContent
-          >
+          open={this.state.open} onRequestClose={this.props.handleClose} contentStyle={{
+            width:    '70%',
+            maxWidth: 'none'
+          }} autoScrollBodyContent >
+
           <div className="col-md-12">
             <div className="row">
               <div className="col-md-6">
@@ -246,15 +245,7 @@ export default class FormAddNewInventory extends React.Component {
               <div className="col-md-6" style={{opacity: '0.56', marginTop: '2%'}}>
                 {'Machine/Device Type'}
                 <select className="form-control" ref="machine_type" value={this.state.machine_type}
-                  onChange={(evt) => {
-                    let check = true;
-                    if (evt.target.value.toLowerCase() === 'laptop' || evt.target.value.toLowerCase() === 'cpu') {
-                      check = false;
-                    } else {
-                      check = true;
-                    }
-                    this.setState({machine_type: evt.target.value, hide: check});
-                  }}>
+                  onChange={(evt) => { this.setState({machine_type: evt.target.value}); }}>
                   <option value='' disabled>--Select Device--</option>
                   {this.state.deviceTypeList.map((val, i) => {
                     return <option key={i} value={val}> {val}</option>;
@@ -287,7 +278,9 @@ export default class FormAddNewInventory extends React.Component {
                 {'Assign User'}
                 <select
                   value={this.state.user_Id}
-                  onChange={(evt) => { this.setState({user_Id: evt.target.value}); }}
+                  onChange={(evt) => {
+                    this.setState({user_Id: evt.target.value});
+                  }}
                   className="form-control" required>
                   <option value='' disabled>Select User</option>
                   {userList}
@@ -298,11 +291,11 @@ export default class FormAddNewInventory extends React.Component {
                 <TextField
                   floatingLabelText="Mac Address"
                   hintText='00:25:96:FF:FE:12'
-                  disabled={this.state.hide}
+                  disabled={!((this.state.machine_type === 'Laptop' || this.state.machine_type === 'CPU'))}
                   fullWidth
                   onBlur={(e) => { this.setState({mac_address: this.state.mac_address.trim()}); }}
                   onChange={(e) => { this.setState({mac_address: e.target.value}); }}
-                  value={(this.state.machine_type.toLowerCase() === 'laptop' || 'cpu') ? this.state.mac_address : null} />
+                  value={(this.state.machine_type === 'Laptop' || this.state.machine_type === 'CPU') ? this.state.mac_address : null} />
               </div>
             }
 
@@ -346,20 +339,16 @@ export default class FormAddNewInventory extends React.Component {
 
               <div className="col-md-6" style={{opacity: '0.56'}}>
                 {'Extended Warranty Comment'}
-                <textarea
-                  style={{width: '100%'}}
+                <textarea style={{width: '100%'}}
                   onBlur={(e) => { this.setState({warranty_comment: this.state.warranty_comment.trim()}); }}
-                  onChange={(e) => { this.setState({warranty_comment: e.target.value}); }}
-                  value={this.state.warranty_comment} />
+                  onChange={(e) => { this.setState({warranty_comment: e.target.value}); }} value={this.state.warranty_comment} />
               </div>
 
               <div className="col-md-6" style={{opacity: '0.56'}}>
                 {'Previous Repair Comment'}
-                <textarea
-                  style={{width: '100%'}}
+                <textarea style={{width: '100%'}}
                   onBlur={(e) => { this.setState({repair_comment: this.state.repair_comment.trim()}); }}
-                  onChange={(e) => { this.setState({repair_comment: e.target.value}); }}
-                  value={this.state.repair_comment} />
+                  onChange={(e) => { this.setState({repair_comment: e.target.value}); }} value={this.state.repair_comment} />
               </div>
             </div>
           </div>

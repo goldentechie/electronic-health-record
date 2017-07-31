@@ -96,9 +96,7 @@ export default class AddDeviceStatus extends React.Component {
           actions={actions}
           modal={false}
           open={this.props.open}
-          onRequestClose={this.handleStatusClose}
-          autoScrollBodyContent >
-
+          onRequestClose={this.handleStatusClose} >
           <div className="row m-0">
             <div className='col-sm-5' style={{overflowY: 'auto', maxHeight: '250px'}}>
               <label>Status Type List</label>
@@ -110,12 +108,7 @@ export default class AddDeviceStatus extends React.Component {
                     statusColor = col[0].color;
                   }
                   return <li key={i}>
-                    <input
-                      type='radio'
-                      name="first"
-                      value={val.status}
-                      onChange={(e) => { this.setState({checkValue: e.target.value}); }}
-                    />
+                    <input type='radio' name="first" value={val.status} onChange={(e) => { this.setState({checkValue: e.target.value}); }} />
                     {val.status}
                     <span style={{
                       background: statusColor,
@@ -127,18 +120,17 @@ export default class AddDeviceStatus extends React.Component {
                   </li>;
                 })}
               </ol>
-              <vr />
             </div>
             <div className='col-sm-7' style={{marginTop: '5%'}}>
               <div>
-                <TextField
-                  fullWidth
-                  ref='value'
-                  floatingLabelText={'Status Type'}
+                <TextField ref='value' floatingLabelText={'Status Type'} fullWidth
                   onBlur={(e) => { this.setState({statusType: this.state.statusType.trim(), colorPicker: 'hide'}); }}
-                  onChange={(e) => { this.setState({colorPicker: 'show', statusType: e.target.value}); }}
-                  value={this.state.statusType}
-                />
+                  onChange={(e) => {
+                    this.setState({
+                      colorPicker: 'show',
+                      statusType:  e.target.value
+                    });
+                  }} value={this.state.statusType} />
               </div>
                 {this.state.statusType
                   ? <div className='col-sm-12 well'>
