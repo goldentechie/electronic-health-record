@@ -82,7 +82,8 @@ function mapStateToProps (state) {
     frontend:          state.frontend.toJS(),
     userDaySummary:    state.userDaySummary.toJS(),
     loggedUser:        state.logged_user.userLogin,
-    monthlyAttendance: state.monthlyAttendance.toJS()
+    monthlyAttendance: state.monthlyAttendance.toJS(),
+    policy_documents:  state.policyDocuments.toJS()
   };
 }
 const mapDispatchToProps = (dispatch) => {
