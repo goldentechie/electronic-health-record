@@ -96,7 +96,7 @@ export default class AddDeviceDialoge extends React.Component {
     ];
     return (
       <div>
-        <button className="md-btn md-raised m-b-sm indigo" onTouchTap={this.props.handleOpen}>Add Device Type</button>
+        {this.props.loggedUser.data.role === CONFIG.ADMIN ? <button className="md-btn md-raised m-b-sm indigo" onTouchTap={this.props.handleOpen}>Add Device Type</button> : null}
         <Dialog
           title={'ADD DEVICE TYPE'}
           titleStyle={{opacity: '0.56'}}
