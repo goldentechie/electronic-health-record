@@ -42,12 +42,9 @@ const UsersList = ({users, selectedUserId, onUserClick, disabledUser}) => {
   return (
     <div className="row">
       <div className="col-12">
-        <div className="box user-list-container">
+        <div className="box">
           <ul className="list no-border p-b">
-            {
-              // asdasd
-              usersList
-            }
+            {usersList}
           </ul>
         </div>
       </div>
