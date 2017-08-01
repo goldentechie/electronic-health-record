@@ -1,7 +1,6 @@
 import React from 'react';
 import * as _ from 'lodash';
 import {notify, confirm} from 'src/services/notify';
-import {getLowerCase} from 'src/services/generic';
 import AddDeviceDialoge from 'modules/inventory/components/AddDeviceDialoge';
 import AddDeviceStatus from 'modules/inventory/components/AddDeviceStatus';
 var moment = require('moment');
@@ -161,14 +160,14 @@ class InventoryList extends React.Component {
       devices = this.state.deviceList;
     }
     if (deviceType !== '') {
-      devices = _.filter(devices, row => getLowerCase(row.machine_type) === getLowerCase(deviceType));
+      devices = _.filter(devices, row => row.machine_type === deviceType);
     } else {
       if (this.state.device_status !== '') {
-        devices = _.filter(this.props.manageDevice.device, row => getLowerCase(row.status) === getLowerCase(this.state.device_status));
+        devices = _.filter(this.props.manageDevice.device, row => row.status === this.state.device_status);
       }
     }
     if (this.state.device_status !== '' && deviceType !== '') {
-      devices = _.filter(this.props.manageDevice.device, row => (getLowerCase(row.machine_type) === getLowerCase(deviceType) && getLowerCase(row.status) === getLowerCase(this.state.device_status)));
+      devices = _.filter(this.props.manageDevice.device, row => (row.machine_type === deviceType && row.status === this.state.device_status));
     }
     this.setState({
       deviceList: devices,
@@ -183,14 +182,14 @@ class InventoryList extends React.Component {
       status = this.state.deviceList;
     }
     if (statusType !== '') {
-      status = _.filter(status, row => getLowerCase(row.status) === getLowerCase(statusType));
+      status = _.filter(status, row => row.status === statusType);
     } else {
       if (this.state.search !== '') {
-        status = _.filter(this.props.manageDevice.device, row => getLowerCase(row.machine_type) === getLowerCase(this.state.search));
+        status = _.filter(this.props.manageDevice.device, row => row.machine_type === this.state.search);
       }
     }
     if (statusType !== '' && this.state.search !== '') {
-      status = _.filter(this.props.manageDevice.device, row => (getLowerCase(row.machine_type) === getLowerCase(this.state.search) && getLowerCase(row.status) === getLowerCase(statusType)));
+      status = _.filter(this.props.manageDevice.device, row => (row.machine_type === this.state.search && row.status === statusType));
     }
     this.setState({
       deviceList:    status,
