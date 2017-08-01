@@ -133,11 +133,9 @@ class TeamList extends React.Component {
                     className="md-btn md-raised m-b-sm indigo"
                     onClick={this.openCreateTeam}>Add Team</button>
                 </div>
-                <div className='table-responsive table-condensed'style={{'marginTop': '8%'}}>
-                  <Paper zDepth={1} >
-                    <Table
-                      fixedFooter
-                      >
+                <div style={{'marginTop': '8%'}}>
+                  <Paper zDepth={1} style={{marginBottom: '10px'}} >
+                    <Table fixedHeader fixedFooter >
                       <TableHeader
                         adjustForCheckbox={false}
                         displaySelectAll={false}>
@@ -148,7 +146,7 @@ class TeamList extends React.Component {
                         </TableRow>
                         <TableRow>
                           <TableRowColumn colSpan={1} style={{'fontWeight': 'bold'}}>Sr. no.</TableRowColumn>
-                          <TableRowColumn style={{'fontWeight': 'bold'}}>Teams Name</TableRowColumn>
+                          <TableRowColumn colSpan={1} style={{'fontWeight': 'bold'}}>Teams Name</TableRowColumn>
                           <TableRowColumn colSpan={1} style={{'fontWeight': 'bold', textAlign: 'center'}}>Delete</TableRowColumn>
                         </TableRow>
                       </TableHeader>
@@ -157,7 +155,7 @@ class TeamList extends React.Component {
                           <TableRow key={i}
                             style={{'cursor': 'pointer'}}>
                             <TableRowColumn colSpan={1} >{i + 1}</TableRowColumn>
-                            <TableRowColumn style={{'padding': '0'}} colSpan={1} >{vari}</TableRowColumn>
+                            <TableRowColumn colSpan={1} >{vari}</TableRowColumn>
                             <TableRowColumn colSpan={1} style={{textAlign: 'center'}}>
                               <IconButton
                                 tooltip="Delete Team"
