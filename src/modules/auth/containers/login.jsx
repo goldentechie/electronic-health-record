@@ -39,9 +39,12 @@ class Login extends React.Component {
         <div className="center-block w-xxl w-auto-xs p-y-md">
           <GetLogo />
           <Navbar />
-          <div className="p-a-md box-color r box-shadow-z1 text-color auth-form">
+          <div className="p-a-md box-color r box-shadow-z1 text-color m-a">
             <LoadingIcon loading={this.props.loggedUser.isLoading} />
-            <div className="m-y text-sm">Sign in with your username</div>
+            <br />
+            <div className="m-b text-sm">
+              Sign in with your username
+            </div>
             <LoginForm onLogin={this.doLogin} {...this.props} />
             <LoginFormFooter doGuestLogin={this.doGuestLogin} />
           </div>
