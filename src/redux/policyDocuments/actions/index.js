@@ -1,7 +1,6 @@
 import * as jwt from 'jwt-simple';
 import {CONFIG} from 'src/config/index';
 import {fireAjax} from 'src/services/index';
-import {setLoggedUser, getLoggedUser} from 'src/services/generic';
 import {call, put} from 'redux-saga/effects';
 import * as actions from 'appRedux/actions';
 
@@ -63,8 +62,9 @@ export function* updateReadStatus (action) {
       policy_document: JSON.stringify(action.payload)
     });
     if (response.error === 0) {
-      let {userId} = getLoggedUser();
-      let tokenData = setLoggedUser(response.data.new_token, userId);
+      let token = response.data.new_token;
+      localStorage.setItem('hr_logged_user', token);
+      let tokenData = jwt.decode(token, CONFIG.jwt_secret_key);
       yield put(actions.requestUserPolicyDocument());
       yield put(actions.userDataUpdated(tokenData));
     } else {
