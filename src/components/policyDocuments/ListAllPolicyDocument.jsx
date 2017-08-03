@@ -18,9 +18,7 @@ const ListAllPolicyDocument = ({policyDocuments, submitNewListofDocs}) => {
   let allDocuments = _.map(policyDocuments, (doc, i) => {
     let docName = <h4 className="m-y-xs"> doc.name </h4>;
     return (
-      <Card
-        key={i}
-        className="m-y-sm">
+      <Card key={i} className="m-y-sm">
         <CardHeader
           title={docName}
           subtitle={<a href={doc.link} target="_blank"><small><i>{doc.link}</i></small></a>}
@@ -28,8 +26,7 @@ const ListAllPolicyDocument = ({policyDocuments, submitNewListofDocs}) => {
             <IconButton
               tooltip="Delete Document"
               tooltipPosition="top-center"
-              style={{width: '4%', padding: '0'}}
-              className="pull-right btn-responsive"
+              className="pull-right"
               children={<Delete color='#B71C1C' />}
               onClick={(evt) => {
                 evt.stopPropagation();
@@ -44,7 +41,7 @@ const ListAllPolicyDocument = ({policyDocuments, submitNewListofDocs}) => {
   });
   return (
     <div className="row m-x-sm">
-      <div className="col-md-12">
+      <div className="col-xs-12">
         <Card>
           <CardHeader title="Policy Documents List" />
         </Card>
