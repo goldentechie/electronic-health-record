@@ -26,7 +26,7 @@ update.extend('$setRequestSuccess', (payload, original) => {
     message:   {$set: ''}
   });
 });
-update.extend('$setSuccessMessage', (payload, original) => {
+update.extend('$setsuccessmessage', (payload, original) => {
   return update(original, {
     isLoading: {$set: false},
     isSuccess: {$set: true},
