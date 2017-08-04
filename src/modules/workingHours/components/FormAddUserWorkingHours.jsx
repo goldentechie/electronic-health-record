@@ -23,7 +23,6 @@ class FormAddUserWorkingHours extends React.Component {
   }
 
   componentWillReceiveProps (props) {
-    console.log('props.userid', props.userid);
     this.setState({userid: props.userid});
   }
 

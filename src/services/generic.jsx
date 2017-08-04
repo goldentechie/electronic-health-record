@@ -39,7 +39,3 @@ export function getToken () {
 export function resetLoggedUser () {
   return localStorage.clear();
 }
-
-export function getLowerCase (text) {
-  return text.trim().toLowerCase();
-}
