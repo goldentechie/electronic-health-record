@@ -22,7 +22,7 @@ const TeamDetails = ({teamList, team, fetchUserDetails}) => {
         <td>{emp.jobtitle}</td>
         <td>{emp.salary_detail}</td>
         <td>{emp.holdin_amt_detail !== ''
-          ? <ul className="p-0">
+          ? <ul>
             <li>Holding amount : {emp.holdin_amt_detail.holding_amt}</li>
             <li>Start date : {emp.holdin_amt_detail.holding_start_date}</li>
             <li>End date : {emp.holdin_amt_detail.holding_end_date}</li>
@@ -39,17 +39,16 @@ const TeamDetails = ({teamList, team, fetchUserDetails}) => {
   });
 
   if (_.isEmpty(row)) {
-    row = <tr>
-      <td colSpan="10" className="text-center">{'No any employee in this team'}
-      </td>
+    row = <tr><td colSpan="9"
+      style={{'textAlign': 'center'}}>No any employee in this team</td>
     </tr>;
   }
   return (
     <div>
       <div className="row no-gutter">
-        <div className="col-md-3 p-r">
+        <div className="col-md-6 p-r">
           <div className="form-group">
-            <h5>Select Team:</h5>
+            <label style={{'fontSize': 15}}>Select Team:</label>
             <select className="form-control"
               onChange={(emp) => onSelectTeam(emp)}>
               <option value="">--Select team--</option>
@@ -65,16 +64,18 @@ const TeamDetails = ({teamList, team, fetchUserDetails}) => {
           <div className="box">
             <div className="box">
               <div className="box-divider m-a-0"></div>
-              <div className="table-responsive">
-                <table className="table table-bordered table-striped" >
-                  <thead className="success">
+              <div>
+                <table className="table" >
+                  <thead>
                     <tr>
                       <th>Image</th>
                       <th>Employe name</th>
                       <th>Designation</th>
                       <th>Salary</th>
-                      <th>Holding Amount Details</th>
-                      <th>Holding Comments</th>
+                      <th style={{'textAlign': 'center'}} >
+                        Holding Amount Details
+                      </th>
+                      <th style={{'width': '100px'}}>Holding Comments</th>
                       <th>Date of Joining</th>
                       <th >No of Days Since Joined</th>
                       <th >Team</th>
