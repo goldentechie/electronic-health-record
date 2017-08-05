@@ -1,4 +1,4 @@
-## Excellence HR System (```v 2.0.0```)
+## Exellence HR System (```v 2.0.0```)
 Upgraded...
 
 ## Getting Started
