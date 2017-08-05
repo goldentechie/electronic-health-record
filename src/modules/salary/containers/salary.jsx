@@ -81,7 +81,11 @@ class Salary extends React.Component {
                       <hr />
                       <SalaryHistory data={this.props.salary.salary_history} viewSalarySummary={this.viewSalarySummary} />
                     </div>
-                    <PayslipHistory className="col-sm-3 b-l" payslip_history={this.state.payslip_history} />
+                    <div className="col-sm-3 b-l">
+                      <h6>Previous Payslips</h6>
+                      <hr />
+                      <PayslipHistory payslip_history={this.state.payslip_history} />
+                    </div>
                   </div>
                 </div>
               </div>

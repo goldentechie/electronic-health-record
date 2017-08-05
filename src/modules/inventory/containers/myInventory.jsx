@@ -47,7 +47,7 @@ class MyInventory extends React.Component {
           <Header pageTitle={'My Inventory'} {...this.props} />
           <div className="app-body" id="view">
             <div className="padding">
-              <div className="row no-gutter m-b-md">
+              <div className="row no-gutter">
                 <UserHorizontalView
                   profileImage={this.props.loggedUser.data.profileImage}
                   name={this.state.user_profile_detail.name}
@@ -55,10 +55,12 @@ class MyInventory extends React.Component {
                   inventory
                 />
               </div>
-              <DeviceDetails
-                userAssignMachine={this.state.user_assign_machine}
-                callUpdateUserDeviceDetails={this.callUpdateUserDeviceDetails}
-              />
+              <div className="row no-gutter">
+                <DeviceDetails
+                  userAssignMachine={this.state.user_assign_machine}
+                  callUpdateUserDeviceDetails={this.callUpdateUserDeviceDetails}
+                />
+              </div>
             </div>
           </div>
         </div>
