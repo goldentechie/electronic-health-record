@@ -30,7 +30,7 @@ const UsersList = ({users, selectedUserId, onUserClick, disabledUser}) => {
             <span className="w-40 avatar">{avatar}</span>
           </div>
           <div className="list-body">
-            <div className="text-ellipsis">{user.name}</div>
+            <div>{user.name}</div>
             <small className="text-muted text-ellipsis">{user.jobtitle}</small>
             <small className="text-muted text-ellipsis"><b>Emp Id : {user.user_Id}</b></small>
           </div>
@@ -40,14 +40,12 @@ const UsersList = ({users, selectedUserId, onUserClick, disabledUser}) => {
     );
   });
   return (
-    <div id="userListWrapper" className="row">
+    <div className="row">
       <div className="col-12">
-        <div className="list-box">
-          <div className="user-list-container" id="userList">
-            <ul className="box list no-border p-b">
-              {usersList}
-            </ul>
-          </div>
+        <div className="box">
+          <ul className="list no-border p-b">
+            {usersList}
+          </ul>
         </div>
       </div>
     </div>
