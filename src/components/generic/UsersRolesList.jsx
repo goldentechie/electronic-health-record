@@ -1,9 +1,12 @@
 import React from 'react';
+import {Link} from 'react-router';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Avatar from 'material-ui/Avatar';
 
-let UsersRolesList = ({users, onChange}) => {
+const styles = { cursorPointer: {'cursor': 'pointer'} };
+
+let UsersRolesList = ({ users, onChange }) => {
   let usersList = '';
   if (users.users_list !== undefined) {
     let data = users.users_list.data;
@@ -11,6 +14,7 @@ let UsersRolesList = ({users, onChange}) => {
     usersList = _.map(data, (user, key) => {
       let avatar = '';
       let profileImae = '';
+      let backgroundClass = styles.cursorPointer;
       let userId = user.user_Id;
       let roleName = user.role_name;
       let roleLabelValue = <span className="text-success text-sm"><b>Role</b> : {roleName} {' '}<span onClick={() => { onChange(userId, '0'); }} className='glyphicon glyphicon-remove text-danger' title="Remove Role"></span></span>;
@@ -27,23 +31,29 @@ let UsersRolesList = ({users, onChange}) => {
       let optionMenu = _.map(rolesName, (name, index) => {
         return (<option key={index} value={name.id} >{name.name}</option>);
       });
-      let selectMenu = <select key={userId} name={userId} onChange={(e) => { onChange(userId, e.target.value); }} className="form-control text-muted text-ellipsis"><option value="-1"> CHANGE ROLE </option>{optionMenu}</select>;
+      let selectMenu = <select key={userId} name={userId} onChange={(e) => { onChange(userId, e.target.value); }} className="form-control"><option value="-1"> CHANGE ROLE </option>{optionMenu}</select>;
       return (
-        <div className="b-x p-a-sm pointer" key={key}>
-          <div className="list-left"><span className="w-40 avatar">{avatar}</span></div>
-          <div className="list-body">
-            <span>{user.name}</span>
-            <small className="text-muted text-ellipsis">{user.jobtitle}</small>
-            {roleLabelValue}
-            {selectMenu}
-          </div>
-        </div>
+        <li className="list-item" key={key} style={backgroundClass}>
+            <div className="list-left"><span className="w-40 avatar">{avatar}</span></div>
+            <div className="list-body">
+              <div>{user.name}</div>
+              <small className="text-muted text-ellipsis">{user.jobtitle}</small>
+              <span>{roleLabelValue}</span>
+              <small className="text-muted text-ellipsis">{selectMenu}</small>
+            </div>
+        </li>
       );
     });
   }
   return (
-    <div className="box responsive-p-x-sm p-y clear fixed-height">
-      {usersList}
+    <div className="row">
+      <div className="col-12">
+        <div className="box">
+          <ul className="list no-border p-b">
+            {usersList}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };
