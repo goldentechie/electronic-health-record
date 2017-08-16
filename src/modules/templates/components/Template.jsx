@@ -36,37 +36,13 @@ const styles = {
     textAlign:  'center',
     paddingTop: '200px'
   },
-  formInput: {
-    'marginLeft':  '5%',
-    'marginRight': '5%',
-    'width':       '90%'
-  },
+
   delete: {
     float:       'right',
     marginTop:   '-12px',
     marginRight: '-7px'
   },
-  editorStyle: {
-    overflow:   'auto',
-    display:    'block',
-    width:      '100%',
-    height:     '300px',
-    maxHeight:  '300px',
-    background: 'rgba(204,204,204,.51)'
-  },
-  errorAlert: {
-    'marginLeft':  '5%',
-    'marginRight': '5%',
-    'width':       '90%',
-    'display':     'none'
-  },
-  uploadButton: {
-    'position':   'relative',
-    'overflow':   'hidden',
-    'margin':     '10px',
-    'marginLeft': '40px',
-    'cursor':     'pointer'
-  },
+
   uploadInput: {
     'color':    'transparent',
     'position': 'absolute',
@@ -748,13 +724,13 @@ class Variables extends React.Component {
               autoScrollBodyContent
         >
         <div className="row">
-          <div className="col-xs-12">
+          <div className="col-md-12">
             <LoadingIcon {...this.props} />
           </div>
         </div>
-        <div className="col-xs-9" style={{borderRight: '1px solid gainsboro'}}>
+        <div className="col-md-9" style={{borderRight: '1px solid gainsboro'}}>
           <form className="form-inline">
-          <div className="form-group" style={styles.formInput}>
+          <div className="form-group form-input-style">
           <TextField
             ref='value'
             floatingLabelText="Name"
@@ -770,7 +746,7 @@ class Variables extends React.Component {
             }}
           />
           </div>
-          <div className="form-group" style={styles.formInput}>
+          <div className="form-group form-input-style">
           <TextField
             ref='Name'
             floatingLabelText="Subject"
@@ -786,16 +762,16 @@ class Variables extends React.Component {
             }}
           />
           </div>
-          <div className="form-group" style={styles.formInput}>
+          <div className="form-group form-input-style">
             <RichTextEditor
-              style={styles.editorStyle}
+              className="editor-style"
               value={this.state.templateBody}
               onChange={this.handleContentChange}
              />
           </div>
           </form>
         </div>
-        <div className="col-xs-3">
+        <div className="col-md-3">
           <h5 style={{textAlign: 'center', color: '#000'}}>System Variables</h5>
           <Divider />
             {_.map(this.props.templates.variable, (vari) => {
@@ -825,23 +801,23 @@ class Variables extends React.Component {
         </div>
         </Dialog>
              <div className="row" style={{margin: '0px 4px 0px'}}>
-               <div className="col-xs-12">
+               <div className="col-md-12">
                  <div className='row'>
-                  <div className='col-xs-12' style={{paddingTop: '16px', paddingRight: '0px'}}>
+                  <div className='col-md-12' style={{paddingTop: '16px', paddingRight: '0px'}}>
                   <button
                     className="md-btn md-raised m-b-sm indigo"
                     onClick={this.openCreateTemplate}
                   >Create New Template</button>
                   </div>
-                  <div className='col-xs-12' style={{paddingTop: '10px', paddingRight: '0px', textAlign: 'center'}}>
-                    <div id="mailsentsuccessfully" className="alert alert-success pull-left" style={styles.errorAlert}>
+                  <div className='col-md-12' style={{paddingTop: '10px', paddingRight: '0px', textAlign: 'center'}}>
+                    <div id="mailsentsuccessfully" className="alert alert-success pull-left error-alert-style">
                       <a href="#" className="close" onClick={(e) => this.hideError(e, 'mailsentsuccessfully')} aria-label="close">&times;</a>
                     </div>
                   </div>
                   <div className={this.state.paper} style={{'marginTop': '8%'}}>
                     {_.map(this.props.templates.templates, (tmp, i) => (
-                    <div className="col-xs-6" key={i} style={{height: '400px', marginBottom: '20px'}}>
-                      <Paper zDepth={0} className="paper">
+                    <div className="col-md-6" key={i} style={{height: '400px', marginBottom: '20px'}}>
+                      <Paper zDepth={0} className="paper scroll" style={{overflow: 'auto'}}>
                         <div style={styles.delete}>
                           <span className="pull-right" style={{fontSize: '13px', fontStyle: 'italic', color: '#000', cursor: 'pointer', padding: '5px 10px'}} onClick={() => this.toggleDialog(tmp.id + '_menuBack', tmp.id + '_menu')}><i className="fa fa-ellipsis-v" aria-hidden="true"></i></span>
                           <div id={tmp.id + '_menuBack'} className="dropdown-backdrop-custom" style={{'display': 'none', 'opacity': 0.5}} onClick={() => this.toggleDialog(tmp.id + '_menuBack', tmp.id + '_menu')}></div>
@@ -851,9 +827,9 @@ class Variables extends React.Component {
                             <span className="b-b" onClick={() => this.deleteTemplate(tmp)} ><i className="fa fa-trash tempalate-btn delete" aria-hidden="true" title="Delete"></i>Delete Template</span>
                           </div>
                         </div>
-                        <div className="col-xs-12 m-b"><span style={{display: 'inline-flex'}}><b>Name:                                                                                                                                                                                                                                                                                                                        </b><div className="p-l" dangerouslySetInnerHTML={{__html: tmp.name}}></div></span></div>
-                        <div className="col-xs-12 m-b"><span style={{display: 'inline-flex'}}><b>Subject: </b><div className="p-l" dangerouslySetInnerHTML={{__html: tmp.subject}}></div></span></div>
-                        <div className="col-xs-12 m-b"><span style={{display: 'inline-flex'}}><b>Body: </b><div className="p-l" dangerouslySetInnerHTML={{__html: tmp.body}}></div></span></div>
+                        <div className="col-xs-12 m-b"><span style={{display: 'inline-flex'}}><b>Name:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </b><div className="p-l" dangerouslySetInnerHTML={{__html: tmp.name}}></div></span></div>
+                        <div className="col-md-12 m-b"><span style={{display: 'inline-flex'}}><b>Subject: </b><div className="p-l" dangerouslySetInnerHTML={{__html: tmp.subject}}></div></span></div>
+                        <div className="col-md-12 m-b"><span style={{display: 'inline-flex'}}><b>Body: </b><div className="p-l" dangerouslySetInnerHTML={{__html: tmp.body}}></div></span></div>
                     </Paper>
                     </div>
                         )
@@ -906,7 +882,7 @@ class Variables extends React.Component {
              autoScrollBodyContent
            >
             <div className="row">
-              <div className="col-xs-12">
+              <div className="col-md-12">
                 <LoadingIcon {...this.props} />
               </div>
             </div>
@@ -915,12 +891,12 @@ class Variables extends React.Component {
               <div className="p-t p-b" dangerouslySetInnerHTML={{__html: this.state.sentMail && this.state.sentMail.email && this.state.sentMail.email[0].body}}></div>
             </div>
          </Dialog>
-             <div className="col-xs-9" style={{borderRight: '1px solid gainsboro'}}>
+             <div className="col-md-9" style={{borderRight: '1px solid gainsboro'}}>
                <form className="form-inline">
                  <span className="pull-right" style={{fontSize: '13px', fontStyle: 'italic', color: '#0000FF', cursor: 'pointer', display: 'block', width: '100%', textAlign: 'right'}} onClick={() => this.toggleDialog('FilterBack', 'Filter')}>Add recipient</span>
                    <div className="dropdown">
                     <div id={'FilterBack'} className="dropdown-backdrop-custom" style={{'display': 'none', 'opacity': 0.5}} onClick={() => this.toggleDialog('FilterBack', 'Filter')}></div>
-                    <div id={'Filter'} className="dropdown-menu has-child has-arrow selectUser">
+                    <div id={'Filter'} className="dropdown-menu has-child has-arrow selectUser mail-recipient">
                           <ul className="list-unstyled pt-xs">
                           <li className="mb-sm b-b p-t p-b">
                               <div className="form-group" style={{width: '100%'}}>
@@ -948,28 +924,32 @@ class Variables extends React.Component {
                             </div>
                           </li>
                           : <span>
-                          <li className="mb-sm b-b p-t p-b">
-                            <div className="form-group" style={{width: '100%'}}>
-                              <input type="text" style={{width: '100%'}} className="form-control select-all" placeholder="search" onKeyUp={(e) => this.filterList(e.target.value)} />
-                            </div>
-                          </li>
+                            <li className="mb-sm b-b p-t p-b">
+                              <div className="form-group">
+                                <input type="text"
+                                  name="search"
+                                  className="form-control select-all search-box"
+                                  placeholder="search"
+                                  onKeyUp={(e) => this.filterList(e.target.value)} />
+                              </div>
+                            </li>
                               {listChartItems}
-                            </span>
+                          </span>
                             }
                           </ul>
-                      </div>
-                  </div>
-                <div id="previewalert" className="alert alert-danger pull-left" style={styles.errorAlert}>
+                    </div>
+                </div>
+                <div id="previewalert" className="alert alert-danger pull-left error-alert-style">
                   <a href="#" className="close" onClick={(e) => this.hideError(e, 'previewalert')} aria-label="close">&times;</a>
                 </div>
-                <div className="form-group selected-recipient" style={styles.formInput}>
+                <div className="form-group selected-recipient form-input-style">
                   <div className="pull-left to">To</div>
                   <div className="pull-left filter-tags" style={{fontSize: '12px'}}>
                     {this.state.recipient.length > 0 ? <FilterLabel data={this.state.recipient} onClick={(label, indexLabel) => this.onClickLabel(label, indexLabel, 'Recipient')} onClear={this.onclearFilter} /> : ''}
                   </div>
                 </div>
                 {this.state.cc.length > 0
-                  ? <div className="form-group selected-recipient" style={styles.formInput}>
+                  ? <div className="form-group selected-recipient form-input-style">
                   <div className="pull-left to">CC</div>
                   <div className="pull-left filter-tags" style={{fontSize: '12px'}}>
                     <FilterLabel data={this.state.cc} onClick={(label, indexLabel) => this.onClickLabel(label, indexLabel, 'CC')} onClear={this.onclearFilter} />
@@ -977,14 +957,14 @@ class Variables extends React.Component {
                 </div>
                  : ''}
                 {this.state.bcc.length > 0
-                  ? <div className="form-group selected-recipient" style={styles.formInput}>
+                  ? <div className="form-group selected-recipient form-input-style">
                   <div className="pull-left to">BCC</div>
                   <div className="pull-left filter-tags" style={{fontSize: '12px'}}>
                     <FilterLabel data={this.state.bcc} onClick={(label, indexLabel) => this.onClickLabel(label, indexLabel, 'BCC')} onClear={this.onclearFilter} />
                   </div>
                 </div>
                  : ''}
-               <div className="form-group" style={styles.formInput}>
+               <div className="form-group form-input-style">
                <TextField
                  ref='value'
                  floatingLabelText="Name"
@@ -1001,7 +981,7 @@ class Variables extends React.Component {
                  }}
                />
                </div>
-               <div className="form-group" style={styles.formInput}>
+               <div className="form-group form-input-style">
                <TextField
                  ref='Name'
                  floatingLabelText="Subject"
@@ -1017,10 +997,10 @@ class Variables extends React.Component {
                  }}
                />
                </div>
-               <div className="form-group" style={styles.formInput}>
+               <div className="form-group form-input-style">
                <RichTextEditor
-                 style={styles.editorStyle}
                  id={'editor'}
+                 className="editor-style"
                  value={this.state.templateBody}
                  onChange={this.handleContentChange}
                  readOnly
@@ -1037,7 +1017,7 @@ class Variables extends React.Component {
 
               <form action={''} method="POST" encType="multipart/form-data">
                 <div className="form-group">
-                  <button style={styles.uploadButton} className="btn btn-blue" >
+                  <button className="btn btn-blue upload-button-style" >
                   <i className="fa fa-file-pdf-o" style={{'marginRight': '5px', 'cursor': 'pointer'}}></i>
                   <input onChange={(e) => { this.uploadPDF(e); }} style={styles.uploadInput} id="file_image" type="file" name="image[]" ref="file" className="form-control" multiple />Attachment
                   </button>
@@ -1045,7 +1025,7 @@ class Variables extends React.Component {
               </form>
 
              </div>
-             <div className="col-xs-3">
+             <div className="col-md-3">
                <h5 style={{textAlign: 'center', color: '#000'}}>System Variables</h5>
                <Divider />
                  {_.map(this.props.templates.variable, (vari) => {
