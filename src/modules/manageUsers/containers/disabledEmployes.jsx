@@ -14,6 +14,8 @@ import * as actionsDisabledEmployee from 'appRedux/generic/actions/usersList';
 import * as actionsManageUsers from 'appRedux/manageUsers/actions/manageUsers';
 import * as actionsManagePayslips from 'appRedux/salary/actions/managePayslips';
 
+const styles = {content: {'paddingTop': '50px'}};
+
 class PageDisabledEmployes extends React.Component {
   constructor (props) {
     super(props);
@@ -95,12 +97,12 @@ class PageDisabledEmployes extends React.Component {
         <div id="content" className="app-content box-shadow-z0" role="main">
           <Header pageTitle={'Disabled Employees'} showLoading={this.props.frontend.show_loading} />
           <div className="app-body" id="view">
-            <div className="padding p-t-lg">
+            <div style={styles.content} className="padding">
               <div className="row">
-                <div className="col-sm-3">
+                <div className="col-md-3">
                   <UsersList disabledUser users={disabledUsers} selectedUserId={this.state.selected_user_id} onUserClick={this.onUserClick} />
                 </div>
-                <div className="col-sm-9">
+                <div className="col-md-9">
                   <div className="box">
                     <div className="box-body">{userDetails}</div>
                   </div>
