@@ -2,7 +2,6 @@ import React from 'react';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
 import 'react-date-picker/index.css';
-import {ButtonRaised} from 'components/generic/buttons/index';
 
 class FormBankDetails extends React.Component {
   constructor (props) {
@@ -25,57 +24,59 @@ class FormBankDetails extends React.Component {
       });
     }
   }
+
   render () {
     return (
       <div>
         <h6 className="text-center">Bank Details</h6>
-        <div className="row no-gutter">
-          <div className="col-xs-6 col-sm-12 profile-input form-group">
-            <label>Bank Account Number</label>
-            <input type="text"
-              className="form-control"
-              onChange={(e) => this.setState({bank_account_no: e.target.value})}
-              value={this.state.bank_account_no} />
-          </div>
-          <div className="col-xs-6 col-sm-12 profile-input form-group">
-            <label>Bank Name</label>
-            <input type="text"
-              className="form-control"
-              onChange={(e) => this.setState({bank_name: e.target.value})}
-              value={this.state.bank_name} />
-          </div>
+        <div className="form-group">
+          <label>Bank Account Number</label>
+          <input type="text"
+            className="form-control"
+            ref="bank_account_no"
+            onChange={(e) => this.setState({bank_account_no: e.target.value})}
+            value={this.state.bank_account_no} />
         </div>
-        <div className="row no-gutter">
-          <div className="col-xs-6 col-sm-12 profile-input form-group">
-            <label>Bank Address</label>
-            <input type="text"
-              className="form-control"
-              onChange={(e) => this.setState({bank_address: e.target.value})}
-              value={this.state.bank_address} />
-          </div>
-          <div className="col-xs-6 col-sm-12 profile-input form-group">
-            <label>IFSC Code</label>
-            <input type="text"
-              className="form-control"
-              onChange={(e) => this.setState({ifsc: e.target.value})}
-              value={this.state.ifsc} />
-          </div>
+        <div className="form-group">
+          <label>Bank Name</label>
+          <input type="text"
+            className="form-control"
+            ref="bank_name"
+            onChange={(e) => this.setState({bank_name: e.target.value})}
+            value={this.state.bank_name} />
         </div>
-        <div className="row no-gutter">
-          <div className="col-xs-12 profile-input form-group">
-            <ButtonRaised className="col-xs-12 indigo" onClick={() => this.props.callUpdateBankDetails(this.state)} label="Update Bank Details" />
-          </div>
+        <div className="form-group">
+          <label>Bank Address</label>
+          <input type="text"
+            className="form-control"
+            ref="bank_address"
+            onChange={(e) => this.setState({bank_address: e.target.value})}
+            value={this.state.bank_address} />
         </div>
+        <div className="form-group">
+          <label>IFSC Code</label>
+          <input type="text"
+            className="form-control"
+            ref="ifsc" onChange={(e) => this.setState({ifsc: e.target.value})}
+            value={this.state.ifsc} />
+        </div>
+        <button className="col-xs-12 md-btn md-raised indigo" onClick={() => this.props.callUpdateBankDetails(this.state)} >
+          Update Bank Details
+        </button>
       </div>
     );
   }
 }
 
+FormBankDetails.styles = {
+  leaveDiv: {
+    'marginBottom': '10px'
+  }
+};
 FormBankDetails.PropTypes = {
   bank_account_no: PropTypes.number,
   bank_name:       PropTypes.string,
   bank_address:    PropTypes.string,
   ifsc:            PropTypes.string
 };
-
 export default FormBankDetails;
