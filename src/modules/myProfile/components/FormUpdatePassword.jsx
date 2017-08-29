@@ -1,6 +1,5 @@
 import React from 'react';
 import 'react-date-picker/index.css';
-import {ButtonRaised} from 'components/generic/buttons/index';
 
 class FormUpdatePassword extends React.Component {
   constructor (props) {
@@ -28,10 +27,16 @@ class FormUpdatePassword extends React.Component {
             value={this.state.new_password}
           />
         </div>
-        <ButtonRaised className="col-xs-12 indigo" onClick={() => this.props.callUpdatePassword(this.state.new_password)} label="Update Password" />
+        <button className="col-xs-12 md-btn md-raised indigo" onClick={() => this.props.callUpdatePassword(this.state.new_password)} >Update Password</button>
       </div>
     );
   }
 }
+
+FormUpdatePassword.styles = {
+  leaveDiv: {
+    'marginBottom': '10px'
+  }
+};
 
 export default FormUpdatePassword;
