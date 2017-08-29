@@ -2,6 +2,7 @@ import React from 'react';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
 import 'react-date-picker/index.css';
+import {ButtonRaised} from 'components/generic/buttons/index';
 
 class FormBankDetails extends React.Component {
   constructor (props) {
@@ -24,7 +25,6 @@ class FormBankDetails extends React.Component {
       });
     }
   }
-
   render () {
     return (
       <div>
@@ -57,26 +57,20 @@ class FormBankDetails extends React.Component {
           <label>IFSC Code</label>
           <input type="text"
             className="form-control"
-            ref="ifsc" onChange={(e) => this.setState({ifsc: e.target.value})}
+            onChange={(e) => this.setState({ifsc: e.target.value})}
             value={this.state.ifsc} />
         </div>
-        <button className="col-xs-12 md-btn md-raised indigo" onClick={() => this.props.callUpdateBankDetails(this.state)} >
-          Update Bank Details
-        </button>
+        <ButtonRaised className="col-xs-12 indigo" onClick={() => this.props.callUpdateBankDetails(this.state)} label="Update Bank Details" />
       </div>
     );
   }
 }
 
-FormBankDetails.styles = {
-  leaveDiv: {
-    'marginBottom': '10px'
-  }
-};
 FormBankDetails.PropTypes = {
   bank_account_no: PropTypes.number,
   bank_name:       PropTypes.string,
   bank_address:    PropTypes.string,
   ifsc:            PropTypes.string
 };
+
 export default FormBankDetails;

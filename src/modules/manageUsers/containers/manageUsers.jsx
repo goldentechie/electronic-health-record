@@ -9,7 +9,6 @@ import Menu from 'components/generic/Menu';
 import {isNotUserValid} from 'src/services/generic';
 import Header from 'components/generic/Header';
 import UsersList from 'components/generic/UsersList';
-import UsersListHeader from 'components/generic/UsersListHeader';
 import UpdateEmployeeDocument from 'modules/manageUsers/components/UpdateEmployeeDocument';
 import Button from 'components/generic/buttons/Button';
 import AlertNotification from 'components/generic/AlertNotification';
@@ -36,7 +35,6 @@ class ManageUsers extends React.Component {
       user_assign_machine:  [],
       user_documents:       {},
       user_payslip_history: [],
-      employee_life_cycle:  {},
       'openIframe':         false,
       username:             ''
     };
@@ -55,24 +53,18 @@ class ManageUsers extends React.Component {
     this.props.onFetchTeam();
   }
   componentWillReceiveProps (props) {
-    let {route, loggedUser, managePayslips:{user_payslip_history}, manageUsers:{username, user_profile_detail, user_bank_detail, user_assign_machine, user_documents, stages}} = props;
-    let isNotValid = isNotUserValid(route.path, loggedUser);
+    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
     }
     this.setState({
-      user_payslip_history: user_payslip_history,
-      username:             username,
-      user_profile_detail:  user_profile_detail,
-      user_bank_detail:     user_bank_detail,
-      user_assign_machine:  user_assign_machine,
-      user_documents:       user_documents
+      user_payslip_history: props.managePayslips.user_payslip_history,
+      username:             props.manageUsers.username,
+      user_profile_detail:  props.manageUsers.user_profile_detail,
+      user_bank_detail:     props.manageUsers.user_bank_detail,
+      user_assign_machine:  props.manageUsers.user_assign_machine,
+      user_documents:       props.manageUsers.user_documents
     });
-    if (this.state.employee_life_cycle_stages !== stages) {
-      this.setState({
-        employee_life_cycle: stages.employee_life_cycle
-      });
-    }
   }
   componentDidUpdate () {
     if (this.state.defaultUserDisplay === '') {
@@ -148,17 +140,6 @@ class ManageUsers extends React.Component {
     });
   }
   handleChangeSteps (stepid, userid) {
-    let {employee_life_cycle} = this.state;
-    _.map(employee_life_cycle, (stage, key) => {
-      _.map(stage.steps, (step, k) => {
-        if (step.id === stepid) {
-          step.status = !step.status;
-        }
-      });
-    });
-    this.setState({
-      employee_life_cycle
-    });
     this.props.onHandleChangeSteps(userid, stepid);
   }
   handleOpenIframe () {
@@ -173,50 +154,51 @@ class ManageUsers extends React.Component {
         <AlertNotification message={this.props.manageUsers.status_message} />
         <Menu {...this.props} />
         <div id="content" className="app-content box-shadow-z0" role="main">
-          <Header pageTitle={'Manage Employees Profile'} showLoading={this.props.frontend.show_loading} userListHeader />
-          <UsersListHeader users={this.props.usersList.users} selectedUserId={this.state.selected_user_id} onUserClick={this.onUserClick} />
+          <Header pageTitle={'Manage Employees Profile'} showLoading={this.props.frontend.show_loading} />
           <div className="app-body" id="view">
             <div className="padding">
               <div className="row">
-                <div className="col-md-2 col-sm-3 hidden-xs">
+                <div className="col-md-4 p-b">
+                  <FormAddNewEmployee callAddNewEmployee={this.callAddNewEmployee} />
+                </div>
+                <div style={{'marginTop': ' 7px'}} className="col-md-4 pull-left">
+                  <label style={{'float': 'inherit'}}>
+                    <i className="fa fa-bell-slash fa-lg" aria-hidden="true"></i> Slack Notifications
+                  </label>
+                  <div style={{'marginLeft': '10px'}} className='pull-left'>
+                    <ToggleButton
+                      value={this.state.user_profile_detail.slack_msg === '0' || false}
+                      onToggle={() => {
+                        let user = this.refs.userForm.state;
+                        if (user.slack_msg === '0') user.slack_msg = '1';
+                        else if (user.slack_msg === '1') user.slack_msg = '0';
+                        this.callUpdateUserProfileDetails(user);
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4 text-right">
+                  <Button
+                    className="btn btn-fw btn-danger"
+                    onClick={() => this.changeEmployeeStatus(this.state.selected_user_id, 'Disabled')}
+                    label={'Disable Selected User'}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-2">
                   <UsersList
                     users={this.props.usersList.users}
                     selectedUserId={this.state.selected_user_id}
                     onUserClick={this.onUserClick} {...this.props}
                   />
                 </div>
-                <div className="col-md-10 col-sm-9 col-xs-12 p">
-                  <div className="row emp-action-btn p-b">
-                    <div className="add-new-emp">
-                      <FormAddNewEmployee callAddNewEmployee={this.callAddNewEmployee} />
-                    </div>
-                    <div className="disable-user">
-                      <Button className="btn btn-fw btn-danger" label={'Disable Selected User'} onClick={() => this.changeEmployeeStatus(this.state.selected_user_id, 'Disabled')} />
-                    </div>
-                    <div className="slack-notification">
-                      <div className="btn-wrapper">
-                        <label>
-                          <i className="fa fa-bell-slash fa-lg" aria-hidden="true"></i> Slack Notifications
-                        </label>
-                        <span>
-                          <ToggleButton
-                            value={this.state.user_profile_detail.slack_msg === '0' || false}
-                            onToggle={() => {
-                              let user = this.refs.userForm.state;
-                              if (user.slack_msg === '0') user.slack_msg = '1';
-                              else if (user.slack_msg === '1') user.slack_msg = '0';
-                              this.callUpdateUserProfileDetails(user);
-                            }}
-                          />
-                        </span>
-                      </div>
-                    </div>
+                <div className="col-md-10 p">
+                  <div className="row box p-t p-b">
+                    <EmployeeLifeCycle data={this.props.manageUsers.stages} handleChangeSteps={(stepid) => this.handleChangeSteps(stepid, this.state.selected_user_id)} />
                   </div>
                   <div className="row box">
-                    <EmployeeLifeCycle employee_life_cycle={this.state.employee_life_cycle} handleChangeSteps={(stepid) => this.handleChangeSteps(stepid, this.state.selected_user_id)} />
-                  </div>
-                  <div className="row box">
-                    <div className="col-md-7 p-t p-b p-r p-l b-r">
+                    <div className="col-md-7 p-t p-b p-r b-r">
                       <FormUserProfileDetails
                         ref="userForm"
                         user_profile_detail={this.state.user_profile_detail}
@@ -225,20 +207,20 @@ class ManageUsers extends React.Component {
                       />
                     </div>
                     <div className="col-md-5 p-t p-b">
-                      <div className="col-xs-6 col-md-12 profile-input">
+                      <div className="col-md-12">
                         <DisplayUserBankDetails userBankDetails={this.state.user_bank_detail} />
                       </div>
-                      <div className="col-xs-6 col-md-12 profile-input">
+                      <div className="col-md-12">
                         <DisplayUserDeviceDetails userAssignMachine={this.state.user_assign_machine} />
                       </div>
-                      <div className="col-xs-6 col-md-12 profile-input">
+                      <div className="col-md-12">
                         <UpdateEmployeeDocument
                           user_documents={this.state.user_documents}
                           user_id={this.state.selected_user_id}
                           onUpdatedocuments={this.props.onUpdatedocuments} {...this.props}
                         />
                       </div>
-                      <div className="col-xs-6 col-md-12 profile-input">
+                      <div className="col-md-12">
                         <h6 className="text-center">
                           <u>Previous Payslips</u>
                         </h6>
