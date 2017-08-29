@@ -55,14 +55,14 @@ export default class AddRolesForm extends React.Component {
       <MenuItem key={index} value={role.id} primaryText={role.name} />
     ));
     return (
-      <div className="col-sm-12 p-y">
+      <div>
         <Button className="btn-fw info" onClick={this.handleOpen} label="Add New Role" />
         <Dialog
           title="Add Role"
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
-          contentClassName="dialog-add-role"
+          contentClassName="dialogAddRole"
           autoScrollBodyContent><br />
           <SelectField fullWidth value={this.state.baseRoleId} onChange={(event, index, value) => { this.setState({baseRoleId: value}); }}>
             <MenuItem value={''} primaryText=" Select Base Role " />
