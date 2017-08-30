@@ -89,11 +89,10 @@ class ManageUserWorkingHours extends React.Component {
           <div className="app-body" id="view">
             <div className="padding">
               <div className="row">
-                <div className="col-sm-3 hidden-xs" id="fixedScroll">
+                <div className="col-sm-3 hidden-xs">
                   <UsersList users={this.props.usersList.users}
                     selectedUserId={this.state.defaultUserDisplay}
                     onUserClick={this.onUserClick}
-                    top={10}
                     />
                 </div>
                 <div className="col-md-9 col-xs-12">

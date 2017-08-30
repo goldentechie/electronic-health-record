@@ -178,12 +178,11 @@ class ManageUsers extends React.Component {
           <div className="app-body" id="view">
             <div className="padding">
               <div className="row">
-                <div className="col-md-2 col-sm-3 hidden-xs" id="fixedScroll">
+                <div className="col-md-2 col-sm-3 hidden-xs">
                   <UsersList
                     users={this.props.usersList.users}
                     selectedUserId={this.state.selected_user_id}
-                    onUserClick={this.onUserClick}
-                    top={5} {...this.props}
+                    onUserClick={this.onUserClick} {...this.props}
                   />
                 </div>
                 <div className="col-md-10 col-sm-9 col-xs-12 p">
