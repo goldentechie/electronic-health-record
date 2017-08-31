@@ -4,10 +4,10 @@ import _ from 'lodash';
 import CalendarStructure from 'components/generic/employeeMonthGrid/CalendarStructure';
 
 const WorkingHoursSummary = ({workingHoursSummary, onWorkingHoursChange, onWorkingHoursSummary}) => {
-  // let weekWise = _.chunk(workingHoursSummary.monthSummary, 7);
-  // let calendarStructure = _.map(weekWise, (week, key) => {
-  //   return;
-  // });
+  let weekWise = _.chunk(workingHoursSummary.monthSummary, 7);
+  let calendarStructure = _.map(weekWise, (week, key) => {
+    return <CalendarStructure key={key} week={week} onWorkingHoursChange={onWorkingHoursChange} />;
+  });
   const _onChangeMonth = (check) => {
     if (check === 'previous') {
       onWorkingHoursSummary(workingHoursSummary.previousMonth.year, workingHoursSummary.previousMonth.month);
@@ -40,17 +40,19 @@ const WorkingHoursSummary = ({workingHoursSummary, onWorkingHoursChange, onWorki
               <br />
               <div className="fc-view-container">
                 <div className="fc-view fc-month-view fc-basic-view">
-                  <div className="fc-body">
-                    <div className="fc-widget-content">
-                      <div className="fc-day-grid-container">
-                        <div className="fc-day-grid">
-                          <div className="fc-view fc-month-view fc-basic-view">
-                            <CalendarStructure month={workingHoursSummary.monthSummary} onWorkingHoursChange={onWorkingHoursChange} />
+                  <table>
+                    <tbody className="fc-body">
+                      <tr>
+                        <td className="fc-widget-content">
+                          <div className="fc-day-grid-container">
+                            <div className="fc-day-grid">
+                              {calendarStructure}
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -63,13 +65,13 @@ const WorkingHoursSummary = ({workingHoursSummary, onWorkingHoursChange, onWorki
 
 WorkingHoursSummary.PropTypes = {
   workingHoursSummary: PropTypes.shape({
-    monthSummary:  PropTypes.array.isRequired,
+    monthSummary: PropTypes.array.isRequired,
     previousMonth: PropTypes.object.isRequired,
-    nextMonth:     PropTypes.object.isRequired,
-    monthName:     PropTypes.string.isRequired,
-    year:          PropTypes.number.isRequired
+    nextMonth: PropTypes.object.isRequired,
+    monthName: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired
   }).isRequired,
-  onWorkingHoursChange:  PropTypes.func.isRequired,
+  onWorkingHoursChange: PropTypes.func.isRequired,
   onWorkingHoursSummary: PropTypes.func.isRequired
 };
 

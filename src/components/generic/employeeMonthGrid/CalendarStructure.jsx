@@ -3,20 +3,20 @@ import PropTypes from 'prop-types';
 import * as _ from 'lodash';
 import CalendarWeek from './CalendarWeek';
 
-const CalendarStructure = ({userId, month, onShowDaySummary, onWorkingHoursChange}) => {
-  let daysOfCalender = _.map(month, (dayData, key) => {
+const CalendarStructure = ({userId, week, onShowDaySummary, onWorkingHoursChange}) => {
+  let weekHtml = _.map(week, (dayData, key) => {
     return <CalendarWeek key={key} userId={userId} dayData={dayData} onShowDaySummary={onShowDaySummary} onWorkingHoursChange={onWorkingHoursChange} />;
   });
   return (
     <div id="calendar" className="col-xs-12">
-      {daysOfCalender}
+      {weekHtml}
     </div>
   );
 };
 
 CalendarStructure.PropTypes = {
   userId:           PropTypes.number.isRequired,
-  month:            PropTypes.array.isRequired,
+  week:             PropTypes.array.isRequired,
   onShowDaySummary: PropTypes.func.isRequired
 };
 
