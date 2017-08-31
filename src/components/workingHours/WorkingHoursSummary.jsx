@@ -6,7 +6,7 @@ import CalendarStructure from 'components/generic/employeeMonthGrid/CalendarStru
 const WorkingHoursSummary = ({workingHoursSummary, onWorkingHoursChange, onWorkingHoursSummary}) => {
   // let weekWise = _.chunk(workingHoursSummary.monthSummary, 7);
   // let calendarStructure = _.map(weekWise, (week, key) => {
-  //   return <CalendarStructure key={key} week={week} onWorkingHoursChange={onWorkingHoursChange} />;
+  //   return;
   // });
   const _onChangeMonth = (check) => {
     if (check === 'previous') {
@@ -44,7 +44,9 @@ const WorkingHoursSummary = ({workingHoursSummary, onWorkingHoursChange, onWorki
                     <div className="fc-widget-content">
                       <div className="fc-day-grid-container">
                         <div className="fc-day-grid">
-                          <CalendarStructure month={workingHoursSummary.monthSummary} onWorkingHoursChange={onWorkingHoursChange} />
+                          <div className="fc-view fc-month-view fc-basic-view">
+                            <CalendarStructure month={workingHoursSummary.monthSummary} onWorkingHoursChange={onWorkingHoursChange} />
+                          </div>
                         </div>
                       </div>
                     </div>
