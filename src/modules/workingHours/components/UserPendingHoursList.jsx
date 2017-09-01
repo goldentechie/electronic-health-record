@@ -111,7 +111,7 @@ export default class UserPendingHoursList extends React.Component {
 
       return (
         <tr key={i}>
-          <td className="p-r-xs">{i + 1}</td>
+          <td style={{marginRight: '0%'}}>{i + 1}</td>
           <td>{val.name}</td>
           {val.pending_hour >= 9
             ? <td><mark style={{color: '#ffffff', aling: 'center', backgroundColor: '#ff0000'}}>
@@ -124,7 +124,7 @@ export default class UserPendingHoursList extends React.Component {
           }
 
           {val.status
-            ? <td className="max-w-200">
+            ? <td style={{align: 'center'}}>
             {'Updated On : '}{val.date}
               <br />
               {val.status}
@@ -151,17 +151,18 @@ export default class UserPendingHoursList extends React.Component {
                 onUserPendingHoursData={this.props.onUserPendingHoursData}
                 {...this.props} />
 
-              <div className="col-md-12 b-r box table-responsive">
-                <div className="p-a block">
+              <div className="col-md-12 b-r box">
+                <div className="p-a block table-responsive ">
+                  <div>
                     {
                       pendingTimeMap.length > 0
                       ? <table key='' className="table table-striped">
                         <thead className="active">
                           <tr>
-                            <th className="p-r-xs">{'Sr.'}</th>
+                            <th>{'Sr.No'}</th>
                             <th>User Name</th>
-                            <th className="text-center">Pending Time</th>
-                            <th >Status</th>
+                            <th style={{textAlign: 'center'}}>Pending Time</th>
+                            <th>Status</th>
                             <th>Actions</th>
                           </tr>
                         </thead>
@@ -175,7 +176,7 @@ export default class UserPendingHoursList extends React.Component {
                         </h5>
                       </div>
                     }
-
+                  </div>
                 </div>
               </div>
             </div>
