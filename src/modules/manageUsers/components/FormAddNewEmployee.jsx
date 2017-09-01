@@ -50,7 +50,7 @@ class FormAddNewEmployee extends React.Component {
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
-          contentClassName="add-new-emp-dialog dialog-add-role"
+          contentClassName="add-new-emp-dialog"
           titleClassName="title"
           bodyClassName="body"
           autoScrollBodyContent>
