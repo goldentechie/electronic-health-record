@@ -44,13 +44,13 @@ class FormAddNewEmployee extends React.Component {
   render () {
     return (
       <div>
-        <Button className="btn-fw info responsive-p-x-sm" onClick={this.handleOpen} label="Add New Employee" />
+        <Button className="btn-fw info" onClick={this.handleOpen} label="Add New Employee" />
         <Dialog
           title="Add New Employee"
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
-          contentClassName="add-new-emp-dialog"
+          contentClassName="add-new-emp-dialog dialog-add-role"
           titleClassName="title"
           bodyClassName="body"
           autoScrollBodyContent>
