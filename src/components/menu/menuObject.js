@@ -2,7 +2,6 @@ const DATA = [
   {'path': '/monthly_attendance', 'label': 'My Attendance', 'plabel': 'Attendance'},
   {'path': '/home', 'label': 'Employees Attendance', 'plabel': 'Attendance'},
   {'path': '/uploadAttendance', 'label': 'Upload Attendance', 'plabel': 'Attendance'},
-  {'path': '/attendanceRequests', 'label': 'Attendance Requests', 'plabel': 'Attendance'},
   {'path': '/manage_users', 'label': 'Profile', 'plabel': 'Manage Employees'},
   {'path': '/manage_roles', 'label': 'Manage Roles', 'plabel': 'Roles'},
   {'path': '/disabled_employes', 'label': 'Disable Employee', 'plabel': 'Manage Employees'},
