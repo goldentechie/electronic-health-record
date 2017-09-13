@@ -14,7 +14,7 @@ const actionsForOtherAPIurl = ['get_user_profile_detail', 'get_user_profile_deta
 
 const actionsForAPIurl = ['admin_user_apply_leave', 'change_employee_status', 'get_employee_life_cycle', 'update_employee_life_cycle', 'show_disabled_users', 'add_roles', 'list_all_roles', 'update_role', 'assign_user_role', 'delete_role'];
 
-const actionForExpressWeburl = ['update_time_by_employee'];
+const expressApi = ['manual', 'approval'];
 
 export function fireAjax (method, url, data) {
   let URL = CONFIG.api_url + url;
@@ -25,7 +25,6 @@ export function fireAjax (method, url, data) {
     method: method,
     mode:   'cors',
     cache:  'no-cache',
-    Accept: 'application/json',
     body:   JSON.stringify(data)
   };
 
@@ -43,12 +42,13 @@ export function fireAjax (method, url, data) {
   } else if (_.indexOf(actionsForAPIurl, data.action) >= 0) {
     headers.body = JSON.stringify(data);
     URL = CONFIG.api_url;
-  } else if (data.action === 'update_time_by_employee') {
-    delete (data.token);
+  } else if (data.action === 'manual') {
     headers.body = JSON.stringify(data);
-    URL = CONFIG.express_web_url + '/attendance/update_time_by_employee';
+    URL = CONFIG.expressApi + '/attendance/manual';
+  } if (data.action === 'approval') {
+    headers.body = JSON.stringify(data);
+    URL = CONFIG.expressApi + '/attendance/approval';
   }
-
   return fetch(URL, headers).then((response) => {
     if (response.status === 500) {
       return new Promise((resolve, reject) => {
@@ -57,7 +57,7 @@ export function fireAjax (method, url, data) {
         });
       });
     } else if (response.status === 401) {
-      confirm('401 Access Denied !', '<span style="color:#f27474;font-size:18px;font-weight:600">' + action + '</span><br/>You are unauthorized to the Action - Contact Admin!!', 'error').then((res) => {
+      confirm('401 ! Access denied!', '<span style="color:#f27474;font-size:18px;font-weight:600">' + action + '</span><br/>You are unauthorized to the Action - Contact Admin!!', 'error').then((res) => {
         resetLoggedUser();
         location.href = CONFIG.BASE_URL;
       });
