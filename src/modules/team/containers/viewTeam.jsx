@@ -25,7 +25,8 @@ class ViewTeam extends React.Component {
     this.openPage = this.openPage.bind(this);
   }
   componentWillMount () {
-    this.props.requestUserDayAttendance();
+    this.props.requestTeamList();
+    this.props.requestGetTeam('');
   }
   componentWillReceiveProps (props) {
     window.scrollTo(0, 0);
