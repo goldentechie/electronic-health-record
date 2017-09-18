@@ -26,7 +26,7 @@ import policyDocuments from 'appRedux/policyDocuments/reducers/policyDocuments';
 import {template} from 'appRedux/templates/reducers/template';
 import teamList from 'appRedux/team/reducers/teamList';
 import {manageDevice} from 'appRedux/inventory/reducers/inventory';
-import empDaySummary from 'appRedux/attendance/reducers/empDaySummary';
+import attendanceReq from 'appRedux/attendance/reducers/attendanceReq';
 
 export default combineReducers({
   frontend,
@@ -55,5 +55,5 @@ export default combineReducers({
   template,
   teamList,
   manageDevice,
-  empDaySummary
+  attendanceReq
 });
