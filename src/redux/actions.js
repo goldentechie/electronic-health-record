@@ -29,6 +29,10 @@ export const errorUserDaySummary = createAction(constants.ERROR_USER_DAY_SUMMARY
 export const requestUpdateUserDaySummary = createAction(constants.REQUEST_UPDATE_USER_DAY_SUMMARY);
 export const successUpdateUserDaySummary = createAction(constants.SUCCESS_UPDATE_USER_DAY_SUMMARY);
 export const errorUpdateUserDaySummary = createAction(constants.ERROR_UPDATE_USER_DAY_SUMMARY);
+// --Employee Update Day Summary ---
+export const requestUpdateEmpDaySummary = createAction(constants.REQUEST_UPDATE_EMP_DAY_SUMMARY);
+export const successUpdateEmpDaySummary = createAction(constants.SUCCESS_UPDATE_EMP_DAY_SUMMARY);
+export const errorUpdateEmpDaySummary = createAction(constants.ERROR_UPDATE_EMP_DAY_SUMMARY);
 
 export const requestUsersList = createAction(constants.REQUEST_USERSLIST);
 export const successUsersList = createAction(constants.SUCCESS_USERSLIST);
@@ -60,15 +64,3 @@ export const errorAddTeam = createAction(constants.ERROR_ADD_TEAM);
 export const requestGetTeam = createAction(constants.REQUEST_GET_TEAM);
 export const successGetTeam = createAction(constants.SUCCESS_GET_TEAM);
 export const errorGetTeam = createAction(constants.ERROR_GET_TEAM);
-
-export const requestTeamStats = createAction(constants.REQUEST_TEAM_STATS);
-export const successTeamStats = createAction(constants.SUCCESS_TEAM_STATS);
-export const errorTeamStats = createAction(constants.ERROR_TEAM_STATS);
-
-export const requestEmployeLifeCycle = createAction(constants.REQUEST_EMP_LIFE_CYCLE);
-export const successEmployeLifeCycle = createAction(constants.SUCCESS_EMP_LIFE_CYCLE);
-export const errorEmployeLifeCycle = createAction(constants.ERROR_EMP_LIFE_CYCLE);
-
-export const requestEmployeeHours = createAction(constants.REQUEST_EMP_HOURS);
-export const successEmployeeHours = createAction(constants.SUCCESS_EMP_HOURS);
-export const errorEmployeeHours = createAction(constants.ERROR_EMP_HOURS);
