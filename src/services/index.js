@@ -58,6 +58,10 @@ export function fireAjax (method, url, data) {
   } else if (data.action === 'manual') {
     delete (data.action);
     headers.body = JSON.stringify(data);
+    URL = CONFIG.expressWeburl + '/attendance/manual';
+  } if (data.action === 'approval') {
+    delete (data.action);
+    headers.body = JSON.stringify(data);
     URL = CONFIG.expressApiUrl + '/attendance/manual';
   } if (data.action === 'approval') {
     delete (data.action);
