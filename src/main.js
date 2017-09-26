@@ -1,7 +1,7 @@
 import 'styles/main.scss';
 import 'whatwg-fetch';
 import 'sweetalert';
-//import 'sweetalert/dist/sweetalert.css';
+import 'sweetalert/dist/sweetalert.css';
 import 'jquery';
 import 'jquery-ui';
 import 'tether';
@@ -77,6 +77,7 @@ let render = (routerKey = null) => {
             <IndexRoute component={PageManageDashboard} />
             //this will be the default page which will opens when app starts
             <Route path="home" component={Page_Home} />
+            <Route path="PageManageDashboard" component={PageManageDashboard} />
             <Route path="login" component={Page_Login} />
             <Route path="monthly_attendance" component={Page_MonthlyAttendance} />
             <Route path="manage_working_hours" component={Page_ManageWorkingHours} />

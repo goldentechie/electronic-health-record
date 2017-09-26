@@ -36,10 +36,11 @@ class PageEmployeePerformance extends Component {
 
   getByData (evt) {
     const userId = localStorage.getItem('userid');
+    let year = this.state.year !== '' ? this.state.year : this.props.currentYear;
     this.props.requestEmployeePerformance({
       'id':    userId,
       'month': this.state.month,
-      'year':  this.state.year
+      'year':  year
     });
   }
   render () {
@@ -50,11 +51,11 @@ class PageEmployeePerformance extends Component {
     let monthOptions = [];
     let yearOptions = [];
     let monthOption = _.map(this.props.months, (monthData, i) => {
-      monthOptions.push(<option key={i} selected={this.props.currentMonth === monthData} value={monthData}>{monthData}</option>);
+      monthOptions.push(<option key={i} value={monthData}>{monthData}</option>);
     });
     let yearOption = _.map(this.props.year, (data, i) => {
       return (
-      yearOptions.push(<option key={i} selected={this.props.currentYear === data} value={data}>{data}</option>)
+      yearOptions.push(<option key={i} value={data}>{data}</option>)
       );
     });
     if (EmpPerformance !== undefined && EmpPerformance.isSuccess) {
@@ -91,14 +92,14 @@ class PageEmployeePerformance extends Component {
           <div className="col-md-12 row">
             <div className="form-group col-md-4">
               <label htmlFor="sel1">Select Months:</label>
-              <select className="form-control" id="sel1"
+              <select className="form-control" id="sel1" defaultValue={this.props.currentMonth}
                 onChange={(evt) => { this.setState({month: evt.target.value}); }}>
                   {monthOptions}
               </select>
             </div>
             <div className="form-group col-md-4">
               <label htmlFor="sel1">Select Year:</label>
-              <select className="form-control" id="sel12"
+              <select className="form-control" id="sel12" defaultValue={this.props.currentYear}
                 onChange={(evt) => { this.setState({year: evt.target.value}); }}>
                 {yearOptions}
               </select>
