@@ -1,6 +1,6 @@
 import { urls, visitIndexRoute, urlVisited } from '../../index';
 
-describe('Test Login Form.', () => {
+describe('User login ', () => {
   it('.should() - assert that <title> is correct', () => {
     visitIndexRoute();
     cy.get('#openLogin').click();
