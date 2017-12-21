@@ -71,10 +71,6 @@ export const user = {
     username:'admin',
     password:'wrongpassword',
   }
-  blankField : {
-    username: ' ',
-    password: ' ',
-  }
 }
 
 export const apiUrls = {
