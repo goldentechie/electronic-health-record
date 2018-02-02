@@ -1,18 +1,17 @@
 import Immutable from 'immutable';
 
 let initialState = {
-  userProfileImage:    '',
-  userName:            '',
-  userjobtitle:        '',
-  userid:              '',
-  month:               '',
-  year:                '',
-  monthName:           '',
-  nextMonth:           {},
-  previousMonth:       {},
-  monthSummary:        {},
-  attendance:          [],
-  compensationSummary: ''
+  userProfileImage: '',
+  userName:         '',
+  userjobtitle:     '',
+  userid:           '',
+  month:            '',
+  year:             '',
+  monthName:        '',
+  nextMonth:        {},
+  previousMonth:    {},
+  monthSummary:     {},
+  attendance:       []
 };
 
 export function monthlyAttendance (state = Immutable.fromJS(initialState), action) {
@@ -27,7 +26,6 @@ export function monthlyAttendance (state = Immutable.fromJS(initialState), actio
         .set('monthSummary', action.payload.monthSummary)
         .set('nextMonth', action.payload.nextMonth)
         .set('previousMonth', action.payload.previousMonth)
-        .set('compensationSummary', action.payload.compensationSummary)
         .set('attendance', action.payload.attendance);
   } else if (action.type === 'ACTION_EMPTY_USER_ATTENDANCE') {
     return state;
