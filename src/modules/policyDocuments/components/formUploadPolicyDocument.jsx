@@ -55,7 +55,6 @@ class FormUploadPolicyDocument extends React.Component {
             <div className="col-md-10 form-group m-x-lg">
               <TextField
                 ref='name'
-                id="docName"
                 fullWidth
                 floatingLabelText="Name of doc"
                 errorText={this.state.errName}
@@ -70,7 +69,6 @@ class FormUploadPolicyDocument extends React.Component {
             <div className="col-md-10 form-group m-x-lg">
               <TextField
                 ref='link'
-                id="docLink"
                 fullWidth
                 floatingLabelText="Link of doc"
                 errorText={this.state.errLink}
@@ -82,7 +80,6 @@ class FormUploadPolicyDocument extends React.Component {
             </div>
             <div className="col-xs-10 m-y-md ">
               <RaisedButton
-                id="docSubmitButton"
                 label="SUBMIT"
                 primary
                 className=" pull-right btn-responsive"

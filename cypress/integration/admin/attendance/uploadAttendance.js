@@ -1,15 +1,16 @@
-import {urls, user, click, shouldBeVisible} from '../../../index';
-import {signin} from '../../../helper';
-import {urlVisited} from '../../../visitRoutes';
+import {urls, user, apiUrls} from '../../../index';
+import {signin, signout, apiCall} from '../../../helper';
+import {urlVisited, visitIndexRoute} from '../../../visitRoutes';
 
 describe('Test attendance upload page', () => {
   it('page load successfully', () => {
+    visitIndexRoute();
     signin(user.admin);
     urlVisited(urls.baseUrl + urls.home);
-    shouldBeVisible('.nav > #monthly_attendance');
-    click('.nav > #monthly_attendance');
-    shouldBeVisible('.nav-sub #uploadAttendance');
-    click('.nav-sub #uploadAttendance');
+    cy.get('.nav > #monthly_attendance').should('be.visible');
+    cy.get('.nav > #monthly_attendance').click();
+    cy.get('.nav-sub #uploadAttendance').should('be.visible');
+    cy.get('.nav-sub #uploadAttendance').click();
     urlVisited(urls.baseUrl + urls.uploadAttendance);
   });
 });
