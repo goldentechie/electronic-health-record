@@ -2,21 +2,17 @@ import {urlVisited, visitIndexRoute} from './visitRoutes';
 import {urls} from './index';
 
 export const click = (id) => cy.get(id).click();
-export const contains = (id, text) => cy.get(id).contains(text);
-export const type = (id, text) => cy.get(id).type(text);
-export const scrollTo = (id, position) => cy.get(id).scrollTo(position);
-export const wait = (time) => cy.wait(time);
 
 export const signin = (user) => {
-  visitIndexRoute();
-  click('#openLogin');
+  cy.visit(urls.baseUrl);
+  cy.get('#openLogin').click();
   urlVisited(urls.baseUrl + urls.login);
-  type('#usernameInput', user.username);
-  type('#passwordInput', user.password);
-  click('#loginButton');
+  cy.get('#usernameInput').type(user.username);
+  cy.get('#passwordInput').type(user.password);
+  cy.get('#loginButton').click();
 };
 export const signout = () => {
-  click('#Logout')();
+  cy.get('#Logout').click();
   urlVisited(urls.baseUrl);
 };
 
@@ -28,4 +24,5 @@ export const apiCall = (method, url, body, testcase) => {
       reslove(token);
     });
   });
+  console.log(token, localStorage.getItem('token'), '================');
 };
