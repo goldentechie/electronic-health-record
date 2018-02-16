@@ -237,8 +237,6 @@ class Variables extends React.Component {
       <div className="app-body" id="view" style={{'marginTop': 10}}>
         <div className="col-xs-12 col-sm-12" style={{'float': 'right'}}>
           <Dialog
-            className="add-variable-dialog"
-            actionsContainerClassName="action-buttons"
             title={this.state.dialogTitle}
             actions={actions}
             modal={false}
@@ -246,11 +244,10 @@ class Variables extends React.Component {
             onRequestClose={this.gotoVariablePage.bind(this)}
             autoScrollBodyContent
             >
-            <div id="add-variable-form">
+            <div>
               <form className="form-inline">
                 <div className="form-group" style={styles.formInput}>
                   <TextField
-                    className="variable-code"
                     ref='value'
                     floatingLabelText={this.state.floatingLabelCode}
                     floatingLabelFixed
@@ -268,13 +265,11 @@ class Variables extends React.Component {
                 <div className="form-group" style={styles.formInput}>
                   <RadioButtonGroup name="shipSpeed" defaultSelected="richEditor" onChange={(e) => { this.changeEditor(e); }}>
                     <RadioButton
-                      className="headerFooter"
                       value="textArea"
                       label="Add header/footer"
                       style={styles.radioButton}
                       />
                     <RadioButton
-                      className="otherThanHeaderFooter"
                       value="richEditor"
                       label="Otherthen header/footer"
                       style={styles.radioButton}
@@ -316,7 +311,6 @@ class Variables extends React.Component {
                 <div className='col-xs-12' style={{paddingTop: '16px', paddingRight: '0px'}}>
                   <button
                     className="md-btn md-raised m-b-sm indigo"
-                    id="add-new-variable"
                     onClick={this.openCreateVariable}
                     >Add New Variable</button>
                 </div>
@@ -324,7 +318,6 @@ class Variables extends React.Component {
                   <div className="table-responsive table-condensed">
                   <Paper zDepth={1} style={{marginBottom: '10px'}} >
                     <Table
-                      className = "variable-list"
                       fixedHeader
                       fixedFooter
                       onRowSelection={
@@ -351,20 +344,16 @@ class Variables extends React.Component {
                         </TableRow>
                       </TableHeader>
                       <TableBody
-                          className="variable-table-body"
                         displayRowCheckbox={false}
                         >
                         {_.map(userVar, (vari, i) => (
-                          <TableRow
-                              id={vari.name.slice(1)+'_tr'}
-                              key={vari.id}
-                              style={{'cursor': 'pointer'}}
+                          <TableRow key={vari.id}
+                            style={{'cursor': 'pointer'}}
                             >
-                            <TableRowColumn colSpan={1} id={`${vari.name.slice(1)}_td'`}>{vari.name}</TableRowColumn>
+                            <TableRowColumn colSpan={1} >{vari.name}</TableRowColumn>
                             <TableRowColumn colSpan={1}><div className="p-l" dangerouslySetInnerHTML={{__html: vari.value}}></div></TableRowColumn>
                             <TableRowColumn colSpan={1} style={{textAlign: 'center'}}>
                               <IconButton
-                                id={vari.name.slice(1)+'_button'}
                                 tooltip="Delete Variable"
                                 tooltipPosition="top-right"
                                 iconStyle={{'color': '#B71C1C'}}
