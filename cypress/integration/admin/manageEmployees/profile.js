@@ -4,6 +4,7 @@ import {urlVisited, visitIndexRoute} from '../../../visitRoutes';
 
 describe('Test profile page', () => {
   it('employees list is loaded on left side panel', () => {
+    visitIndexRoute();
     signin(user.admin);
     urlVisited(urls.baseUrl + urls.home);
     cy.get('.nav > #manage_users').should('be.visible');
@@ -16,6 +17,7 @@ describe('Test profile page', () => {
     cy.get(' #userList').should('be.visible');
   });
   it('first employee profile details are shown on right panel', () => {
+    visitIndexRoute();
     signin(user.admin);
     urlVisited(urls.baseUrl + urls.home);
     cy.get('.nav > #manage_users').should('be.visible');

@@ -4,6 +4,7 @@ import {urlVisited, visitIndexRoute} from '../../../visitRoutes';
 
 describe('Test disable profile page', () => {
   it('employees list is loaded on left side panel', () => {
+    visitIndexRoute();
     signin(user.admin);
     urlVisited(urls.baseUrl + urls.home);
     cy.get('.nav > #manage_users').should('be.visible');
@@ -16,6 +17,7 @@ describe('Test disable profile page', () => {
     cy.get('#userListWrapper #userList').should('be.visible');
   });
   it('click on any employee on left side will show respective information on right sided panel', () => {
+    visitIndexRoute();
     signin(user.admin);
     urlVisited(urls.baseUrl + urls.home);
     cy.get('.nav > #manage_users').should('be.visible');
