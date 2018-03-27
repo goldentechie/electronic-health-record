@@ -1,10 +1,9 @@
 import React from 'react';
 import * as _ from 'lodash';
 import {notify, confirm} from 'src/services/notify';
-import {getLowerCase , getLoggedUser} from 'src/services/generic';
+import {getLowerCase} from 'src/services/generic';
 import AddDeviceDialoge from 'modules/inventory/components/AddDeviceDialoge';
 import AddDeviceStatus from 'modules/inventory/components/AddDeviceStatus';
-import {CONFIG} from 'config';
 var moment = require('moment');
 
 class InventoryList extends React.Component {
@@ -27,6 +26,7 @@ class InventoryList extends React.Component {
       statusList:       [],
       deviceVal:        ''
     };
+
     this.openEditDevice = this.openEditDevice.bind(this);
     this.deleteDevices = this.deleteDevices.bind(this);
     this.handleAssign = this.handleAssign.bind(this);
@@ -38,7 +38,6 @@ class InventoryList extends React.Component {
     this.callAddStatus = this.callAddStatus.bind(this);
     this.callDeleteDeviceStatus = this.callDeleteDeviceStatus.bind(this);
     this.handleDeviceTypeFilter = this.handleDeviceTypeFilter.bind(this);
-    this.handleInventory = this.handleInventory.bind(this);
     this.handleStatusTypeFilter = this.handleStatusTypeFilter.bind(this);
   }
   componentWillMount () {
@@ -185,11 +184,6 @@ class InventoryList extends React.Component {
     }
   }
 
-  handleInventory (device) {
-    this.props.router.push(`inventory_system/${device.id}`)
-
-  }
-
   handleStatusTypeFilter (statusType) {
     let status = this.props.manageDevice.device;
     if (this.state.search !== '') {
@@ -211,7 +205,6 @@ class InventoryList extends React.Component {
     });
   }
   render () {
-    const role = getLoggedUser().data.role;
     var statusList = this.state.deviceStatusList || [];
     let statusDropMap = statusList.map((val, i) => {
       return (
@@ -233,7 +226,7 @@ class InventoryList extends React.Component {
       if (rowColorData.length > 0) {
         rowColor = rowColorData[0].color;
       }
-      rows.push(<tr onClick={() => this.handleInventory(device)} key={i} style={{background: rowColor, borderBottom: '2px solid white'}}>
+      rows.push(<tr key={i} style={{background: rowColor, borderBottom: '2px solid white'}}>
         <td style={{marginRight: '0%', width: '5%'}}>{i + 1}</td>
         <td style={{marginRight: '0%', width: '16%'}}>
           {device.machine_type}
@@ -282,8 +275,8 @@ class InventoryList extends React.Component {
           </ul>
         </td>
 
-        {role === CONFIG.ADMIN ? <td className="tdAlign row" style={{marginTop: '5%'}}>
-          <i className="fa fa-lg fa-pencil-square-o" aria-hidden="false" style={{color: '#3f51b5', cursor: 'pointer'}}
+        <td className="tdAlign row" style={{marginTop: '5%'}}>
+          <i className="fa fa-lg fa-pencil-square-o" aria-hidden="true" style={{color: '#3f51b5', cursor: 'pointer'}}
             onClick={(e) => {
               e.nativeEvent.stopImmediatePropagation();
               this.openEditDevice(device.id);
@@ -296,7 +289,7 @@ class InventoryList extends React.Component {
               }
             });
           }} aria-hidden="true"></i>
-        </td> : null}
+        </td>
       </tr>);
     });
     return (
@@ -311,9 +304,9 @@ class InventoryList extends React.Component {
                     <select className="form-control"
                       ref="device_type"
                       value={this.state.search}
-                      onChange={(e) => 
-                        this.props.deviceTypeData(e.target.value)
-                        }>
+                      onChange={(e) => {
+                        this.props.deviceTypeData(e.target.value);
+                      }}>
                       <option value="">--Select Device Type--</option>
                       {listDrop}
                     </select>
@@ -372,7 +365,7 @@ class InventoryList extends React.Component {
                           <th>Name</th>
                           <th>Informations</th>
                           <th>Status/Commments</th>
-                          {role === CONFIG.ADMIN ? <th>Actions</th> : null}
+                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
