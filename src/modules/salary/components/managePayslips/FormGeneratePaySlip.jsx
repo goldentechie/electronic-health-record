@@ -522,7 +522,7 @@ class FormGeneratePaySlip extends React.Component {
                 let s = this.state;
                 s.send_email_only = 1;
                 s.send_slack_message  = 0;
-                this.props.callCreateUserPayslip(s,e)}}>
+                this.props.callCreateUserPayslip(s)}}>
                 Create & Email Payslip
               </button>
             </div>
@@ -531,7 +531,7 @@ class FormGeneratePaySlip extends React.Component {
                 let s = this.state;
                 s.send_email_only = 0;
                 s.send_slack_message = 1;
-                this.props.callCreateUserPayslip(s,e)}}>
+                this.props.callCreateUserPayslip(s)}}>
                 create and send slack message
               </button>
             </div>
