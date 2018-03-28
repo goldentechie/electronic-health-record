@@ -38,7 +38,7 @@ class InventorySystem extends React.Component {
       deviceId:            '',
       user_profile_detail: {},
       user_assign_machine: [],
-      getByIdData:         {},
+      getByIdData:         {}
     };
     this.onUserClick = this.onUserClick.bind(this);
     this.callUpdateUserDeviceDetails = this.callUpdateUserDeviceDetails.bind(this);
@@ -146,7 +146,6 @@ class InventorySystem extends React.Component {
       });
     }
   }
-  
 
   openEditDevice (id) {
     this.props.onGetDeviceById(id).then((val) => {
@@ -200,7 +199,6 @@ class InventorySystem extends React.Component {
         <Menu {...this.props} />
         <div id="content" className="app-content box-shadow-z0" role="main">
           <Header pageTitle={'Inventory Management'} showLoading={this.props.frontend.show_loading} />
-         
           <div className="app-body" id="view">
             <div className="row">
               <div className="col-12">
@@ -240,7 +238,7 @@ class InventorySystem extends React.Component {
                     </ul>
                   </div>
                 </div>
-                <div className="col-md-offset-10" style={{marginTop: '2%'}}>
+                <div className="col-md-offset-6" style={{marginTop: '2%'}}>
                   {this.state.firstArrow === 'show'
                     ? <FormAddNewInventory
                       deviceId={this.state.id}
@@ -265,7 +263,6 @@ class InventorySystem extends React.Component {
                   deleteDevices={this.deleteDevices}
                   callFetchDevice={this.callFetchDevice}
                   searchVal={this.state.search}
-                  handleInventory={this.handleInventory}
                   deviceTypeData={(val) => {
                     this.setState({
                       search: val
