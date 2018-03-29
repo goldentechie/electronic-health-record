@@ -1,5 +1,6 @@
 import {createAction} from 'redux-actions';
 import {fireAjax} from 'src/services/index';
+import {notify} from 'src/services/notify'; 
 import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
 import * as constants from 'appRedux/constants';
 // -------add New machine
@@ -533,6 +534,70 @@ export function deviceCount () {
       }, (error) => {
         dispatch(hide_loading());
         reject(error);
+      });
+    });
+  };
+}
+
+
+
+export function errorAddUserComment (data) {
+  return createAction(constants.ACTION_ERROR_ADD_USER_COMMENT)(data);
+}
+
+export function successAddUserComment (data) {
+  return createAction(constants.ACTION_SUCCESS_ADD_USER_COMMENT)(data);
+}
+
+function asyncAddUserComment (comment, serial_number, user_Id){
+  return fireAjax('POST', '', {
+    'action':       'add_user_comment',
+    'comment':      comment,
+    'serial_number':serial_number,
+    'user_Id':      user_Id,
+  });
+}
+
+export function addUserComment (new_comment) {
+  return (dispatch, getState) => {
+
+    let comment = '';
+    let serial_number = '';
+    let user_Id = '';
+
+    if (typeof new_comment.comment === 'undefined' || new_comment.comment == '') {
+      return Promise.reject('comment is empty');
+    } else {
+      comment = new_comment.comment;
+    }
+
+    if (typeof new_comment.serial_number === 'undefined' || new_comment.serial_number == '') {
+      return Promise.reject('serial_number is empty');
+    } else {
+      serial_number = new_comment.serial_number;
+    }
+    
+    if (typeof new_comment.user_Id === 'undefined' || new_comment.user_Id == '') {
+      return Promise.reject('user_Id is empty');
+    } else {
+      user_Id = new_comment.user_Id;
+    }
+
+    return new Promise(function (resolve, reject){
+      dispatch(show_loading());
+      return asyncAddUserComment(comment, serial_number, user_Id).then((json) => {
+        dispatch(hide_loading());
+        if(json.error==0){
+          dispatch(successAddUserComment(json.message));
+          notify('Success !','Comment added to unassign device','success');
+        }else{
+          dispatch(errorAddUserComment(json.message))
+          notify('Error !',error,'error');
+        }
+      }, (error) => {
+        dispatch(hide_loading());
+        dispatch(errorAddUserComment('error occurs!!!'));
+        notify('Error !',error,'error');
       });
     });
   };
