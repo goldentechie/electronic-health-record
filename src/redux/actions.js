@@ -97,10 +97,6 @@ export const requestUserList = createAction(constants.REQUEST_USER_LIST);
 export const successUserList = createAction(constants.SUCCESS_USER_LIST);
 export const errorUserList = createAction(constants.ERROR_USER_LIST);
 
-export const requestUnapprovedList = createAction(constants.ACTION_REQUEST_UPDATE_UNAPPROVED_USER);
-export const successUnapprovedList = createAction(constants.ACTION_SUCCESS_UPDATE_UNAPPROVED_USER); 
-export const errorUnapprovedList = createAction(constants.ACTION_ERROR_UPDATE_UNAPPROVED_USER);
-
-export const requestApprovedList = createAction(constants.ACTION_REQUEST_UPDATE_APPROVED_USER);
-export const successApprovedList = createAction(constants.ACTION_SUCCESS_UPDATE_APPROVED_USER); 
-export const errorApprovedList = createAction(constants.ACTION_ERROR_UPDATE_APPROVED_USER);
+export const requestAddUserComment = createAction(constants.REQUEST_ADD_USER_COMMENT);
+export const successAddUserComment = createAction(constants.SUCCESS_ADD_USER_COMMENT);
+export const errorAddUserComment = createAction(constants.ERROR_USER_ADD_USER_COMMENT);

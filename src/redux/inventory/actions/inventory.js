@@ -22,7 +22,7 @@ function async_addNewMachine (
   n_operating_system,
   n_status,
   n_comment,
-  n_warranty, 
+  n_warranty,
   n_warranty_comment,
   n_repair_comment,
   n_bill_no,
@@ -37,7 +37,7 @@ function async_addNewMachine (
     'serial_no':        n_serial_no,
     'purchase_date':    n_purchase_date,
     'mac_address':      n_mac_address,
-    'operating_system': n_operating_system, 
+    'operating_system': n_operating_system,
     'status':           n_status,
     'comment':          n_comment,
     'warranty':         n_warranty,
@@ -539,53 +539,62 @@ export function deviceCount () {
 }
 
 
-export function successUnapprovedList (data) {
-  return createAction(constants.ACTION_SUCCESS_UPDATE_UNAPPROVED_USER)(data);
+
+export function errorAddUserComment (data) {
+  return createAction(constants.ACTION_ERROR_ADD_USER_COMMENT)(data);
 }
 
-function getAsyncUnapprovedData(dataLogin){
-  return fireAjax('POST','',{
-    'action':'get_unapproved_machine_list'
+export function successAddUserComment (data) {
+  return createAction(constants.ACTION_SUCCESS_ADD_USER_COMMENT)(data);
+}
+
+function asyncAddUserComment (comment, serial_number, user_Id){
+  return fireAjax('POST', '', {
+    'action':       'add_user_comment',
+    'comment':      comment,
+    'serial_number':serial_number,
+    'user_Id':      user_Id,
   });
 }
 
-export function unapprovedUser () {
+export function addUserComment (new_comment) {
   return (dispatch, getState) => {
-    return new Promise(function (resolve, reject) {
+
+    let comment = '';
+    let serial_number = '';
+    let user_Id = '';
+
+    if (typeof new_comment.comment === 'undefined' || new_comment.comment == '') {
+      return Promise.reject('comment is empty');
+    } else {
+      comment = new_comment.comment;
+    }
+
+    if (typeof new_comment.serial_number === 'undefined' || new_comment.serial_number == '') {
+      return Promise.reject('serial_number is empty');
+    } else {
+      serial_number = new_comment.serial_number;
+    }
+    
+    if (typeof new_comment.user_Id === 'undefined' || new_comment.user_Id == '') {
+      return Promise.reject('user_Id is empty');
+    } else {
+      user_Id = new_comment.user_Id;
+    }
+
+    return new Promise(function (resolve, reject){
       dispatch(show_loading());
-      return getAsyncUnapprovedData().then((res) => {
+      return asyncAddUserComment(comment, serial_number, user_Id).then((json) => {
         dispatch(hide_loading());
-        resolve(res);
-        dispatch(successUnapprovedList(res));
+        if(json.error==0){
+          dispatch(successAddUserComment(json.message));
+        }else{
+          dispatch(errorAddUserComment(json.message))
+        }
       }, (error) => {
         dispatch(hide_loading());
-        reject(error);
-      });
-    });
-  };
-}
-
-export function successApprovedList (data) {
-  return createAction(constants.ACTION_SUCCESS_UPDATE_APPROVED_USER)(data);
-}
-
-function getAsyncApprovedData(dataLogin){
-  return fireAjax('POST','',{
-    'action':'approve_machine'
-  });
-}
-
-export function approvedUser () {
-  return (dispatch, getState) => {
-    return new Promise(function (resolve, reject) {
-      dispatch(show_loading());
-      return getAsyncApprovedData().then((res) => {
-        dispatch(hide_loading());
-        resolve(res);
-        dispatch(successApprovedList(res));
-      }, (error) => {
-        dispatch(hide_loading());
-        reject(error);
+        dispatch(errorAddUserComment('error occurs!!!'));
+        reject('error occurs!!');
       });
     });
   };

@@ -6,7 +6,7 @@ import AddDeviceDialoge from 'modules/inventory/components/AddDeviceDialoge';
 import AddDeviceStatus from 'modules/inventory/components/AddDeviceStatus';
 import {CONFIG} from 'config';
 var moment = require('moment');
-let devices;
+
 class InventoryList extends React.Component {
   constructor (props) {
     super(props);
@@ -38,7 +38,7 @@ class InventoryList extends React.Component {
     this.callAddStatus = this.callAddStatus.bind(this);
     this.callDeleteDeviceStatus = this.callDeleteDeviceStatus.bind(this);
     this.handleDeviceTypeFilter = this.handleDeviceTypeFilter.bind(this);
-    // this.handleInventory = this.handleInventory.bind(this);
+    this.handleInventory = this.handleInventory.bind(this);
     this.handleStatusTypeFilter = this.handleStatusTypeFilter.bind(this);
   }
   componentWillMount () {
@@ -185,10 +185,10 @@ class InventoryList extends React.Component {
     }
   }
 
-  // handleInventory (device) {
-  //   this.props.router.push(`inventory_system/${device.id}`)
+  handleInventory (device) {
+    this.props.router.push(`inventory_system/${device.id}`)
 
-  // }
+  }
 
   handleStatusTypeFilter (statusType) {
     let status = this.props.manageDevice.device;
@@ -210,15 +210,7 @@ class InventoryList extends React.Component {
       device_status: statusType
     });
   }
-  check(){
-    console.log(devices);
-    
-  }
   render () {
-    console.log(this.props,'oooooooooo');
-  console.log(this.props.manageDevice.unapprovedList,'datadayatata');
-  
-    
     const role = getLoggedUser().data.role;
     var statusList = this.state.deviceStatusList || [];
     let statusDropMap = statusList.map((val, i) => {
@@ -231,7 +223,7 @@ class InventoryList extends React.Component {
       return (<option value={val} key={i}>{val}</option>);
     });
     let listDrop = listDropMap.reverse();
-     devices =this.props.fourthArrow==='show'?this.props.manageDevice.unapprovedList.data:this.state.deviceList;
+    let devices = this.state.deviceList;
     let statusVal = this.state.deviceStatusList;
 
     let rowColor;
@@ -241,7 +233,7 @@ class InventoryList extends React.Component {
       if (rowColorData.length > 0) {
         rowColor = rowColorData[0].color;
       }
-      rows.push(<tr  key={i} style={{background: rowColor, borderBottom: '2px solid white'}}>
+      rows.push(<tr onClick={() => this.handleInventory(device)} key={i} style={{background: rowColor, borderBottom: '2px solid white'}}>
         <td style={{marginRight: '0%', width: '5%'}}>{i + 1}</td>
         <td style={{marginRight: '0%', width: '16%'}}>
           {device.machine_type}
@@ -303,8 +295,7 @@ class InventoryList extends React.Component {
                 notify('Deleted !', '', 'success');
               }
             });
-          }} aria-hidden="true"></i>{this.props.fourthArrow==='show'?<div>
-          <button className="md-btn md-raised m-b-sm indigo" style={{marginTop:'15%'}} onClick={(e)=>{this .check}}>Approve</button></div>:null}
+          }} aria-hidden="true"></i>
         </td> : null}
       </tr>);
     });

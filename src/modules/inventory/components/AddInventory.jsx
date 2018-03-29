@@ -174,12 +174,8 @@ export default class FormAddNewInventory extends React.Component {
     return (
       <div>
         <AlertNotification message={this.state.msg} />
-        <div>
-          {/* <button style={{display:'inline-block',float:'left',marginRight:'2%'}} className="md-btn md-raised m-b-sm indigo">Approved Inventory</button>
-          <button style={{display:'inline-block',float:'left',marginRight:'2%'}} className="md-btn md-raised m-b-sm indigo">Unapproved Inventory</button> */}
-          <button style={{display:'inline-block',float:'left'}} className="md-btn md-raised m-b-sm indigo"
-            onTouchTap={this.handleOpen}>Add New Inventory </button>
-        </div>
+        <button className="md-btn md-raised m-b-sm indigo"
+          onTouchTap={this.handleOpen}>Add New Inventory </button>
         <Dialog
           title={this.state.edit ? 'UPDATE INVENTORY' : 'ADD INVENTORY'}
           titleStyle={{opacity: '0.56'}}

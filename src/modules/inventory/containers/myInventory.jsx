@@ -9,6 +9,7 @@ import UserHorizontalView from 'components/generic/UserHorizontalView';
 import DeviceDetails from 'components/inventory/deviceDetails';
 import * as actionsMyProfile from 'appRedux/myProfile/actions/myProfile';
 import * as actions from 'appRedux/actions';
+import * as actionsManageDevice from 'appRedux/inventory/actions/inventory'
 import UnassignDevice from 'modules/inventory/components/UnassignDevice'
 import AssignDevice from 'modules/inventory/components/AssignDevice'
 
@@ -29,6 +30,7 @@ class MyInventory extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleAddDialog = this.handleAddDialog.bind(this);
     this.handleCloseAssign = this.handleCloseAssign.bind(this);
+    this.callAddUserComment = this.callAddUserComment.bind(this);
   }
   
   componentWillMount () {
@@ -73,6 +75,13 @@ class MyInventory extends React.Component {
       status_message: '',
     });
   }
+  callAddUserComment (addUserCommentDetails) {
+    this.props.onAddUserComment(addUserCommentDetails);
+    this.setState({
+      openUnassigned: false,
+      status_message: '',
+    })
+  }
 
   render () {
     return (
@@ -102,6 +111,8 @@ class MyInventory extends React.Component {
               />
             </div>
               <UnassignDevice 
+                callAddUserComment={this.callAddUserComment}
+                user_Id={this.state.user_profile_detail.user_Id}
                 handleClose={this.handleClose}
                 open={this.state.openUnassigned}
                 device={this.state.device}
@@ -130,12 +141,13 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUpdateDeviceDetails: (newDeviceDetails) => {
       return dispatch(actionsMyProfile.updateUserDeviceDetails(newDeviceDetails));
+    },
+    onAddUserComment: (addUserCommentDetails) => {
+      return dispatch(actionsManageDevice.addUserComment(addUserCommentDetails));
     }
   };
 };
 
-const VisibleMyInventory = connect(mapStateToProps, mapDispatchToProps)(MyInventory);
-
-const RouterVisibleMyInventory = withRouter(VisibleMyInventory);
+const RouterVisibleMyInventory = withRouter(connect(mapStateToProps, mapDispatchToProps)(MyInventory));
 
 export default RouterVisibleMyInventory;
