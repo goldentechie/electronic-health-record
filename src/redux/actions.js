@@ -96,7 +96,3 @@ export const errorEmployeePerformance = createAction(constants.ERROR_EMP_PERFORM
 export const requestUserList = createAction(constants.REQUEST_USER_LIST);
 export const successUserList = createAction(constants.SUCCESS_USER_LIST);
 export const errorUserList = createAction(constants.ERROR_USER_LIST);
-
-export const requestUnassignedDeviceList = createAction(constants.REQUEST_UNASSIGNED_DEVICE_LIST);
-export const successUnassignedDeviceList = createAction(constants.SUCCESS_UNASSIGNED_DEVICE_LIST);
-export const errorUnassignedDeviceList = createAction(constants.ERROR_UNASSIGNED_DEVICE_LIST);
