@@ -1,10 +1,9 @@
 import React from 'react';
 import * as _ from 'lodash';
 import {notify, confirm} from 'src/services/notify';
-import {getLowerCase , getLoggedUser} from 'src/services/generic';
+import {getLowerCase} from 'src/services/generic';
 import AddDeviceDialoge from 'modules/inventory/components/AddDeviceDialoge';
 import AddDeviceStatus from 'modules/inventory/components/AddDeviceStatus';
-import {CONFIG} from 'config'
 var moment = require('moment');
 
 class InventoryList extends React.Component {
@@ -206,7 +205,6 @@ class InventoryList extends React.Component {
     });
   }
   render () {
-    const role = getLoggedUser().data.role;
     var statusList = this.state.deviceStatusList || [];
     let statusDropMap = statusList.map((val, i) => {
       return (
@@ -277,8 +275,8 @@ class InventoryList extends React.Component {
           </ul>
         </td>
 
-        {role === CONFIG.ADMIN ? <td className="tdAlign row" style={{marginTop: '5%'}}>
-          <i className="fa fa-lg fa-pencil-square-o" aria-hidden="false" style={{color: '#3f51b5', cursor: 'pointer'}}
+        <td className="tdAlign row" style={{marginTop: '5%'}}>
+          <i className="fa fa-lg fa-pencil-square-o" aria-hidden="true" style={{color: '#3f51b5', cursor: 'pointer'}}
             onClick={(e) => {
               e.nativeEvent.stopImmediatePropagation();
               this.openEditDevice(device.id);
@@ -291,7 +289,7 @@ class InventoryList extends React.Component {
               }
             });
           }} aria-hidden="true"></i>
-        </td> : null}
+        </td>
       </tr>);
     });
     return (
@@ -367,7 +365,7 @@ class InventoryList extends React.Component {
                           <th>Name</th>
                           <th>Informations</th>
                           <th>Status/Commments</th>
-                          {role === CONFIG.ADMIN ? <th>Actions</th> : null}
+                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
