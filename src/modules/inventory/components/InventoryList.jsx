@@ -4,9 +4,9 @@ import {notify, confirm} from 'src/services/notify';
 import {getLowerCase , getLoggedUser} from 'src/services/generic';
 import AddDeviceDialoge from 'modules/inventory/components/AddDeviceDialoge';
 import AddDeviceStatus from 'modules/inventory/components/AddDeviceStatus';
-import {CONFIG} from 'config'
+import {CONFIG} from 'config';
 var moment = require('moment');
-
+let devices;
 class InventoryList extends React.Component {
   constructor (props) {
     super(props);
@@ -25,9 +25,9 @@ class InventoryList extends React.Component {
       device_status:    '',
       deviceList:       [],
       statusList:       [],
-      deviceVal:        ''
+      deviceVal:        '',
+        
     };
-
     this.openEditDevice = this.openEditDevice.bind(this);
     this.deleteDevices = this.deleteDevices.bind(this);
     this.handleAssign = this.handleAssign.bind(this);
@@ -36,9 +36,11 @@ class InventoryList extends React.Component {
     this.handleStatusOpen = this.handleStatusOpen.bind(this);
     this.handleStatusClose = this.handleStatusClose.bind(this);
     this.callAddDevice = this.callAddDevice.bind(this);
+    this.sendUnapprovedId=this.sendUnapprovedId.bind(this);
     this.callAddStatus = this.callAddStatus.bind(this);
     this.callDeleteDeviceStatus = this.callDeleteDeviceStatus.bind(this);
     this.handleDeviceTypeFilter = this.handleDeviceTypeFilter.bind(this);
+    // this.handleInventory = this.handleInventory.bind(this);
     this.handleStatusTypeFilter = this.handleStatusTypeFilter.bind(this);
   }
   componentWillMount () {
@@ -184,7 +186,6 @@ class InventoryList extends React.Component {
       });
     }
   }
-
   handleStatusTypeFilter (statusType) {
     let status = this.props.manageDevice.device;
     if (this.state.search !== '') {
@@ -205,7 +206,16 @@ class InventoryList extends React.Component {
       device_status: statusType
     });
   }
+  
+  sendUnapprovedId(id){
+    this.setState({id:id});
+    this.props.callUnapprovedId({id});
+  }
   render () {
+    console.log(this.props);
+    
+ console.log(this.props.manageDevice.unapprovedList.data);
+    
     const role = getLoggedUser().data.role;
     var statusList = this.state.deviceStatusList || [];
     let statusDropMap = statusList.map((val, i) => {
@@ -218,7 +228,7 @@ class InventoryList extends React.Component {
       return (<option value={val} key={i}>{val}</option>);
     });
     let listDrop = listDropMap.reverse();
-    let devices = this.state.deviceList;
+     devices =this.props.fourthArrow==='show'?this.props.manageDevice.unapprovedList.data:this.state.deviceList;
     let statusVal = this.state.deviceStatusList;
 
     let rowColor;
@@ -228,7 +238,7 @@ class InventoryList extends React.Component {
       if (rowColorData.length > 0) {
         rowColor = rowColorData[0].color;
       }
-      rows.push(<tr key={i} style={{background: rowColor, borderBottom: '2px solid white'}}>
+      rows.push(<tr  key={i} style={{background: rowColor, borderBottom: '2px solid white'}}>
         <td style={{marginRight: '0%', width: '5%'}}>{i + 1}</td>
         <td style={{marginRight: '0%', width: '16%'}}>
           {device.machine_type}
@@ -290,7 +300,8 @@ class InventoryList extends React.Component {
                 notify('Deleted !', '', 'success');
               }
             });
-          }} aria-hidden="true"></i>
+          }} aria-hidden="true"></i>{this.props.fourthArrow==='show'?<div>
+          <button className="md-btn md-raised m-b-sm indigo" style={{marginTop:'15%'}} onClick={()=>{this.sendUnapprovedId(device. id)}}>Approve</button></div>:null}
         </td> : null}
       </tr>);
     });
@@ -306,9 +317,9 @@ class InventoryList extends React.Component {
                     <select className="form-control"
                       ref="device_type"
                       value={this.state.search}
-                      onChange={(e) => {
-                        this.props.deviceTypeData(e.target.value);
-                      }}>
+                      onChange={(e) => 
+                        this.props.deviceTypeData(e.target.value)
+                        }>
                       <option value="">--Select Device Type--</option>
                       {listDrop}
                     </select>
