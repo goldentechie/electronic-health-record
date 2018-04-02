@@ -2,7 +2,6 @@ import {createAction} from 'redux-actions';
 import {fireAjax} from 'src/services/index';
 import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
 import * as constants from 'appRedux/constants';
-import { createInflate } from 'zlib';
 // -------add New machine
 
 export function success_add_new_machine (data) {
@@ -23,7 +22,7 @@ function async_addNewMachine (
   n_operating_system,
   n_status,
   n_comment,
-  n_warranty, 
+  n_warranty,
   n_warranty_comment,
   n_repair_comment,
   n_bill_no,
@@ -38,7 +37,7 @@ function async_addNewMachine (
     'serial_no':        n_serial_no,
     'purchase_date':    n_purchase_date,
     'mac_address':      n_mac_address,
-    'operating_system': n_operating_system, 
+    'operating_system': n_operating_system,
     'status':           n_status,
     'comment':          n_comment,
     'warranty':         n_warranty,
@@ -168,7 +167,6 @@ export function addNewMachine (new_machine_details) {
           if (json.error === 0) {
             dispatch(success_add_new_machine(json.message));
             dispatch(get_machines_detail());
-            dispatch(unapprovedUser());
             resolve(json.message);
           } else {
             dispatch(error_add_new_machine(json.message));
@@ -285,7 +283,6 @@ export function updateDevice (id, data) {
         if (res.error === 0) {
           dispatch(deviceCount());
           dispatch(get_machines_detail());
-          dispatch(successUnapprovedList());
           dispatch(success_updateDevice(res.message));
           resolve(res.message);
         }
@@ -315,7 +312,6 @@ export function deleteDevice (id) {
       return getAsync_deleteDeviceById(id).then((res) => {
         dispatch(deviceCount());
         dispatch(get_machines_detail());
-        dispatch(unapprovedUser());
         dispatch(hide_loading());
         if (res.error === 0) {
           dispatch(success_deleteDevice(res.message));
@@ -363,7 +359,7 @@ export function assignDevice (deviceId, id) {
 
 export function success_deviceType (data) {
   return createAction(constants.ACTION_SUCCESS_DEVICE_TYPE)(data);
-} 
+}
 
 export function error_deviceType (data) {
   return createAction(constants.ACTION_ERROR_DEVICE_TYPE)(data);
@@ -537,82 +533,6 @@ export function deviceCount () {
       }, (error) => {
         dispatch(hide_loading());
         reject(error);
-      });
-    });
-  };
-}
-
-
-export function successUnapprovedList (data) {
-  return createAction(constants.ACTION_SUCCESS_UPDATE_UNAPPROVED_USER)(data);
-}
-
-function getAsyncUnapprovedData(dataLogin){
-  return fireAjax('POST','',{
-    'action':'get_unapproved_machine_list'
-  });
-}
-
-export function unapprovedUser () {
-  return (dispatch, getState) => {
-    return new Promise(function (resolve, reject) {
-      dispatch(show_loading());
-      return getAsyncUnapprovedData().then((res) => {
-        dispatch(hide_loading());
-        console.log(res,'0000000000');
-        
-        resolve(res);
-        dispatch(successUnapprovedList(res));
-      }, (error) => {
-        dispatch(hide_loading());
-        reject(error);
-      });
-    });
-  };
-}
-
-export function errorApprovedList(data){
-  return createAction(constants.ACTION_ERROR_UPDATE_APPROVED_USER)
-}
-export function successApprovedList (data) {
-  return createAction(constants.ACTION_SUCCESS_UPDATE_APPROVED_USER)(data);
-}
-
-function getAsyncApprovedData(id){
-  return fireAjax('POST','',{
-    'action':'approve_machine',
-    id
-  });
-}
-
-export function approvedUser (id) {
-  return (dispatch, getState) => {
-    
-    if(typeof id==='undefined'|| id==''){
-      return Promise.reject('id is empty')
-    }
-    else{
-      id=id;
-    }
-    return new Promise(function (resolve, reject) {
-      dispatch(show_loading());
-      return getAsyncApprovedData(id).then((json) => {
-        dispatch(hide_loading());
-        if(json.error==0){
-          console.log(json);
-          
-        dispatch(successApprovedList(json.message));
-        dispatch(unapprovedUser());
-        dispatch(get_machines_detail());
-       
-        }
-        else{
-        dispatch(errorApprovedList(json.message));
-      
-        }
-      }, (error) => {
-        dispatch(errorAddusercomment('error occur'));
-        reject('error occur');
       });
     });
   };
