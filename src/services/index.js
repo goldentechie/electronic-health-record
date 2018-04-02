@@ -101,8 +101,3 @@ export function fireAjax (method, url, data, api) {
     }
   });
 }
-
-export function uploadfile(file,url){
-  return fetch(url, 
-    { method: "POST", body: file });
-}
