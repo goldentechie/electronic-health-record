@@ -3,19 +3,23 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import 'react-date-picker/index.css';
 
-const DeviceDetails = ({userAssignMachine}) => {
+const DeviceDetails = ({userAssignMachine, unassignDevice}) => {
+ 
   let machineList = _.map(userAssignMachine, (val, i) => {
+    
     return (<tr key={i}>
       <td>{val.machine_type}</td>
       <td>{val.machine_name}</td>
-      <td>{val.mac_address}</td>
       <td>{val.serial_number}</td>
       <td>{val.assign_date}</td>
+      <td style={{textAlign:"center"}}><i className="fa fa-lg fa fa-trash" onClick={() => unassignDevice(val)} aria-hidden="true" style={{color: "rgb(183, 28, 28)",textAlign:"center", cursor: "pointer"}}></i></td>
     </tr>);
   });
   if (_.isEmpty(machineList)) {
     machineList = <tr><td colSpan="5"><h5 className="text-center text-danger">{'Device Not Asssigned'}</h5></td></tr>;
   }
+
+  
 
   return (
     <div className="row no-gutter box">
@@ -26,9 +30,9 @@ const DeviceDetails = ({userAssignMachine}) => {
             <tr>
               <th>Device Type</th>
               <th>Name</th>
-              <th>Mac Address</th>
               <th>Serial Number</th>
               <th>Assign Date</th>
+              <th style={{textAlign:"center"}}>Unassign</th>
             </tr>
           </thead>
           <tbody>
