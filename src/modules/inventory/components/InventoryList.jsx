@@ -6,7 +6,7 @@ import AddDeviceDialoge from 'modules/inventory/components/AddDeviceDialoge';
 import AddDeviceStatus from 'modules/inventory/components/AddDeviceStatus';
 import {CONFIG} from 'config'
 var moment = require('moment');
-let devices;
+
 class InventoryList extends React.Component {
   constructor (props) {
     super(props);
@@ -25,12 +25,9 @@ class InventoryList extends React.Component {
       device_status:    '',
       deviceList:       [],
       statusList:       [],
-      deviceVal:        '',
-      unapprovedList:[],
-      approveDialog:false
-      
+      deviceVal:        ''
     };
-    
+
     this.openEditDevice = this.openEditDevice.bind(this);
     this.deleteDevices = this.deleteDevices.bind(this);
     this.handleAssign = this.handleAssign.bind(this);
@@ -39,11 +36,9 @@ class InventoryList extends React.Component {
     this.handleStatusOpen = this.handleStatusOpen.bind(this);
     this.handleStatusClose = this.handleStatusClose.bind(this);
     this.callAddDevice = this.callAddDevice.bind(this);
-    this.sendUnapprovedId=this.sendUnapprovedId.bind(this);
     this.callAddStatus = this.callAddStatus.bind(this);
     this.callDeleteDeviceStatus = this.callDeleteDeviceStatus.bind(this);
     this.handleDeviceTypeFilter = this.handleDeviceTypeFilter.bind(this);
-    // this.handleInventory = this.handleInventory.bind(this);
     this.handleStatusTypeFilter = this.handleStatusTypeFilter.bind(this);
   }
   componentWillMount () {
@@ -69,23 +64,11 @@ class InventoryList extends React.Component {
       deviceTypeList:   props.manageDevice.deviceList,
       deviceList:       props.manageDevice.device,
       deviceStatusList: props.manageDevice.statusList,
-      statusList:       props.manageDevice.statusList,
-      unapprovedList:   props.manageDevice.unapprovedList.data
+      statusList:       props.manageDevice.statusList
     });
     if (props.searchVal !== undefined) {
       this.handleDeviceTypeFilter(props.searchVal);
     }
-    if(props.manageDevice.approvedList=="Machine status updated successfully"){
-      this.setState({
-        approveDialog:true
-      })
-    }
-    setTimeout(()=>{
-      this.setState({
-        approveDialog:false
-      });
-      props.manageDevice.approvedList="";
-    },2000)
   }
 
   openEditDevice (id) {
@@ -178,7 +161,8 @@ class InventoryList extends React.Component {
     this.props.onFetchDeviceStatus();
   }
 
-  handleDeviceTypeFilter (deviceType) {  
+  handleDeviceTypeFilter (deviceType) {
+    // let deviceType = this..search;
     if (this.state.deviceTypeList === this.props.manageDevice.deviceList) {
       let devices = this.props.manageDevice.device;
       if (this.state.device_status !== '') {
@@ -200,9 +184,9 @@ class InventoryList extends React.Component {
       });
     }
   }
+
   handleStatusTypeFilter (statusType) {
-    let status = this.props.fourthArrow==='show'?this.props.manageDevice.unapprovedList.data:this.props.manageDevice.device;
-   
+    let status = this.props.manageDevice.device;
     if (this.state.search !== '') {
       status = this.state.deviceList;
     }
@@ -210,21 +194,16 @@ class InventoryList extends React.Component {
       status = _.filter(status, row => getLowerCase(row.status) === getLowerCase(statusType));
     } else {
       if (this.state.search !== '') {
-        status = _.filter(status, row => getLowerCase(row.machine_type) === getLowerCase(this.state.search));
+        status = _.filter(this.props.manageDevice.device, row => getLowerCase(row.machine_type) === getLowerCase(this.state.search));
       }
     }
     if (statusType !== '' && this.state.search !== '') {
-      status = _.filter(status, row => (getLowerCase(row.machine_type) === getLowerCase(this.state.search) && getLowerCase(row.status) === getLowerCase(statusType)));
+      status = _.filter(this.props.manageDevice.device, row => (getLowerCase(row.machine_type) === getLowerCase(this.state.search) && getLowerCase(row.status) === getLowerCase(statusType)));
     }
     this.setState({
       deviceList:    status,
       device_status: statusType
     });
-  }
-  
-  sendUnapprovedId(id){
-    this.setState({id:id});
-    this.props.callUnapprovedId({id});
   }
   render () {
     const role = getLoggedUser().data.role;
@@ -239,7 +218,7 @@ class InventoryList extends React.Component {
       return (<option value={val} key={i}>{val}</option>);
     });
     let listDrop = listDropMap.reverse();
-     devices = this.props.fourthArrow==='show'?this.state.unapprovedList:this.state.deviceList;
+    let devices = this.state.deviceList;
     let statusVal = this.state.deviceStatusList;
 
     let rowColor;
@@ -311,8 +290,7 @@ class InventoryList extends React.Component {
                 notify('Deleted !', '', 'success');
               }
             });
-          }} aria-hidden="true"></i>{this.props.fourthArrow==='show'?<div>
-          <button className="md-btn md-raised m-b-sm indigo" style={{marginTop:'15%'}} onClick={()=>{this.sendUnapprovedId(device. id)}}>Approve</button></div>:null}
+          }} aria-hidden="true"></i>
         </td> : null}
       </tr>);
     });
@@ -322,16 +300,15 @@ class InventoryList extends React.Component {
           <div className="col-xs-12 col-sm-12" style={{'float': 'right'}}>
             <div className="row">
               <div className="row no-gutter">
-             { this.props.fourthArrow==='hidden'?<div>
                 <div className="col-md-3 p-r" >
                   <div className="form-group" style={{marginLeft: '4%'}}>
                     <label style={{'fontSize': 15}}>Filter:</label>
                     <select className="form-control"
                       ref="device_type"
                       value={this.state.search}
-                      onChange={(e) => 
-                        this.props.deviceTypeData(e.target.value)
-                        }>
+                      onChange={(e) => {
+                        this.props.deviceTypeData(e.target.value);
+                      }}>
                       <option value="">--Select Device Type--</option>
                       {listDrop}
                     </select>
@@ -349,12 +326,9 @@ class InventoryList extends React.Component {
                     </select>
                   </div>
                 </div>
-                </div>:null}
                 <div className='row m-0'>
-                { this.props.fourthArrow==='show' && this.state.approveDialog?<div style={{marginLeft:'35%',color:'red'}}>Machine is successfully approved</div>:null}
-
-                  <div className='buttonbox' style={{float:'right',marginRight:'1%'}}>
-                    <div className='col-sm-4 p-0 pt-5' >
+                  <div className='buttonbox'>
+                    <div className='col-sm-2 p-0 pt-5' style={{marginLeft: '16%', paddingLeft: '8%'}}>
                       <div className=" text-left" style={{marginTop: '26px'}}>
                         <AddDeviceStatus
                           callAddStatus={this.callAddStatus}
