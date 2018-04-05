@@ -2,11 +2,9 @@ import React from 'react';
 import 'react-date-picker/index.css';
 import Dialog from 'material-ui/Dialog';
 import {DateField} from 'react-date-picker';
-import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
 import {notify} from 'src/services/notify';
 import TextField from 'material-ui/TextField';
 import AlertNotification from 'components/generic/AlertNotification';
-import CircularProgress from 'material-ui/CircularProgress';
 
 export default class FormAddNewInventory extends React.Component {
   constructor (props) {
@@ -22,6 +20,7 @@ export default class FormAddNewInventory extends React.Component {
       machine_price:    '',
       serial_no:        '',
       purchase_date:    '',
+      mac_address:      '',
       operating_system: '',
       comment:          '',
       warranty_comment: '',
@@ -31,8 +30,7 @@ export default class FormAddNewInventory extends React.Component {
       user_Id:          '',
       msg:              '',
       deviceTypeList:   [],
-      deviceStatusList: [],
-      loading:          false
+      deviceStatusList: []
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -48,7 +46,6 @@ export default class FormAddNewInventory extends React.Component {
       deviceTypeList:   props.manageDevice.deviceList,
       deviceStatusList: props.manageDevice.statusList
     });
-    <CircularProgress />
 
     if (props.edit) {
       this.setState({
@@ -58,6 +55,7 @@ export default class FormAddNewInventory extends React.Component {
         machine_price:    props.getByIdData.machine_price,
         serial_no:        props.getByIdData.serial_number,
         purchase_date:    props.getByIdData.date_of_purchase,
+        mac_address:      props.getByIdData.mac_address,
         operating_system: props.getByIdData.operating_system,
         status:           props.getByIdData.status,
         comment:          props.getByIdData.comments,
@@ -67,8 +65,7 @@ export default class FormAddNewInventory extends React.Component {
         warranty:         props.getByIdData.warranty_end_date,
         user_Id:          props.getByIdData.user_Id
       });
-    } 
-    else if(this.props.manageDevice.status_message=='Machine added Successfully and Sent for Approval!!'||this.props.manageDevice.status_message=='Successfully Updated into table'){
+    } else {
       this.setState({
         id:               '',
         machine_type:     '',
@@ -76,6 +73,7 @@ export default class FormAddNewInventory extends React.Component {
         machine_price:    '',
         serial_no:        '',
         purchase_date:    '',
+        mac_address:      '',
         operating_system: '',
         status:           '',
         comment:          '',
@@ -83,14 +81,10 @@ export default class FormAddNewInventory extends React.Component {
         repair_comment:   '',
         bill_no:          '',
         warranty:         '',
-        user_Id:          '',
-        loading:false
+        user_Id:          ''
       });
-      this.props.manageDevice.status_message='';
     }
   }
-
- 
 
   handleOpen (e) {
     e.stopPropagation();
@@ -104,6 +98,7 @@ export default class FormAddNewInventory extends React.Component {
       machine_price:    this.state.machine_price.trim(),
       serial_no:        this.state.serial_no.trim(),
       purchase_date:    this.state.purchase_date,
+      mac_address:      null,
       operating_system: this.state.operating_system,
       status:           this.state.status,
       comment:          this.state.comment.trim(),
@@ -119,6 +114,7 @@ export default class FormAddNewInventory extends React.Component {
       machine_price:    '',
       serial_no:        '',
       purchase_date:    '',
+      mac_address:      '',
       operating_system: '',
       comment:          '',
       warranty_comment: '',
@@ -128,31 +124,27 @@ export default class FormAddNewInventory extends React.Component {
       user_Id:          ''
     };
     let validate = true;
-    this.setState({
-      loading:true
-    })
-   
+    let mac = this.state.mac_address;
+    if (this.isMacRequired(this.state.machine_type)) {
+      apiData.mac_address = mac;
+      var pattern = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/i;
+      if (!mac.trim().match(pattern)) {
+        validate = false;
+        notify('Oops', 'MAC Adress type is Invalid', 'error');
+      }
+    }
     if (validate && !this.props.edit) {
       this.props.onAddNewMachine(apiData).then((val) => {
+        this.setState(resetFields);
         notify('Success !', val, 'success');
         this.props.onFetchDevice();
         this.props.handleClose();
-
       }, (error) => {
         notify('Error !', error, 'error');
-        this.setState({
-          loading:false
-        })
       });
-      
     } else if (validate) {
       this.props.onUpdateDevice(this.state.id, apiData).then((message) => {
         notify('', message, '');
-        if(message=='No fields updated into table'){
-          this.setState({
-            loading:false
-          })
-        }
         this.props.handleClose();
         this.props.onFetchDevice();
       }).catch((message) => {
@@ -161,7 +153,6 @@ export default class FormAddNewInventory extends React.Component {
         });
       });
     }
-    return false;
   }
   handleAssign (deviceId, Userid) {
     this.setState({userId: Userid});
@@ -173,7 +164,9 @@ export default class FormAddNewInventory extends React.Component {
       purchase_date: date
     });
   }
- 
+  isMacRequired (machineType) {
+    return (machineType.trim().toLowerCase() === 'laptop' || machineType.trim().toLowerCase() === 'cpu');
+  }
   render () {
     let userList = this.props.usersList.users.map((val, i) => {
       return <option key={val.id} id={i} value={val.user_Id} >{val.name}</option>;
@@ -181,12 +174,8 @@ export default class FormAddNewInventory extends React.Component {
     return (
       <div>
         <AlertNotification message={this.state.msg} />
-        <div>
-          {/* <button style={{display:'inline-block',float:'left',marginRight:'2%'}} className="md-btn md-raised m-b-sm indigo">Approved Inventory</button>
-          <button style={{display:'inline-block',float:'left',marginRight:'2%'}} className="md-btn md-raised m-b-sm indigo">Unapproved Inventory</button> */}
-          <button style={{display:'inline-block',float:'left'}} className="md-btn md-raised m-b-sm indigo"
-            onTouchTap={this.handleOpen}>Add New Inventory </button>
-        </div>
+        <button className="md-btn md-raised m-b-sm indigo"
+          onTouchTap={this.handleOpen}>Add New Inventory </button>
         <Dialog
           title={this.state.edit ? 'UPDATE INVENTORY' : 'ADD INVENTORY'}
           titleStyle={{opacity: '0.56'}}
@@ -268,6 +257,18 @@ export default class FormAddNewInventory extends React.Component {
                 </select>
               </div>
 
+              {<div className="col-md-6">
+                <TextField
+                  floatingLabelText="Mac Address"
+                  hintText='00:25:96:FF:FE:12'
+                  disabled={!this.isMacRequired(this.state.machine_type)}
+                  fullWidth
+                  onBlur={(e) => { this.setState({mac_address: this.state.mac_address.trim()}); }}
+                  onChange={(e) => { this.setState({mac_address: e.target.value}); }}
+                  value={this.isMacRequired(this.state.machine_type) ? this.state.mac_address : ''} />
+              </div>
+            }
+
               <div className="col-md-6">
                 <TextField
                   floatingLabelText="Price"
@@ -325,10 +326,9 @@ export default class FormAddNewInventory extends React.Component {
               </div>
             </div>
           </div>
-     {this.state.loading? <CircularProgress  size={30} thickness={3} style={{marginLeft:'50%'}} />:null}
-         {this.state.loading==false? <button className="col-md-12 md-btn md-raised m-b-sm indigo" style={{opacity: '0.76', marginTop: '2%'}} onClick={(e)=>this.handleAddDevice(e)}>
-       {this.state.edit ? 'Update Inventory' : 'Add Inventory'}
-          </button>:null}
+          <button className="col-md-12 md-btn md-raised m-b-sm indigo" style={{opacity: '0.76', marginTop: '2%'}} onClick={this.handleAddDevice}>
+            {this.state.edit ? 'Update Inventory' : 'Add Inventory'}
+          </button>
         </Dialog>
       </div>
     );

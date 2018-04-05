@@ -55,7 +55,7 @@ const UsersList = ({users, selectedUserId, onUserClick, disabledUser, header, to
     <div id="userListWrapper" className="row">
       <div className="col-sm-12">
         <div className="list-box">
-          <div className='' id="userList">
+          <div className={'user-list-container ' + (!header && 'p-r-8')} id="userList">
             <ul className="box list no-border p-b">
               {usersList}
             </ul>
