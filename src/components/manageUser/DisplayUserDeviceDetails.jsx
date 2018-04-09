@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 const DisplayUserDeviceDetails = ({userAssignMachine}) => {
   let machine = _.map(userAssignMachine, (val, i) => {
-    console.log('val', val);
     return (
       <tr key={i}>
         <td>
@@ -13,6 +12,7 @@ const DisplayUserDeviceDetails = ({userAssignMachine}) => {
         </td>
         <td>
           <span className>S.No : {val.serial_number || ' - '}</span><br />
+          <span className>{val.mac_address && 'Mac : ' + val.mac_address}</span>
         </td>
         <td>{val.assign_date}</td>
       </tr>
