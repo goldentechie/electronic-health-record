@@ -47,6 +47,7 @@ import Page_TeamView from './modules/team/containers/viewTeam';
 import Page_MyProfile from './modules/myProfile/containers/myProfile';
 import PageManageDashboard from 'modules/manageUsers/containers/manageDashboard';
 import Page_AttendanceReq from './modules/attendance/containers/manageAttendanceReq';
+import InventoryItem from './modules/inventory/components/inventoryItem';
 
 import store from './store';
 // import APP from './App';
@@ -91,7 +92,7 @@ let render = (routerKey = null) => {
             <Route path="manage_user_working_hours" component={Page_ManageUserWorkingHours} />
             <Route path="manage_user_pending_hours" component={Page_ManageUserPendingHours} />
             <Route path="leaves_summary" component={Page_LeavesSummary} />
-            <Route path="salary" component={Page_Salary} />
+              <Route path="salary" component={Page_Salary} />
             <Route path="manage_salary" component={Page_ManageSalary} />
             <Route path="my_profile" component={Page_MyProfile} />
             <Route path="my_inventory" component={Page_MyInventory} />
@@ -106,7 +107,8 @@ let render = (routerKey = null) => {
             <Route path="upload_policy_documents" component={Page_UploadPolicyDocument} />
             <Route path="add_variables" component={Page_AddVariables} />
             <Route path="mail_templates" component={Page_mail_template} />
-            <Route path="inventory_system" component={Page_InventorySystem} />
+            <Route path="inventoryOverviewDetail" component={Page_InventorySystem} />
+            <Route path="inventoryOverviewDetail/:id" component={InventoryItem} />
             <Route path="attendanceReq" component={Page_AttendanceReq} />
           </Route>
         </Router>
