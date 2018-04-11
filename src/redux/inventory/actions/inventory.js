@@ -2,7 +2,6 @@ import {createAction} from 'redux-actions';
 import {fireAjax} from 'src/services/index';
 import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
 import * as constants from 'appRedux/constants';
-import { createInflate } from 'zlib';
 // -------add New machine
 
 export function success_add_new_machine (data) {
@@ -14,20 +13,20 @@ export function error_add_new_machine (data) {
 }
 
 function async_addNewMachine (
-  
   n_machine_type,
   n_machine_name,
   n_machine_price,
   n_serial_no,
   n_purchase_date,
+  n_mac_address,
   n_operating_system,
   n_status,
   n_comment,
-  n_warranty, 
+  n_warranty,
   n_warranty_comment,
   n_repair_comment,
-  n_user_Id,
-  n_unassign_comment
+  n_bill_no,
+  n_user_Id
 
 ) {
   return fireAjax('POST', '', {
@@ -37,14 +36,15 @@ function async_addNewMachine (
     'machine_price':    n_machine_price,
     'serial_no':        n_serial_no,
     'purchase_date':    n_purchase_date,
-    'operating_system': n_operating_system, 
+    'mac_address':      n_mac_address,
+    'operating_system': n_operating_system,
     'status':           n_status,
     'comment':          n_comment,
     'warranty':         n_warranty,
     'warranty_comment': n_warranty_comment,
     'repair_comment':   n_repair_comment,
-    'user_id':          n_user_Id,
-    'unassign_comment': n_unassign_comment
+    'bill_no':          n_bill_no,
+    'user_id':          n_user_Id
   });
 }
 
@@ -55,16 +55,15 @@ export function addNewMachine (new_machine_details) {
     let n_machine_price = '';
     let n_serial_no = '';
     let n_purchase_date = '';
+    let n_mac_address = '';
     let n_operating_system = '';
     let n_status = '';
     let n_comment = '';
     let n_warranty = '';
     let n_warranty_comment = '';
     let n_repair_comment = '';
+    let n_bill_no = '';
     let n_user_Id = '';
-    let n_unassign_comment='';
-    console.log(new_machine_details,'mmmmmmmmmmm');
-    
 
     if (typeof new_machine_details.machine_type === 'undefined' || new_machine_details.machine_type === '') {
       return Promise.reject('Machine Type is empty');
@@ -95,6 +94,13 @@ export function addNewMachine (new_machine_details) {
     } else {
       n_purchase_date = new_machine_details.purchase_date;
     }
+
+    if (typeof new_machine_details.mac_address === 'undefined') {
+      return Promise.reject('Mac Address is empty');
+    } else {
+      n_mac_address = new_machine_details.mac_address;
+    }
+
     if (typeof new_machine_details.operating_system === 'undefined') {
       return Promise.reject('Operating System is empty');
     } else {
@@ -106,11 +112,15 @@ export function addNewMachine (new_machine_details) {
     } else {
       n_status = new_machine_details.status;
     }
-
     if (typeof new_machine_details.comment === 'undefined') {
       return Promise.reject('Comment is empty');
     } else {
       n_comment = new_machine_details.comment;
+    }
+    if (typeof new_machine_details.bill_no === 'undefined' || new_machine_details.bill_no.trim() === '') {
+      return Promise.reject('Bill No is empty');
+    } else {
+      n_bill_no = new_machine_details.bill_no;
     }
 
     if (typeof new_machine_details.warranty === 'undefined' || new_machine_details.warranty === '') {
@@ -132,21 +142,8 @@ export function addNewMachine (new_machine_details) {
     }
     if (typeof new_machine_details.user_Id === 'undefined' || new_machine_details.user_Id === '') {
       return Promise.reject('User Not Assign');
-    }else if(new_machine_details.user_Id=='unassign'){
-      n_user_Id=null;
-    }
-     else {
+    } else {
       n_user_Id = new_machine_details.user_Id;
-    }
-    
-    if(new_machine_details.user_Id=='unassign'){
-       if (typeof new_machine_details.unassign_comment === 'undefined' || new_machine_details.unassign_comment.trim() === '') {
-        return Promise.reject('unassign comment is empty');
-       }
-       else{
-        n_unassign_comment=new_machine_details.unassign_comment;
-        console.log(n_unassign_comment,'saurabh');
-      }
     }
 
     return new Promise((resolve, reject) => {
@@ -156,20 +153,20 @@ export function addNewMachine (new_machine_details) {
         n_machine_price,
         n_serial_no,
         n_purchase_date,
+        n_mac_address,
         n_operating_system,
         n_status,
         n_comment,
         n_warranty,
         n_warranty_comment,
         n_repair_comment,
-        n_user_Id,
-      n_unassign_comment).then((json) => {
+        n_bill_no,
+        n_user_Id).then((json) => {
           dispatch(hide_loading());
           dispatch(deviceCount());
           if (json.error === 0) {
             dispatch(success_add_new_machine(json.message));
             dispatch(get_machines_detail());
-            dispatch(unapprovedUser());
             resolve(json.message);
           } else {
             dispatch(error_add_new_machine(json.message));
@@ -272,6 +269,7 @@ function getAsync_updateDeviceById (deviceId, data) {
     'warranty':         data.warranty,
     'warranty_comment': data.warranty_comment,
     'repair_comment':   data.repair_comment,
+    'bill_no':          data.bill_no,
     'user_id':          data.user_Id
   });
 }
@@ -285,7 +283,6 @@ export function updateDevice (id, data) {
         if (res.error === 0) {
           dispatch(deviceCount());
           dispatch(get_machines_detail());
-          dispatch(unapprovedUser());
           dispatch(success_updateDevice(res.message));
           resolve(res.message);
         }
@@ -301,22 +298,20 @@ export function success_deleteDevice (data) {
   return createAction(constants.ACTION_SUCCESS_DELETE_DEVICELIST)(data);
 }
 
-function getAsync_deleteDeviceById (deviceId,userId) {
+function getAsync_deleteDeviceById (deviceId) {
   return fireAjax('POST', '', {
     'action': 'remove_machine_detail',
-    'id':     deviceId,
-    'userId':     userId
+    'id':     deviceId
   });
 }
 
-export function deleteDevice (id,userId) {
+export function deleteDevice (id) {
   return (dispatch, getState) => {
     return new Promise(function (resolve, reject) {
       dispatch(show_loading());
-      return getAsync_deleteDeviceById(id,userId).then((res) => {
+      return getAsync_deleteDeviceById(id).then((res) => {
         dispatch(deviceCount());
         dispatch(get_machines_detail());
-        dispatch(unapprovedUser());
         dispatch(hide_loading());
         if (res.error === 0) {
           dispatch(success_deleteDevice(res.message));
@@ -364,7 +359,7 @@ export function assignDevice (deviceId, id) {
 
 export function success_deviceType (data) {
   return createAction(constants.ACTION_SUCCESS_DEVICE_TYPE)(data);
-} 
+}
 
 export function error_deviceType (data) {
   return createAction(constants.ACTION_ERROR_DEVICE_TYPE)(data);
@@ -538,78 +533,6 @@ export function deviceCount () {
       }, (error) => {
         dispatch(hide_loading());
         reject(error);
-      });
-    });
-  };
-}
-
-
-export function successUnapprovedList (data) {
-  return createAction(constants.ACTION_SUCCESS_UPDATE_UNAPPROVED_USER)(data);
-}
-
-function getAsyncUnapprovedData(dataLogin){
-  return fireAjax('POST','',{
-    'action':'get_unapproved_machine_list'
-  });
-}
-
-export function unapprovedUser () {
-  return (dispatch, getState) => {
-    return new Promise(function (resolve, reject) {
-      dispatch(show_loading());
-      return getAsyncUnapprovedData().then((res) => {
-        dispatch(hide_loading());
-        resolve(res);
-        dispatch(successUnapprovedList(res));
-      }, (error) => {
-        dispatch(hide_loading());
-        reject(error);
-      });
-    });
-  };
-}
-
-export function errorApprovedList(data){
-  return createAction(constants.ACTION_ERROR_UPDATE_APPROVED_USER)
-}
-export function successApprovedList (data) {
-  return createAction(constants.ACTION_SUCCESS_UPDATE_APPROVED_USER)(data);
-}
-
-function getAsyncApprovedData(id){
-  return fireAjax('POST','',{
-    'action':'approve_machine',
-    id
-  });
-}
-
-export function approvedUser (id) {
-  return (dispatch, getState) => {
-    
-    if(typeof id==='undefined'|| id==''){
-      return Promise.reject('id is empty') 
-    }
-    else{
-      id=id;
-    }
-    return new Promise(function (resolve, reject) {
-      dispatch(show_loading());
-      return getAsyncApprovedData(id).then((json) => {
-        dispatch(hide_loading());
-        if(json.error==0){
-        dispatch(successApprovedList(json.message));
-        dispatch(unapprovedUser());
-        dispatch(get_machines_detail());
-       
-        }
-        else{
-        dispatch(errorApprovedList(json.message));
-      
-        }
-      }, (error) => {
-        dispatch(errorAddusercomment('error occur'));
-        reject('error occur');
       });
     });
   };
