@@ -33,6 +33,7 @@ const ViewUserDevice = ({userAssignMachine}) => {
                         <th>Sr. No</th>
                         <th>Device Type</th>
                         <th>Name</th>
+                        <th>Mac Address</th>
                         <th>Assign Date</th>
                       </tr>
                     </thead>

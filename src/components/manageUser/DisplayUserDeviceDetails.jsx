@@ -13,6 +13,7 @@ const DisplayUserDeviceDetails = ({userAssignMachine}) => {
         </td>
         <td>
           <span className>S.No : {val.serial_number || ' - '}</span><br />
+          <span className>{val.mac_address && 'Mac : ' + val.mac_address}</span>
         </td>
         <td>{val.assign_date}</td>
       </tr>
