@@ -34,6 +34,7 @@ export default class UserPendingHoursList extends React.Component {
   }
 
   componentWillReceiveProps (props) {
+    window.scrollTo(0, 0);
     if (!props.loggedUser.isLoggedIn) {
       this.props.router.push('/logout');
     } else {
