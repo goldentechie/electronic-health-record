@@ -647,35 +647,43 @@ export function successAddUserComment (data) {
   return createAction(constants.ACTION_SUCCESS_ADD_USER_COMMENT)(data);
 }
 
-function asyncAddUserComment (n_comment, n_inventory_id){
+function asyncAddUserComment (comment, serial_number, user_Id){
   return fireAjax('POST', '', {
-    'action':       'unassigned_my_inventory',
-    'comment':      n_comment,
-    'inventory_id':      n_inventory_id,
+    'action':       'add_user_comment',
+    'comment':      comment,
+    'serial_number':serial_number,
+    'user_Id':      user_Id,
   });
 }
 
-export function addUserComment (addUserCommentDetails) {
+export function addUserComment (new_comment) {
   return (dispatch, getState) => {
 
-    let n_comment = '';
-    let n_inventory_id = '';
-    if (typeof addUserCommentDetails.comment !== "undefined") {
-      n_comment = addUserCommentDetails.comment;
+    let comment = '';
+    let serial_number = '';
+    let user_Id = '';
+
+    if (typeof new_comment.comment === 'undefined' || new_comment.comment == '') {
+      return Promise.reject('comment is empty');
+    } else {
+      comment = new_comment.comment;
     }
-    if (typeof addUserCommentDetails.inventory_id !== "undefined") {
-      n_inventory_id = addUserCommentDetails.inventory_id;
+
+    if (typeof new_comment.serial_number === 'undefined' || new_comment.serial_number == '') {
+      return Promise.reject('serial_number is empty');
+    } else {
+      serial_number = new_comment.serial_number;
     }
-    if (n_comment.trim() === "") {
-      return Promise.reject("Comment is empty");
-    }
-    if (n_inventory_id.trim() === "") {
-      return Promise.reject("inventory id is empty");
+    
+    if (typeof new_comment.user_Id === 'undefined' || new_comment.user_Id == '') {
+      return Promise.reject('user_Id is empty');
+    } else {
+      user_Id = new_comment.user_Id;
     }
 
     return new Promise(function (resolve, reject){
       dispatch(show_loading());
-      return asyncAddUserComment(n_comment, n_inventory_id).then((json) => {
+      return asyncAddUserComment(comment, serial_number, user_Id).then((json) => {
         dispatch(hide_loading());
         if(json.error==0){
           dispatch(successAddUserComment(json.message));

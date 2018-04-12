@@ -14,19 +14,21 @@ export default class UnassignDevice extends React.Component {
     super(props);
     this.state = {
       comment: "",
-      inventory_id: ""
+      serial_number: "",
+      user_Id: ""
     };
     this.handleAddUserComment = this.handleAddUserComment.bind(this);
   }
 
   handleAddUserComment() {
-    let { inventory_id, comment } = this.state;
-    this.props.callAddUserComment({ inventory_id, comment});
+    let { serial_number, comment, user_Id } = this.state;
+    this.props.callAddUserComment({ serial_number, comment, user_Id });
   }
   handleChange = e => {
     this.setState({
+      user_Id: this.props.user_Id,
       comment: e.target.value,
-      inventory_id: this.props.device.id
+      serial_number: this.props.device.serial_number
     });
   };
 
