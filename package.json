@@ -50,7 +50,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "async": "^2.6.0",
     "axios": "^0.18.0",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.3.17",
