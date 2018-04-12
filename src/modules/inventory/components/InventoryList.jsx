@@ -159,6 +159,9 @@ class InventoryList extends React.Component {
     this.setState({user: userId});
     this.props.callAssign(id, userId);
   }
+  handleInventory(id){
+    this.props.router.push(`inventory_system/${this.props.routeParams.device}/${id}`)
+  }
 
   callDeleteDeviceStatus (checkValue) {
     this.props.onDeleteDeviceStatus(checkValue).then((val) => {
@@ -246,6 +249,8 @@ class InventoryList extends React.Component {
     this.props.callUnapprovedId({id});
   }
   render () {
+    console.log(this.props,'ooooooooooooo');
+    
     const role = getLoggedUser().data.role;
     var statusList = this.state.deviceStatusList || [];
     let statusDropMap = statusList.map((val, i) => {
@@ -336,7 +341,7 @@ class InventoryList extends React.Component {
     });
     return (
       <div>
-        <div className="app-body" id="view">
+        <div className="app-body" id="view" >
           <div className="col-xs-12 col-sm-12" style={{'float': 'right'}}>
             <div className="row">
               <div className="row no-gutter">

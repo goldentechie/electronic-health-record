@@ -113,6 +113,7 @@ let render = (routerKey = null) => {
             {/* <Route path="inventoryOverviewDetail" component={Page_InventorySystem} /> */}
             {/* <Route path="inventory_system/:device/:id" component={InventoryItem} /> */}
             <Route path="inventory_system" component={InventorySystem} />
+
             <Route path="inventory_system/:device/:id" component={InventoryItem} />
             <Route path="inventory_system/:device" component={InventorySystem}/>
             <Route path="attendanceReq" component={Page_AttendanceReq} />
