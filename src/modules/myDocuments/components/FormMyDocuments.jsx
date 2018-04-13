@@ -5,6 +5,7 @@ import { getToken } from "src/services/generic";
 import ListDocuments from "components/myDocuments/ListDocuments";
 import UploadImageComp from "../../uploadImageCompressed/UploadImageComp";
 
+
 class FormMyDocuments extends React.Component {
   constructor(props) {
     super(props);
@@ -12,6 +13,7 @@ class FormMyDocuments extends React.Component {
       doc_type: "",
       user_token: "",
       file: []
+
     };
     this.deleteDocument = this.deleteDocument.bind(this);
     this.callUpdateDocuments = this.callUpdateDocuments.bind(this);
@@ -48,6 +50,7 @@ class FormMyDocuments extends React.Component {
     } else if (file.size > 5000000) {
       stop = true;
       notify("Warning!", "File size must be less than 5mb", "warning");
+
     }
     if (stop) {
       e.preventDefault();
@@ -91,9 +94,10 @@ class FormMyDocuments extends React.Component {
             Upload New Documents
           </h6>
           <div className="row box p-a-md m-b-lg collapse" id="uploadDoc">
+
             <form
-              // onSubmit={this.handleSubmit}
-              // action={CONFIG.upload_url} method="POST"
+              action={CONFIG.upload_url}
+              method="POST"
               encType="multipart/form-data"
             >
               <div className="form-group">
@@ -163,20 +167,15 @@ class FormMyDocuments extends React.Component {
                 </span>
               </div>
               <div className="form-group col-sm-12">
-                {/* <input
-                  type="submit"
-                  name="submit"
-                  value="Upload"
-                  className="col-xs-12 md-btn md-raised indigo"
-                  onClick={e => {
-                    this.callUpdateDocuments(e);
-                  }}
-                /> */}
+
                 <UploadImageComp
                   callUpdateDocuments={this.callUpdateDocuments}
                   url={CONFIG.upload_url}
                   file={this.state.file[0]}
                   doc_type={this.state.doc_type}
+                  token={this.state.user_token}
+                  user_id={userId}
+                  pageUrl={pageUrl}
                 />
               </div>
             </form>

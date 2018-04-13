@@ -1,5 +1,7 @@
 import React from "react";
 import * as _ from "lodash";
+import moment from "moment";
+import { CONFIG } from "src/config/index";
 import { connect } from "react-redux";
 import Menu from "components/generic/Menu";
 import { notify } from "src/services/notify";
@@ -10,14 +12,14 @@ import * as actionsManageDevice from "appRedux/inventory/actions/inventory";
 import * as actionsUsersList from "appRedux/generic/actions/usersList";
 import * as actionsManageUsers from "appRedux/manageUsers/actions/manageUsers";
 import ButtonRaised from "components/generic/buttons/ButtonRaised";
-import DialogUpload from "./dialogueUpload";
 let device_id;
 class InventoryItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       comment: "",
-      inventory_id: ""
+      inventory_id: "",
+      user_id: ""
     };
     this.handleAddComment = this.handleAddComment.bind(this);
   }
@@ -35,6 +37,18 @@ class InventoryItem extends React.Component {
       data => {
         notify("Success!", data, "success");
         this.props.onFetchDevice();
+        this.props.onGetDevice(device_id);
+      },
+      error => {
+        notify("Error!", error, "error");
+      }
+    );
+  }
+  AssignDevice(assign_device) {
+    this.props.onAssignDevice(assign_device).then(
+      data => {
+        notify("Success!", data, "success");
+        this.props.onGetDevice(device_id);
       },
       error => {
         notify("Error!", error, "error");
@@ -46,13 +60,35 @@ class InventoryItem extends React.Component {
     const machineName = _.filter(this.props.manageDevice.device, {
       id: this.props.routeParams.id
     });
+    const pat = _.isEmpty(machineName)
+      ? null
+      : machineName[0].fileInventoryPhoto;
     const userName = _.map(this.props.usersList.users, (val, i) => {
       return (
-        <option key={i} value={val.username}>
+        <option key={i} value={val.user_Id}>
           {val.username}
         </option>
       );
     });
+    const Assignhistory = _.map(
+      this.props.manageDevice.deviceHistory.history,
+      (val, i) => {
+        return (
+          <div key={i} className="streamline b-l m-l">
+            <div className="sl-item b-info">
+              <div className="sl-content">
+                <div className="sl-date text-muted">
+                  Assigned to : {val.assign_unassign_user_name}
+                </div>
+                <div className="sl-date text-muted">
+                  By : {val.updated_by_user}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+    );
     const history = _.map(
       this.props.manageDevice.deviceHistory.history,
       (val, i) => {
@@ -64,7 +100,10 @@ class InventoryItem extends React.Component {
                   Comment : {val.comment}
                 </div>
                 <div className="sl-date text-muted">
-                  Updated on : {val.updated_at}
+                  Updated on :{" "}
+                  {moment(val.updated_at).format(
+                    "dddd, MMMM Do YYYY, h:mm:ss a"
+                  )}
                 </div>
 
                 <div className="sl-date text-muted">
@@ -76,6 +115,7 @@ class InventoryItem extends React.Component {
         );
       }
     );
+    let path = CONFIG.inventory_images
     return (
       <div>
         <Menu {...this.props} />
@@ -88,16 +128,50 @@ class InventoryItem extends React.Component {
                   <div className="col-md-5 p-r">
                     <div
                       className="form-group"
-                      style={{ marginLeft: "8%", marginTop: "4%" }}
+                      style={{
+                        marginLeft: "8%",
+                        marginTop: "4%",
+                        textAlign: "left"
+                      }}
                     >
-                      <label style={{ fontSize: 15 }}>Device Name:</label>{" "}
-                      {_.isEmpty(machineName)
-                        ? null
-                        : machineName[0].machine_name}
+                      {" "}
+                      {pat === null || undefined ? null : (
+                        <div className="col-md-12">
+                          <img src={path + pat} />
+                        </div>
+                      )}<br />
+                      <div className="col-md-5">
+                        <label style={{ fontSize: 15 }}>Device Name:</label>{" "}
+                        {_.isEmpty(machineName)
+                          ? null
+                          : machineName[0].machine_name}
+                      </div>
+                      <div className="col-md-6">
+                        <label style={{ fontSize: 15 }}>Device Type:</label>{" "}
+                        {_.isEmpty(machineName)
+                          ? null
+                          : machineName[0].machine_type}
+                      </div>
+                      <br />
+                      <div className="col-md-6">
+                        <label style={{ fontSize: 15 }}>Status:</label>{" "}
+                        {_.isEmpty(machineName) ? null : machineName[0].status}
+                      </div>
+                      <div className="col-md-6">
+                        <label style={{ fontSize: 15 }}>Serial No:</label>{" "}
+                        {_.isEmpty(machineName)
+                          ? null
+                          : machineName[0].serial_number}
+                      </div>
                       <br />
                       <label style={{ fontSize: 15 }}>Users:</label>
                       <select
-                        onChange={e => this.setState({ user: e.target.value })}
+                        onChange={e =>
+                          this.setState({
+                            user_id: e.target.value,
+                            inventory_id: this.props.routeParams.id
+                          })
+                        }
                         className="form-control"
                         ref="device_type"
                         value={this.state.user}
@@ -105,6 +179,13 @@ class InventoryItem extends React.Component {
                         <option value="">--Select User--</option>
                         {userName}
                       </select>
+                      <br />{" "}
+                      <button
+                        className="btn btn-fw info responsive-p-x-sm"
+                        onClick={() => this.AssignDevice(this.state)}
+                      >
+                        Assign Inventory
+                      </button>
                       <div className="row m-1">
                         <div
                           className="col-sm-15 p-8 pt-8"
@@ -136,12 +217,13 @@ class InventoryItem extends React.Component {
                           className="col-sm-15 p-8 pt-8"
                           style={{ marginTop: "4%" }}
                         >
+                          {" "}
+                          {Assignhistory}
                           {history}
                         </div>
                       </div>
                     </div>
                   </div>
-                  {/* <div className="col-md-5 p-r col-sm-offset-1" style={{marginTop:'17px'}}>{<DialogUpload inventory_id={this.props.routeParams.id} {...this.props}/>}</div> */}
                 </div>
               </div>
             </div>
@@ -178,6 +260,9 @@ const mapDispatchToProps = dispatch => {
     },
     onGetDevice: () => {
       return dispatch(actionsManageDevice.getDeviceById(device_id));
+    },
+    onAssignDevice: assign_device => {
+      return dispatch(actionsManageDevice.assignDevice(assign_device));
     }
   };
 };
