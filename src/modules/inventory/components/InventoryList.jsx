@@ -249,6 +249,7 @@ class InventoryList extends React.Component {
     this.props.callUnapprovedId({id});
   }
   render () {
+    console.log(this.props,'ooooooooooooo');
     
     const role = getLoggedUser().data.role;
     var statusList = this.state.deviceStatusList || [];

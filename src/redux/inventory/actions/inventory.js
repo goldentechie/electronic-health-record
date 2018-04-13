@@ -743,7 +743,7 @@ export function successUnassignedDeviceList (data) {
 
 function getAsyncUnassignDeviceList () {
   return fireAjax('POST','',{
-    'action': 'get_unassigned_inventories'
+    'action': 'get_unassigned_machine_list'
   });
 }
 
@@ -753,6 +753,7 @@ export function unassignDeviceList () {
       dispatch(show_loading());
       return getAsyncUnassignDeviceList().then((res) => {
         dispatch(hide_loading());
+        resolve(res.data);
         dispatch(successUnassignedDeviceList(res.data));
       }, (error) => {
         dispatch(hide_loading());
@@ -761,6 +762,3 @@ export function unassignDeviceList () {
     });
   };
 }
-
-
-
