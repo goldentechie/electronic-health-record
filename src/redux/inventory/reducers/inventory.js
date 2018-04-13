@@ -1,18 +1,15 @@
 import Immutable from 'immutable';
 
 let initialState = {
+  'device':          [],
+  'status_message':  '',
+  'deviceList':      [],
+  'statusList':      [],
+  'deviceCountList': {},
   'unapprovedList':  [],
   'approvedList':[],
-  'deviceHistory':{},
-  'device':               [],
-  'status_message':       '',
-  'deviceList':           [],
-  'statusList':           [],
-  'deviceCountList':      {},
-  'comment':              [],
-  'unassignedDeviceList': []
-}
-
+  'deviceHistory':{}
+};
 export function manageDevice (state = Immutable.fromJS(initialState), action) {
   if (action.type === 'ACTION_SUCCESS_DEVICE_LIST') {
     return state.set('device', action.payload);
@@ -48,13 +45,7 @@ export function manageDevice (state = Immutable.fromJS(initialState), action) {
     return state.set('unapprovedList',action.payload);
   } else if(action.type==='ACTION_SUCCESS_UPDATE_APPROVED_USER'){
     return state.set('approvedList',action.payload)
-  } else if (action.type === 'ACTION_SUCCESS_ADD_USER_COMMENT') {
-    return state.set('comment', action.payload);
-  } else if (action.type === 'ACTION_ERROR_ADD_USER_COMMENT') {
-    return state.set('comment', action.payload);
-  } else if (action.type === 'ACTION_SUCCESS_UNASSIGNED_DEVICE_LIST') {
-    return state.set('unassignedDeviceList', action.payload);
-  }  else {
+  }else {
     return state;
   }
 }

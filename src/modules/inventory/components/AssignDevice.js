@@ -4,7 +4,6 @@ import Dialog from "material-ui/Dialog";
 import { DateField } from "react-date-picker";
 import { notify } from "src/services/notify";
 import TextField from "material-ui/TextField";
-import * as _ from "lodash";
 import AlertNotification from "components/generic/AlertNotification";
 
 export default class AssignDevice extends React.Component {

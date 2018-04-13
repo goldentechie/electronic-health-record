@@ -14,7 +14,6 @@ import * as actions from 'appRedux/actions';
 import * as actions_usersList from 'appRedux/generic/actions/usersList';
 import * as actions_policy from 'appRedux/policyDocuments/actions/index';
 import * as actions_apply_leave from 'appRedux/leave/actions/applyLeave';
-import * as actions_manageLeave from "appRedux/leave/actions/manageLeave";
 
 class ApplyLeave extends React.Component {
   constructor (props) {
@@ -89,7 +88,7 @@ class ApplyLeave extends React.Component {
       notify('Error !', error, 'error');
     });
   }
-  
+
   render () {
     let status_message = '';
     if (this.props.applyLeave.status_message !== '' && this.state.show_status_message === true) {
@@ -172,9 +171,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     onFetchUserPolicyDocument: () => {
       return dispatch(actions.requestUserPolicyDocument());
-    },
-    onDocRequired: (leaveid, data, comment) => {
-      return dispatch(actions_manageLeave.docRequired(leaveid, data, comment));
     }
   };
 };
