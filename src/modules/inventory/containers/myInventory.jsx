@@ -56,6 +56,7 @@ class MyInventory extends React.Component {
       status_message: '',
       device:         val
     });
+    console.log(this.state)
   }
   handleClose () {
     this.setState({
@@ -86,6 +87,8 @@ class MyInventory extends React.Component {
   }
 
   render () {
+    console.log(this.props)
+    
     return (
       <div>
         <Menu {...this.props} />
@@ -149,7 +152,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUnassignDeviceList: () => {
       return dispatch(actionsManageDevice.unassignDeviceList());
-    }
+    },
   };
 };
 
