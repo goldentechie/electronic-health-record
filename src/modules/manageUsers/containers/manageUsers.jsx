@@ -8,7 +8,6 @@ import {notify} from 'src/services/notify';
 import Menu from 'components/generic/Menu';
 import {isNotUserValid} from 'src/services/generic';
 import Header from 'components/generic/Header';
-import ButtonRaised from 'components/generic/buttons/ButtonRaised';
 import UsersList from 'components/generic/UsersList';
 import UsersListHeader from 'components/generic/UsersListHeader';
 import UpdateEmployeeDocument from 'modules/manageUsers/components/UpdateEmployeeDocument';
@@ -18,14 +17,12 @@ import DisplayUserBankDetails from 'components/manageUser/DisplayUserBankDetails
 import DisplayUserDeviceDetails from 'components/manageUser/DisplayUserDeviceDetails';
 import UserPayslipsHistory from 'components/salary/managePayslips/UserPayslipsHistory';
 import FormAddNewEmployee from 'modules/manageUsers/components/FormAddNewEmployee';
-import FormAddNewEmployeeDetails from 'modules/manageUsers/components/FormAddNewEmployeeDetails';
 import FormUserProfileDetails from 'modules/manageUsers/components/FormUserProfileDetails';
 import EmployeeLifeCycle from 'modules/manageUsers/components/EmployeeLifeCycle';
 import * as actions from 'appRedux/actions';
 import * as actionsUsersList from 'appRedux/generic/actions/usersList';
 import * as actionsManageUsers from 'src/redux/manageUsers/actions/manageUsers';
 import * as actionsManagePayslips from 'appRedux/salary/actions/managePayslips';
-import { RaisedButton } from 'material-ui';
 
 class ManageUsers extends React.Component {
   constructor (props) {
@@ -47,6 +44,7 @@ class ManageUsers extends React.Component {
     this.callUpdateUserBankDetails = this.callUpdateUserBankDetails.bind(this);
     this.callUpdateUserDeviceDetails = this.callUpdateUserDeviceDetails.bind(this);
     this.callUpdateUserProfileDetails = this.callUpdateUserProfileDetails.bind(this);
+    this.callAddNewEmployee = this.callAddNewEmployee.bind(this);
     this.handleOpenIframe = this.handleOpenIframe.bind(this);
     this.handleCloseIframe = this.handleCloseIframe.bind(this);
     this.changeEmployeeStatus = this.changeEmployeeStatus.bind(this);
@@ -85,9 +83,6 @@ class ManageUsers extends React.Component {
         this.onUserClick(defaultUserId, defaultUserName);
       }
     }
-  }
-  handleFormAddNewEmployee(){
-    this.props.router.push("/add_new_employee")
   }
   onUserClick (userid, username) {
     let selectedUserName = '';
@@ -130,7 +125,14 @@ class ManageUsers extends React.Component {
       notify(error);
     });
   }
- 
+  callAddNewEmployee (newEmployeeDetails) {
+    this.props.onAddNewEmployee(newEmployeeDetails).then((data) => {
+      notify(data);
+      this.props.onUsersList();
+    }, (error) => {
+      notify(error);
+    });
+  }
   changeEmployeeStatus (userid, status) {
     this.props.onChangeEmployeeStatus(userid, status).then((msg) => {
       notify('Success!', msg, 'success');
@@ -159,7 +161,6 @@ class ManageUsers extends React.Component {
     });
     this.props.onHandleChangeSteps(userid, stepid);
   }
-  
   handleOpenIframe () {
     this.setState({openIframe: true});
   }
@@ -177,7 +178,7 @@ class ManageUsers extends React.Component {
           <div className="app-body" id="view">
              <div className="padding">
               <div className="row">
-                <div className="col-md-2 col-sm-3" id="fixedScroll">
+                <div className="col-md-2 col-sm-3 hidden-xs" id="fixedScroll">
                   <UsersList
                     users={this.props.usersList.users}
                     selectedUserId={this.state.selected_user_id}
@@ -188,9 +189,7 @@ class ManageUsers extends React.Component {
                 <div className="col-md-10 col-sm-9 col-xs-12 p" id="manage-user">
                   <div className="row emp-action-btn p-b">
                     <div className="add-new-emp">
-                      <ButtonRaised className="col-xs-12 m-b-sm indigo"
-                        onClick={() => this.handleFormAddNewEmployee()}
-                        label={'Add Employee'} />
+                      <FormAddNewEmployee callAddNewEmployee={this.callAddNewEmployee} />
                     </div>
                     <div className="disable-user">
                       <Button className="btn-fw btn-danger responsive-p-x-sm" label={'Disable Selected User'} onClick={() => this.changeEmployeeStatus(this.state.selected_user_id, 'Disabled')} />
@@ -290,6 +289,9 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateUserDeviceDetails: (newDeviceDetails) => {
       return dispatch(actionsManageUsers.updateUserDeviceDetails(newDeviceDetails));
     },
+    onAddNewEmployee: (newEmployeeDetails) => {
+      return dispatch(actionsManageUsers.addNewEmployee(newEmployeeDetails));
+    },
     onUpdatedocuments: (documentLink) => {
       return dispatch(actionsManageUsers.updateDocument(documentLink));
     },
@@ -331,6 +333,7 @@ ManageUsers.PropTypes = {
   onUpdateUserBankDetails:    PropTypes.func.isRequired,
   onUpdateUserDeviceDetails:  PropTypes.func.isRequired,
   onUpdateUserProfileDetails: PropTypes.func.isRequired,
+  onAddNewEmployee:           PropTypes.func.isRequired,
   onChangeEmployeeStatus:     PropTypes.func.isRequired,
   onUsersList:                React.PropTypes.func.isRequired,
   onUpdatedocuments:          PropTypes.func.isRequired,

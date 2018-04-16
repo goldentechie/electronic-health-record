@@ -1,13 +1,10 @@
 import Immutable from "immutable";
 
-let initialState = { loading: false };
+let initialState = {};
 
-export function uploadImage(state = initialState, action) {
-  if (action.type === "UPLOADING_FILE") {
-    return { loading: true };
-  }
+export function myDocument(state = initialState, action) {
   if (action.type === "UPLOAD_FILE") {
-    return {loading:false};
+    return action.payload;
   } else {
     return state;
   }

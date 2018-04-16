@@ -17,7 +17,6 @@ class MyInventory extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      user_id:             [],
       status_message:      '',
       openUnassigned:      false,
       openAssigned:       false,
@@ -33,12 +32,11 @@ class MyInventory extends React.Component {
     this.handleAddDialog = this.handleAddDialog.bind(this);
     this.handleCloseAssign = this.handleCloseAssign.bind(this);
     this.callAddUserComment = this.callAddUserComment.bind(this);
-    this.callAssignDevice = this.callAssignDevice.bind(this);
   }
   
   componentWillMount () {
-    this.props.onUnassignDeviceList();
     this.props.onMyProfileDetails();
+    this.props.onUnassignDeviceList();
   }
   componentWillReceiveProps (props) {
     let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
@@ -51,18 +49,6 @@ class MyInventory extends React.Component {
 
   callUpdateUserDeviceDetails (newDeviceDetails) {
     this.props.onUpdateDeviceDetails(newDeviceDetails);
-  }
-  callAssignDevice(assign_device) {
-    console.log(assign_device)
-    this.props.onAssignDevice(assign_device).then(
-      data => {
-        this.props.onUnassignDeviceList();
-        notify("Success!", data, "success");
-      },
-      error => {
-        notify("Error!", error, "error");
-      }
-    );
   }
   unassignDevice (val) {
     this.setState({
@@ -86,12 +72,9 @@ class MyInventory extends React.Component {
   }
   handleAddDialog () {
     this.setState({
-      user_id:this.props.loggedUser.data.id,
-      unassignDeviceList: this.props.unassignedDeviceList.unassignedDeviceList,
       openAssigned:   true,
       status_message: '',
     });
-    
   }
   callAddUserComment (addUserCommentDetails) {
     this.props.onAddUserComment(addUserCommentDetails).catch((error) => {
@@ -104,6 +87,8 @@ class MyInventory extends React.Component {
   }
 
   render () {
+    console.log(this.props)
+    
     return (
       <div>
         <Menu {...this.props} />
@@ -123,9 +108,6 @@ class MyInventory extends React.Component {
                 handleCloseAssign={this.handleCloseAssign}
                 openAssign={this.state.openAssigned}
                 handleAddDialog={this.handleAddDialog}
-                unassignDeviceList={this.state.unassignDeviceList}
-                callAssignDevice= {this.callAssignDevice}
-                user_id={this.state.user_id}
               />
               <DeviceDetails
                 unassignDevice={this.unassignDevice}
@@ -151,8 +133,7 @@ function mapStateToProps (state) {
   return {
     frontend:   state.frontend.toJS(),
     loggedUser: state.logged_user.userLogin,
-    myProfile:  state.myProfile.toJS(),
-    unassignedDeviceList: state.manageDevice.toJS()
+    myProfile:  state.myProfile.toJS()
   };
 }
 const mapDispatchToProps = (dispatch) => {
@@ -172,9 +153,6 @@ const mapDispatchToProps = (dispatch) => {
     onUnassignDeviceList: () => {
       return dispatch(actionsManageDevice.unassignDeviceList());
     },
-    onAssignDevice: assign_device => {
-      return dispatch(actionsManageDevice.assignDevice(assign_device));
-    }
   };
 };
 

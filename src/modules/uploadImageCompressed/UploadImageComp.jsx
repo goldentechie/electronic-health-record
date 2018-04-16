@@ -5,98 +5,96 @@ import { connect } from "react-redux";
 import { uploadFile } from "appRedux/uploadImageComp/actions/uploadImageComp";
 import { qualityValue } from "src/helper/helper";
 import axios from "axios";
-import CircularProgress from "material-ui/CircularProgress";
 
 class UploadImageComp extends Component {
   constructor() {
     super();
-    this.state = {
-      loading: false
-    };
-
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+      status: false
+    };
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const { params } = this.props;
     const file = this.props.file;
-    const fileName = this.props.fileName;
     const url = this.props.url;
-
+    const doc_type = this.props.doc_type;
+    const token = this.props.token;
+    const user_id = this.props.user_id;
+    const pageUrl = this.props.pageUrl;
     if (!file) {
       return;
-    } 
-    else if (!file.type.includes("image")) {
+    } else if (!file.type.includes("image")) {
       const formData = new FormData();
-      for (let key in params) {
-        formData.append(key, params[key]);
-      }
-      formData.append(fileName, file);
+
+      formData.append("token", token);
+      formData.append("user_id", user_id);
+      formData.append("document_type", doc_type);
+      formData.append("page_url", pageUrl);
+      formData.append("link_1", file);
       formData.append("submit", "Upload");
 
-      this.props.uploadFile(formData, url);
+      this.props.uploadFile(formData, url, doc_type);
     } else {
-      this.setState({ loading: true });
       let quality = qualityValue(file);
 
-      let imageCompressor = new ImageCompressor();
-      imageCompressor
-        .compress(file, {
-          quality: quality
-        })
-        .then(file => {
+      new ImageCompressor(file, {
+        quality: quality,
+        success(result) {
           const formData = new FormData();
-          for (let key in params) {
-            formData.append(key, params[key]);
-          }
-          formData.append(fileName, file, file.name);
+          formData.append("token", token);
+          formData.append("user_id", user_id);
+          formData.append("document_type", doc_type);
+          formData.append("page_url", pageUrl);
+          formData.append("link_1", result, result.name);
           formData.append("submit", "Upload");
+
           // Send the compressed image file to server with XMLHttpRequest.
-          // this.props.uploadFile(formData, url);
           axios
-            .post(url, formData)
-            .then(data => {
-              notify("Success !", `File uploaded successfully`, "success");
-              this.setState({ loading: false });
+            .post(url, formData, {
+              onUploadProgress: progressEvent => {
+                console.log(
+                  `Upload Progress ${doc_type}` +
+                    Math.round(
+                      progressEvent.loaded / progressEvent.total * 100
+                    ) +
+                    "%"
+                );
+              }
             })
-            .catch(error => {
-              if (error.request) {
-                notify("Error", "File too large to upload", "error");
-                this.setState({ loading: false });
-                console.log(error.request);
-              } 
-              
+            .then(data => {
+              console.log(data);
+              if (data.status === 200) {
+                notify(
+                  "Success !",
+                  `${doc_type} named ${result.name} uploaded successfully`,
+                  "success"
+                );
+              }
             });
-        });
+        },
+        error(e) {
+          console.log(e.message);
+        }
+      });
     }
   }
 
   render() {
     return (
       <div>
-        {this.props.loading || this.state.loading ? (
-          <CircularProgress
-            size={30}
-            thickness={3}
-            style={{ marginLeft: "50%" }}
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="submit"
+            name="submit"
+            value="Upload"
+            className="col-xs-12 md-btn md-raised indigo"
+            onClick={e => this.props.callUpdateDocuments(e)}
           />
-        ) : (
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="submit"
-              name="submit"
-              value="Upload"
-              className="col-xs-12 md-btn md-raised indigo"
-              onClick={e => this.props.callUpdateDocuments(e)}
-            />
-          </form>
-        )}
+        </form>
       </div>
     );
   }
 }
-const mapStateToProps = state => ({
-  loading: state.uploadImage.loading
-});
-export default connect(mapStateToProps, { uploadFile })(UploadImageComp);
+export default connect(null, { uploadFile })(UploadImageComp);

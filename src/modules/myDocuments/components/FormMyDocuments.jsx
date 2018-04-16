@@ -5,16 +5,13 @@ import { getToken } from "src/services/generic";
 import ListDocuments from "components/myDocuments/ListDocuments";
 import UploadImageComp from "../../uploadImageCompressed/UploadImageComp";
 
-
 class FormMyDocuments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      document_type: "",
-      token: "",
-      file: [],
-      user_id: this.props.user_id,
-      page_url: window.location.href
+      doc_type: "",
+      user_token: "",
+      file: []
     };
     this.deleteDocument = this.deleteDocument.bind(this);
     this.callUpdateDocuments = this.callUpdateDocuments.bind(this);
@@ -27,7 +24,7 @@ class FormMyDocuments extends React.Component {
   }
   componentWillReceiveProps(props) {
     this.setState({
-      token: getToken()
+      user_token: getToken()
     });
   }
   handleFileChange(e) {
@@ -35,7 +32,7 @@ class FormMyDocuments extends React.Component {
   }
 
   callUpdateDocuments(e) {
-    let type = this.state.document_type;
+    let type = this.state.doc_type;
     let link1 = this.refs.file.value;
     let file = this.state.file[0];
     let stop = false;
@@ -48,12 +45,10 @@ class FormMyDocuments extends React.Component {
     } else if (this.refs.declear.checked !== true) {
       stop = true;
       notify("Warning!", "Mark declearation before submit", "warning");
-     } 
-    // else if (file.size > 5000000) {
-    //   stop = true;
-    //   notify("Warning!", "File size must be less than 5mb", "warning");
-
-    // }
+    } else if (file.size > 5000000) {
+      stop = true;
+      notify("Warning!", "File size must be less than 5mb", "warning");
+    }
     if (stop) {
       e.preventDefault();
     }
@@ -81,6 +76,9 @@ class FormMyDocuments extends React.Component {
     }
   }
   render() {
+    let userId = this.props.user_id;
+    let pageUrl = window.location.href;
+
     return (
       <div className="row p-t-md">
         <div className="col-sm-6 p-x-md">
@@ -93,21 +91,16 @@ class FormMyDocuments extends React.Component {
             Upload New Documents
           </h6>
           <div className="row box p-a-md m-b-lg collapse" id="uploadDoc">
-
-            <form
-              action={CONFIG.upload_url}
-              method="POST"
-              encType="multipart/form-data"
-            >
+            <form encType="multipart/form-data">
               <div className="form-group">
                 <label className="col-sm-12">Document Type</label>
                 <select
                   className="form-control"
-                  ref="document_type"
+                  ref="doc_type"
                   onChange={() =>
-                    this.setState({ document_type: this.refs.document_type.value })
+                    this.setState({ doc_type: this.refs.doc_type.value })
                   }
-                  value={this.state.document_type}
+                  value={this.state.doc_type}
                 >
                   <option value="">--- Select Doc Type ---</option>
                   <option value="CV">CV</option>
@@ -134,11 +127,14 @@ class FormMyDocuments extends React.Component {
                   <option value="Other Documents">Other Documents</option>
                 </select>
               </div>
+              <input type="hidden" name="token" value={this.state.user_token} />
+              <input type="hidden" name="user_id" value={userId} />
               <input
                 type="hidden"
                 name="document_type"
-                value={this.state.document_type}
+                value={this.state.doc_type}
               />
+              <input type="hidden" name="page_url" value={pageUrl} />
               <div className="form-group">
                 <label className="col-sm-12">Attachment </label>
                 <input
@@ -163,12 +159,15 @@ class FormMyDocuments extends React.Component {
                 </span>
               </div>
               <div className="form-group col-sm-12">
+
                 <UploadImageComp
                   callUpdateDocuments={this.callUpdateDocuments}
                   url={CONFIG.upload_url}
-                  params={this.state}
-                  file = {this.state.file[0]}
-                  fileName = "link_1"
+                  file={this.state.file[0]}
+                  doc_type={this.state.doc_type}
+                  token={this.state.user_token}
+                  user_id={userId}
+                  pageUrl={pageUrl}
                 />
               </div>
             </form>
