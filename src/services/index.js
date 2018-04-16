@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const actionsForOtherAPIurl = ['get_user_profile_detail', 'get_user_profile_detail_by_id', 'update_user_profile_detail_by_id', 'update_user_bank_detail',
   'update_user_profile_detail', 'get_user_manage_payslips_data', 'create_employee_salary_slip', 'delete_salary',
-  'send_payslips_to_employees', 'get_user_document', 'insert_user_document', 'delete_user_document', 'get_all_users_detail',
+  'send_payslips_to_employees', 'get_user_document','get_user_document_by_id', 'insert_user_document', 'delete_user_document', 'get_all_users_detail',
   'create_template_variable', 'get_template_variable', 'delete_template_variable', 'update_template_variable', 'create_email_template',
   'get_email_template', 'delete_email_template', 'update_email_template', 'send_employee_email', 'create_pdf', 'get_policy_document',
   'save_policy_document', 'get_user_policy_document', 'update_user_policy_document', 'add_team_list', 'get_team_list',
@@ -33,6 +33,7 @@ export function fireAjax (method, url, data, api) {
     Accept: 'application/json',
     body:   JSON.stringify(data)
   };
+
   if (data.action === 'add_user_salary') {
     delete (data.action);
     headers.body = JSON.stringify(data);
@@ -44,8 +45,7 @@ export function fireAjax (method, url, data, api) {
   } else if (_.indexOf(actionsForOtherAPIurl, data.action) >= 0) {
     headers.body = JSON.stringify(data);
     URL = CONFIG.other_api_url;
-  } 
-  else if (_.indexOf(actionsForAPIurl, data.action) >= 0) {
+  } else if (_.indexOf(actionsForAPIurl, data.action) >= 0) {
     headers.body = JSON.stringify(data);
     URL = CONFIG.api_url;
   } else if (data.action === 'get_team_stats') {
@@ -104,14 +104,6 @@ export function fireAjax (method, url, data, api) {
   });
 }
 
-export function uploadfile(formData, url,doc_type) {
-  return axios.post(url, formData, {
-    onUploadProgress: progressEvent => {
-      console.log(
-        `Upload Progress ${doc_type} :` +
-          Math.round(progressEvent.loaded / progressEvent.total * 100) +
-          "%"
-      );
-    }
-  });
-} 
+export function uploadfile(formData, url) {
+  return axios.post(url, formData);
+}

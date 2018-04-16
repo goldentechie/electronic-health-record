@@ -7,7 +7,6 @@ import {GithubPicker} from 'react-color';
 import {notify, confirm} from 'src/services/notify';
 import {CONFIG} from 'src/config/index';
 import 'react-date-picker/index.css';
-import style from '/home/etech/Documents/ReactReduxHR/src/styles/inventory/viewUser.scss'
 
 export default class AddDeviceStatus extends React.Component {
   constructor (props) {
@@ -90,7 +89,7 @@ export default class AddDeviceStatus extends React.Component {
     ];
     return (
       <div>
-        <button className="md-btn md-raised m-b-sm indigo addStatus"  onTouchTap={this.props.handleStatusOpen}>Add Status Type</button>
+        <button className="md-btn md-raised m-b-sm indigo" onTouchTap={this.props.handleStatusOpen}>Add Status Type</button>
         <Dialog
           title={'ADD STATUS TYPE'}
           titleStyle={{opacity: '0.56'}}

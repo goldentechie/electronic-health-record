@@ -13,7 +13,6 @@ import FormAddNewInventory from 'modules/inventory/components/AddInventory';
 import ViewUserDevice from 'components/inventory/ViewUser';
 import InventoryList from 'modules/inventory/components/InventoryList';
 import DeviceCounterTab from 'components/inventory/DeviceCounterTab';
-import style from '/home/etech/Documents/ReactReduxHR/src/styles/inventory/viewUser.scss';
 import * as actionsManageDevice from 'appRedux/inventory/actions/inventory';
 import * as actions from 'appRedux/actions';
 import * as actionsUsersList from 'appRedux/generic/actions/usersList';
@@ -56,8 +55,6 @@ class InventorySystem extends React.Component {
     this.callFetchDeviceType = this.callFetchDeviceType.bind(this);
     this.callFetchDeviceStatus = this.callFetchDeviceStatus.bind(this);
     this.callUnapprovedId=this.callUnapprovedId.bind(this);
-    this.addDevice=this.addDevice.bind(this);
-    this.editAction=this.editAction.bind(this);
   }
   componentWillMount () {
     this.props.onFetchDevice();
@@ -122,9 +119,7 @@ class InventorySystem extends React.Component {
   callFetchDeviceStatus () {
     this.onFetchDeviceStatus();
   }
-  editAction(device,edit,open){
-    this.props.onUserEditData(device,edit,open);
-  }
+
   openPage (toDisplay) {
     if (toDisplay === 'device_list') {
       this.setState({
@@ -214,15 +209,6 @@ class InventorySystem extends React.Component {
       
     });
   }
-  addDevice(){
-    console.log(this,'kkkkkkkkkkk');
-    this.setState({
-      edit:false,
-      open:true
-    })
-    this.props.onUserEditData({},this.state.edit,this.state.open);
-    this.props.router.push('/addInventory');
-  }
 
   handleAddDialog () {
     this.setState({
@@ -307,11 +293,8 @@ class InventorySystem extends React.Component {
                     </ul>
                   </div>
                 </div>
-                <button style={{float:'right',marginRight:'25px'}} className="md-btn md-raised m-b-sm indigo addInventory"
-            onClick={this.addDevice}>Add New Inventory </button>
-        
                 
-                {/* <div className="col-md-offset-10" style={{marginTop: '2%'}}>
+                <div className="col-md-offset-10" style={{marginTop: '2%'}}>
                   {this.state.firstArrow === 'show'|| this.state.fourthArrow==='show'
                     ? <FormAddNewInventory
                       deviceId={this.state.id}
@@ -326,7 +309,7 @@ class InventorySystem extends React.Component {
                       {...this.props} />
                     : null
                   }
-                </div>  */}
+                </div> 
               </div>
             </div>
             <div className="padding">
@@ -339,7 +322,6 @@ class InventorySystem extends React.Component {
                   fourthArrow={this.state.fourthArrow}
                   unapproveList={this.unapprovedList}
                   callUnapprovedId={this.callUnapprovedId}
-                  editAction={this.editAction}
                   deviceTypeData={(val) => {
                     this.setState({
                       search: val
@@ -363,7 +345,6 @@ class InventorySystem extends React.Component {
           </div>
         </div>
       </div>
-      
     );
   }
 }
@@ -432,9 +413,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     onFetchApprovedUser:(id)=>{
       return dispatch(actionsManageDevice.approvedUser(id));
-    },
-    onUserEditData:(device,edit,open)=>{
-      return dispatch(actionsManageDevice.editDeviceData(device,edit,open));
     }
   };
 };
