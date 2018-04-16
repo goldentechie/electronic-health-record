@@ -13,7 +13,7 @@ import FormAddNewInventory from 'modules/inventory/components/AddInventory';
 import ViewUserDevice from 'components/inventory/ViewUser';
 import InventoryList from 'modules/inventory/components/InventoryList';
 import DeviceCounterTab from 'components/inventory/DeviceCounterTab';
-import style from '/home/etech/Documents/ReactReduxHR/src/styles/inventory/viewUser.scss';
+import style from 'src/styles/inventory/viewUser.scss';
 import * as actionsManageDevice from 'appRedux/inventory/actions/inventory';
 import * as actions from 'appRedux/actions';
 import * as actionsUsersList from 'appRedux/generic/actions/usersList';
@@ -215,6 +215,7 @@ class InventorySystem extends React.Component {
     });
   }
   addDevice(){
+    console.log(this,'kkkkkkkkkkk');
     this.setState({
       edit:false,
       open:true

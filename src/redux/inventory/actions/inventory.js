@@ -4,6 +4,7 @@ import {notify} from 'src/services/notify';
 import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
 import * as constants from 'appRedux/constants';
 import { createInflate } from 'zlib';
+// -------add New machine
 
 export function success_add_new_machine (data) {
   return createAction(constants.ACTION_SUCCESS_ADD_NEW_MACHINE)(data);
@@ -44,7 +45,7 @@ function async_addNewMachine (
     'warranty':         n_warranty,
     'warranty_comment': n_warranty_comment,
     'repair_comment':   n_repair_comment,
-    'bill_no':          n_bill_no,
+    'bill_number ':     n_bill_no,
     'user_id':          n_user_Id,
     'unassign_comment': n_unassign_comment
   });
@@ -287,9 +288,7 @@ function getAsync_updateDeviceById (deviceId, data) {
     'warranty':         data.warranty,
     'warranty_comment': data.warranty_comment,
     'repair_comment':   data.repair_comment,
-    'bill_no':          data.bill_no,
-    'user_id':          data.user_Id,
-    'unassign_comment': data.unassign_comment
+    'user_id':          data.user_Id
   });
 }
 
@@ -773,6 +772,7 @@ export function unassignDeviceList () {
 }
 
 export function successEditDeviceData (device,edit,open) {
+  console.log(device,'sadasd',edit,'asdasdasd',open,'------------');
   return createAction(constants.ACTION_SUCCESS_EDIT_WITHOUT_API)({device,edit,open});
 }
 export function editDeviceData (device,edit,open) {

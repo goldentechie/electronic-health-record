@@ -95,7 +95,8 @@ class InventoryList extends React.Component {
         deviceList: props.manageDevice.device
       },
       () => {
-        this.handleDeviceTypeFilter(this.props.routeParams.device);
+        capitalizeDevice = this.capitalize(this.props.routeParams.device);
+        this.handleDeviceTypeFilter(capitalizeDevice);
       }
     );
     this.handleStatusTypeFilter("Working");
@@ -103,6 +104,7 @@ class InventoryList extends React.Component {
 }
 
   openEditDevice(device){
+    // this.props.openEditDevice(id);
     this.setState({
       edit:true,
       open:false
@@ -283,7 +285,7 @@ class InventoryList extends React.Component {
   }
 
   capitalize(string) {
-    return string && string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   }
 
   sendUnapprovedId(id) {
@@ -391,8 +393,8 @@ class InventoryList extends React.Component {
             <ul style={{ padding: "0" }}>
               <li>{<b>Status : </b>}</li>
               {device.status} <br />
-              <li>{<b>Excellence Bill No:</b>}</li>
-              {device.bill_number} <br />
+              <li>{<b>Working Comments:</b>}</li>
+              {device.comments} <br />
               <li>{<b>Extended Warranty:</b>}</li>
               {device.warranty_comment} <br />
               <li>{<b>Pre Repair Comments:</b>}</li>

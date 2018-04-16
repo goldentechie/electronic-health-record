@@ -53,6 +53,7 @@ class MyInventory extends React.Component {
     this.props.onUpdateDeviceDetails(newDeviceDetails);
   }
   callAssignDevice(assign_device) {
+    console.log(assign_device)
     this.props.onAssignDevice(assign_device).then(
       data => {
         this.props.onUnassignDeviceList();
@@ -69,6 +70,7 @@ class MyInventory extends React.Component {
       status_message: '',
       device:         val
     });
+    console.log(this.state)
   }
   handleClose () {
     this.setState({
