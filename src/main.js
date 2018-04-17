@@ -55,7 +55,6 @@ import AddNewEmployee from './modules/manageUsers/components/FormAddNewEmployee'
 import UserDocumentDetails from './modules/manageUsers/components/Userdocuments'
 import store from './store';
 import Page_InventoryOverview from './modules/inventoryOverview/container/inventoryOverviewContainer.jsx';  
-import RouterAddInventorySystem from './modules/inventory/components/AddInventory'
 // import APP from './App';
 
 // -for iPhone iPad safari engine
@@ -124,8 +123,6 @@ let render = (routerKey = null) => {
             <Route path="inventoryOverviewDetail" component={Page_InventoryOverview}/>
             <Route path="add_documents" component = {Page_AddDocuments} />
             <Route path="add_documents/*" component = {Page_FormAddDocuments} />
-
-            <Route path="addInventory" component={RouterAddInventorySystem}/>
             <Route path="add_new_employee" component={AddNewEmployee}/>
             <Route path="add_new_employee/:id" component={FormAddNewEmployeeDetails}/>
             <Route path="user_document" component={UserDocumentDetails}/>

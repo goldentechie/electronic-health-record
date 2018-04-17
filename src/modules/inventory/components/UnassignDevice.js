@@ -16,13 +16,16 @@ export default class UnassignDevice extends React.Component {
       comment: "",
       inventory_id: ""
     };
-    this.baseState = this.state;
     this.handleAddUserComment = this.handleAddUserComment.bind(this);
   }
 
   handleAddUserComment() {
+
     let { inventory_id, comment } = this.state;
     this.props.callAddUserComment({ inventory_id, comment });
+    this.setState({
+      comment: ''
+    });
   }
   handleChange = e => {
     this.setState({
@@ -31,12 +34,7 @@ export default class UnassignDevice extends React.Component {
     });
   };
 
-  resetForm = () => {
-    this.setState(this.baseState);
-  };
-
   render() {
-
     return (
       <div>
         <Dialog
@@ -44,8 +42,7 @@ export default class UnassignDevice extends React.Component {
           titleStyle={{ opacity: "0.56" }}
           modal={false}
           open={this.props.open}
-          onRequestClose={()=>{this.props.handleClose();
-          this.resetForm()}}
+          onRequestClose={this.props.handleClose}
           contentStyle={{ width: "70%", maxWidth: "none" }}
           autoScrollBodyContent
         >
@@ -99,10 +96,7 @@ export default class UnassignDevice extends React.Component {
 
             <button
               className="col-md-12 md-btn md-raised m-b-sm indigo"
-              onClick={() => {
-                this.handleAddUserComment();
-                this.resetForm();
-              }}
+              onClick={() => this.handleAddUserComment()}
               style={{ opacity: "0.76", marginTop: "2%" }}
             >
               Unassign Device
