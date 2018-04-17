@@ -39,6 +39,7 @@ class InventoryItem extends React.Component {
         notify("Success!", data, "success");
         this.props.onFetchDevice();
         this.props.onGetDevice(device_id);
+        this.setState({ comment: "" });
       },
       error => {
         notify("Error!", error, "error");
@@ -149,6 +150,12 @@ class InventoryItem extends React.Component {
                             ? null
                             : machineName[0].machine_name}
                         </div>
+                        <div className="col-md-12">
+                          <label style={{ fontSize: 15 }}>Serial No:</label>{" "}
+                          {_.isEmpty(machineName)
+                            ? null
+                            : machineName[0].serial_number}
+                        </div>
                         <div className="col-md-6">
                           <label style={{ fontSize: 15 }}>Device Type:</label>{" "}
                           {_.isEmpty(machineName)
@@ -162,11 +169,38 @@ class InventoryItem extends React.Component {
                             ? null
                             : machineName[0].status}
                         </div>
-                        <div className="col-md-12">
-                          <label style={{ fontSize: 15 }}>Serial No:</label>{" "}
+
+                        <div className="col-md-6">
+                          <label style={{ fontSize: 15 }}>
+                            Approval Status:
+                          </label>{" "}
                           {_.isEmpty(machineName)
                             ? null
-                            : machineName[0].serial_number}
+                            : machineName[0].approval_status === 0
+                              ? "Not Approved"
+                              : "Approved"}
+                        </div>
+                        <div className="col-md-6">
+                          <label style={{ fontSize: 15 }}>
+                            Date of Purchase:
+                          </label>{" "}
+                          {_.isEmpty(machineName)
+                            ? null
+                            : machineName[0].date_of_purchase}
+                        </div>
+                        <div className="col-md-6">
+                          <label style={{ fontSize: 15 }}>Assigned To:</label>{" "}
+                          {_.isEmpty(machineName)
+                            ? null
+                            : machineName[0].name
+                              ? machineName[0].name
+                              : "Not Assigned To Anyone"}
+                        </div>
+                        <div className="col-md-6">
+                          <label style={{ fontSize: 15 }}>Price:</label>{" "}
+                          {_.isEmpty(machineName)
+                            ? null
+                            : `₹ ${machineName[0].machine_price}`}
                         </div>
                       </div>
                       <br />
@@ -230,7 +264,7 @@ class InventoryItem extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-5 p-r col-sm-offset-1" style={{marginTop:'17px'}}>{<DialogUpload inventory_id={this.props.routeParams.id} {...this.props}/>}</div>
+                  {/* <div className="col-md-5 p-r col-sm-offset-1" style={{marginTop:'17px'}}>{<DialogUpload inventory_id={this.props.routeParams.id} {...this.props}/>}</div> */}
                 </div>
               </div>
             </div>
@@ -245,7 +279,7 @@ function mapStateToProps(state) {
   return {
     usersList: state.usersList.toJS(),
     loggedUser: state.logged_user.userLogin,
-    manageDevice: state.manageDevice.toJS()
+    manageDevice: state.manageDevice.toJS(),
   };
 }
 
@@ -261,6 +295,9 @@ const mapDispatchToProps = dispatch => {
     },
     onUsersList: () => {
       return dispatch(actionsUsersList.get_users_list());
+    },
+    onMyProfileDetails: () => {
+      return dispatch(actionsMyProfile.getMyProfileDetails());
     },
     onIsAlreadyLogin: () => {
       return dispatch(actions.isAlreadyLogin());
