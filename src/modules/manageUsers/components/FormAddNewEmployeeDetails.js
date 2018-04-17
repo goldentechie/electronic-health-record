@@ -57,8 +57,10 @@ class FormAddNewEmployeeDetails extends React.Component {
     });
   }
   callAddNewEmployeeDetails(new_profile_details) {
+    console.log("==================");
     this.props.onAddNewUserDetails(new_profile_details).then(
       data => {
+        console.log(data, "==================");
         notify("Success!!", data.message, "success");
         this.props.router.push(`/add_documents/${this.props.params.id}`);
       },
@@ -73,7 +75,7 @@ class FormAddNewEmployeeDetails extends React.Component {
         <Menu {...this.props} />
         <div id="content" className="app-content box-shadow-z0" role="main">
           <Header
-            pageTitle={"Add New Employee Details"}
+            pageTitle={"Add New Employee"}
             showLoading={this.props.frontend.show_loading}
           />
           <div className="app-body" id="view">

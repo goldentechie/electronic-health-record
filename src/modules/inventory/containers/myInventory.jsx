@@ -55,7 +55,7 @@ class MyInventory extends React.Component {
   callAssignDevice(assign_device) {
     this.props.onAssignDevice(assign_device).then(
       data => {
-        this.props.onMyProfileDetails();
+        this.props.onUnassignDeviceList();
         notify("Success!", data, "success");
       },
       error => {
@@ -69,7 +69,6 @@ class MyInventory extends React.Component {
       status_message: '',
       device:         val
     });
-    console.log(this.state)
   }
   handleClose () {
     this.setState({

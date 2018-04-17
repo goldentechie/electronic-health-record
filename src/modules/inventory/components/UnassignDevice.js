@@ -20,12 +20,8 @@ export default class UnassignDevice extends React.Component {
   }
 
   handleAddUserComment() {
-
     let { inventory_id, comment } = this.state;
     this.props.callAddUserComment({ inventory_id, comment });
-    this.setState({
-      comment: ''
-    });
   }
   handleChange = e => {
     this.setState({
