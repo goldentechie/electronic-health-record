@@ -154,6 +154,12 @@ class InventoryItem extends React.Component {
                             ? null
                             : machineName[0].machine_name}
                         </div>
+                        <div className="col-md-12">
+                          <label style={{ fontSize: 15 }}>Serial No:</label>{" "}
+                          {_.isEmpty(machineName)
+                            ? null
+                            : machineName[0].serial_number}
+                        </div>
                         <div className="col-md-6">
                           <label style={{ fontSize: 15 }}>Device Type:</label>{" "}
                           {_.isEmpty(machineName)
@@ -166,12 +172,6 @@ class InventoryItem extends React.Component {
                           {_.isEmpty(machineName)
                             ? null
                             : machineName[0].status}
-                        </div>
-                        <div className="col-md-12">
-                          <label style={{ fontSize: 15 }}>Serial No:</label>{" "}
-                          {_.isEmpty(machineName)
-                            ? null
-                            : machineName[0].serial_number}
                         </div>
                         <div className="col-md-6">
                           <label style={{ fontSize: 15 }}>
@@ -191,7 +191,7 @@ class InventoryItem extends React.Component {
                             ? null
                             : machineName[0].date_of_purchase}
                         </div>
-                        <div className="col-md-12">
+                        <div className="col-md-6">
                           <label style={{ fontSize: 15 }}>Assigned To:</label>{" "}
                           {_.isEmpty(machineName)
                             ? null
@@ -199,115 +199,87 @@ class InventoryItem extends React.Component {
                               ? machineName[0].name
                               : "Not Assigned To Anyone"}
                         </div>
-                        <div className="col-md-12">
+                        <div className="col-md-6">
                           <label style={{ fontSize: 15 }}>Price:</label>{" "}
                           {_.isEmpty(machineName)
                             ? null
                             : `₹ ${machineName[0].machine_price}`}
                         </div>
-                        )}<br />
-                        <div className="col-md-12">
-                          <label style={{ fontSize: 15 }}>Device Name:</label>{" "}
-                          {_.isEmpty(machineName)
-                            ? null
-                            : machineName[0].machine_name}
-                        </div>
-                        <div className="col-md-12">
-                          <label style={{ fontSize: 15 }}>
-                            Date of purchase:
-                          </label>{" "}
-                          {_.isEmpty(machineName)
-                            ? null
-                            : machineName[0].date_of_purchase}
-                        </div>
-                        <div className="col-md-12">
-                          <label style={{ fontSize: 15 }}>Price:</label>{" "}
-                          {_.isEmpty(machineName)
-                            ? null
-                            : machineName[0].machine_price}
-                        </div>
-                        <div className="col-md-12">
-                          <label style={{ fontSize: 15 }}>Device Type:</label>{" "}
-                          {_.isEmpty(machineName)
-                            ? null
-                            : machineName[0].machine_type}
-                        </div>
-                        <div className="col-md-12">
-                          <label style={{ fontSize: 15 }}>Status:</label>{" "}
-                          {_.isEmpty(machineName)
-                            ? null
-                            : machineName[0].status}
-                        </div>
-                        <div className="col-md-12">
-                          <label style={{ fontSize: 15 }}>Serial No:</label>{" "}
-                          {_.isEmpty(machineName)
-                            ? null
-                            : machineName[0].serial_number}
-                        </div>
-                        <br />
-                        <label style={{ fontSize: 15 }}>Users:</label>
-                        <select
-                          onChange={e =>
-                            this.setState({
-                              user_id: e.target.value,
-                              inventory_id: this.props.routeParams.id
-                            })
-                          }
-                          className="form-control"
-                          ref="device_type"
-                          value={this.state.user}
+                      </div>
+                      <br />
+                      <br />
+                      <label style={{ fontSize: 15 }}>Users:</label>
+                      <select
+                        onChange={e =>
+                          this.setState({
+                            user_id: e.target.value,
+                            inventory_id: this.props.routeParams.id
+                          })
+                        }
+                        className="form-control"
+                        ref="device_type"
+                        value={this.state.user}
+                      >
+                        <option value="">--Select User--</option>
+                        {userName}
+                      </select>
+                      <br />{" "}
+                      <button
+                        className="btn btn-fw info responsive-p-x-sm"
+                        onClick={() => this.AssignDevice(this.state)}
+                      >
+                        Assign Inventory
+                      </button>
+                      <div className="row m-1">
+                        <div
+                          className="col-sm-15 p-8 pt-8"
+                          style={{ marginTop: "4%" }}
                         >
-                          <option value="">--Select User--</option>
-                          {userName}
-                        </select>
-                        <br />{" "}
-                        <button
-                          className="btn btn-fw info responsive-p-x-sm"
-                          onClick={() => this.AssignDevice(this.state)}
-                        >
-                          Assign Inventory
-                        </button>
-                        <div className="row m-1">
-                          <div
-                            className="col-sm-15 p-8 pt-8"
-                            style={{ marginTop: "4%" }}
-                          >
-                            <label style={{ fontSize: 15 }}>Comment:</label>
-                            <textarea
-                              placeholder="Your comment"
-                              className="form-control resize-y"
-                              onChange={e =>
-                                this.setState({
-                                  comment: e.target.value,
-                                  inventory_id: this.props.routeParams.id
-                                })
-                              }
-                              value={this.state.comment}
-                            />
-                          </div>
+                          <label style={{ fontSize: 15 }}>Comment:</label>
+                          <textarea
+                            placeholder="Your comment"
+                            className="form-control resize-y"
+                            onChange={e =>
+                              this.setState({
+                                comment: e.target.value,
+                                inventory_id: this.props.routeParams.id
+                              })
+                            }
+                            value={this.state.comment}
+                          />
                         </div>
-                        <br />
-                        <button
-                          className="btn btn-fw info responsive-p-x-sm"
-                          onClick={() => this.handleAddComment(this.state)}
+                      </div>
+                      <br />
+                      <button
+                        className="btn btn-fw info responsive-p-x-sm"
+                        onClick={() => this.handleAddComment(this.state)}
+                      >
+                        Submit
+                      </button>
+                      <div className="row m-2">
+                        <div
+                          className="col-sm-15 p-8 pt-8"
+                          style={{ marginTop: "4%" }}
                         >
-                          Submit
-                        </button>
-                        <div className="row m-2">
-                          <div
-                            className="col-sm-15 p-8 pt-8"
-                            style={{ marginTop: "4%" }}
-                          >
-                            {" "}
-                            {Assignhistory}
-                            {history}
-                          </div>
+                          {" "}
+                          {Assignhistory}
+                          {history}
                         </div>
                       </div>
                     </div>
                     {/* <div className="col-md-5 p-r col-sm-offset-1" style={{marginTop:'17px'}}>{<DialogUpload inventory_id={this.props.routeParams.id} {...this.props}/>}</div> */}
                   </div>
-                  <div className="col-md-5 p-r col-sm-offset-1" style={{marginTop:'17px'}}>{<DialogUpload inventory_id={this.props.routeParams.id} {...this.props}/>}</div>
+                  <div
+                    className="col-md-5 p-r col-sm-offset-1"
+                    style={{ marginTop: "17px" }}
+                  >
+                    {
+                      <DialogUpload
+                        inventory_id={this.props.routeParams.id}
+                        {...this.props}
+                      />
+                    }
+                  </div>
                 </div>
               </div>
             </div>
@@ -338,6 +310,9 @@ const mapDispatchToProps = dispatch => {
     },
     onUsersList: () => {
       return dispatch(actionsUsersList.get_users_list());
+    },
+    onMyProfileDetails: () => {
+      return dispatch(actionsMyProfile.getMyProfileDetails());
     },
     onIsAlreadyLogin: () => {
       return dispatch(actions.isAlreadyLogin());

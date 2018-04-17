@@ -105,7 +105,5 @@ export function fireAjax (method, url, data, api) {
 }
 
 export function uploadfile(formData, url) {
-  console.log(formData,url,'ffffffff');
-  
   return axios.post(url, formData);
 }

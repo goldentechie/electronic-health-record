@@ -4,8 +4,7 @@ import Dialog from "material-ui/Dialog";
 import { notify } from "src/services/notify";
 import { getToken } from "src/services/generic";
 import { CONFIG } from "src/config/index";
-import style from "/home/etech/Documents/ReactReduxHR/src/styles/inventory/viewUser.scss";
-import Lightbox from "react-images";
+import style from "src/styles/inventory/viewUser.scss";
 import FlatButton from "material-ui/FlatButton";
 import UploadImageComp from "../../uploadImageCompressed/UploadImageComp";
 
@@ -24,6 +23,7 @@ export default class DialogUpload extends React.Component {
       fileName: "",
       page_url: window.location.href
     };
+    this.documentType = this.documentType.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
     this.callUpdateDocuments = this.callUpdateDocuments.bind(this);
   }
@@ -41,8 +41,21 @@ export default class DialogUpload extends React.Component {
   };
   handleFileChange(e) {
     this.setState({ file: Array.from(e.target.files) });
-
-    
+  }
+  documentType() {
+    if (this.state.document === "photo") {
+      this.setState({
+        fileName: "inventory_photo"
+      });
+    } else if (this.state.document === "warranty") {
+      this.setState({
+        fileName: "inventory_warranty"
+      });
+    } else if (this.state.document === "inovice") {
+      this.setState({
+        fileName: "inventory_invoice"
+      });
+    }
   }
 
   callUpdateDocuments(e) {
@@ -108,15 +121,15 @@ export default class DialogUpload extends React.Component {
               ref="status"
               value={this.state.document}
               onChange={e => (
-                this.setState({ document: e.target.value })
+                this.setState({ document: e.target.value }), this.documentType()
               )}
             >
               <option value="" disabled>
                 --Select document--
               </option>
-              <option value="file_inventory_photo">Photo</option>
-              <option value="file_inventory_warranty">Warranty</option>
-              <option value="file_inventory_inovice">Inovice</option>
+              <option value="photo">Photo</option>
+              <option value="warranty">Warranty</option>
+              <option value="inovice">Inovice</option>
             </select>
           </div>
           <div className="form-group">
@@ -125,7 +138,7 @@ export default class DialogUpload extends React.Component {
               type="file"
               className="form-control"
               ref="file"
-              name={this.state.document}
+              name={this.state.fileName}
               multiple="multiple"
               onChange={this.handleFileChange}
             />
@@ -205,7 +218,7 @@ export default class DialogUpload extends React.Component {
             url={CONFIG.inventory_upload_url}
             params={this.state}
             file={this.state.file[0]}
-            fileName={this.state.document}
+            fileName={this.state.fileName}
           />
       </div>
     );
