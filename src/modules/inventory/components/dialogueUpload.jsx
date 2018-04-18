@@ -4,7 +4,8 @@ import Dialog from "material-ui/Dialog";
 import { notify } from "src/services/notify";
 import { getToken } from "src/services/generic";
 import { CONFIG } from "src/config/index";
-import style from "src/styles/inventory/viewUser.scss";
+import style from "/home/etech/Documents/ReactReduxHR/src/styles/inventory/viewUser.scss";
+import Lightbox from "react-images";
 import FlatButton from "material-ui/FlatButton";
 import UploadImageComp from "../../uploadImageCompressed/UploadImageComp";
 
@@ -88,6 +89,8 @@ export default class DialogUpload extends React.Component {
     this.setState({ open: false });
   };
   render() {
+    console.log(this.props,'kkkkkkkkk');
+    
     const actions = [
       <FlatButton label="Close" primary={true} onClick={this.handleClose} />
     ];
