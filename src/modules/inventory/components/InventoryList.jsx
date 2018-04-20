@@ -68,7 +68,7 @@ class InventoryList extends React.Component {
         openSnackbar: false
       });
     }
-    let unapprovedList = _.reverse(props.manageDevice.unapprovedList.data);
+    let unapprovedList = _.orderBy(props.manageDevice.unapprovedList.data,['id'],['desc']);
     this.setState({
       deviceTypeList: props.manageDevice.deviceList,
       deviceList: props.manageDevice.device,
@@ -93,9 +93,7 @@ class InventoryList extends React.Component {
           deviceList: props.manageDevice.device
         },
         () => {
-          this.state.search
-            ? this.handleDeviceTypeFilter(this.state.search)
-            : this.handleDeviceTypeFilter(this.props.routeParams.device);
+          this.handleDeviceTypeFilter(this.props.routeParams.device);
         }
       );
       this.handleStatusTypeFilter("Working");
