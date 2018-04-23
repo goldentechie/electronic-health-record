@@ -15,10 +15,7 @@ import PageMonthlyHours from 'modules/manageUsers/components/PageMonthlyHours';
 import PageEmployeePerformance from 'modules/manageUsers/components/PageEmployeePerformance';
 import PageEmployeeLifeCycle from 'modules/manageUsers/components/PageEmployeeLifeCycle';
 import PageEmpHours from 'modules/manageUsers/components/PageEmpHours';
-import {resetLoggedUser} from 'src/services/generic';
-import {getLoggedUser} from 'src/services/generic';
 import * as actionsManageUserPendingHours from 'appRedux/workingHours/actions/manageUserPendingHour';
-
 
 class ManageDashboard extends React.Component {
   constructor (props) {
@@ -170,14 +167,6 @@ class ManageDashboard extends React.Component {
       });
     }
   }
-  
-  componentWillMount(){
-    let tokenData = getLoggedUser().data;
-    if(!tokenData){
-     resetLoggedUser();
-    }
-  }
-  
   render () {
     return (
       <div>

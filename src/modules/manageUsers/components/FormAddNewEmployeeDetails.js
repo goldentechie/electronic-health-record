@@ -51,10 +51,9 @@ class FormAddNewEmployeeDetails extends React.Component {
     signaturePad.clear();
   }
   handleSaveButton() {
-    localStorage.setItem("signature", signaturePad.toDataURL('image/jpeg', 0.5));
+    localStorage.setItem("signature", signaturePad.toDataURL());
     this.setState({
-      signature:  signaturePad.toDataURL()
-    },()=>{console.log(this.state.signature,'ooooooo');
+      signature: localStorage.signature
     });
   }
   callAddNewEmployeeDetails(new_profile_details) {
@@ -183,7 +182,6 @@ class FormAddNewEmployeeDetails extends React.Component {
                   id="save"
                   label={"Save"}
                 />
-                <img src={this.state.signature}/>
                 <div className="row p-y">
                   <ButtonRaised
                     className="col-xs-12 p-y-2 m-b-sm indigo"
