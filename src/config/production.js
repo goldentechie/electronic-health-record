@@ -19,8 +19,6 @@ const CONFIG = {
   expressApiUrl:             'https://hr.excellencetechnologies.in/attendance/API_HR/express_api_call.php',
   expressRequestUrl:         'http://5.9.144.226:3020',
   view_inventory_documents:  'https://hr.excellencetechnologies.in/attendance/uploaded_files/',
-  inventory_images:          'http://dev.hr.excellencetechnologies.in/hr/attendance/uploaded_files/'
-
 };
 
 export default CONFIG;

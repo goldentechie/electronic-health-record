@@ -10,7 +10,6 @@ export const uploadFile = (formData, url) => dispatch => {
     dispatch({ type: "UPLOAD_FILE", payload: data });
     notify("Success !", `File uploaded successfully`, "success");
     dispatch(actionsManageDevice.get_machines_detail());
-    dispatch(actionsManageDevice.unapprovedUser());
     console.log(data);
     console.log("success");
   });
