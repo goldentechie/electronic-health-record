@@ -402,7 +402,10 @@ export function assignDevice (assign_device) {
     }
     return new Promise(function (resolve, reject) {
       dispatch(show_loading());
+      dispatch(getDeviceById());
       return getAsync_assignDeviceToUser(n_inventory_id, n_user_id).then((res) => {
+        dispatch(unapprovedUser());
+        dispatch(get_machines_detail());
         dispatch(hide_loading());
         resolve(res.message);// }
       }, (error) => {
@@ -697,11 +700,9 @@ export function addUserComment (addUserCommentDetails) {
       n_inventory_id = addUserCommentDetails.inventory_id;
     }
     if (n_comment.trim() === "") {
-      notify('Warning!','Comment is empty','warning');
       return Promise.reject("Comment is empty");
     }
     if (n_inventory_id.trim() === "") {
-      notify('Warning!','Inventory id is empty','warning');
       return Promise.reject("inventory id is empty");
     }
 
