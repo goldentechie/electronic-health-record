@@ -20,7 +20,7 @@ class InventoryItem extends React.Component {
     this.state = {
       comment: "",
       inventory_id: "",
-      user_id: ''
+      user_id: ""
     };
     this.handleAddComment = this.handleAddComment.bind(this);
   }
@@ -33,12 +33,6 @@ class InventoryItem extends React.Component {
     this.props.onFetchDevice();
   }
 
-  componentWillReceiveProps(props){
-    this.setState({
-   user_id: props.manageDevice.deviceHistory.user_Id
-
-    })
-  }
   handleAddComment(add_inventory_comment) {
     this.props.onAddInventoryComment(add_inventory_comment).then(
       data => {
@@ -89,20 +83,14 @@ class InventoryItem extends React.Component {
         return (
           <div key={i} className="streamline b-l m-l">
             <div className="sl-item b-info">
-            { val.assign_unassign_user_name? <div className="sl-content">
+              <div className="sl-content">
                 <div className="sl-date text-muted">
                   Assigned to : {val.assign_unassign_user_name}
                 </div>
                 <div className="sl-date text-muted">
                   By : {val.updated_by_user}
                 </div>
-                <div className="sl-date text-muted">
-                  on :{" "}
-                  {moment(val.updated_at).format(
-                    "dddd, MMMM Do YYYY, h:mm:ss a"
-                  )}
-                </div>
-              </div>:null}
+              </div>
             </div>
           </div>
         );
@@ -134,7 +122,7 @@ class InventoryItem extends React.Component {
         );
       }
     );
-    let path = CONFIG.inventory_images;                                                                                                                                                                                                                                                               
+    let path = CONFIG.inventory_images;
 
     return (
       <div>
@@ -175,13 +163,6 @@ class InventoryItem extends React.Component {
                           {_.isEmpty(machineName)
                             ? null
                             : machineName[0].serial_number}
-                        </div>
-                        <div className="col-md-12">
-                          <label style={{ fontSize: 15 }}>Excellence Serial No:</label>{" "}
-                          {_.isEmpty(machineName)
-                            ? null
-                            : machineName[0].bill_number
-                          }
                         </div>
                         <div className="col-md-6">
                           <label style={{ fontSize: 15 }}>Device Type:</label>{" "}
@@ -241,7 +222,7 @@ class InventoryItem extends React.Component {
                         }
                         className="form-control"
                         ref="device_type"
-                        value={this.state.user_id}
+                        value={this.state.user}
                       >
                         <option value="">--Select User--</option>
                         {userName}
