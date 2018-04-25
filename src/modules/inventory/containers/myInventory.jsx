@@ -104,6 +104,7 @@ class MyInventory extends React.Component {
   }
 
   render() {
+    
     return (
       <div>
         <Menu {...this.props} />
@@ -126,11 +127,13 @@ class MyInventory extends React.Component {
                 unassignDeviceList={this.state.unassignDeviceList}
                 callAssignDevice={this.callAssignDevice}
                 user_id={this.state.user_id}
+                loggedUser={this.props.loggedUser}
               />
               <DeviceDetails
                 unassignDevice={this.unassignDevice}
                 userAssignMachine={this.state.user_assign_machine}
                 callUpdateUserDeviceDetails={this.callUpdateUserDeviceDetails}
+                loggedUser={this.props.loggedUser}
               />
             </div>
             <UnassignDevice
