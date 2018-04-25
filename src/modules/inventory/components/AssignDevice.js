@@ -28,8 +28,6 @@ export default class AssignDevice extends React.Component {
   }
 
   render() {
-    console.log(this.props,'bbbbbbbbbbb');
-    
     
     const unassignInventory = _.map(
       this.props.unassignDeviceList,
@@ -44,7 +42,7 @@ export default class AssignDevice extends React.Component {
                         <td><button
                         onClick={()=>this.handleAssign(val.id , this.props.user_id)}
               className="col-md-14 md-btn md-raised m-b-sm indigo"
-              style={{ opacity: "0.76", marginTop: "2%"  }}
+              style={{ opacity: "0.76", marginTop: "2%" }}
             >
               Assign Device
             </button></td>
@@ -58,12 +56,12 @@ export default class AssignDevice extends React.Component {
 
     return (
       <div className="p-y">
-      {this.props.loggedUser.data.role ==='Admin'?  <button
+        <button
           className="md-btn md-raised m-b-sm indigo"
           onTouchTap={this.handleOpen}
         >
           Assign Device
-        </button>:null}
+        </button>
         <Dialog
           title="Assign Device"
           titleStyle={{ opacity: "0.56" }}

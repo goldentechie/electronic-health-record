@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 import "react-date-picker/index.css";
 
-const DeviceDetails = ({ userAssignMachine, unassignDevice,loggedUser }) => {
+const DeviceDetails = ({ userAssignMachine, unassignDevice }) => {
   let machineList = _.map(userAssignMachine, (val, i) => {
     return (
       <tr key={i}>
@@ -13,7 +13,7 @@ const DeviceDetails = ({ userAssignMachine, unassignDevice,loggedUser }) => {
         <td>{val.serial_number}</td>
         <td>{val.assign_date}</td>
         <td style={{ textAlign: "center" }}>
-         {loggedUser.data.role ==='Admin' ?<i
+          <i
             className="fa fa-lg fa fa-trash"
             onClick={() => unassignDevice(val)}
             aria-hidden="true"
@@ -23,7 +23,6 @@ const DeviceDetails = ({ userAssignMachine, unassignDevice,loggedUser }) => {
               cursor: "pointer"
             }}
           />
-          :null}
         </td>
       </tr>
     );
@@ -37,7 +36,6 @@ const DeviceDetails = ({ userAssignMachine, unassignDevice,loggedUser }) => {
       </tr>
     );
   }
-console.log(loggedUser,'pppppppppppp');
 
   return (
     <div className="row no-gutter box">
@@ -51,7 +49,7 @@ console.log(loggedUser,'pppppppppppp');
               <th>Name</th>
               <th>Serial Number</th>
               <th>Assign Date</th>
-              {loggedUser.data.role ==='Admin' ? <th style={{ textAlign: "center" }}>Unassign</th>:null}
+              <th style={{ textAlign: "center" }}>Unassign</th>
             </tr>
           </thead>
           <tbody>{machineList}</tbody>
