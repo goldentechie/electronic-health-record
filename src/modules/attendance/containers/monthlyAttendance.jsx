@@ -55,6 +55,7 @@ class MonthlyAttendance extends React.Component {
     this.props.requestUserAttendance({userid: u, year: y, month: m});
   }
   render () {
+    // console.log('this', this.props.empDaySummary);
     return (
       <div >
         <Menu {...this.props} />

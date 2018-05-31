@@ -4,9 +4,7 @@ let initialState = {
   'status_message':      '',
   'user_assign_machine': [],
   'user_profile_detail': {},
-  'user_bank_detail':    {},
-  myInventory: []
-
+  'user_bank_detail':    {}
 };
 
 export function myProfile (state = Immutable.fromJS(initialState), action) {
@@ -22,11 +20,7 @@ export function myProfile (state = Immutable.fromJS(initialState), action) {
     return state.set('status_message', action.payload);
   } else if (action.type === 'ACTION_ERROR_UPDATE_PROFILE_DETAILS') {
     return state.set('status_message', action.payload);
-    
-  }else if(action.type === "ACTION_GET_MY_INVENTORY"){
-    return state.set("myInventory",action.payload.user_assign_machine);
-  }
-   else {
+  } else {
     return state.set('status_message', '');
   }
 }
