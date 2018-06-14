@@ -11,12 +11,15 @@ const CONFIG = {
   login_page_url:            'http://dev.hr.excellencetechnologies.in/hr',
   upload_url:                'http://dev.hr.excellencetechnologies.in/hr/attendance/sal_info/upload_file.php',
   upload_leave_url:          'http://dev.hr.excellencetechnologies.in/hr/attendance/API_HR/upload_leave_doc.php',
-  upload_attendance_url:     'http://dev.hr.excellencetechnologies.in/hr/attendance/index.php',
+  upload_attendance_url:     'http://dev.hr.excellencetechnologies.in/hr/attendance/upload_form.php',
   pdf_url:                   'http://dev.hr.excellencetechnologies.in/hr/attendance/sal_info/',
   upload_email_attachment:   'http://dev.hr.excellencetechnologies.in/hr/attendance/sal_info/upload_file_attachment.php',
   transfer_link:             'http://dev.hr.excellencetechnologies.in/hr/attendance/sal_info/display_user_info.php',
   expressApiUrl:             'http://dev.hr.excellencetechnologies.in/hr/attendance/API_HR/express_api_call.php',
-  expressRequestUrl:         'http://5.9.144.226:3017'
+  expressRequestUrl:         'http://5.9.144.226:3017',
+  inventory_upload_url:      'http://dev.hr.excellencetechnologies.in/hr/attendance/API_HR/generic-file-upload.php',
+  view_inventory_documents:  'http://dev.hr.excellencetechnologies.in/hr/attendance/uploaded_files/',
+  inventory_images:          'http://dev.hr.excellencetechnologies.in/hr/attendance/uploaded_files/'
 };
 
 export default CONFIG;
