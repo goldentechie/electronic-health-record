@@ -215,8 +215,7 @@ class ApplyLeaveForm extends React.Component {
                       {this.state.form_to_date}
                     </div>
                   </div>
-                  <div className="col-sm-12 " style={{display:'inline-grid'}} >
-                  <small >Send Document on Slack to Manish</small>
+                  <div className="col-sm-12 ">
                     <button type="button"
                       onClick={() =>  this.handleOpen()}
                       className="btn btn-info btn-responsive btn-res col-xs-2">{'Upload Leave Document'}
