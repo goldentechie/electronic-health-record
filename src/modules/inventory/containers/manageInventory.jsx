@@ -18,8 +18,6 @@ import * as actionsManageDevice from "appRedux/inventory/actions/inventory";
 import * as actions from "appRedux/actions";
 import * as actionsUsersList from "appRedux/generic/actions/usersList";
 import * as actionsManageUsers from "appRedux/manageUsers/actions/manageUsers";
-import moment from 'moment';
-
 
 class InventorySystem extends React.Component {
   constructor(props) {
@@ -386,7 +384,7 @@ class InventorySystem extends React.Component {
                   </div>
                 </div>
                 <button
-                  style={{ float: "right", marginRight: "25px",marginTop: '22px', }}
+                  style={{ float: "right", marginRight: "25px" }}
                   className="md-btn md-raised m-b-sm indigo addInventory"
                   onClick={this.addDevice}
                 >
