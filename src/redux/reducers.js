@@ -30,7 +30,6 @@ import {manageDevice} from 'appRedux/inventory/reducers/inventory';
 import attendanceReq from 'appRedux/attendance/reducers/attendanceReq';
 import empDaySummary from 'appRedux/attendance/reducers/empDaySummary';
 import {uploadImage} from 'appRedux/uploadImageComp/reducers/uploadImageComp'
-import healthstats from 'appRedux/healthStats/reducers/healthStats'
 
 export default combineReducers({
   frontend,
@@ -62,6 +61,5 @@ export default combineReducers({
   manageDevice,
   attendanceReq,
   empDaySummary,
-  uploadImage,
-  healthstats
+  uploadImage
 });
