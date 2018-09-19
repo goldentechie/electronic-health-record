@@ -1,7 +1,7 @@
 import {takeLatest} from 'redux-saga/effects';
 import * as constants from 'appRedux/constants';
 import {loginRequest, isAlreadyLoggedIn, forgotPassword, logout} from 'appRedux/auth/actions';
-import {holidayList} from 'appRedux/holidays/actions';
+import {holidayList, addHoliday, holidayType} from 'appRedux/holidays/actions';
 import { getTeamStats, getMonthlyReportAllUsers, getEmployeLifeCycle, getEmployeeHours, getEmployeeMonthlyHours, getEmployeePerformance, getUserIdList, getLeastActiveEmp} from 'appRedux/manageUsers/actions/dashboard';
 import {userMonthlyAttendance} from 'appRedux/attendance/actions/monthlyAttendance';
 import {getUserDayAttendance, userAttendanceStatus} from 'appRedux/attendance/actions/attendanceRequests';
@@ -9,7 +9,6 @@ import {getUserDaySummary, updateUserDaySummary, empUpdateDaySummary} from 'appR
 import {getUsersList} from 'appRedux/generic/actions/usersList';
 import {fetchUserPolicyDocument, submitPolicyDocs, updateReadStatus, fetchPolicyDocument} from 'appRedux/policyDocuments/actions/index';
 import {getTeamList, saveTeam, getTeam} from 'appRedux/team/actions/teamList';
-import healthStatsRequest from 'appRedux/healthStats/actions/healthStats';
 
 export function* watchActions () {
   yield takeLatest(constants.USER_LOGIN_REQUEST, loginRequest);
@@ -18,6 +17,8 @@ export function* watchActions () {
   yield takeLatest(constants.REQUEST_LOGOUT, logout);
 
   yield takeLatest(constants.REQUEST_HOLIDAYSLIST, holidayList);
+  yield takeLatest(constants.REQUEST_ADDHOLIDAYS, addHoliday);
+  yield takeLatest(constants.REQUEST_HOLIDAYTYPE, holidayType);
 
   yield takeLatest(constants.REQUEST_USER_ATTENDANCE, userMonthlyAttendance);
   yield takeLatest(constants.REQUEST_USER_DAY_SUMMARY, getUserDaySummary);
@@ -28,7 +29,6 @@ export function* watchActions () {
   yield takeLatest(constants.REQUEST_UPDATE_EMP_DAY_SUMMARY, empUpdateDaySummary);
 
   yield takeLatest(constants.REQUEST_USERSLIST, getUsersList);
-  yield takeLatest(constants.REQUEST_HEALTH_STATS, healthStatsRequest);
 
   yield takeLatest(constants.REQUEST_TEAM_STATS, getTeamStats);
   yield takeLatest(constants.REQUEST_MONTHLY_REPORT_ALL_USERS, getMonthlyReportAllUsers);
