@@ -4,6 +4,7 @@ import Header from "components/generic/Header";
 import { connect } from "react-redux";
 import * as actions from "appRedux/actions";
 import HealthStats from "modules/healthStats/component/HealthStats";
+import HealthStatsSecretKey from "modules/healthStats/component/HealthStatsSecretKey";
 import * as actionsUsersList from "appRedux/generic/actions/usersList";
 import {notify} from 'src/services/notify';
 
@@ -12,19 +13,11 @@ class ContainerHealthStats extends React.Component {
     componentWillMount() {
         this.props.onIsAlreadyLogin();
         this.props.healthStatsRequest();
-    }
-    componentWillReceiveProps(props) {
-        let {deleteHealthData} = props;
-        if (deleteHealthData.isError) {
-            notify('Error !', deleteHealthData.message, 'error');
-          }
-        if (deleteHealthData.isSuccess) {
-            notify('Success !', deleteHealthData.data.message, 'success');
-          }
+        this.props.healthStatsKeyListRequest();
     }
     render() {
         return (
-            <div>
+            <div style={{fontSize: "10px"}}>
                 <Menu {...this.props} />
                 <div id="content" className="app-content box-shadow-z0" role="main">
                     <Header
@@ -33,11 +26,14 @@ class ContainerHealthStats extends React.Component {
                     />
                     <div className="app-body" id="view">
                         <div className="padding">
-                        <div className="row m-0">
-                            <div className="col-sm-2 bg-white">
-                            <HealthStats {...this.props} />
+                            <div className="row" style={{ margin: "0px" }}>
+                                <div className="col-sm-2" style={{ backgroundColor: "white" }}>
+                                    <HealthStats {...this.props.healthData} />
+                                </div>
+                                <div className="col-sm-5 secret-key-block">
+                                    <HealthStatsSecretKey {...this.props} />
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
@@ -49,14 +45,16 @@ const mapStateToProps = (state) => ({
     frontend: state.frontend.toJS(),
     loggedUser: state.logged_user.userLogin,
     healthData: state.healthstats.healthStats.data,
-    deleteHealthData: state.healthstats.deleteHealthStats
+    healthKeyData: state.healthstats.healthStatsSecretKeyList.data
 });
 
 const mapDispatchToProps = dispatch => ({
     onIsAlreadyLogin: () => dispatch(actions.isAlreadyLogin()),
     healthStatsRequest: () => dispatch(actions.requestHealthStats()),
-    deleteHealthStats: (year) => dispatch(actions.requestDeleteHealthStats(year))
-
+    healthStatsKeyListRequest: () => dispatch(actions.requestHealthStatsSecretKeyList()),
+    healthStatsAddKeyRequest: (appname) => dispatch(actions.requestHealthStatsAddSecretKey(appname)),
+    healthStatsDeleteKeyRequest: (appid) => dispatch(actions.requestHealthStatsDeleteSecretKey(appid)),
+    healthStatsRegenerateKeyRequest: (appid) => dispatch(actions.requestHealthStatsRegenerateSecretKey(appid))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContainerHealthStats);

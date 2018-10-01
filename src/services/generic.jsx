@@ -44,13 +44,3 @@ export function resetLoggedUser () {
 export function getLowerCase (text) {
   return text.trim().toLowerCase();
 }
-
-export function getYearArray (){
-  let date = new Date();
-  let year = date.getYear() + 1900;
-  let yearArray=[];
-  for(let i=0; i<7 ; i++){
-    yearArray.push(parseInt(year)+i-3)
-  }
-  return yearArray;
-}
