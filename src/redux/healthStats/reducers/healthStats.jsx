@@ -45,13 +45,6 @@ let initialState = {
     isError:   false,
     isSuccess: false,
     message:   ''
-  },
-  statsHistory:{
-    data:      {},
-    isLoading: false,
-    isError:   false,
-    isSuccess: false,
-    message:   ''
   }
 };
 
@@ -116,16 +109,6 @@ const errorDeleteHealthStats = (state, action) => update(state, {
   deleteHealthStats: {$setRequestError: action.payload}
 });
 
-const requestStatsHistory = (state, action) => update(state, {
-  statsHistory: {$setRequestLoading: null}
-});
-const successStatsHistory = (state, action) => update(state, {
-  statsHistory: {$setRequestSuccess: action.payload}
-});
-const errorStatsHistory = (state, action) => update(state, {
-  statsHistory: {$setRequestError: action.payload}
-});
-
 export default handleActions({
   [constants.REQUEST_HEALTH_STATS]: requestHealthStats,
   [constants.SUCCESS_HEALTH_STATS]: successHealthStats,
@@ -144,9 +127,6 @@ export default handleActions({
   [constants.ERROR_HEALTH_STATS_REGENERATE_SECRET_KEY]: errorHealthStatsRegenerateSecretKey,
   [constants.DELETE_HEALTH_STATS]: deleteHealthStats,
   [constants.SUCCESS_DELETE_HEALTH_STATS]: successDeleteHealthStats,
-  [constants.ERROR_DELETE_HEALTH_STATS]:   errorDeleteHealthStats,
-  [constants.REQUEST_STATS_HISTORY]: requestStatsHistory,
-  [constants.SUCCESS_STATS_HISTORY]: successStatsHistory,
-  [constants.ERROR_STATS_HISTORY]: errorStatsHistory
+  [constants.ERROR_DELETE_HEALTH_STATS]:   errorDeleteHealthStats
   
 }, initialState);
