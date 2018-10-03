@@ -17,13 +17,31 @@ class ContainerHealthStats extends React.Component {
         this.props.requestStatsHistory();
         this.props.healthStatsKeyListRequest();
     }
-    componentWillReceiveProps(props) {
-        let {deleteHealthData} = props;
-        if (deleteHealthData.isError) {
+    componentWillReceiveProps(props) {        
+        const {deleteHealthData, addSecretKeyData, deleteSecretKeyData, regenerateSecretKeyData} = props;
+        if (deleteHealthData.isError) {    
             notify('Error !', deleteHealthData.message, 'error');
           }
         if (deleteHealthData.isSuccess) {
-            notify('Success !', deleteHealthData.data.message, 'success');
+            notify('Success !', deleteHealthData.message, 'success');
+          }
+        if (addSecretKeyData.isError) {    
+            notify('Error !', addSecretKeyData.message, 'error');
+          }
+        if (addSecretKeyData.isSuccess) {
+            notify('Success !', addSecretKeyData.message, 'success');
+          }
+        if (deleteSecretKeyData.isError) {    
+            notify('Error !', deleteSecretKeyData.message, 'error');
+          }
+        if (deleteSecretKeyData.isSuccess) {
+            notify('Success !', deleteSecretKeyData.message, 'success');
+          }
+        if (regenerateSecretKeyData.isError) {    
+            notify('Error !', regenerateSecretKeyData.message, 'error');
+          }
+        if (regenerateSecretKeyData.isSuccess) {
+            notify('Success !', regenerateSecretKeyData.message, 'success');
           }
     }
     render() {
@@ -37,10 +55,12 @@ class ContainerHealthStats extends React.Component {
                     />
                     <div className="app-body" id="view">
                         <div className="padding">
-                        <div className="row m-0">
+                        <div className="row m-10">
                             <div className="col-sm-2 bg-white">
                                 <HealthStats {...this.props} />
                             </div>
+                        </div>
+                        <div className="row m-10">
                             <div className="col-sm-5 secret-key-block">
                                 <HealthStatsSecretKey {...this.props} />
                             </div>
@@ -65,6 +85,10 @@ const mapStateToProps = (state) => ({
     deleteHealthData: state.healthstats.deleteHealthStats,
     statsHistory: state.healthstats.statsHistory,
     healthKeyData: state.healthstats.healthStatsSecretKeyList.data,
+    addSecretKeyData: state.healthstats.healthStatsAddSecretKey,
+    deleteSecretKeyData: state.healthstats.healthStatsDeleteSecretKey,
+    regenerateSecretKeyData: state.healthstats.healthStatsRegenerateSecretKey
+
 });
 
 const mapDispatchToProps = dispatch => ({
