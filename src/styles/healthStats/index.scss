@@ -1,4 +1,4 @@
-#content{
+.content-health-stats{
     font-size: 10px;
     h5{
         float: left;
@@ -7,6 +7,9 @@
     }
     .m-0{
         margin: 0px !important; 
+    }
+    .m-10{
+        margin-top: 10px !important; 
     }
     .bg-white{
         background-color: white;
@@ -90,7 +93,6 @@
 .secret-key-block{
     background-color: white;
     padding-top: 10px;
-    margin-left: 10px;
 }
 @media screen and (max-width: 767px){
     .secret-key-block{
