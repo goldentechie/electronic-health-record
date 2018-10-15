@@ -48,29 +48,6 @@
     }
   }
 }
-.payslips{
-  margin-top: 20px;
-  .content-payslips{
-    margin-left: 0px;
-    margin-right: 0px;
-    font-size: 10px;
-    b .l-view {
-      background: #fff;
-    }
-    .payslip_row div.row:nth-child(even){
-      background-color: #F8F8FF;
-      margin-left: 0px;
-      margin-right: 0px;
-    }
-    .payslip_row div.row:nth-child(odd){
-      margin-left: 0px;
-      margin-right: 0px;
-    }
-    .m-view{
-      font-weight: bold;
-    }
-  }
-}
 @media screen and (min-width: 992px) {
   .salary-block{
     height: 45px;
@@ -84,17 +61,50 @@
     font-size: 14px;
     font-weight: bold;
   }
-  .salary-title-12 {
-    width: 12%;
+  .salary-total-width {
+    width: 8%;
   }
-  .salary-title-17 {
-    width: 17%;
+  .salary-addition-width {
+    width: 48%;
+    .salary-basic-width {
+      width: 11%;
+    }
+    .salary-hra-width {
+      width: 9%
+    }
+    .salary-conveyance-width {
+      width: 20%;
+    }
+    .salary-medical-width {
+      width: 24%;
+    }
+    .salary-special-width {
+      width: 23%;
+    }
+    .salary-arrears-width {
+      width: 12%;
+    }
   }
-  .salary-title-23 {
-    width: 23%;
-  }
-  .salary-title-22 {
-    width: 22%;
+  .salary-deduction-width {
+    width: 44%;
+    .salary-epf-width {
+      width: 10%;
+    }
+    .salary-loan-width {
+      width: 10%;
+    }
+    .salary-advance-width {
+      width: 16%;
+    }
+    .salary-miscdeductions-width {
+      width: 27%;
+    }
+    .salary-tds-width {
+      width: 10%;
+    }
+    .salary-options-width {
+      width: 27%;
+    }
   }
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
@@ -128,36 +138,5 @@
   .salary-p-x {
       padding-right: .5rem !important;
       padding-left: .5rem !important;
-  }
-}
-@media screen and (max-width: 768px) {
-  .m-view{
-    display: block;
-  }
-  .l-view{
-    display: none;
-  }
-}
-@media screen and (min-width: 768px) {
-  .m-view{
-    display: none;
-  }
-  .l-view{
-    display: block;
-  }
-  .w-13{
-    width: 13%;
-  }
-  .w-15{
-    width: 15%;
-  }
-  .content-payslips{
-    .payslip_row{
-      .row{
-        .w-13, .w-15{
-          padding: 0 !important;
-        }
-      }
-    }
   }
 }
