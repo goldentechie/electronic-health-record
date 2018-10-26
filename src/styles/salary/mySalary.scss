@@ -3,7 +3,8 @@
 }
 .content-salary {
   font-size: 10px;
-  .date-field, input{
+  .date-field, input, select{
+    // min-width: 35px;
     height: 1.5rem;
     padding: 4px;
     line-height: 0;
@@ -14,9 +15,11 @@
   .salary-input-wrapper{
     padding: 0px !important;
   }
-  
+  .divider{
+    padding: 0 5px;
+  }
   .date-field{
-    width: 50%;
+    // width: 50%;
     border-color: rgba(120, 130, 140, 0.2);
     input{
       height: 97%;
@@ -26,9 +29,6 @@
       line-height: 1;
     }
   }
-  .date-holding-field{
-    width: 100%;
-  }
   .delete-icon{
     color: red;
     cursor: pointer;
@@ -36,7 +36,6 @@
   .add-icon{
     color: green;
     cursor: pointer;
-    margin-top: 13px;
   }
   .salary-range-wrapper{
     display: flex;
@@ -44,32 +43,25 @@
     margin-bottom: 5px;
     flex-wrap: wrap;
   }
-  .applicable-from, .applicable-till, .leaves{
+  .applicable-from, .applicable-till, .leaves, .incremented-value{
     display: flex;
     margin-right: 5px;
     .salary-title{
+      // min-width: 83px;
       align-items: center;
       display: flex;
       margin: 0;
       justify-content: center;
+      // padding: 0 6px;
       margin-right: 5px;
       white-space: nowrap;
     }
     .leave-field{
-      width: 30%;
+      // width: 30%;
     }    
   }
-  table{
-    thead{
-      font-weight: bold;
-    }
-    tbody{
-      tr{
-        td{
-          padding: 8px;
-        }
-      }
-    }
+  .leaves{
+    max-width: 100px;
   }
 }
 .salary-block-title {
@@ -181,6 +173,9 @@
   }
 }
 @media screen and (min-width: 992px) {
+  // .salary-block{
+  //   height: 45px;
+  // }
   .salary-total-title {
     text-align: center;
     font-weight: 600;
@@ -233,6 +228,7 @@
     }
     .salary-options-width {
       width: 27%;
+      // height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
