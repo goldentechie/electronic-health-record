@@ -12,7 +12,7 @@ class AddSalaryForm extends React.Component {
       user_id: "",
       applicable_from: null,
       applicable_till: null,
-      applicable_month: '',
+      applicable_month: '0',
       total_salary: '0',
       total_earning: '0',
       total_deduction: '0',
@@ -179,7 +179,6 @@ class AddSalaryForm extends React.Component {
           <div className="applicable-till">
             <span className="salary-title">Applicable Months : </span>
             <select className="form-control" value={this.state.applicable_month} onChange={(e)=>this.setState({applicable_month: e.target.value})}>
-              <option value=''>Select</option>
               {opt}
             </select>
           </div>
