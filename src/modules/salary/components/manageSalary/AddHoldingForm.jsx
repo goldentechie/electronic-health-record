@@ -15,10 +15,16 @@ class AddHoldingForm extends React.Component {
       reason: ''
     };
     this.handleHoldingFrom = this.handleHoldingFrom.bind(this);
+    this.handleHoldingTill = this.handleHoldingTill.bind(this);
   }
   handleHoldingFrom(date) {
     this.setState({
       holding_from: date
+    });
+  }
+  handleHoldingTill(date) {
+    this.setState({
+      holding_till: date
     });
   }
   componentWillReceiveProps(props) {
@@ -38,10 +44,6 @@ class AddHoldingForm extends React.Component {
   render() {
     let styles = _.cloneDeep(this.constructor.styles);
     let date = this.state.applicable_from;
-    let opt = [];
-    for (var i = 1; i <= 24; i++) {
-      opt.push(<option key={i} value={i}>{i} months</option>)
-    }
     return (
       <div className="row salary-blocks-margin salary-row-bg">
         <div className="col-sm-3">
@@ -49,11 +51,8 @@ class AddHoldingForm extends React.Component {
           <DateField dateFormat="YYYY-MM-DD" onChange={this.handleHoldingFrom} className="form-control date-field date-holding-field" />
         </div>
         <div className="col-sm-3">
-          <span className="salary-title">Applicable Months : </span>
-          <select className="form-control" value={this.state.holding_till} onChange={(e) => this.setState({ holding_till: e.target.value })}>
-            <option value="">Select Month</option>
-            {opt}
-          </select>
+          <div className="salary-title">Holding Till : </div>
+          <DateField dateFormat="YYYY-MM-DD" onChange={this.handleHoldingTill} className="form-control date-field date-holding-field" />
         </div>
         <div className="col-sm-2">
           <div className="salary-title">Holding Amount : </div>
@@ -71,7 +70,7 @@ class AddHoldingForm extends React.Component {
           <i className="material-icons add-icon" onClick={() => this.props.callAddUserHolding(this.state)}>
             add_circle_outline
               </i>
-        </div>
+          </div>
       </div>
     );
   }
