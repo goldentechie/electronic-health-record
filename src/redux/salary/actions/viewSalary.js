@@ -66,6 +66,7 @@ export function fetchUserSalaryDetails () {
     return new Promise((resolve, reject) => {
       dispatch(show_loading());
       async_fetch_users_salary_details().then((json) => {
+        // console.log(json, "////////////////////");
         dispatch(hide_loading());
         if (typeof json.data !== 'undefined' && json.data.length > 0) {
           dispatch(success_user_salary_details(json.data));
