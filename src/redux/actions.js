@@ -1,5 +1,5 @@
 import {createAction} from 'redux-actions';
-import * as constants from 'src/redux/constants';
+import * as constants from 'appRedux/constants';
 
 export const userLoginRequest = createAction(constants.USER_LOGIN_REQUEST);
 export const userLoginSuccess = createAction(constants.USER_LOGIN_SUCCESS);
@@ -193,3 +193,11 @@ export const errorAddAttendanceUploadSetting = createAction(constants.ERROR_ADD_
 export const requestDeleteAttendanceUploadSetting = createAction(constants.REQUEST_DELETE_ATTANDANCE_UPLOAD_SETTING);
 export const successDeleteAttendanceUploadSetting = createAction(constants.SUCCESS_DELETE_ATTANDANCE_UPLOAD_SETTING);
 export const errorDeleteAttendanceUploadSetting = createAction(constants.ERROR_DELETE_ATTANDANCE_UPLOAD_SETTING);
+
+export const requestResetPasswordSetting = createAction(constants.REQUEST_RESET_PASSWORD_SETTING);
+export const successResetPasswordSetting = createAction(constants.SUCCESS_RESET_PASSWORD_SETTING);
+export const errorrResetPasswordSetting = createAction(constants.ERROR_RESET_PASSWORD_SETTING);
+
+export const requestResetPasswordStatus = createAction(constants.REQUEST_RESET_PASSWORD_STATUS);
+export const successResetPasswordStatus = createAction(constants.SUCCESS_RESET_PASSWORD_STATUS);
+export const errorrResetPasswordStatus = createAction(constants.ERROR_RESET_PASSWORD_STATUS);

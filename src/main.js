@@ -6,7 +6,7 @@ import 'jquery';
 import 'jquery-ui';
 import 'tether';
 import 'bootstrap';
-import './themeFlatkit/scripts'; 
+import './themeFlatkit/scripts';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, IndexRoute, useRouterHistory} from 'react-router';
@@ -40,12 +40,12 @@ import InventorySystem from './modules/inventory/containers/manageInventory';
 import Page_MyInventory from './modules/inventory/containers/myInventory';
 import PageManageRoles from './modules/manageRoles/containers/manageRoles';
 import Page_ManageUserPendingHours from './modules/workingHours/containers/manageUserPendingHours';
-import PageDisabledEmployes from './modules/manageUsers/containers/disabledEmployes';
+import PageDisabledEmployes from 'modules/manageUsers/containers/disabledEmployes';
 import Page_mail_template from './modules/templates/containers/addTemplate';
 import Page_AddVariables from './modules/templates/containers/addVariables';
 import Page_TeamView from './modules/team/containers/viewTeam';
 import Page_MyProfile from './modules/myProfile/containers/myProfile';
-import PageManageDashboard from './modules/manageUsers/containers/manageDashboard';
+import PageManageDashboard from 'modules/manageUsers/containers/manageDashboard';
 import Page_AttendanceReq from './modules/attendance/containers/manageAttendanceReq';
 import InventoryItem from './modules/inventory/components/inventoryItem'
 import Page_AddDocuments from './modules/addDocuments/container/AddDocuments';
@@ -54,7 +54,7 @@ import FormAddNewEmployeeDetails from './modules/manageUsers/components/FormAddN
 import AddNewEmployee from './modules/manageUsers/components/FormAddNewEmployee'
 import UserDocumentDetails from './modules/manageUsers/components/Userdocuments'
 import store from './store';
-import Page_InventoryOverview from './modules/inventoryOverview/container/inventoryOverviewContainer';  
+import Page_InventoryOverview from './modules/inventoryOverview/container/inventoryOverviewContainer.jsx';  
 import RouterAddInventorySystem from './modules/inventory/components/AddInventory'
 import Page_Audit_Inventory from "./modules/inventory/components/AuditInventoryList";
 import ContainerHealthStats from './modules/healthStats/container/ContainerHealthStats';
@@ -67,7 +67,6 @@ if (!!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)) {
 }
 const appHistory = useRouterHistory(createHashHistory)({queryKey: false});
 injectTapEventPlugin();
-
 
 export class APP extends React.Component {
   render () {
@@ -140,7 +139,7 @@ let render = (routerKey = null) => {
         </Router>
       </Provider>
     </MuiThemeProvider>
-  ), document.querySelector('#root'));
+  ), document.querySelector('#myApp'));
 };
 
 render();
