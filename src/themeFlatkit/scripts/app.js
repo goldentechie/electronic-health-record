@@ -1,7 +1,11 @@
+import palette from './palette';
+import $ from 'jquery';
+let jQuery = $;
+
 (function ($) {
 	'use strict';
-
-	  window.app = {
+    let location = window.location;
+	  let app = window.app = {
       name: 'Flatkit',
       version: '1.1.0',
       // for chart colors

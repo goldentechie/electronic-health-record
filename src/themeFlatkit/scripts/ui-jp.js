@@ -1,4 +1,7 @@
 import MODULE_CONFIG from './config.lazyload.js';
+import uiLoad from './ui-load';
+import $ from 'jquery';
+let jQuery = $;
 
 (function ($, MODULE_CONFIG) {
   	"use strict";
