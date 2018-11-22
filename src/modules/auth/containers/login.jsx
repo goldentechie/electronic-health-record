@@ -2,14 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {bindActionCreators} from 'redux';
-import {notify} from '../../../services/notify';
-import {isNotUserValid} from '../../../services/generic';
-import GetLogo from '../../../components/auth/login/GetLogo';
-import Navbar from '../../../components/auth/login/Navbar';
-import LoginForm from '../../../modules/auth/components/login/LoginForm';
-import LoginFormFooter from '../../../components/auth/login/LoginFormFooter';
-import LoadingIcon from '../../../components/generic/LoadingIcon';
-import * as actions from '../../../redux/actions';
+import {notify} from 'src/services/notify';
+import {isNotUserValid} from 'src/services/generic';
+import GetLogo from 'components/auth/login/GetLogo';
+import Navbar from 'components/auth/login/Navbar';
+import LoginForm from 'modules/auth/components/login/LoginForm';
+import LoginFormFooter from 'components/auth/login/LoginFormFooter';
+import LoadingIcon from 'components/generic/LoadingIcon';
+import * as actions from 'appRedux/actions';
 
 class Login extends React.Component {
   constructor (props) {

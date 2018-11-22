@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import Menu from '../../../components/generic/Menu';
-import {isNotUserValid} from '../../../services/generic';
-import Header from '../../../components/generic/Header';
-import ViewLeavesSummary from '../../../components/leave/leavesSummary/ViewLeavesSummary';
-import * as actions from '../../../redux/actions';
-import * as actions_leavesSummary from '../../../redux/leave/actions/leavesSummary';
+import Menu from 'components/generic/Menu';
+import {isNotUserValid} from 'src/services/generic';
+import Header from 'components/generic/Header';
+import ViewLeavesSummary from 'components/leave/leavesSummary/ViewLeavesSummary';
+import * as actions from 'appRedux/actions';
+import * as actions_leavesSummary from 'appRedux/leave/actions/leavesSummary';
 
 class LeavesSummary extends React.Component {
   constructor (props) {

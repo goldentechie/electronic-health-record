@@ -1,7 +1,7 @@
-import {fireAjax} from '../../../services/index';
+import {fireAjax} from 'src/services/index';
 import {call, put} from 'redux-saga/effects';
-import * as actions from '../../../redux/actions';
-import * as constants from '../../../redux/constants';
+import * as actions from 'appRedux/actions';
+import * as constants from 'appRedux/constants';
 
 export function* holidayList (action) {
   try {

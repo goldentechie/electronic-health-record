@@ -2,15 +2,15 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router';
-import {notify} from '../../../services/notify';
+import {notify} from 'src/services/notify';
 import _ from 'lodash';
-import * as actions from '../../../redux/actions';
+import * as actions from 'appRedux/actions';
 import {HighchartsChart, AreaSplineSeries, LineSeries, Chart, XAxis, YAxis, Title, Tooltip, Subtitle, Legend, ColumnSeries, SplineSeries, PieSeries} from 'react-jsx-highcharts';
 import DatePicker from 'material-ui/DatePicker';
-// import 'react-date-picker/index.css';
+import 'react-date-picker/index.css';
+var moment = require('moment');
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-var moment = require('moment');
 
 
 class PageEmpHours extends Component {
