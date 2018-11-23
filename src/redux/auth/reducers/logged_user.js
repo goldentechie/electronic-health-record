@@ -1,6 +1,6 @@
 import {handleActions} from 'redux-actions';
 import update from 'immutability-helper';
-import * as constants from '../../../redux/constants';
+import * as constants from 'appRedux/constants';
 
 let initialState = {
   userLogin: {

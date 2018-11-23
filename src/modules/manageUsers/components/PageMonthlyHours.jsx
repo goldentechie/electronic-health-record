@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router';
-import {notify} from '../../../services/notify';
+import {notify} from 'src/services/notify';
 import _ from 'lodash';
-import * as actions from '../../../redux/actions';
+import * as actions from 'appRedux/actions';
 import {HighchartsChart, Chart, XAxis, Tooltip, YAxis, Title, Subtitle, Legend, ColumnSeries, LineSeries, SplineSeries, PieSeries} from 'react-jsx-highcharts';
-// import 'react-date-picker/index.css';
-import DialogInOut from './DialogInOut';
+import 'react-date-picker/index.css';
 var moment = require('moment');
+import DialogInOut from './DialogInOut';
 
 class PageMonthlyHours extends Component {
   constructor (props) {
