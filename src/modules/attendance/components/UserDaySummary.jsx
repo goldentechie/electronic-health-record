@@ -1,8 +1,7 @@
 import React from 'react';
-import {CONFIG} from '../../../config/index';
+import {CONFIG} from 'src/config/index';
 import 'timepicker/jquery.timepicker.min.css';
 import 'timepicker/jquery.timepicker.min.js';
-import $ from 'jquery';
 
 class UserDaySummary extends React.Component {
   constructor (props) {
