@@ -5,8 +5,7 @@ let initialState = {
   'user_assign_machine': [],
   'user_profile_detail': {},
   'user_bank_detail':    {},
-  myInventory: [],
-  showPending:false
+  myInventory: []
 
 };
 
@@ -18,7 +17,7 @@ export function myProfile (state = Immutable.fromJS(initialState), action) {
   } else if (action.type === 'ACTION_SUCCESS_UPDATE_BANK_DETAILS') {
     return state.set('status_message', action.payload);
   } else if (action.type === 'ACTION_ERROR_UPDATE_BANK_DETAILS') {
-    return state.set('status_message', action.payload); 
+    return state.set('status_message', action.payload);
   } else if (action.type === 'ACTION_SUCCESS_UPDATE_PROFILE_DETAILS') {
     return state.set('status_message', action.payload);
   } else if (action.type === 'ACTION_ERROR_UPDATE_PROFILE_DETAILS') {
@@ -26,9 +25,6 @@ export function myProfile (state = Immutable.fromJS(initialState), action) {
     
   }else if(action.type === "ACTION_GET_MY_INVENTORY"){
     return state.set("myInventory",action.payload.user_assign_machine);
-  }
-  else if(action.type === "SHOW_INVENTOEY_PENDING"){    
-    return state.set("showPending",action.payload);
   }
    else {
     return state.set('status_message', '');

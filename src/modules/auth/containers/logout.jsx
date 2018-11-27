@@ -2,21 +2,24 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {bindActionCreators} from 'redux';
-import * as actions from 'appRedux/actions';
+import * as actions from '../../../redux/actions';
 
 class Logout extends React.Component {
   constructor (props) {
     super(props);
   }
   componentWillMount () {
+    console.log('ddddddddddddddd', this.props)
     if (this.props.loggedUser.isLoggedIn) {
       this.props.requestLogout();
     } else {
-      this.props.router.push('/');
+      this.props.history.push('/');
     }
   }
   componentWillReceiveProps (props) {
-    props.router.push('/');
+    console.log('sssssssssssssssss', props);
+    
+    props.history.push('/');
   }
   render () {
     return (

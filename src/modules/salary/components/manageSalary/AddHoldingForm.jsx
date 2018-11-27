@@ -1,8 +1,8 @@
 import React from 'react';
 import * as _ from 'lodash';
-import { DateField } from 'react-date-picker';
-import 'react-date-picker/index.css';
-import { ButtonRaised } from 'components/generic/buttons';
+import DateField from 'react-date-picker';
+// import 'react-date-picker/index.css';
+import { ButtonRaised } from '../../../../components/generic/buttons';
 
 class AddHoldingForm extends React.Component {
   constructor(props) {
