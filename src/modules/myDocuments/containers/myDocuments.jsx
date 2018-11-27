@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import Menu from 'components/generic/Menu';
-import {isNotUserValid} from 'src/services/generic';
-import Header from 'components/generic/Header';
-import FormMyDocuments from 'modules/myDocuments/components/FormMyDocuments';
-import * as actions from 'appRedux/actions';
-import * as actionsMyDocument from 'appRedux/myDocuments/actions/myDocument';
+import Menu from '../../../components/generic/Menu';
+import {isNotUserValid} from '../../../services/generic';
+import Header from '../../../components/generic/Header';
+import FormMyDocuments from '../../../modules/myDocuments/components/FormMyDocuments';
+import * as actions from '../../../redux/actions';
+import * as actionsMyDocument from '../../../redux/myDocuments/actions/myDocument';
 
 class MyDocuments extends React.Component {
   constructor (props) {

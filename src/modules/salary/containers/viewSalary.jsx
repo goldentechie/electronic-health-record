@@ -2,13 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import * as _ from 'lodash';
-import {CONFIG} from 'src/config/index';
-import Menu from 'components/generic/Menu';
-import {isNotUserValid} from 'src/services/generic';
-import Header from 'components/generic/Header';
-import SalaryList from 'modules/salary/components/viewSalary/SalaryList';
-import * as actions from 'appRedux/actions';
-import * as actions_salary from 'appRedux/salary/actions/viewSalary';
+import {CONFIG} from '../../../config/index';
+import Menu from '../../../components/generic/Menu';
+import {isNotUserValid} from '../../../services/generic';
+import Header from '../../../components/generic/Header';
+import SalaryList from '../../../modules/salary/components/viewSalary/SalaryList';
+import * as actions from '../../../redux/actions';
+import * as actions_salary from '../../../redux/salary/actions/viewSalary';
 
 class ViewSalary extends React.Component {
   constructor (props) {
