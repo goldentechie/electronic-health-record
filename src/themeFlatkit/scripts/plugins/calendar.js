@@ -17,4 +17,4 @@
       $('.fullcalendar').fullCalendar('today')
     });
 
-})(window.jQuery);
+})(jQuery);

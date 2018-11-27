@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import Menu from "../../../components/generic/Menu";
-import { isNotUserValid } from "../../../services/generic";
+import Menu from "components/generic/Menu";
+import { isNotUserValid } from "src/services/generic";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import * as actions from "../../../redux/actions";
+import * as actions from "appRedux/actions";
+import * as actionsUsersList from "appRedux/generic/actions/usersList";
 import UsersList from "../../../components/generic/UsersList";
-import Header from "../../../components/generic/Header";
+import Header from "components/generic/Header";
 import FormAddDocuments from "../components/FormAddDocuments";
 
 class AddDocuments extends Component {

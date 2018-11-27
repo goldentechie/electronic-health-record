@@ -1,9 +1,7 @@
-// import palette from './palette';
-
 (function ($) {
 	'use strict';
-    let location = window.location;
-	  let app = window.app = {
+
+	  window.app = {
       name: 'Flatkit',
       version: '1.1.0',
       // for chart colors
@@ -41,7 +39,7 @@
 
     var setting = 'jqStorage-'+app.name+'-Setting',
         storage = $.localStorage;
-
+    
     if( storage.isEmpty(setting) ){
         storage.set(setting, app.setting);
     }else{
@@ -101,7 +99,7 @@
     };
 
     function getColor(name){
-      return app.color[ name ] ? app.color[ name ] : window.palette.find(name);
+      return app.color[ name ] ? app.color[ name ] : palette.find(name);
     };
 
     function getParams(name) {
@@ -112,8 +110,8 @@
     }
 
     function init(){
-      window.$('[ui-jp]').uiJp();
-      window.$('body').uiInclude();
+      $('[ui-jp]').uiJp();
+      $('body').uiInclude();
     }
 
-})(window.jQuery);
+})(jQuery);
