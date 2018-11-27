@@ -1,14 +1,28 @@
 .dialog-content {
   width: auto;
   max-width: 400px;
- }
+}
 
- .uploadnotic{
-   margin: 19px;
-   color: red;
- }
-
-@media (max-width: 768px){
+.uploadnotic {
+  margin: 19px;
+  color: red;
+}
+.rh-leaves {
+  h2 {
+    padding: 5% 0;
+  }
+  .rh-text {
+    padding: 0px;
+    padding-top: 1%;
+    margin-left: 0.5%;
+    font-size: 20px;
+  }
+  .rh-select {
+    margin-bottom: 2%;
+    padding: 0px;
+  }
+}
+@media (max-width: 768px) {
   .btn-res {
     margin-left: 2%;
     margin-top: 1%;
@@ -17,25 +31,25 @@
     width: auto;
     float: left;
   }
- }
+}
 @media (min-width: 769px) and (max-width: 992px) {
   .btn-res {
     margin-left: 2%;
     margin-top: 1%;
     font-size: 10px;
-    line-height: 2;;
+    line-height: 2;
   }
- }
+}
 @media (min-width: 994px) and (max-width: 1199px) {
   .btn-res {
     font-size: 90%;
     width: auto;
     padding-left: 2px;
-    margin-left:1%;
+    margin-left: 1%;
     margin-top: 1%;
     line-height: 1.5;
   }
- }
+}
 @media (min-width: 1200px) {
   .btn-res {
     font-size: 11px;
@@ -44,4 +58,4 @@
     margin-top: 1%;
     line-height: 1.5;
   }
- }
+}

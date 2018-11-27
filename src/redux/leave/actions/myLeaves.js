@@ -1,10 +1,10 @@
 import {createAction} from 'redux-actions';
 import * as _ from 'lodash';
 import * as jwt from 'jwt-simple';
-import {CONFIG} from '../../../config/index';
-import {fireAjax} from '../../../services/index';
-import * as constants from '../../../redux/constants';
-import {show_loading, hide_loading} from '../../../redux/generic/actions/frontend';
+import {CONFIG} from 'src/config/index';
+import {fireAjax} from 'src/services/index';
+import * as constants from 'appRedux/constants';
+import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
 
 export function list_my_leaves_sucess (data) {
   return createAction(constants.ACTION_LIST_MY_LEAVES_SUCCESS)(data);
@@ -17,7 +17,12 @@ export function list_my_leaves_empty (data) {
 export function list_my_leaves_error (err) {
   return createAction(constants.ACTION_LIST_MY_LEAVES_ERROR)('Error Occurs !!');
 }
-
+export function getRHLeavesListSuccess(data){    
+  return createAction(constants.REQUEST_RH_LIST_SUCCESS)(data)
+}
+export function getRHLeavesListError(error){
+  return createAction(constants.REQUEST_RH_LIST_ERROR)('Error Occurs !!')
+}
 function async_getMyLeaves () {
   return fireAjax('POST', '', {
     'action': 'get_my_leaves'
@@ -39,7 +44,7 @@ export function getMyLeaves () {
 },
 				(error) => {
   dispatch(hide_loading()); // hide loading icon
-  dispatch(list_my_leaves_error(error.data.message));
+  dispatch(list_my_leaves_error(json.data.message));
 }
 			);
     });
@@ -69,7 +74,38 @@ export function cancelLeave (userId, from_date) {
 },
 				(error) => {
   dispatch(hide_loading()); // hide loading icon
-  reject(error.data.message);
+  reject(json.data.message);
+}
+			);
+    });
+  };
+}
+
+
+function async_getRHList (year) {
+  return fireAjax('POST', '', {
+    'action':  'get_my_rh_leaves',
+    'year': year,
+  });
+}
+
+export function getRHList (year) {
+  return function (dispatch, getState) {
+    return new Promise((reslove, reject) => {
+      dispatch(show_loading()); // show loading icon
+      async_getRHList(year).then(
+				(json) => {
+  dispatch(hide_loading()); // hide loading icon
+  if (json.error == 0) {    
+    dispatch(getRHLeavesListSuccess(json.data));
+		 			} else {
+    reject(json.data.message);
+		 			}
+},
+				(error) => {
+  dispatch(hide_loading()); // hide loading icon\
+  dispatch(getRHLeavesListError())
+  reject(json.data.message);
 }
 			);
     });

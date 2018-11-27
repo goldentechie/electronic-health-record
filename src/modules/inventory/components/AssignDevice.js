@@ -1,7 +1,14 @@
 import React from "react";
+import "react-date-picker/index.css";
 import Dialog from "material-ui/Dialog";
+import { DateField } from "react-date-picker";
+import { notify } from "src/services/notify";
+import * as actions from "appRedux/actions";
+import * as actionsManageDevice from "appRedux/inventory/actions/inventory";
 import PropTypes from "prop-types";
+import TextField from "material-ui/TextField";
 import * as _ from "lodash";
+import AlertNotification from "components/generic/AlertNotification";
 
 export default class AssignDevice extends React.Component {
   constructor(props) {
@@ -21,6 +28,8 @@ export default class AssignDevice extends React.Component {
   }
 
   render() {
+    
+    
     const unassignInventory = _.map(
       this.props.unassignDeviceList,
       (val, i) => {
@@ -50,7 +59,7 @@ export default class AssignDevice extends React.Component {
       <div className="p-y">
       {this.props.loggedUser.data.role ==='Admin'?  <button
           className="md-btn md-raised m-b-sm indigo"
-          onClick={this.handleOpen}
+          onTouchTap={this.handleOpen}
         >
           Assign Device
         </button>:null}

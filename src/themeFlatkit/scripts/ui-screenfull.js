@@ -8,4 +8,4 @@
 		  screenfull.toggle();
 		}
 	});
-})(window.jQuery);
+})(jQuery);

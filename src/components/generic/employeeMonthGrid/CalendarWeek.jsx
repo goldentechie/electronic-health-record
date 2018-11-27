@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
 import Day from './Day';
 
 const CalendarWeek = ({userId, dayData, onShowDaySummary, onWorkingHoursChange}) => {
