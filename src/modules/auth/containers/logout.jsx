@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {bindActionCreators} from 'redux';
-import * as actions from '../../../redux/actions';
+import * as actions from 'appRedux/actions';
 
 class Logout extends React.Component {
   constructor (props) {
@@ -12,11 +12,11 @@ class Logout extends React.Component {
     if (this.props.loggedUser.isLoggedIn) {
       this.props.requestLogout();
     } else {
-      this.props.history.push('/');
+      this.props.router.push('/');
     }
   }
   componentWillReceiveProps (props) {
-    props.history.push('/');
+    props.router.push('/');
   }
   render () {
     return (

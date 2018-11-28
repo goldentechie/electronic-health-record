@@ -11,5 +11,5 @@ Label.PropTypes = {
   style: PropTypes.string,
   classname: PropTypes.string,
   htmlfor: PropTypes.string,
-  text: PropTypes.string.isRequired
+  text: React.PropTypes.string.isRequired
 };

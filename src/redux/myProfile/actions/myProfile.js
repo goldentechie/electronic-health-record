@@ -1,12 +1,11 @@
 import {createAction} from 'redux-actions';
-import _ from 'lodash';
-import {CONFIG} from '../../../config/index';
-import {fireAjax} from '../../../services/index';
-import {confirm} from '../../../services/notify';
-import {show_loading, hide_loading} from '../../../redux/generic/actions/frontend';
-import {setLoggedUser, getLoggedUser} from '../../../services/generic';
-import {userDataUpdated} from '../../../redux/actions';
-import * as constants from '../../../redux/constants';
+import {CONFIG} from 'src/config/index';
+import {fireAjax} from 'src/services/index';
+import {confirm} from 'src/services/notify';
+import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
+import {setLoggedUser, getLoggedUser} from 'src/services/generic';
+import {userDataUpdated,showInventoryPending} from 'appRedux/actions';
+import * as constants from 'appRedux/constants';
 
 export function success_my_profile (data) {
   return createAction(constants.ACTION_SUCCESS_MY_PROFILE)(data);
@@ -315,7 +314,7 @@ export function updateDocument (documents_link) {
     } else {
       document_link = documents_link.doc_link;
     }
-    return new Promise((resolve, reject) => {
+    return new Promise((reslove, reject) => {
       _.map(document_link, (link) => {
         async_updateDocument(document_type, link, declearation).then((json) => {
           if (json.error == 0) {
@@ -359,9 +358,10 @@ function async_addInventoryAudit (id, message) {
 }
 
 export function addInventoryAudit (id, msg) {
-  return function (dispatch, getState) {
+  return function (dispatch, getState) { 
     return new Promise((reslove, reject) => {
       dispatch(show_loading()); // show loading icon
+      dispatch(showInventoryPending(false))
       async_addInventoryAudit(id, msg).then((json) => {
         if(json.data && json.data.new_token){
           let {userId} = getLoggedUser();
@@ -370,8 +370,10 @@ export function addInventoryAudit (id, msg) {
         }
         dispatch(hide_loading()); // hide loading icon
         reslove(json)
-        confirm(json.message, '' , 'success')
-      });
+      }).catch(()=>{
+        dispatch(showInventoryPending(true));
+        reject()
+      })
     });
   };
 }

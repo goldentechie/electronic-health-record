@@ -1,16 +1,16 @@
+import "react-date-picker/index.css";
 import React from "react";
 import PropTypes from "prop-types";
-import _ from 'lodash';
 import DeviceCounter from "./DeviceCounter";
-import style from "../../styles/inventory/viewUser.scss";
+import style from "src/styles/inventory/viewUser.scss";
 import {CSVLink} from 'react-csv';
 import moment from 'moment';
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 //  import FormAddNewInventory from '/home/etech/Documents/ReactReduxHR/src/modules/inventory/components/AddInventory.jsx'
 
 
 
-const DeviceCounterTab = ({ statusList, deviceCountList, history }) => {
+const DeviceCounterTab = ({ statusList, deviceCountList, router }) => {
   let total = 0;
   let newDeviceCountData = [];
   let headers = [
@@ -62,7 +62,7 @@ const DeviceCounterTab = ({ statusList, deviceCountList, history }) => {
         key={key}
           deviceData={deviceData}
           deviceName={key}
-          history={history}
+          router={router}
           />
         );
       }

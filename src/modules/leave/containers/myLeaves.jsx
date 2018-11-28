@@ -1,39 +1,108 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router';
-import Menu from '../../../components/generic/Menu';
-import {isNotUserValid} from '../../../services/generic';
-import Header from '../../../components/generic/Header';
-import UserLeavesList from '../../../modules/leave/components/myLeaves/UserLeavesList';
-import * as actions from '../../../redux/actions';
-import * as actions_myLeaves from '../../../redux/leave/actions/myLeaves';
+import React from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import Menu from "components/generic/Menu";
+import { isNotUserValid } from "src/services/generic";
+import Header from "components/generic/Header";
+import UserLeavesList from "modules/leave/components/myLeaves/UserLeavesList";
+import RHLeaves from "../components/RHLeaves/RHLeaves";
+import { getYearArray } from "src/services/generic";
+import { confirm } from "src/services/notify";
+import ApplyRHModel from "components/leave/RHLeaveList/ApplyModal";
+import * as actions from "appRedux/actions";
+import * as actions_myLeaves from "appRedux/leave/actions/myLeaves";
+import * as actions_apply_leave from "appRedux/leave/actions/applyLeave";
 
 class MyLeaves extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
+    this.state = {
+      year: "",
+      showModal: false,
+      inputValue: ""
+    };
     this.props.onIsAlreadyLogin();
   }
-  componentWillMount () {
+  componentWillMount() {
     this.props.onMyLeavesList();
+    this.year = getYearArray();
+    this.props.getRHList(this.year[3]);
+    this.setState({ year: `${this.year[3]}` });
   }
-  componentWillReceiveProps (props) {
+  componentWillReceiveProps(props) {
     window.scrollTo(0, 0);
-    let isNotValid = isNotUserValid(this.props.location.pathname, props.loggedUser);
+    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
     if (isNotValid.status) {
-      this.props.history.push(isNotValid.redirectTo);
+      this.props.router.push(isNotValid.redirectTo);
     }
   }
-  render () {
+  handleYearChange = e => {
+    this.setState({ year: e.target.value });
+    this.props.getRHList(e.target.value);
+  };
+
+  handleApplyClick = leave => {
+    this.setState({
+      currentRH: leave,
+      showModal: true
+    });
+  };
+  onApplyRHLeave = () => {
+    const { date, type_text } = this.state.currentRH;
+    this.props
+      .onApplyLeave(date, date, 1, this.state.inputValue, "", "", type_text)
+      .then(() => {
+        confirm("RH is Successfully Applied", "", "success");
+      });
+      if(this.state.inputValue){
+    this.setState({
+      showModal: false,
+      inputValue: ""
+    });
+  }
+  };
+  onInputChange = e => {
+    this.setState({
+      inputValue: e.target.value
+    });
+  };
+
+  render() {
     return (
       <div>
         <Menu {...this.props} />
         <div id="content" className="app-content box-shadow-z0" role="main">
-          <Header pageTitle={'My Leaves'} showLoading={this.props.frontend.show_loading} />
+          <ApplyRHModel
+            show={this.state.showModal}
+            handleHide={() => {
+              this.setState({
+                showModal: false,
+                inputValue: ""
+              });
+            }}
+            onApplyRHLeave={this.onApplyRHLeave}
+            inputChange={this.onInputChange}
+            inputValue={this.state.inputValue}
+            stateData={this.state}
+          />
+          <Header
+            pageTitle={"My Leaves"}
+            showLoading={this.props.frontend.show_loading}
+          />
           <div className="app-body" id="view">
             <div className="padding">
               <div className="row">
-                <div className="col-md-12">
+                <div className="col-md-6">
                   <UserLeavesList {...this.props} />
+                </div>
+                <div className="col-md-6 rh-leave-container">
+                  <RHLeaves
+                    stateData={this.state}
+                    yearArray={this.year}
+                    handleYearChange={this.handleYearChange}
+                    RHLeaveList={this.props.RHLeaveList}
+                    handleApplyClick={this.handleApplyClick}
+                  />
                 </div>
               </div>
             </div>
@@ -44,15 +113,16 @@ class MyLeaves extends React.Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
-    frontend:   state.frontend.toJS(),
+    frontend: state.frontend.toJS(),
     loggedUser: state.logged_user.userLogin,
     userLeaves: state.userLeaves.toJS(),
-    applyLeave: state.applyLeave.toJS()
+    applyLeave: state.applyLeave.toJS(),
+    RHLeaveList: state.userLeaves.toJS().RHLeaves.rh_list
   };
 }
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     onIsAlreadyLogin: () => {
       return dispatch(actions.isAlreadyLogin());
@@ -60,9 +130,33 @@ const mapDispatchToProps = (dispatch) => {
     onMyLeavesList: () => {
       return dispatch(actions_myLeaves.getMyLeaves());
     },
+    onApplyLeave: (
+      from_date,
+      to_date,
+      no_of_days,
+      reason,
+      userId,
+      day_status,
+      leaveType,
+      late_reason
+    ) => {
+      return dispatch(
+        actions_apply_leave.apply_leave(
+          from_date,
+          to_date,
+          no_of_days,
+          reason,
+          userId,
+          day_status,
+          leaveType,
+          late_reason
+        )
+      );
+    },
     onCancelLeave: (userId, from_date) => {
       return dispatch(actions_myLeaves.cancelLeave(userId, from_date));
-    }
+    },
+    getRHList: year => dispatch(actions_myLeaves.getRHList(year))
   };
 };
 

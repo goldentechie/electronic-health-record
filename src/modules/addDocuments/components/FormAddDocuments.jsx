@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { CONFIG } from "../../../config/index";
-import { notify } from "../../../services/notify";
-import Menu from "../../../components/generic/Menu";
-import { getToken } from "../../../services/generic";
-import * as actions from "../../../redux/actions";
-import Header from "../../../components/generic/Header";
+import { CONFIG } from "src/config/index";
+import { notify } from "src/services/notify";
+import Menu from "components/generic/Menu";
+import { getToken } from "src/services/generic";
+import * as actions from "appRedux/actions";
+import * as actionsUsersList from "appRedux/generic/actions/usersList";
+import Header from "components/generic/Header";
 import UploadImageComp from "../../uploadImageCompressed/UploadImageComp";
 import { browserHistory } from "react-router";
 import { connect } from "react-redux";
@@ -19,7 +20,7 @@ class FormAddDocument extends Component {
       document_type: "",
       token: "",
       file: [],
-      user_id: this.props.match.params.userId,
+      user_id: this.props.params.splat,
       page_url: window.location.href,
       imageUrl:""
     };
@@ -36,7 +37,7 @@ class FormAddDocument extends Component {
     let type = this.state.document_type;
     let link1 = this.refs.file.value;
     let file = this.state.file[0];
-    let userId = this.props.match.params.userId;
+    let userId = this.props.params.splat;
     let stop = false;
     if (!userId) {
       stop = true;

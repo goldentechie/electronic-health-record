@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
-import * as dayType from '../../../redux/attendance/constants';
+import * as dayType from 'appRedux/attendance/constants';
 import DaySection from './DaySection';
 
 const styles = {
