@@ -7,20 +7,32 @@
   margin: 19px;
   color: red;
 }
-.rh-leaves {
-  h2 {
-    padding: 5% 0;
+.rh-leave-container {
+  .rh-leaves {
+    h2 {
+      padding: 5% 0;
+    }
+    .rh-text {
+      padding: 0px;
+      padding-top: 1%;
+      margin-left: 0.5%;
+      font-size: 20px;
+    }
+    .rh-select {
+      margin-bottom: 2%;
+      padding: 0px;
+    }
   }
-  .rh-text {
-    padding: 0px;
-    padding-top: 1%;
-    margin-left: 0.5%;
-    font-size: 20px;
+  .rh-modal{
+    font-size: 16px;
+    font-weight: 600
   }
-  .rh-select {
-    margin-bottom: 2%;
-    padding: 0px;
+  .apply-btn{
+    display: "flex"
   }
+}
+#error-text {
+  color: red;
 }
 @media (max-width: 768px) {
   .btn-res {

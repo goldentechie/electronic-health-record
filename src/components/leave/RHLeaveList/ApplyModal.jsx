@@ -10,7 +10,6 @@ export default class ApplyRHModal extends Component {
       inputValue,
       stateData
     } = this.props;
-    console.log(stateData, "stateDatastateData");
     return (
       <Modal
         id="termination-modal"
@@ -24,7 +23,7 @@ export default class ApplyRHModal extends Component {
         container={this}
       >
         <Modal.Header>
-          <div style={{ fontSize: "16px", fontWeight: 600 }}>
+          <div className="rh-modal" >
             <div>{`RH Name :${stateData.currentRH && stateData.currentRH.name}`}</div>
             <div>{`Date :${stateData.currentRH && stateData.currentRH.date}`}</div>
             <div>{`Day :${stateData.currentRH && stateData.currentRH.day}`}</div>
@@ -42,10 +41,11 @@ export default class ApplyRHModal extends Component {
               placeholder="Enter reason here"
               required={true}
             />
+            {stateData.showError && <div id="error-text">* This field is required</div>}
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <div className="save-btn" style={{ display: "flex" }}>
+          <div className="apply-btn">
             <button
               type="button"
               className={`btn btn-primary`}

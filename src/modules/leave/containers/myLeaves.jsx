@@ -19,7 +19,8 @@ class MyLeaves extends React.Component {
     this.state = {
       year: "",
       showModal: false,
-      inputValue: ""
+      inputValue: "",
+      showerror:false
     };
     this.props.onIsAlreadyLogin();
   }
@@ -52,13 +53,19 @@ class MyLeaves extends React.Component {
     this.props
       .onApplyLeave(date, date, 1, this.state.inputValue, "", "", type_text)
       .then(() => {
+        this.props.onMyLeavesList();
         confirm("RH is Successfully Applied", "", "success");
       });
       if(this.state.inputValue){
     this.setState({
       showModal: false,
-      inputValue: ""
+      inputValue: "",
+      showError:false
     });
+  }else{
+    this.setState({
+      showError:true
+    })
   }
   };
   onInputChange = e => {
@@ -77,7 +84,8 @@ class MyLeaves extends React.Component {
             handleHide={() => {
               this.setState({
                 showModal: false,
-                inputValue: ""
+                inputValue: "",
+                showError:false
               });
             }}
             onApplyRHLeave={this.onApplyRHLeave}
