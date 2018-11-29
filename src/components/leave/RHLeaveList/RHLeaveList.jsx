@@ -3,10 +3,21 @@ import PropTypes from "prop-types";
 import { ButtonInfo, Button } from "components/generic/buttons";
 
 const RHLeavesList = ({ leave, handleApplyClick }) => {
-  let s = "Pending";
+  let s = leave.status;
   let f_char = s.charAt(0);
-  let leaveStatusColor = "";
-  leaveStatusColor = "green-A200";
+  let leaveStatusColor = '';
+  if (s === 'Approved') {
+    leaveStatusColor = 'green-A200';
+  } else if (s === 'Pending') {
+    leaveStatusColor = 'blue';
+  } else if (s === 'Rejected') {
+    leaveStatusColor = 'red';
+  } else if (s === 'Cancelled Request') {
+    leaveStatusColor = 'red-100';
+  }else{
+    leaveStatusColor = 'green';
+
+  } 
   return (
     <div className={`list-item b-l b-l-2x b-${leaveStatusColor}`}>
       <div className="list-left">
@@ -34,7 +45,8 @@ const RHLeavesList = ({ leave, handleApplyClick }) => {
             </div>
           ) : null}
         </div>
-        <div className="save-btn">
+        <div>
+       {!leave.status && <div className="save-btn">
           <button
             type="button"
             className={`btn btn-primary`}
@@ -45,6 +57,9 @@ const RHLeavesList = ({ leave, handleApplyClick }) => {
             Apply
           </button>
         </div>
+       }
+       {leave.status && <div className={`status_text text-${leaveStatusColor}`}><b>{leave.status}</b></div>} 
+       </div>
       </div>
     </div>
   );

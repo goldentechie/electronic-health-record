@@ -82,18 +82,19 @@ export function cancelLeave (userId, from_date) {
 }
 
 
-function async_getRHList (year) {
+function async_getRHList (year,id) {  
   return fireAjax('POST', '', {
     'action':  'get_my_rh_leaves',
     'year': year,
+    "user_id":id
   });
 }
 
-export function getRHList(year) {
+export function getRHList(year,id) {
   return function (dispatch, getState) {
     return new Promise((reslove, reject) => {
       dispatch(show_loading()); // show loading icon
-      async_getRHList(year).then(
+      async_getRHList(year,id).then(
         (json) => {
           dispatch(hide_loading()); // hide loading icon
           if (json.error == 0) {
@@ -105,7 +106,7 @@ export function getRHList(year) {
         (error) => {
           dispatch(hide_loading()); // hide loading icon\
           dispatch(getRHLeavesListError())
-          reject("error occurs");
+          reject(json.data.message);
         }
       );
     });

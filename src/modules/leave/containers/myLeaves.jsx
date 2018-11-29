@@ -20,21 +20,28 @@ class MyLeaves extends React.Component {
       year: "",
       showModal: false,
       inputValue: "",
-      showerror:false
+      showerror: false,
+      reCall:true
     };
     this.props.onIsAlreadyLogin();
   }
   componentWillMount() {
     this.props.onMyLeavesList();
     this.year = getYearArray();
-    this.props.getRHList(this.year[3]);
     this.setState({ year: `${this.year[3]}` });
   }
   componentWillReceiveProps(props) {
+    const { id } = this.props.loggedUser.data;
     window.scrollTo(0, 0);
     let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
     if (isNotValid.status) {
       this.props.router.push(isNotValid.redirectTo);
+    }
+    if (id && this.state.reCall) {
+      this.props.getRHList(this.year[3], id);
+      this.setState({
+        reCall: false
+      });
     }
   }
   handleYearChange = e => {
@@ -49,24 +56,35 @@ class MyLeaves extends React.Component {
     });
   };
   onApplyRHLeave = () => {
-    const { date, type_text,raw_date } = this.state.currentRH;
+    const { id } = this.props.loggedUser.data;
+    const { date, type_text, raw_date } = this.state.currentRH;
     this.props
-      .onApplyLeave(raw_date, raw_date, 1, this.state.inputValue, "", "", type_text)
+      .onApplyLeave(
+        raw_date,
+        raw_date,
+        1,
+        this.state.inputValue,
+        "",
+        "",
+        type_text
+      )
       .then(() => {
         this.props.onMyLeavesList();
+        this.props.getRHList(this.year[3], id);
+
         confirm("RH is Successfully Applied", "", "success");
       });
-      if(this.state.inputValue){
-    this.setState({
-      showModal: false,
-      inputValue: "",
-      showError:false
-    });
-  }else{
-    this.setState({
-      showError:true
-    })
-  }
+    if (this.state.inputValue) {
+      this.setState({
+        showModal: false,
+        inputValue: "",
+        showError: false
+      });
+    } else {
+      this.setState({
+        showError: true
+      });
+    }
   };
   onInputChange = e => {
     this.setState({
@@ -85,7 +103,7 @@ class MyLeaves extends React.Component {
               this.setState({
                 showModal: false,
                 inputValue: "",
-                showError:false
+                showError: false
               });
             }}
             onApplyRHLeave={this.onApplyRHLeave}
@@ -164,7 +182,7 @@ const mapDispatchToProps = dispatch => {
     onCancelLeave: (userId, from_date) => {
       return dispatch(actions_myLeaves.cancelLeave(userId, from_date));
     },
-    getRHList: year => dispatch(actions_myLeaves.getRHList(year))
+    getRHList: (year, id) => dispatch(actions_myLeaves.getRHList(year, id))
   };
 };
 
