@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Modal } from "react-bootstrap";
+import moment from 'moment';
+
 
 export default class ApplyRHModal extends Component {
   render() {
@@ -24,14 +26,14 @@ export default class ApplyRHModal extends Component {
       >
         <Modal.Header>
           <div className="rh-modal" >
-            <div>{`RH Name :${stateData.currentRH && stateData.currentRH.name}`}</div>
-            <div>{`Date :${stateData.currentRH && stateData.currentRH.date}`}</div>
-            <div>{`Day :${stateData.currentRH && stateData.currentRH.day}`}</div>
+            <div>{`RH Name : ${stateData.currentRH && stateData.currentRH.name}`}</div>
+            <div>{`Date : ${stateData.currentRH && stateData.currentRH.date}`}</div>
+            <div>{`Day : ${stateData.currentRH && stateData.currentRH.day}`}</div>
           </div>
         </Modal.Header>
         <Modal.Body>
           <div className="form-group">
-            <label htmlFor="reason">Mention Reason Here:</label>
+            <label htmlFor="reason">Reason : </label>
             <input
               type="text"
               className="form-control"
@@ -51,14 +53,14 @@ export default class ApplyRHModal extends Component {
               className={`btn btn-primary`}
               onClick={onApplyRHLeave}
             >
-              Submit
+              Apply
             </button>
             <button
               type="button"
               className="btn btn-default"
               onClick={handleHide}
             >
-              Cancel
+              Close
             </button>
           </div>
         </Modal.Footer>

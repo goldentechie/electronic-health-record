@@ -13,21 +13,28 @@
       padding: 5% 0;
     }
     .rh-text {
-      padding: 0px;
-      padding-top: 1%;
+      padding: 1% 0 0 0;
       margin-left: 0.5%;
       font-size: 20px;
+      margin-bottom: 12px;
+
     }
     .rh-select {
-      margin-bottom: 2%;
       padding: 0px;
     }
   }
 }
+.normal-text{
+  padding: 1% 0 0 0;
+  margin-left: 0.5%;
+  font-size: 20px;
+  margin-bottom: 12px;
+
+}
 .termination-modal {
   .rh-modal {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
   }
   .apply-btn {
     display: "flex";
@@ -73,4 +80,9 @@
     margin-top: 1%;
     line-height: 1.5;
   }
+}
+@media (max-width: 991px) {
+ .rh-leave-container{
+   margin-top: 15px
+ }
 }

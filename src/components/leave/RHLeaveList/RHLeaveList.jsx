@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { ButtonInfo, Button } from "components/generic/buttons";
 
-const RHLeavesList = ({ leave ,handleApplyClick}) => {
+const RHLeavesList = ({ leave ,handleApplyClick}) => {  
   let s = "Pending";
   let f_char = s.charAt(0);
   let leaveStatusColor = "";
