@@ -105,7 +105,7 @@ export function getRHList(year) {
         (error) => {
           dispatch(hide_loading()); // hide loading icon\
           dispatch(getRHLeavesListError())
-          reject(json.data.message);
+          reject("error occurs");
         }
       );
     });

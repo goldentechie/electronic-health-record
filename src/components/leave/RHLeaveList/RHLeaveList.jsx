@@ -7,7 +7,6 @@ const RHLeavesList = ({ leave, handleApplyClick }) => {
   let f_char = s.charAt(0);
   let leaveStatusColor = "";
   leaveStatusColor = "green-A200";
-
   return (
     <div className={`list-item b-l b-l-2x b-${leaveStatusColor}`}>
       <div className="list-left">

@@ -108,7 +108,7 @@ class MyLeaves extends React.Component {
                     stateData={this.state}
                     yearArray={this.year}
                     handleYearChange={this.handleYearChange}
-                    RHLeaveList={this.props.RHLeaveList}
+                    RHLeaveList={this.props.RHLeaveList.RHLeaves.rh_list}
                     handleApplyClick={this.handleApplyClick}
                   />
                 </div>
@@ -127,7 +127,7 @@ function mapStateToProps(state) {
     loggedUser: state.logged_user.userLogin,
     userLeaves: state.userLeaves.toJS(),
     applyLeave: state.applyLeave.toJS(),
-    RHLeaveList: state.userLeaves.toJS().RHLeaves.rh_list
+    RHLeaveList: state.userLeaves.toJS()
   };
 }
 const mapDispatchToProps = dispatch => {
