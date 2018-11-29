@@ -89,25 +89,25 @@ function async_getRHList (year) {
   });
 }
 
-export function getRHList (year) {
+export function getRHList(year) {
   return function (dispatch, getState) {
     return new Promise((reslove, reject) => {
       dispatch(show_loading()); // show loading icon
       async_getRHList(year).then(
-				(json) => {
-  dispatch(hide_loading()); // hide loading icon
-  if (json.error == 0) {    
-    dispatch(getRHLeavesListSuccess(json.data));
-		 			} else {
-    reject(json.data.message);
-		 			}
-},
-				(error) => {
-  dispatch(hide_loading()); // hide loading icon\
-  dispatch(getRHLeavesListError())
-  reject(json.data.message);
-}
-			);
+        (json) => {
+          dispatch(hide_loading()); // hide loading icon
+          if (json.error == 0) {
+            dispatch(getRHLeavesListSuccess(json.data));
+          } else {
+            reject(json.data.message);
+          }
+        },
+        (error) => {
+          dispatch(hide_loading()); // hide loading icon\
+          dispatch(getRHLeavesListError())
+          reject(json.data.message);
+        }
+      );
     });
   };
 }
