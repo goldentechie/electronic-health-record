@@ -1,19 +1,19 @@
+import swal from 'sweetalert';
 
 export function notify (title, text, type) {
-  sweetAlert(title, text, type);
+  swal(title, text, type);
 }
 
-export function confirm (title, text, type,cancelText,confirmText) { 
+export function confirm (title, text, type) {
   return new Promise((resolve, reject) => {
     swal({
       title:             title,
       text:              text,
       type:              type,
       showCancelButton:  true,
-      confirmButtonText: confirmText ||'OK',
+      confirmButtonText: 'OK',
       closeOnConfirm:    true,
-      html:              true,
-      cancelButtonText: cancelText || "Cancel"
+      html:              true
     },
     (isConfirm) => {
       resolve(isConfirm);

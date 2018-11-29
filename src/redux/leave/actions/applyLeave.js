@@ -1,10 +1,10 @@
 import {createAction} from 'redux-actions';
 import * as _ from 'lodash';
 import * as jwt from 'jwt-simple';
-import {CONFIG} from 'src/config/index';
-import {fireAjax} from 'src/services/index';
-import * as constants from 'appRedux/constants';
-import {show_loading, hide_loading} from 'appRedux/generic/actions/frontend';
+import {CONFIG} from '../../../config/index';
+import {fireAjax} from '../../../services/index';
+import * as constants from '../../../redux/constants';
+import {show_loading, hide_loading} from '../../../redux/generic/actions/frontend';
 
 export function leave_sucess (data) {
   return createAction(constants.ACTION_LEAVE_SUCCESS)(data);
@@ -69,7 +69,6 @@ export function apply_leave (from_date, to_date, no_of_days, reason, userId, day
           dispatch(hide_loading()); // hide loading icon
           if (json.error == 0) {
             dispatch(leave_sucess(json.data.message));
-                  reslove()
           } else {
             dispatch(leave_fail(json.data.message));
           }

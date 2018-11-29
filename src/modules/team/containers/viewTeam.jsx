@@ -2,12 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router';
-import Menu from 'components/generic/Menu';
-import {isNotUserValid} from 'src/services/generic';
-import TeamList from 'modules/team/components/TeamList';
-import TeamDetails from 'modules/team/components/TeamDetails';
-import LoadingIcon from 'components/generic/LoadingIcon';
-import * as actions from 'appRedux/actions';
+import Menu from '../../../components/generic/Menu';
+import {isNotUserValid} from '../../../services/generic';
+import TeamList from '../../../modules/team/components/TeamList';
+import TeamDetails from '../../../modules/team/components/TeamDetails';
+import LoadingIcon from '../../../components/generic/LoadingIcon';
+import * as actions from '../../../redux/actions';
 
 class ViewTeam extends React.Component {
   constructor (props) {
@@ -29,9 +29,9 @@ class ViewTeam extends React.Component {
   }
   componentWillReceiveProps (props) {
     window.scrollTo(0, 0);
-    let isNotValid = isNotUserValid(this.props.route.path, props.loggedUser);
+    let isNotValid = isNotUserValid(this.props.location.pathname, props.loggedUser);
     if (isNotValid.status) {
-      this.props.router.push(isNotValid.redirectTo);
+      this.props.history.push(isNotValid.redirectTo);
     }
   }
 
@@ -60,6 +60,9 @@ class ViewTeam extends React.Component {
         <div id="content" className="app-content box-shadow-z0" role="main">
           <div className="app-header white box-shadow">
             <div className="navbar">
+              <a data-toggle="modal" data-target="#aside" className="navbar-item pull-left hidden-lg-up">
+                <i className="material-icons">&#xe5d2;</i>
+              </a>
               <div className="navbar-item pull-left h5" id="pageTitle">View Team</div>
             </div>
           </div>

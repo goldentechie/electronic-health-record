@@ -1,14 +1,13 @@
 import React from 'react';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
-import {DateField} from 'react-date-picker';
-import 'react-date-picker/index.css';
-import {CONFIG} from 'src/config/index';
-import Label from 'components/generic/label';
-import InputText from 'components/generic/input/InputText';
-import Textarea from 'components/generic/input/TextArea';
-import ButtonRaised from 'components/generic/buttons/ButtonRaised';
-import {confirm} from 'src/services/notify';
+import DateField from 'react-date-picker';
+// import 'react-date-picker/index.css';
+import {CONFIG} from '../../../config/index';
+import Label from '../../../components/generic/label';
+import InputText from '../../../components/generic/input/InputText';
+import Textarea from '../../../components/generic/input/TextArea';
+import ButtonRaised from '../../../components/generic/buttons/ButtonRaised';
 var moment = require('moment');
 
 class FormUserProfileDetails extends React.Component {
@@ -135,7 +134,7 @@ class FormUserProfileDetails extends React.Component {
         training_completion_date = userProfileDetail.training_completion_date;
       }
     }
-    if (typeof userProfileDetail.termination_date !== 'undefined' && userProfileDetail.termination_date != null) {
+    if (typeof userProfileDetail.termination_date !== 'undefined' && userProfileDetail.termination_date !== null && userProfileDetail.termination_date !== '0000-00-00') {
       var mydate = new Date(userProfileDetail.termination_date);
       if (mydate !== 'Invalid Date') {
         termination_date = userProfileDetail.termination_date;
@@ -180,20 +179,6 @@ class FormUserProfileDetails extends React.Component {
     }
     this.props.callUpdateUserProfileDetails(this.state);
   }
-  handleUpdateClick = () => {
-    const { training_completion_date } = this.props.user_profile_detail;
-    const stateTrainingDate = this.state.training_completion_date;
-    if (training_completion_date === "0000-00-00" &&
-      stateTrainingDate !== training_completion_date) {
-      confirm("Has service agreement been signed?","","","No","Yes" ).then((res)=>{
-        if(res){
-          this.props.callUpdateUserProfileDetails(this.state);
-        }
-      })
-    } else {
-      this.props.callUpdateUserProfileDetails(this.state);
-    }
-  };
   render () {
     let selectedUser = _.find(this.props.usersList.users,['id',this.props.user_profile_detail.id]);
     let slackImg = selectedUser ? selectedUser.slack_profile.image_72 : '';  
@@ -259,9 +244,12 @@ class FormUserProfileDetails extends React.Component {
           <div className="col-xs-6 profile-input">
             <div className="form-group">
               <Label htmlfor="Date Of Birth" text={"Date Of Birth ( eg. 27/1/1988 )"} />
-              <DateField dateFormat="YYYY-MM-DD" onChange={(date, { dateMoment, timestamp }) => this.setState(
-                    { dob: dateMoment }
-                  )} value={this.state.dob} className="form-control" />
+              <DateField 
+                dateFormat="YYYY-MM-DD" 
+                onChange={(date, { dateMoment, timestamp }) => this.setState({ dob: dateMoment })} 
+                value={this.state.dob} 
+                className="form-control" 
+              />
             </div>
           </div>
           <div className="col-xs-6 profile-input">
@@ -424,11 +412,11 @@ class FormUserProfileDetails extends React.Component {
               if (e.target.checked) {
                 this.setState({ send_slack_msg: "1" });
               } else {
-                this.setState({ send_slack_msg: "" }); 
+                this.setState({ send_slack_msg: "" });
               }
             }} />
         </div>
-        <ButtonRaised className="col-xs-12 m-b-sm indigo" onClick={this.handleUpdateClick} label={"Update Profile Details"} />
+        <ButtonRaised className="col-xs-12 m-b-sm indigo" onClick={() => this.props.callUpdateUserProfileDetails(this.state)} label={"Update Profile Details"} />
       </div>;
   }
 }

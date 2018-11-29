@@ -1,10 +1,10 @@
 import React from 'react';
 import * as _ from 'lodash';
 import Dialog from 'material-ui/Dialog';
-import {notify} from 'src/services/notify';
-import {getToken} from 'src/services/generic';
-import {CONFIG} from 'src/config/index';
-import MyLeavesList from 'components/leave/myLeaves/MyLeavesList';
+import {notify} from '../../../../services/notify';
+import {getToken} from '../../../../services/generic';
+import {CONFIG} from '../../../../config/index';
+import MyLeavesList from '../../../../components/leave/myLeaves/MyLeavesList';
 
 class UserLeavesList extends React.Component {
   constructor (props) {
@@ -67,7 +67,6 @@ class UserLeavesList extends React.Component {
           onRequestClose={this.handleClose}
           contentClassName="dialog-content" 
           autoScrollBodyContent>
-          
           <div>
             <form action={CONFIG.upload_leave_url} method="POST" encType="multipart/form-data">
               <input type="hidden" name="token" value={this.state.user_token} />
@@ -85,7 +84,6 @@ class UserLeavesList extends React.Component {
             </form>
           </div>
         </Dialog>
-        <div className="normal-text"><b>Normal Leaves</b></div>
         <div className="row-col">
           <div className="list white">
             {leavesList}

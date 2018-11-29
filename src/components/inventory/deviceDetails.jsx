@@ -2,20 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import moment from "moment";
-import "react-date-picker/index.css";
-import CircularProgress from "material-ui/CircularProgress";
-import { CONFIG } from "src/config/index";
+// import "react-date-picker/index.css";
+import { CONFIG } from "../../config/index";
 
 let path = CONFIG.inventory_images;
 const DeviceDetails = ({
   userAssignMachine,
   unassignDevice,
   loggedUser,
-  handleAuditClick,
-  activeAuditId,
-  activeAudits,
-  showPending
-}) => {  
+  handleAuditClick
+}) => {
   let machineList = _.map(userAssignMachine, (val, i) => {
     const auditComment =
       val.audit_current_month_status.status !== false
@@ -33,31 +29,22 @@ const DeviceDetails = ({
             </a>
           ) : null}
         </td>
-        <td>{val.machine_type}</td> 
+        <td>{val.machine_type}</td>
         <td>{val.machine_name}</td>
         <td>{val.bill_number}</td>
         <td>{val.serial_number}</td>
-        <td style={{ width: "100px" }}>{val.assign_date}</td> 
-        <td style={{ width: "240px" }}>
+        <td style={{ width: "100px" }}>{val.assign_date}</td>
+        <td style={{ width: "255px" }}>
           {val.audit_current_month_status.status === false ? (
             <button
-              className="btn btn-primary btn-responsives audit-btn"
+              className="btn btn-primary btn-responsives"
               data-toggle="modal"
               data-target="#modalAudit"
               onClick={() => handleAuditClick(val)}
-              style={{ background: activeAudits.includes(val.id) && !showPending?"green":"red", fontSize:"13px" }}
-              disabled={activeAudits.includes(val.id) && !showPending}
+              style={{ background: "red", fontSize:"13px" }}
             >
-            {activeAudits.includes(val.id) && !showPending ?
-            <CircularProgress
-            size={15}
-            thickness={3}
-            style={{ marginLeft: "0%" }}
-          />
-            :"Audit Pending"
-            }
+              Audit Pending
             </button>
-            
           ) : (
             <div style={{width:"inherit"}}>
               <div style={{width:"inherit"}}>
