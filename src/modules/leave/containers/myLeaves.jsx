@@ -49,9 +49,9 @@ class MyLeaves extends React.Component {
     });
   };
   onApplyRHLeave = () => {
-    const { date, type_text } = this.state.currentRH;
+    const { date, type_text,raw_date } = this.state.currentRH;
     this.props
-      .onApplyLeave(date, date, 1, this.state.inputValue, "", "", type_text)
+      .onApplyLeave(raw_date, raw_date, 1, this.state.inputValue, "", "", type_text)
       .then(() => {
         this.props.onMyLeavesList();
         confirm("RH is Successfully Applied", "", "success");
