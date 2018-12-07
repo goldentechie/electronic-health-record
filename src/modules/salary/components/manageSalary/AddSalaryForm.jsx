@@ -1,7 +1,7 @@
 import React from 'react';
 import * as _ from 'lodash';
-import moment from 'moment';
 import DatePicker from 'react-date-picker';
+import 'react-date-picker/dist/DatePicker.css';
 import { ButtonRaised } from '../../../../components/generic/buttons';
 
 
@@ -30,10 +30,17 @@ class AddSalaryForm extends React.Component {
       misc_deduction: '0',
       tds: '0',
     }
+    this.handleApplicableFrom = this.handleApplicableFrom.bind(this);
+    this.handleApplicableTill = this.handleApplicableTill.bind(this);
   }
-  handleApplicableFrom = (date) => {
+  handleApplicableFrom(date) {
     this.setState({
       applicable_from: date
+    });
+  }
+  handleApplicableTill(date) {
+    this.setState({
+      applicable_till: date
     });
   }
 
@@ -86,9 +93,7 @@ class AddSalaryForm extends React.Component {
     if(props.user_latest_salary_details){
       if (typeof props.user_latest_salary_details.test != 'undefined') {
         if (typeof props.user_latest_salary_details.test.applicable_from != 'undefined') {
-          console.log('props.user_latest_salary_details.test.applicable_from', props.user_latest_salary_details.test.applicable_from);
-          
-          applicable_from = new Date(props.user_latest_salary_details.test.applicable_from)
+          //applicable_from = props.user_latest_salary_details.test.applicable_from
         }
         if (typeof props.user_latest_salary_details.test.applicable_till != 'undefined') {
           //applicable_till = props.user_latest_salary_details.test.applicable_till
@@ -156,12 +161,6 @@ class AddSalaryForm extends React.Component {
         tds: tds,
       })
     }
-  }
-
-  addSalary = () => {
-    let dataObject = _.cloneDeep(this.state);
-    dataObject.applicable_from = moment(dataObject.applicable_from).format('YYYY-MM-DD');
-    this.props.callAddUserSalary(dataObject)
   }
 
   render() {
@@ -277,7 +276,7 @@ class AddSalaryForm extends React.Component {
               </div>
             </div>
             <div className="col-sm-3 cell center salary-options-width">
-              <i className="material-icons add-icon" onClick={() => this.addSalary()}>
+              <i className="material-icons add-icon" onClick={() => this.props.callAddUserSalary(this.state)}>
                 add_circle_outline
               </i>
             </div>
