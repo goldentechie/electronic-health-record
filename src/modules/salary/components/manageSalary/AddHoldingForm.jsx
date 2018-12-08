@@ -1,7 +1,7 @@
 import React from 'react';
 import * as _ from 'lodash';
-import moment from 'moment';
 import DateField from 'react-date-picker';
+// import 'react-date-picker/index.css';
 import { ButtonRaised } from '../../../../components/generic/buttons';
 
 class AddHoldingForm extends React.Component {
@@ -35,11 +35,6 @@ class AddHoldingForm extends React.Component {
     });
   }
 
-  addHolding = () =>{
-    let dataObject = _.cloneDeep(this.state);
-    dataObject.holding_from = moment(dataObject.holding_from).format('YYYY-MM-DD');
-    this.props.callAddUserHolding(dataObject)
-  }
   render() {
     let styles = _.cloneDeep(this.constructor.styles);
     let date = this.state.applicable_from;
@@ -73,7 +68,7 @@ class AddHoldingForm extends React.Component {
           </span>
         </div>
         <div className="col-sm-1 text-center">
-          <i className="material-icons add-icon" onClick={() => this.addHolding()}>
+          <i className="material-icons add-icon" onClick={() => this.props.callAddUserHolding(this.state)}>
             add_circle_outline
               </i>
         </div>

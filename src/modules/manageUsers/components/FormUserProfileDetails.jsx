@@ -2,7 +2,6 @@ import React from 'react';
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
 import DateField from 'react-date-picker';
-// import 'react-date-picker/index.css';
 import {CONFIG} from '../../../config/index';
 import Label from '../../../components/generic/label';
 import InputText from '../../../components/generic/input/InputText';
@@ -83,13 +82,13 @@ class FormUserProfileDetails extends React.Component {
     if (typeof userProfileDetail.training_month !== 'undefined' && userProfileDetail.training_month !== null) {
       training_month = userProfileDetail.training_month;
     }
-    if (typeof userProfileDetail.dateofjoining !== 'undefined' && userProfileDetail.dateofjoining != null  && userProfileDetail.dateofjoining !== '0000-00-00') {
+    if (typeof userProfileDetail.dateofjoining !== 'undefined' && userProfileDetail.dateofjoining != null) {
       var mydate = new Date(userProfileDetail.dateofjoining);
       if (mydate !== 'Invalid Date') {
         dateofjoining = userProfileDetail.dateofjoining;
       }
     }
-    if (typeof userProfileDetail.dob !== 'undefined' && userProfileDetail.dob !== null && userProfileDetail.dob !== '0000-00-00') {
+    if (typeof userProfileDetail.dob !== 'undefined' && userProfileDetail.dob !== null) {
       var mydate = new Date(userProfileDetail.dob);
       if (mydate !== 'Invalid Date') {
         dob = moment(mydate);
@@ -128,7 +127,7 @@ class FormUserProfileDetails extends React.Component {
     if (typeof userProfileDetail.work_email !== 'undefined' && userProfileDetail.work_email != null) {
       work_email = userProfileDetail.work_email;
     }
-    if (typeof userProfileDetail.training_completion_date !== 'undefined' && userProfileDetail.training_completion_date !== null && userProfileDetail.training_completion_date !== '0000-00-00') {
+    if (typeof userProfileDetail.training_completion_date !== 'undefined' && userProfileDetail.training_completion_date !== null) {
       var mydate = new Date(userProfileDetail.training_completion_date);
       if (mydate !== 'Invalid Date') {
         training_completion_date = userProfileDetail.training_completion_date;
