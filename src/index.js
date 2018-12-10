@@ -35,6 +35,7 @@ const Page_MonthlyAttendance = lazy(() => import('./modules/attendance/container
 const Page_UploadAttendance = lazy(() => import('./modules/attendance/containers/uploadAttendance'));
 const Page_MyDocuments = lazy(() => import('./modules/myDocuments/containers/myDocuments'));
 const PageManageUsers = lazy(() => import('./modules/manageUsers/containers/manageUsers'));
+const PageAllEmployee = lazy(() => import('./modules/manageUsers/containers/allEmployesDetails.jsx'));
 const Page_ManageWorkingHours = lazy(() => import('./modules/workingHours/containers/manageWorkingHours'));
 const Page_ManageUserWorkingHours = lazy(() => import('./modules/workingHours/containers/manageUserWorkingHours'));
 const InventorySystem = lazy(() => import('./modules/inventory/containers/manageInventory'));
@@ -94,6 +95,7 @@ let render = (routerKey = null) => {
             <Route path="/my_profile" component={Page_MyProfile} />
             <Route path="/my_inventory" component={Page_MyInventory} />
             <Route path="/manage_users" component={PageManageUsers} />
+            <Route path="/all_employee" component={PageAllEmployee} />
             <Route path="/manage_roles" component={PageManageRoles} />
             <Route path="/manage_payslips" component={Page_ManagePayslips} />
             <Route path="/forgot_password" component={Page_ForgotPassword} />
