@@ -8,7 +8,7 @@ const Button = ({id, type, label, style, className, onClick}) => {
   );
 };
 
-Button.PropTypes = {
+Button.propTypes = {
   id: PropTypes.string,
   type: PropTypes.string,
   label: PropTypes.string.isRequired,

@@ -9,7 +9,7 @@ const ButtonRaised = ({label, style, id, className, onClick, disabled}) => {
   );
 };
 
-ButtonRaised.PropTypes = {
+ButtonRaised.propTypes = {
   label: PropTypes.string.isRequired,
   style: PropTypes.object,
   className: PropTypes.string,

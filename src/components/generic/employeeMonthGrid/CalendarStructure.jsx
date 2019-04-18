@@ -14,7 +14,7 @@ const CalendarStructure = ({userId, month, onShowDaySummary, onWorkingHoursChang
   );
 };
 
-CalendarStructure.PropTypes = {
+CalendarStructure.propTypes = {
   userId:           PropTypes.number.isRequired,
   month:            PropTypes.array.isRequired,
   onShowDaySummary: PropTypes.func.isRequired

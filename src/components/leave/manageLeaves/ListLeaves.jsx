@@ -72,7 +72,7 @@ const ListLeaves = ({listItems, selectedLeave, selectLeave}) => {
   );
 };
 
-ListLeaves.PropTypes = {
+ListLeaves.propTypes = {
   listItems:     PropTypes.array.isRequired,
   selectedLeave: PropTypes.shape({
     id: PropTypes.string.isRequired

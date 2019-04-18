@@ -58,7 +58,7 @@ class DocumentsList extends React.Component {
   }
 }
 
-DocumentsList.PropTypes = {
+DocumentsList.propTypes = {
   policyDocuments:    PropTypes.array.isRequired,
   onUpdateReadStatus: PropTypes.func.isRequired
 };

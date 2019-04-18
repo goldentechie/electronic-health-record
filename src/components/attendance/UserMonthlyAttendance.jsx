@@ -59,7 +59,7 @@ const UserMonthlyAttendance = ({monthlyAttendance, monthToggle, onShowDaySummary
   );
 };
 
-UserMonthlyAttendance.PropTypes = {
+UserMonthlyAttendance.propTypes = {
   monthlyAttendance: PropTypes.shape({
     userid:        PropTypes.number.isRequired,
     previousMonth: PropTypes.object.isRequired,

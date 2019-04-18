@@ -33,7 +33,7 @@ const FilterLabel = ({data, onClick, onClear}) => {
   );
 };
 
-FilterLabel.PropTypes = {
+FilterLabel.propTypes = {
   data:    PropTypes.array,
   onClick: PropTypes.func,
   onClear: PropTypes.func

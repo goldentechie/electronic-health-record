@@ -50,9 +50,9 @@ let UsersRolesList = ({users, onChange}) => {
 
 export default UsersRolesList;
 
-UsersRolesList.PropTypes = {
+UsersRolesList.propTypes = {
   users: PropTypes.shape({
-    users_list: PropTypes.Object
+    users_list: PropTypes.object
   }).isRequired,
   onChange: PropTypes.func.isRequired
 };

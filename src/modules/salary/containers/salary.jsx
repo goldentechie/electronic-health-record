@@ -66,7 +66,7 @@ class Salary extends React.Component {
     if(!isMobile){
       data = <div className="not-displayed">Your salary details are hidden on desktop for your own security purpose, you can only view your salary on mobile.</div>
     }else if (this.props.salary.salary_history) {
-      data = this.props.salary.salary_history.map((item, index) => {
+      data = this.props.salary.salary_history.map((item, index) => {        
         return (
           <SalaryBlock key={index} item={item} /> 
         )

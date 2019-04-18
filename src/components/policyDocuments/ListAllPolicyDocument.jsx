@@ -48,7 +48,7 @@ const ListAllPolicyDocument = ({policyDocuments, submitNewListofDocs}) => {
   );
 };
 
-ListAllPolicyDocument.PropTypes = {
+ListAllPolicyDocument.propTypes = {
   policyDocuments:     PropTypes.array.isRequired,
   submitNewListofDocs: PropTypes.func.isRequired
 };

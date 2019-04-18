@@ -80,7 +80,7 @@ const DisplayRolesList = ({displayData, handleChange, handleChangeNotification, 
 
 export default DisplayRolesList;
 
-DisplayRolesList.PropTypes = {
+DisplayRolesList.propTypes = {
   displayData: PropTypes.shape({
     roles: PropTypes.object.isRequired
   }).isRequired,

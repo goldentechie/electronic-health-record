@@ -29,7 +29,7 @@ const Header = ({pageTitle, status, showLoading, userListHeader}) => {
   );
 };
 
-Header.PropTypes = {
+Header.propTypes = {
   pageTitle:   PropTypes.string.isRequired,
   status:      PropTypes.string,
   showLoading: PropTypes.bool.isRequired

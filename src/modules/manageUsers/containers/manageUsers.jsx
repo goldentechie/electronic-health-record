@@ -361,7 +361,7 @@ const RouterVisibleManageUsers = withRouter(VisibleManageUsers);
 
 export default RouterVisibleManageUsers;
 
-ManageUsers.PropTypes = {
+ManageUsers.propTypes = {
   onIsAlreadyLogin:           PropTypes.func.isRequired,
   onFetchTeam:                PropTypes.func.isRequired,
   onUserProfileDetails:       PropTypes.func.isRequired,

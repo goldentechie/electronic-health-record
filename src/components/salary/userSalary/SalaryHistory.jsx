@@ -27,7 +27,7 @@ const SalaryHistory = ({data, viewSalarySummary}) => {
   )
 }
 
-SalaryHistory.PropTypes = {
+SalaryHistory.propTypes = {
   data: PropTypes.array.isRequired,
   viewSalarySummary: PropTypes.func.isRequired
 }

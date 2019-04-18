@@ -35,7 +35,7 @@ const CompensationSummary = ({monthlyAttendance}) => {
   );
 };
 
-CompensationSummary.PropTypes = {
+CompensationSummary.propTypes = {
   monthlyAttendance: PropTypes.shape({
     compensationSummary: PropTypes.object.isRequired
   }).isRequired

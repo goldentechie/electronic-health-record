@@ -20,7 +20,7 @@ const AlertNotification = ({message,handleRequestClose}) => {
   );
 };
 
-AlertNotification.PropTypes = {
+AlertNotification.propTypes = {
   message: PropTypes.string.isRequired
 };
 export default AlertNotification;

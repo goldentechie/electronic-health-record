@@ -61,7 +61,7 @@ const ViewLeavesSummary = ({componentData, on_all_leaves_summary}) => {
   )
 }
 
-ViewLeavesSummary.PropTypes = {
+ViewLeavesSummary.propTypes = {
   componentData: PropTypes.shape({
     leavesSummary: PropTypes.array.isRequired,
     month: PropTypes.number,

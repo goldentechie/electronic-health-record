@@ -96,9 +96,9 @@ export default class AddRolesForm extends React.Component {
   }
 }
 
-AddRolesForm.PropTypes = {
+AddRolesForm.propTypes = {
   displayData: PropTypes.shape({
-    roles: PropTypes.Array
+    roles: PropTypes.array
   }).isRequired,
   callAddNewRole: PropTypes.func.isRequired
 };

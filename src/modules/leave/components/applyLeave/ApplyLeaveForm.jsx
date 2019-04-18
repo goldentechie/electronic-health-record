@@ -245,6 +245,6 @@ class ApplyLeaveForm extends React.Component {
 }
 ApplyLeaveForm.propTypes = {
   doApplyLeave: PropTypes.func.isRequired,
-  applyLeave:   PropTypes.shape({start_date: PropTypes.String, end_date: PropTypes.String})
+  applyLeave:   PropTypes.shape({start_date: PropTypes.string, end_date: PropTypes.string})
 };
 export default ApplyLeaveForm;

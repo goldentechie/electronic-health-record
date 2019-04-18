@@ -222,7 +222,7 @@ const AddNewEmployeeDetails = withRouter(
 
 export default AddNewEmployeeDetails;
 
-AddNewEmployeeDetails.PropTypes = {
+AddNewEmployeeDetails.propTypes = {
   onIsAlreadyLogin: PropTypes.func.isRequired,
   usersList: PropTypes.object.isRequired,
   onAddNewUserDetails: PropTypes.func.isRequired,

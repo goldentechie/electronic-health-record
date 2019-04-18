@@ -43,7 +43,7 @@ const DisplayUserDeviceDetails = ({userAssignMachine}) => {
   );
 };
 
-DisplayUserDeviceDetails.PropTypes = {
+DisplayUserDeviceDetails.propTypes = {
   userAssignMachine: PropTypes.array.isRequired
 };
 

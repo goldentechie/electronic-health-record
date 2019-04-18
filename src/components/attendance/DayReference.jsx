@@ -51,7 +51,7 @@ const DayReference = ({monthlyAttendance}) => {
   );
 };
 
-DayReference.PropTypes = {
+DayReference.propTypes = {
   monthlyAttendance: PropTypes.shape({
     monthSummary: PropTypes.object.isRequired
   }).isRequired

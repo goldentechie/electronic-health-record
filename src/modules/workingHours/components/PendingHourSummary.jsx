@@ -54,7 +54,7 @@ const PendingHourSummary = ({manageUserPendingHours, onUserPendingHoursData}) =>
     </div>
   );
 };
-PendingHourSummary.PropTypes = {
+PendingHourSummary.propTypes = {
   manageUserPendingHours: PropTypes.shape({
     previousMonth: PropTypes.object.isRequired,
     nextMonth:     PropTypes.object.isRequired,

@@ -54,7 +54,7 @@ const WorkingHoursSummary = ({workingHoursSummary, onWorkingHoursChange, onWorki
   );
 };
 
-WorkingHoursSummary.PropTypes = {
+WorkingHoursSummary.propTypes = {
   workingHoursSummary: PropTypes.shape({
     monthSummary:  PropTypes.array.isRequired,
     previousMonth: PropTypes.object.isRequired,

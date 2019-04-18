@@ -25,7 +25,7 @@ const LoadingIcon = ({loading}) => {
   );
 };
 
-LoadingIcon.PropTypes = {
+LoadingIcon.propTypes = {
   loading: PropTypes.bool
 };
 

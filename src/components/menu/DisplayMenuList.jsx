@@ -43,7 +43,7 @@ const DisplayMenuList = ({rolePages, click}) => {
 
 export default DisplayMenuList;
 
-DisplayMenuList.PropTypes = {
+DisplayMenuList.propTypes = {
   rolePages: PropTypes.object.isRequired,
   click:     PropTypes.func.isRequired
 };

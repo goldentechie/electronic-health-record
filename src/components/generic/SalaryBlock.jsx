@@ -9,12 +9,14 @@ const SalaryBlock = ({ item, userid, displayPage, viewSalarySummary, callDeleteU
         let v = Number(val);
         return Math.round(v) === v ? v : v.toFixed(2);
     }
+    let isHolding = false;
+    if(salaryStructure){
     let orderedSalary = orderBy(salaryStructure.salary_details,['date'],['desc']);
     let orderedHolding = orderBy(salaryStructure.holding_details,['last_updated_on'],['desc']);
-    let isHolding = false;
     if(orderedSalary.length > 0 && orderedHolding.length > 0){
         isHolding = orderedSalary[0].date === item.date && orderedHolding[0].holding_amt > 0;
     }
+}
     const  handleRemoveHolding = () => {
         let params  = {
             user_id: userid,
@@ -77,8 +79,9 @@ const SalaryBlock = ({ item, userid, displayPage, viewSalarySummary, callDeleteU
                         <div className="col-sm-12 salary-total-value">{total_deduction}</div>
                     </div>
                     <div className="col-sm-4 col-xs-12 cell remove-holding-btn-wrapper">
-                        {isHolding && <span className="remove-holding-btn" onClick={()=>handleRemoveHolding()}>Remove Holding</span>}
+                     { isHolding && <span className="remove-holding-btn" onClick={()=>handleRemoveHolding()}>Remove Holding</span>}
                     </div>
+                    
                     <div className="col-sm-2 col-xs-12 cell salary-epf-width">
                         <div className="col-sm-12 salary-title">EPF</div>
                         <div className="col-sm-12">{valueDecimal(item.EPF)}</div>

@@ -26,7 +26,7 @@ const LoggedUserInfo = ({loggedUser}) => {
 
 export default LoggedUserInfo;
 
-LoggedUserInfo.PropTypes = {
+LoggedUserInfo.propTypes = {
   loggedUser: PropTypes.shape({
     profileImage: PropTypes.string,
     name: PropTypes.string,

@@ -14,7 +14,7 @@ const MonthSummary = ({monthlyAttendance}) => {
   );
 }; 
 
-MonthSummary.PropTypes = {
+MonthSummary.propTypes = {
   monthlyAttendance:   PropTypes.object.isRequired,
   compensationSummary: PropTypes.object.isRequired
 };

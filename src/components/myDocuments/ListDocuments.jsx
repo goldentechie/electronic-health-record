@@ -26,7 +26,7 @@ const ListDocuments = ({myDocuments, deleteDocument}) => {
   );
 };
 
-ListDocuments.PropTypes = {
+ListDocuments.propTypes = {
   myDocuments:    PropTypes.array.isRequired,
   deleteDocument: PropTypes.func.isRequired
 };

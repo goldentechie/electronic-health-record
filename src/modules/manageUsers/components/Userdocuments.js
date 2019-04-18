@@ -211,7 +211,7 @@ const UserDocumentDetails = withRouter(
 
 export default UserDocumentDetails;
 
-UserDocumentDetails.PropTypes = {
+UserDocumentDetails.propTypes = {
   onIsAlreadyLogin: PropTypes.func.isRequired,
   usersList: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired

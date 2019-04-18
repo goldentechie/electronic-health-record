@@ -58,7 +58,7 @@ return (
 );
       };
 
-PayslipHistory.PropTypes = {
+PayslipHistory.propTypes = {
   payslip_history: PropTypes.array.isRequired
 };
 

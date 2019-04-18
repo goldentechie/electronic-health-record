@@ -15,7 +15,7 @@ export const LoginFormFooter = ({doGuestLogin}) => {
   );
 };
 
-LoginFormFooter.PropTypes = {
+LoginFormFooter.propTypes = {
   doGuestLogin: propTypes.func.isRequired
 };
 

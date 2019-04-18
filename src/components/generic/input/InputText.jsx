@@ -20,7 +20,7 @@ const InputText = ({ className, ref, placeHolder, onchange, id, name, value, sty
 
 export default InputText;
 
-InputText.PropTypes = {
+InputText.propTypes = {
   className: PropTypes.string,
   placeHolder: PropTypes.string.isRequired,
   onchange: PropTypes.func.isRequired,

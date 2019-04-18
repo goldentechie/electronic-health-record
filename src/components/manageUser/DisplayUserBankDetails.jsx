@@ -47,7 +47,7 @@ const DisplayUserBankDetails = ({ userBankDetails }) => {
   );
 };
 
-DisplayUserBankDetails.PropTypes = {
+DisplayUserBankDetails.propTypes = {
   bank_name: PropTypes.string.isRequired,
   bank_account_no: PropTypes.string.isRequired,
   ifsc: PropTypes.string.isRequired,

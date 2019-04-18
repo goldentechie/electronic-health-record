@@ -112,9 +112,9 @@ export default class UnassignDevice extends React.Component {
   }
 }
 
-UnassignDevice.PropTypes = {
+UnassignDevice.propTypes = {
   displayData: PropTypes.shape({
-    roles: PropTypes.Array
+    roles: PropTypes.array
   }).isRequired,
   callAddUserComment: PropTypes.func.isRequired
 };

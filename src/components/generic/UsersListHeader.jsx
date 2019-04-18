@@ -18,7 +18,7 @@ const UsersListHeader = ({users, selectedUserId, onUserClick, disabledUser}) => 
   );
 };
 
-UsersList.PropTypes = {
+UsersList.propTypes = {
   users:          PropTypes.array.isRequired,
   selectedUserId: PropTypes.oneOfType([
     PropTypes.string,

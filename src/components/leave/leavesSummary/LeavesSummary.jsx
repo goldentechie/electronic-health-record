@@ -47,7 +47,7 @@ const LeavesSummary = ({user}) => {
   );
 };
 
-LeavesSummary.PropTypes = {
+LeavesSummary.propTypes = {
   user: PropTypes.shape({
     attendance: PropTypes.array.isRequired,
     name:       PropTypes.string.isRequired,

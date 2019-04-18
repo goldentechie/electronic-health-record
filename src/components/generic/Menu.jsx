@@ -54,7 +54,7 @@ class Menu extends React.Component {
 
 export default Menu;
 
-Menu.PropTypes = {
+Menu.propTypes = {
   logged_user: PropTypes.shape({
     role:      PropTypes.string.isRequired,
     rolePages: PropTypes.object.isRequired

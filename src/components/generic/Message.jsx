@@ -18,7 +18,7 @@ const Message = ({message, style, className, onClick}) => {
   )
 }
 
-Message.PropTypes = {
+Message.propTypes = {
   message: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   style: PropTypes.object,

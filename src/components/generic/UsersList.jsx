@@ -68,7 +68,7 @@ const UsersList = ({users, selectedUserId, onUserClick, disabledUser, header, to
   );
 };
 
-UsersList.PropTypes = {
+UsersList.propTypes = {
   users:          PropTypes.array.isRequired,
   selectedUserId: PropTypes.oneOfType([
     PropTypes.string,

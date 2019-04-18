@@ -27,7 +27,7 @@ const UserHoldingHistory = ({data}) => {
   )
 }
 
-UserHoldingHistory.PropTypes = {
+UserHoldingHistory.propTypes = {
   data: PropTypes.array.isRequired
 }
 

@@ -102,9 +102,9 @@ export default class AssignDevice extends React.Component {
 }
 
 
-AssignDevice.PropTypes = {
+AssignDevice.propTypes = {
   displayData: PropTypes.shape({
-    roles: PropTypes.Array
+    roles: PropTypes.array
   }).isRequired,
   callAssignDevice: PropTypes.func.isRequired
 };

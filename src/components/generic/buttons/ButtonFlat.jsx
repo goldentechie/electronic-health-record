@@ -8,7 +8,7 @@ const ButtonFlat = ({label, style, className, onClick, id}) => {
   )
 }
 
-ButtonFlat.PropTypes = {
+ButtonFlat.propTypes = {
   label: PropTypes.string.isRequired,
   style: PropTypes.object,
   className: PropTypes.string,

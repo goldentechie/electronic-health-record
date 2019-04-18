@@ -26,7 +26,7 @@ const UserDetails = ({monthlyAttendance}) => {
   );
 };
 
-UserDetails.PropTypes = {
+UserDetails.propTypes = {
   monthlyAttendance: PropTypes.shape({
     userProfileImage: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,

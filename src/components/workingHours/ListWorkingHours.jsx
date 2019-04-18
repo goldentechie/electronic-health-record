@@ -18,7 +18,7 @@ const ListWorkingHour = ({row}) => {
   );
 };
 
-ListWorkingHour.PropTypes = {
+ListWorkingHour.propTypes = {
   row: PropTypes.shape({
     working_hours: PropTypes.string.isRequired,
     date:          PropTypes.string.isRequired,

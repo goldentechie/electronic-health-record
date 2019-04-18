@@ -32,7 +32,7 @@ const UserPayslipsHistory = ({user_payslip_history}) => {
   )
 }
 
-UserPayslipsHistory.PropTypes = {
+UserPayslipsHistory.propTypes = {
   user_payslip_history: PropTypes.array.isRequired
 }
 

@@ -57,7 +57,7 @@ const LeaveColorReference = ({filterLeaveList, selectedTab, userRole}) => {
   );
 };
 
-LeaveColorReference.PropTypes = {
+LeaveColorReference.propTypes = {
   filterLeaveList: PropTypes.func.isRequired,
   selectedTab:     PropTypes.string.isRequired,
   userRole:        PropTypes.string.isRequired

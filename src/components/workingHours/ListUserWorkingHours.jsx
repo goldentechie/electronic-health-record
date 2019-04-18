@@ -20,7 +20,7 @@ const ListUserWorkingHours = ({displayData}) => {
   );
 };
 
-ListUserWorkingHours.PropTypes = {
+ListUserWorkingHours.propTypes = {
   displayData: PropTypes.array.isRequired
 };
 

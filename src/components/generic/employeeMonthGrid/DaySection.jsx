@@ -20,7 +20,7 @@ const DaySection = ({block, classname, dataToDisplay, time, title, officeTime}) 
   );
 };
 
-DaySection.PropTypes = {
+DaySection.propTypes = {
   block:         PropTypes.string.isRequired,
   classname:     PropTypes.string.isRequired,
   dataToDisplay: PropTypes.string.isRequired,

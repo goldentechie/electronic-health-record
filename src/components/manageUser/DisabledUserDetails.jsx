@@ -132,7 +132,7 @@ const DisabledUserDetails = ({userDetails, changeEmployeeStatus}) => {
   );
 };
 
-DisabledUserDetails.PropTypes = {
+DisabledUserDetails.propTypes = {
   userDetails: PropTypes.shape({
     name:              PropTypes.string,
     jobtitle:          PropTypes.string,

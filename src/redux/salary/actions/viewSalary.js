@@ -26,7 +26,6 @@ export function getSalaryDetails () {
       dispatch(show_loading()); // show loading icon
       async_get_salary_details().then((json) => {
         dispatch(hide_loading()); // hide loading icon
-        console.log('json', json);
         if (typeof json.data !== 'undefined' && typeof json.data.salary_details !== 'undefined') {
           // let data = json.data.salary_details.reverse()
           // dispatch( success_salary_details( data ) )

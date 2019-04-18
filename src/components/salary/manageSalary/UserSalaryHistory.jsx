@@ -36,7 +36,7 @@ const UserSalaryHistory = ({data, message, viewSalarySummary, callDeleteUserSala
   )
 }
 
-UserSalaryHistory.PropTypes = {
+UserSalaryHistory.propTypes = {
   data: PropTypes.array,
   message: PropTypes.string,
   viewSalarySummary: PropTypes.func.isRequired,

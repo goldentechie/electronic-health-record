@@ -17,7 +17,7 @@ const Textarea = ({ className, placeHolder, onchange, id, name, value, style }) 
 
 export default Textarea;
 
-Textarea.PropTypes = {
+Textarea.propTypes = {
   classname: PropTypes.string,
   placeHolder: PropTypes.string,
   onchange: PropTypes.func.isRequired,

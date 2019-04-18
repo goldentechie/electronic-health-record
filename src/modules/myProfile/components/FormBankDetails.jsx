@@ -71,7 +71,7 @@ class FormBankDetails extends React.Component {
   }
 }
 
-FormBankDetails.PropTypes = {
+FormBankDetails.propTypes = {
   bank_account_no: PropTypes.number,
   bank_name:       PropTypes.string,
   bank_address:    PropTypes.string,

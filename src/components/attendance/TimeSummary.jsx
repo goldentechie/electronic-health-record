@@ -44,7 +44,7 @@ const TimeSummary = ({ monthlyAttendance }) => {
   );
 };
 
-TimeSummary.PropTypes = {
+TimeSummary.propTypes = {
   monthlyAttendance: PropTypes.shape({
     monthSummary: PropTypes.object.isRequired
   }).isRequired

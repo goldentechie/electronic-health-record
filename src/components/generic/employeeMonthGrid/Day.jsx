@@ -110,7 +110,7 @@ const Day = ({dayData, classname, forEmployeeHours, day, userid, showDaySummary,
   );
 };
 
-Day.PropTypes = {
+Day.propTypes = {
   classname:            PropTypes.string,
   forEmployeeHours:     PropTypes.bool,
   day:                  PropTypes.string,

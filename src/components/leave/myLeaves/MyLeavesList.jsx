@@ -86,7 +86,7 @@ const MyLeavesList = ({leave, handleOpen, cancelLeave}) => {
   );
 };
 
-MyLeavesList.PropTypes = {
+MyLeavesList.propTypes = {
   leave: PropTypes.shape({
     status:      PropTypes.string.isRequired,
     applied_on:  PropTypes.string.isRequired,

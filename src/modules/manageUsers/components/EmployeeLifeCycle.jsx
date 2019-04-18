@@ -61,7 +61,7 @@ const EmployeeLifeCycle = ({employee_life_cycle, handleChangeSteps}) => {
 
 export default EmployeeLifeCycle;
 
-EmployeeLifeCycle.PropTypes = {
+EmployeeLifeCycle.propTypes = {
   data: PropTypes.shape({
     employee_life_cycle: PropTypes.object.isRequired
   }).isRequired,

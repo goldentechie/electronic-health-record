@@ -147,7 +147,7 @@ const VisibleManageUsers = connect(mapStateToProps, mapDispatchToProps)(ManageRo
 const RouterVisibleManageUsers = withRouter(VisibleManageUsers);
 export default RouterVisibleManageUsers;
 
-ManageRoles.PropTypes = {
+ManageRoles.propTypes = {
   onIsAlreadyLogin:          PropTypes.func.isRequired,
   onFetchUserPolicyDocument: PropTypes.func.isRequired,
   onRolesList:               PropTypes.func.isRequired,
