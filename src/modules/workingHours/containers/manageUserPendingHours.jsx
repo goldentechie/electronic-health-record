@@ -63,7 +63,7 @@ class ManageUserPendingHours extends React.Component {
   callAddUserPendingHours (userid, pendingHour, empId) {
     this.setState({show_status_message: true});
     this.props.onAddUserPendingHours(userid, pendingHour, empId).then((message) => {
-      notify('Success !', message, 'success');
+      // notify('Success !', message, 'success');
     }).catch((error) => {
       notify('Error !', error, 'error');
     });

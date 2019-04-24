@@ -68,7 +68,7 @@ export function addUserPendingHour (userid, pendingHour, empId, year, month) {
       return Promise.reject('Time is empty');
     }
     return new Promise((resolve, reject) => {
-      dispatch(show_loading()); // show loading icon
+      // dispatch(show_loading()); // show loading icon
 
       asyncAddUserPendingHours(userid, pendingHour, empId, year, month).then((json) => {
         dispatch(hide_loading()); // hide loading icon

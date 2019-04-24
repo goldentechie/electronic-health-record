@@ -29,7 +29,7 @@ function asyncApplyEmployeLeave (no_of_days, userId, day_status, pending_id, yea
 export function applyPendingLeave (no_of_days, userId, day_status, pending_id, year, month) {
   return function (dispatch, getState) {
     return new Promise((reslove, reject) => {
-      dispatch(show_loading()); // show loading icon
+      // dispatch(show_loading()); // show loading icon
       asyncApplyEmployeLeave(
         no_of_days,
         userId,

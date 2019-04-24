@@ -53,7 +53,7 @@ export default class UserPendingHoursList extends React.Component {
       this.setState({
         reason: ''
       });
-      notify('Success !', message, 'success');
+      // notify('Success !', message, 'success');
       this.handleCloseMerge();
     }, (error) => {
       notify('Error !', error, 'error');

@@ -12,10 +12,12 @@ class AddUserPendingHour extends React.Component {
       user_Id:     '',
       empId:       '',
       year:        '',
-      month:       ''
+      month:       '',
+      clicked: ''
     };
     this.handleAddData = this.handleAddData.bind(this);
   }
+
   componentWillMount () {
     this.setState({
       pendingTime: this.props.val.extra_time,
@@ -41,6 +43,9 @@ class AddUserPendingHour extends React.Component {
     var times = [];
     var times1 = min.split(':');
     var times2 = penMin.split(':');
+    
+      this.setState({clicked : this.props.val.user_Id});     
+      //clicked button info  
 
     for (var i = 0; i < 2; i++) {
       times1[i] = (isNaN(parseInt(times1[i]))) ? 0 : parseInt(times1[i]);
@@ -63,11 +68,21 @@ class AddUserPendingHour extends React.Component {
     this.props.callAddUserPendingHours(userId, pendingHour, empId, this.state.year, this.state.month);
   };
   render () {
+    
+    
+    console.log('props',this.props);
     return (
-      <div>
-        <div>
+      <div>                  
+        <div id ={this.state.clicked}>
+          {((this.state.clicked === this.props.val.user_Id)&&(this.props.manageUserPendingHours.status_message === ""))
+            ? <span className="d-inline  loading">
+            <i className="fa fa-spinner fa-spin"></i>
+              </span>
+            : <span></span>
+          }
           <ButtonRaised
-            className="m-b-sm green"
+          
+            className="m-b-sm green "
             onClick={this.handleAddData}
             label={'Merge To Next Working Day'} />
         </div>

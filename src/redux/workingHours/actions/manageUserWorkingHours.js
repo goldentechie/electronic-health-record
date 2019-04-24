@@ -76,7 +76,7 @@ export function add_user_working_hours (userid, date, working_hours, reason) {
     }
 
     return new Promise((resolve, reject) => {
-      dispatch(show_loading()); // show loading icon
+      // dispatch(show_loading()); // show loading icon
       async_add_user_working_hours(userid, date, working_hours, reason).then(
 				(json) => {
   dispatch(hide_loading()); // hide loading icon

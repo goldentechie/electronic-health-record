@@ -14,6 +14,8 @@ class AddAsHalfDayLeave extends React.Component {
       userId:                '',
       half_day:              '0.5',
       full_day:              '1',
+      clickedHalfDay: '',
+      clickedFullDay:'',
       'show_status_message': false
     };
     this._apply_half_day_1 = this._apply_half_day_1.bind(this);
@@ -38,6 +40,10 @@ class AddAsHalfDayLeave extends React.Component {
   _apply_half_day_1 (shift) {
     if (shift === 1) {
       let day_status = '1';
+      
+      this.setState({clickedHalfDay : this.props.val.user_Id});     
+      //clicked button info  
+
       this.props.onApplyHalfLeave(
         this.state.half_day,
         this.state.userId,
@@ -45,21 +51,27 @@ class AddAsHalfDayLeave extends React.Component {
         this.state.pending_id,
         this.state.year,
         this.state.month,
-        ).then((data) => {
-          notify('Success !','Half day leave Applied','success');
+        ).then((data) => {          
+          // notify('Success !','Half day leave Applied','success');
           this.setState({
             form_no_of_days:     '',
             pending_id:          '',
             year:                '',
             month:               '',
             userId:              '',
-            show_status_message: true
+            show_status_message: true,            
+            clickedHalfDay : ''     
           });
         }).catch((error) => {
           notify('Error !',error,'error');
         });
     } else if (shift === 2) {
       let day_status = '';
+      
+     
+      this.setState({clickedFullDay : this.props.val.user_Id});     
+      //clicked button info  
+
       this.props.onApplyHalfLeave(
         this.state.full_day,
         this.state.userId,
@@ -67,15 +79,16 @@ class AddAsHalfDayLeave extends React.Component {
         this.state.pending_id,
         this.state.year,
         this.state.month,
-        ).then((data) => {
-          notify('Success !','full day leave Applied','success');
+        ).then((data) => {          
+          // notify('Success !','full day leave Applied','success');
           this.setState({
             form_no_of_days:     '',
             pending_id:          '',
             year:                '',
             month:               '',
             userId:              '',
-            show_status_message: true
+            show_status_message: true,
+            clickedFullDay: ''
           });
         }).catch((error) => {
           notify('Error !',error,'error');
@@ -97,10 +110,22 @@ class AddAsHalfDayLeave extends React.Component {
     return (
       <div>
         <div>
+          {((this.state.clickedHalfDay === this.props.val.user_Id)&&(this.props.manageUserPendingHours.status_message === ""))
+            ? <span className="d-inline mr-4 loading">
+            <i className="fa fa-spinner fa-spin"></i>
+              </span>
+            : <span></span>
+          }
           <ButtonRaised
             className="m-b-sm indigo"
             onClick={() => this._apply_half_day_1(1)} label="Apply Half Day Leave" />
           <br />
+          {((this.state.clickedFullDay === this.props.val.user_Id)&&(this.props.manageUserPendingHours.status_message === ""))
+            ? <span className="d-inline loading">
+            <i className="fa fa-spinner fa-spin"></i>
+              </span>
+            : <span></span>
+          }
            <ButtonRaised
              className="m-b-sm indigo"
              onClick={() => this._apply_half_day_1(2)} label="Apply full Day Leave" />
