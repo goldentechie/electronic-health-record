@@ -74,9 +74,7 @@ class ManageUserWorkingHours extends React.Component {
       selectedUserName = this.props.manageUserWorkingHours.userInfo.name;
       selectedUserJobtitle = this.props.manageUserWorkingHours.userInfo.jobtitle;
       selectedUserId = this.props.manageUserWorkingHours.userInfo.user_Id;
-    } catch (err) {}
-
-    console.log('this.props.usersList', this.props.usersList);
+    } catch (err) {}    
     
     return (
       <div>
