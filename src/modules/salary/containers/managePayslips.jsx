@@ -40,7 +40,7 @@ class ManagePayslips extends React.Component {
     this.responseGoogle = this.responseGoogle.bind(this);
     this.saveArrear = this.saveArrear.bind(this);
   }
-  componentWillMount () {
+  componentWillMount () {    
     this.props.onUsersList();
   }
   componentWillReceiveProps (props) {
@@ -78,6 +78,7 @@ class ManagePayslips extends React.Component {
   }
 
   componentDidUpdate () {
+    window.scrollTo(0,0);
     if (this.state.defaultUserDisplay == '') {
       if (this.props.usersList.users.length > 0) {
         let firstUser = this.props.usersList.users[0];
@@ -166,7 +167,7 @@ class ManagePayslips extends React.Component {
       <div>
         <Menu {...this.props} />
         <div id="content" className="app-content box-shadow-z0" role="main">
-          <Header pageTitle={'Manage Payslips' + status_message} {...this.props} />
+          <Header pageTitle={'Manage Payslips' + status_message} {...this.props} showLoading={this.props.frontend.show_loading}/>
           <div className="app-body" id="view">
             <div className="padding">
               <div className="row">

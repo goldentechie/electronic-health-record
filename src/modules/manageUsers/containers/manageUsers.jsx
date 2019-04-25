@@ -189,9 +189,7 @@ class ManageUsers extends React.Component {
       notify(error);
     });
   }
-  render () {
-    console.log('this.state.open', this.state.open);
-    
+  render () {        
     return (
       <div>
         <Dialog title="Add Salary"
