@@ -167,7 +167,7 @@ class ManagePayslips extends React.Component {
       <div>
         <Menu {...this.props} />
         <div id="content" className="app-content box-shadow-z0" role="main">
-          <Header pageTitle={'Manage Payslips' + status_message} {...this.props} showLoading={this.props.frontend.show_loading}/>
+          <Header pageTitle={'Manage Payslips' + status_message} {...this.props}/>
           <div className="app-body" id="view">
             <div className="padding">
               <div className="row">
