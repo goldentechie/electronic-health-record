@@ -76,12 +76,12 @@ class MyProfile extends React.Component {
     }
   }
   render () {
-    let {name, jobtitle, dateofjoining, gender, dob, work_email} = this.state.user_profile_detail;
+    let {name, jobtitle, dateofjoining, gender, dob, work_email, mobile_ph} = this.state.user_profile_detail;
     return (
       <div>
         <Menu {...this.props} />
         <div id="content" className="app-content box-shadow-z0" role="main">
-          <Header pageTitle={'My Profile'} {...this.props} />
+          <Header pageTitle={'My Profile'} {...this.props} />          
           <div className="app-body" id="view">
             <div className="padding">
               <div className="row no-gutter">
@@ -93,6 +93,8 @@ class MyProfile extends React.Component {
                   gender={gender}
                   dob={dob}
                   workEmail={work_email}
+                  contactNumber={mobile_ph}
+
                 />
               </div>
               <div className="row no-gutter">

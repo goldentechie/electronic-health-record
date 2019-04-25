@@ -67,11 +67,7 @@ class FormProfileDetails extends React.Component {
               <option value="Married">Married</option>
               <option value="Other">Other</option>
             </select>
-          </div>
-          <div className="col-xs-6 col-sm-12 profile-input form-group">
-            <label>Date of Birth</label>
-            {/* <DateField dateFormat="YYYY-MM-DD" value={this.state.dob} onChange={(date) => { this.setState({dob: date}); }} className="form-control" /> */}
-          </div>
+          </div>            
         </div>
         <div className="row no-gutter">
           <div className="col-xs-6 profile-input">

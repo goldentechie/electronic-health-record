@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const UserHorizontalView = ({profileImage, name, jobtitle, dateofjoining, gender, dob, workEmail, inventory}) => {
+const UserHorizontalView = ({profileImage, name, jobtitle, dateofjoining, gender, dob, workEmail, contactNumber, inventory}) => {
   let joining, details;
   if (!inventory) {
     joining = <h5 className="text-muted">Joining Date: <b>{dateofjoining}</b></h5>;
@@ -9,6 +9,7 @@ const UserHorizontalView = ({profileImage, name, jobtitle, dateofjoining, gender
       <h5>Gender: <b>{gender}</b></h5>
       <h5>Date Of Birth: <b>{dob}</b></h5>
       <h5>Work Email: <b>{workEmail}</b></h5>
+      <h5>Contact Number: <b>{contactNumber}</b></h5>
     </div>;
   }
   return (

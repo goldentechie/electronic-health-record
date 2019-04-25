@@ -198,7 +198,7 @@ class ManageSalary extends React.Component {
                       <hr />
                       <div className="content-salary">
                         {data}
-                        <AddSalaryForm {...this.props} userid={this.state.selected_user_id} callAddUserSalary={this.callAddUserSalary} user_latest_salary_details={this.state.user_latest_salary_details}/>
+                        <AddSalaryForm {...this.props} userid={this.state.selected_user_id} callAddUserSalary={this.callAddUserSalary} user_latest_salary_details={this.state.user_latest_salary_details} latest_salary_literally={this.state.salary_history[0]} />
                       </div>
                     </div>
                   </div>
