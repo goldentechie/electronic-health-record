@@ -31,8 +31,7 @@ class ApplyLeaveForm extends React.Component {
     this.handleEndDate = this.handleEndDate.bind(this);
     this._apply_half_day_1 = this._apply_half_day_1.bind(this);
   }
-  componentDidMount () {}
-
+  
   componentDidUpdate () {    
     if (this.state.form_from_date != '' && this.state.form_to_date != '' && this.state.form_no_of_days == '') {
       this.props.onDaysBetweenLeaves(this.state.form_from_date, this.state.form_to_date);
