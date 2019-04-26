@@ -39,9 +39,9 @@ class Holidays extends React.Component {
       notify('Error !', addHoliday.message, 'error');
     }
     if (addHoliday.isSuccess) {
-      notify('Success !', addHoliday.data.message, 'success');
-      this.props.requestHolidayList({year: moment(this.state.date).year()});
+      notify('Success !', addHoliday.data.message, 'success');           
       this.setState({date:"",holidayName:""});
+      this.props.requestHolidayList({year:this.state.year}); 
     }
     if (deleteHoliday.isError) {
       notify('Error !', deleteHoliday.message, 'error');
