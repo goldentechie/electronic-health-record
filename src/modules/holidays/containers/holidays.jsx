@@ -30,7 +30,7 @@ class Holidays extends React.Component {
     this.props.resetReducer();
     this.props.requestHolidayType({token:getToken()});
     this.year = getYearArray();
-    this.setState({yearSelected:`${this.year[3]}`});
+    this.setState({year:`${this.year[3]}`});
   }
   componentWillReceiveProps (props) {
     let {addHoliday,holidayType,deleteHoliday} = props;
@@ -50,7 +50,7 @@ class Holidays extends React.Component {
     }
     if (deleteHoliday.isSuccess) {
       notify('Success !', deleteHoliday.data.message, 'success');
-      this.props.requestHolidayList({year:this.state.year});
+      this.props.requestHolidayList({year:this.state.yearSelected});
     }
     
     let {location, history, loggedUser, holidaysList: {isError, message}} = props;
@@ -85,7 +85,7 @@ class Holidays extends React.Component {
     )}
   
   handleYearChange=(e)=>{
-    this.setState({ year: e.target.value });
+    this.setState({ yearSelected: e.target.value });
     this.props.requestHolidayList({year:e.target.value});
   }
   
