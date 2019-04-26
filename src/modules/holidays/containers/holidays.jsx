@@ -30,7 +30,7 @@ class Holidays extends React.Component {
     this.props.resetReducer();
     this.props.requestHolidayType({token:getToken()});
     this.year = getYearArray();
-    this.setState({year:`${this.year[3]}`});
+    this.setState({yearSelected:`${this.year[3]}`});
   }
   componentWillReceiveProps (props) {
     let {addHoliday,holidayType,deleteHoliday} = props;
