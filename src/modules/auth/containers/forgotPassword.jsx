@@ -67,7 +67,7 @@ class ForgotPassword extends React.Component {
           <div className="m-b text-sm text-center">
             <br />
             <button className="md-btn md-flat text-accent">
-              <Link to='/'>Login</Link>
+              <Link to='/page_login'>Login</Link>
             </button>
           </div>
         </div>
