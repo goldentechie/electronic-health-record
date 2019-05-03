@@ -69,6 +69,7 @@ export function apply_leave (from_date, to_date, no_of_days, reason, userId, day
           dispatch(hide_loading()); // hide loading icon
           if (json.error == 0) {
             dispatch(leave_sucess(json.data.message));
+                  reslove()
           } else {
             dispatch(leave_fail(json.data.message));
           }
