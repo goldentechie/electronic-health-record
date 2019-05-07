@@ -28,7 +28,7 @@ const ListLeaves = ({listItems, selectedLeave, selectLeave}) => {
     });
     toggleCollapse(false);
   });
-  let LeavesList = _.map(listItems, (leave, key) => {    
+  let LeavesList = _.map(listItems, (leave, key) => {
     let leaveStatusColor = '';
     let selectedDivClass = '';
     if (leave.status === 'Approved') {
@@ -49,8 +49,7 @@ const ListLeaves = ({listItems, selectedLeave, selectLeave}) => {
           </span>
         </div>
         <div className="list-body">
-        <div>{leave.leave_type.toLowerCase()==="restricted" && <b>RH</b>}</div>
-          <div>{leave.user_profile_name}</div>
+          {leave.user_profile_name}
           <small className="block">
             Applied on : {leave.applied_on}
           </small>
