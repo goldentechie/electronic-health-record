@@ -36,15 +36,15 @@ export function error_usersList (data) {
   return createAction(constants.ERROR_USERSLIST)(data);
 }
 
-function async_get_users_list (action) {
-  return fireAjax('POST', '', {'action': 'get_enable_user', 'sorted_by': action && action.sort_by ? action.sort_by : null});
+function async_get_users_list () {
+  return fireAjax('POST', '', {'action': 'get_enable_user'});
 }
 
-export function get_users_list (action) {
+export function get_users_list () {
   return function (dispatch, getState) {
     return new Promise((resolve, reject) => {
       dispatch(show_loading()); // show loading icon
-      async_get_users_list(action).then((json) => {
+      async_get_users_list().then((json) => {
         dispatch(hide_loading()); // hide loading icon
         if (json.error == 0) {
           dispatch(success_usersList(json.data));

@@ -67,6 +67,7 @@ class UserLeavesList extends React.Component {
           onRequestClose={this.handleClose}
           contentClassName="dialog-content" 
           autoScrollBodyContent>
+          
           <div>
             <form action={CONFIG.upload_leave_url} method="POST" encType="multipart/form-data">
               <input type="hidden" name="token" value={this.state.user_token} />
@@ -84,6 +85,7 @@ class UserLeavesList extends React.Component {
             </form>
           </div>
         </Dialog>
+        <div className="normal-text"><b>Normal Leaves</b></div>
         <div className="row-col">
           <div className="list white">
             {leavesList}

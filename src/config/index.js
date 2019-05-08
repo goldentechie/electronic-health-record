@@ -6,7 +6,7 @@ console.log('Environment :: ' + process.env.NODE_ENV);
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 const token = getToken();
-
+// http://dev.hr.excellencetechnologies.in/hr/temp_rh_test_27042019/API_HR/api.php
 const CONFIG = {
   BASE_URL:                  window.location.href.split('/#')[0] || baseUrl,
   api_url:                   `${baseUrl}/attendance/API_HR/api.php`,
