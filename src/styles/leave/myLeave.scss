@@ -9,12 +9,16 @@
 }
 .rh-leave-container {
   .rh-leaves {
+    .rh-wrapper {
+      margin-bottom: 20px;
+      overflow: auto;
+    }
     h2 {
       padding: 5% 0;
     }
     .rh-text {
-      padding: 1% 0 0 0;
-      margin-left: 0.5%;
+      padding-top: 1%;
+      // margin-left: 0.5%;
       font-size: 20px;
       margin-bottom: 12px;
 

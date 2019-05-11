@@ -1,12 +1,12 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router';
-import Menu from '../../../components/generic/Menu';
-import {isNotUserValid} from '../../../services/generic';
-import Header from '../../../components/generic/Header';
-import UserLeavesList from '../../../modules/leave/components/myLeaves/UserLeavesList';
-import * as actions from '../../../redux/actions';
-import * as actions_myLeaves from '../../../redux/leave/actions/myLeaves';
+import React from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import Menu from "../../../components/generic/Menu";
+import { isNotUserValid } from "../../../services/generic";
+import Header from "../../../components/generic/Header";
+import UserLeavesList from "../../../modules/leave/components/myLeaves/UserLeavesList";
+import * as actions from "../../../redux/actions";
+import * as actions_myLeaves from "../../../redux/leave/actions/myLeaves";
 
 import RHLeaves from "../components/RHLeaves/RHLeaves";
 import { getYearArray } from "../../../services/generic";
@@ -24,7 +24,7 @@ class MyLeaves extends React.Component {
       showModal: false,
       inputValue: "",
       showerror: false,
-      reCall:true
+      reCall: true
     };
     this.props.onIsAlreadyLogin();
   }
@@ -36,12 +36,16 @@ class MyLeaves extends React.Component {
   componentWillReceiveProps(props) {
     const { id } = this.props.loggedUser.data;
     window.scrollTo(0, 0);
-    let isNotValid = isNotUserValid(this.props.location.pathname, props.loggedUser);
+    let isNotValid = isNotUserValid(
+      this.props.location.pathname,
+      props.loggedUser
+    );
     if (isNotValid.status) {
       this.props.history.push(isNotValid.redirectTo);
     }
     if (id && this.state.reCall) {
       this.props.getRHList(this.year[3], id);
+      this.props.getRHStatus(this.year[3], id);
       this.setState({
         reCall: false
       });
@@ -50,6 +54,7 @@ class MyLeaves extends React.Component {
   handleYearChange = e => {
     this.setState({ year: e.target.value });
     this.props.getRHList(e.target.value);
+    this.props.getRHStatus(e.target.value);
   };
 
   handleApplyClick = leave => {
@@ -74,7 +79,7 @@ class MyLeaves extends React.Component {
       .then(() => {
         this.props.onMyLeavesList();
         this.props.getRHList(this.year[3], id);
-
+        this.props.getRHStatus(this.year[3], id);
         confirm("RH is Successfully Applied", "", "success");
       })
       .catch(message => {
@@ -97,7 +102,7 @@ class MyLeaves extends React.Component {
       inputValue: e.target.value
     });
   };
-  
+
   render() {
     console.log(this.state);
     return (
@@ -134,6 +139,7 @@ class MyLeaves extends React.Component {
                     yearArray={this.year}
                     handleYearChange={this.handleYearChange}
                     RHLeaveList={this.props.RHLeaveList.RHLeaves.rh_list}
+                    RHStatus={this.props.RHLeaveList.RHStatus}
                     handleApplyClick={this.handleApplyClick}
                   />
                 </div>
@@ -189,7 +195,8 @@ const mapDispatchToProps = dispatch => {
     onCancelLeave: (userId, from_date) => {
       return dispatch(actions_myLeaves.cancelLeave(userId, from_date));
     },
-    getRHList: (year, id) => dispatch(actions_myLeaves.getRHList(year, id))
+    getRHList: (year, id) => dispatch(actions_myLeaves.getRHList(year, id)),
+    getRHStatus: (year, id) => dispatch(actions_myLeaves.getRHStatus(year, id))
   };
 };
 
