@@ -85,7 +85,7 @@ class UserLeavesList extends React.Component {
             </form>
           </div>
         </Dialog>
-        <div className="normal-text"><b>Normal Leaves</b></div>
+        <div className="normal-text"><b>Leaves</b></div>
         <div className="row-col">
           <div className="list white">
             {leavesList}

@@ -28,7 +28,7 @@ const MyLeavesList = ({leave, handleOpen, cancelLeave}) => {
         </div>
         {leave.leave_type.toLowerCase()==="restricted" &&
         <div>
-          <h3 className="_500">RH</h3>
+          <h3 className="_500"><b>RH</b></h3>
         </div>
         }
         <div>

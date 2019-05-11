@@ -126,7 +126,9 @@ class ManagePayslipsUsersList extends React.Component {
 
 // ------user list
 
-    let usersList = _.map(this.props.users, (user, keyval) => {
+    let usersList = _.map(this.props.users.sort(function (a, b) {
+          return a.id - b.id;
+        }), (user, keyval) => {
       let userid = user.user_Id;
 
       let generatedPayslipIdToEmail = '';

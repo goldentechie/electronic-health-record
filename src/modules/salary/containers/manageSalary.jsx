@@ -50,7 +50,7 @@ class ManageSalary extends React.Component {
     this.callDeleteUserSalary = this.callDeleteUserSalary.bind(this);
   }
   componentWillMount () {
-    this.props.onUsersList();
+    this.props.onUsersList({sort_by: "salary"});
     var current_date = moment().format('YYYY-MM-DD');
   }
 
@@ -176,7 +176,7 @@ class ManageSalary extends React.Component {
             <div className="padding">
               <div className="row">
                 <div className="col-md-2 col-sm-12 col-xs-12 hidden-xs" id="fixedScroll">
-                  <UsersList users={this.props.loggedUser.data.role == CONFIG.HR ? this.state.subList : this.props.usersList.users} selectedUserId={this.state.selected_user_id} onUserClick={this.onUserClick} {...this.props} />
+                  <UsersList users={this.props.loggedUser.data.role == CONFIG.HR ? this.state.subList : this.props.usersList.users} notSorted={true} selectedUserId={this.state.selected_user_id} onUserClick={this.onUserClick} {...this.props} />
                 </div>
                 <div className="col-md-10 col-sm-12 col-xs-12">
                   <div className="box m-t-xs">
@@ -261,8 +261,8 @@ const mapDispatchToProps = (dispatch) => {
     onIsAlreadyLogin: () => {
       return dispatch(actions.isAlreadyLogin());
     },
-    onUsersList: () => {
-      return dispatch(actions_usersList.get_users_list());
+    onUsersList: (data) => {
+      return dispatch(actions_usersList.get_users_list(data));
     },
     onUserSalaryDetails: (userid) => {
       return dispatch(actions_manageSalary.get_user_salary_details(userid));

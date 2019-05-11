@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Avatar from 'material-ui/Avatar';
 import $ from 'jquery';
 
-const UsersList = ({users, selectedUserId, onUserClick, disabledUser, header, top}) => {
+const UsersList = ({users, selectedUserId, onUserClick, disabledUser, header, top, notSorted}) => {
   const userClick = (param) => {
     onUserClick(param);
     header && $('#user-list-header').modal('hide'); 
@@ -17,7 +17,7 @@ const UsersList = ({users, selectedUserId, onUserClick, disabledUser, header, to
   //     $('#fixedScroll').removeClass('fixedScroll');
   //   }
   // });
-  let orderUser=_.orderBy(users, [ 'id'], ['asc']);
+  let orderUser = notSorted ? users : _.orderBy(users, [ 'id'], ['asc']);
   let usersList = _.map(orderUser, (user, key) => {
     let avatar = '';
     let param = '';

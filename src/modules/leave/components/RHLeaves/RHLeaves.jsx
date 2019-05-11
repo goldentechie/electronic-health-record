@@ -17,7 +17,7 @@ class RHLeaves extends React.Component {
           <div
             className="col-md-12"
             style={{ paddingLeft: "1px", padding: "0px",display:"flex" }}
-          > <div className="col-md-8 col-xs-8 rh-text"><b>RH Leaves</b></div>
+          > <div className="col-md-8 col-xs-8 rh-text"><b>RH List</b></div>
           <div className="col-md-4 col-xs-4 rh-select">
             <select
               className="form-control"
