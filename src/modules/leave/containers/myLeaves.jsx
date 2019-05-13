@@ -34,7 +34,7 @@ class MyLeaves extends React.Component {
     this.setState({ year: `${this.year[3]}` });
   }
   componentWillReceiveProps(props) {
-    const { id } = this.props.loggedUser.data;
+    const { id } = this.props.loggedUser.data;    
     window.scrollTo(0, 0);
     let isNotValid = isNotUserValid(
       this.props.location.pathname,
@@ -51,10 +51,14 @@ class MyLeaves extends React.Component {
       });
     }
   }
+  // Request URL: http://dev.hr.excellencetechnologies.in/temp_rh_test_27042019/attendance/API_HR/api.php
+
   handleYearChange = e => {
+    const { id } = this.props.loggedUser.data;
+
     this.setState({ year: e.target.value });
-    this.props.getRHList(e.target.value);
-    this.props.getRHStatus(e.target.value);
+    this.props.getRHList(e.target.value,id);
+    this.props.getRHStatus(e.target.value,id);
   };
 
   handleApplyClick = leave => {

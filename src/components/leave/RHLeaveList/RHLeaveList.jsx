@@ -4,6 +4,8 @@ import { ButtonInfo, Button } from "../../../components/generic/buttons";
 // "components/generic/buttons";
 
 const RHLeavesList = ({ leave, handleApplyClick }) => {
+  console.log(leave,'oooooooooooooo');
+  
   let s = leave.status;
   let f_char = s.charAt(0);
   let leaveStatusColor = '';

@@ -129,7 +129,7 @@ function async_getRHStatus (year,id) {
   });
 }
 
-export function getRHStatus(year,id) {
+export function getRHStatus(year,id) {  
   return function (dispatch, getState) {
     return new Promise((reslove, reject) => {
       dispatch(show_loading()); // show loading icon
