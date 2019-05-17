@@ -62,17 +62,15 @@ export function apply_leave (from_date, to_date, no_of_days, reason, userId, day
       return Promise.reject('Reason is empty');
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise((reslove, reject) => {
       dispatch(show_loading()); // show loading icon
       if (userId == '') {
         async_apply_leave(from_date, to_date, no_of_days, reason, day_status, leaveType, late_reason, pending_id, year, month).then((json) => {
           dispatch(hide_loading()); // hide loading icon
           if (json.error == 0) {
             dispatch(leave_sucess(json.data.message));
-            resolve()
           } else {
             dispatch(leave_fail(json.data.message));
-            reject(json.data.message);
           }
         }, (error) => {
           dispatch(hide_loading()); // hide loading icon
@@ -84,7 +82,7 @@ export function apply_leave (from_date, to_date, no_of_days, reason, userId, day
 (json) => {
   dispatch(hide_loading()); // hide loading icon
   if (json.error == 0) {
-    resolve(json.data.message);
+    reslove(json.data.message);
     dispatch(leave_sucess(json.data.message));
   } else {
     dispatch(leave_fail(json.data.message));

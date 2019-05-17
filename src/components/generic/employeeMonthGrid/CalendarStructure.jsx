@@ -8,7 +8,7 @@ const CalendarStructure = ({userId, month, onShowDaySummary, onWorkingHoursChang
     return <CalendarWeek key={key} userId={userId} dayData={dayData} onShowDaySummary={onShowDaySummary} onWorkingHoursChange={onWorkingHoursChange} />;
   });
   return (
-    <div id="calendar">
+    <div id="calendar" className="col-xs-12">
       {daysOfCalender}
     </div>
   );
