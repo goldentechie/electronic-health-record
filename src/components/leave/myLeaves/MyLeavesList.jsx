@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import {ButtonInfo, Button} from 'src/components/generic/buttons';
 
-const MyLeavesList = ({leave, handleOpen, cancelLeave}) => {
+const MyLeavesList = ({leave, handleOpen, cancelLeave}) => {  
   let s = leave.status;
   let f_char = s.charAt(0);
   let leaveStatusColor = '';
@@ -26,6 +26,11 @@ const MyLeavesList = ({leave, handleOpen, cancelLeave}) => {
       <div className="list-body">
         <div className="pull-right text-muted text-xs">
         </div>
+        {leave.leave_type.toLowerCase()==="restricted" &&
+        <div>
+          <h3 className="_500"><b>RH</b></h3>
+        </div>
+        }
         <div>
           <span className="_500">Status : {leave.status}</span>
         </div>

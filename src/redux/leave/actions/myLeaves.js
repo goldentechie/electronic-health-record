@@ -17,6 +17,18 @@ export function list_my_leaves_empty (data) {
 export function list_my_leaves_error (err) {
   return createAction(constants.ACTION_LIST_MY_LEAVES_ERROR)('Error Occurs !!');
 }
+export function getRHLeavesListSuccess(data){    
+  return createAction(constants.REQUEST_RH_LIST_SUCCESS)(data)
+}
+export function getRHLeavesListError(error){
+  return createAction(constants.REQUEST_RH_LIST_ERROR)('Error Occurs !!')
+}
+export function getRHStatusSuccess(data){    
+  return createAction(constants.REQUEST_RH_STATUS_SUCCESS)(data)
+}
+export function getRHStatusError(error){
+  return createAction(constants.REQUEST_RH_STATUS_ERROR)('Error Occurs !!')
+}
 
 function async_getMyLeaves () {
   return fireAjax('POST', '', {
@@ -72,6 +84,70 @@ export function cancelLeave (userId, from_date) {
   reject(error.data.message);
 }
 			);
+    });
+  };
+}
+
+
+function async_getRHList (year,id) {  
+  return fireAjax('POST', '', {
+    'action':  'get_my_rh_leaves',
+    'year': year,
+    "user_id":id
+  });
+}
+
+export function getRHList(year,id) {
+  return function (dispatch, getState) {
+    return new Promise((reslove, reject) => {
+      dispatch(show_loading()); // show loading icon
+      async_getRHList(year,id).then(
+        (json) => {
+          dispatch(hide_loading()); // hide loading icon
+          if (json.error == 0) {
+            dispatch(getRHLeavesListSuccess(json.data));
+          } else {
+            reject(json.data.message);
+          }
+        },
+        (error) => {
+          dispatch(hide_loading()); // hide loading icon\
+          dispatch(getRHLeavesListError())
+          // reject(json.data.message);
+        }
+      );
+    });
+  };
+}
+
+
+function async_getRHStatus (year,id) {  
+  return fireAjax('POST', '', {
+    'action':  'get_user_rh_stats',
+    'year': year,
+    "user_id":id
+  });
+}
+
+export function getRHStatus(year,id) {  
+  return function (dispatch, getState) {
+    return new Promise((reslove, reject) => {
+      dispatch(show_loading()); // show loading icon
+      async_getRHStatus(year,id).then(
+        (json) => {
+          dispatch(hide_loading()); // hide loading icon
+          if (json.error == 0) {
+            dispatch(getRHStatusSuccess(json.data));
+          } else {
+            reject(json.data);
+          }
+        },
+        (error) => {
+          dispatch(hide_loading()); // hide loading icon\
+          dispatch(getRHStatusError())
+          // reject(json.data.message);
+        }
+      );
     });
   };
 }

@@ -90,13 +90,13 @@ class TeamList extends React.Component {
       <FlatButton
         label="Back"
         primary
-        onClick={this.handleClose}
+        onTouchTap={this.handleClose}
         className="m-r"
       />,
       <RaisedButton
         label="Submit"
         primary
-        onClick={this.saveTeam}
+        onTouchTap={this.saveTeam}
       />
     ];
     return (

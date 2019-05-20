@@ -173,6 +173,7 @@ class ApplyLeaveForm extends React.Component {
                         <option value='' disabled>Select Option</option>
                         <option value='Casual Leave'> Casual Leave </option>
                         <option value='Sick Leave'> Sick Leave </option>
+                        <option value='RH Compensation'> RH Compensation </option>
                       </select>
                     </div>
                   </div>
