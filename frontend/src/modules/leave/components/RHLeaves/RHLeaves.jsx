@@ -48,11 +48,11 @@ class RHLeaves extends React.Component {
                 <span>{this.props.RHStatus.rh_rejected}</span>
               </div>
               <div>
-                <span>Cancelled RH Compensation Used : </span>
+                <span>Pending RH You can Apply : </span>
                 <span>{this.props.RHStatus.rh_left}</span>
               </div>
               <div>
-                <span>Pending RH You can Apply: </span>
+                <span>Cancelled RH Compensation Used : </span>
                 <span>{this.props.RHStatus.rh_compensation_used}</span>
               </div>
               <div>
