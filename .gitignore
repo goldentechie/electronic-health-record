@@ -7,3 +7,10 @@ node_modules
 /dist
 /build
 coverage
+
+/node_modules
+/postman_collection.json
+/test
+/vendor
+/attendance/uploaded_files
+/attendance/upload

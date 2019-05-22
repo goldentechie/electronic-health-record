@@ -1,0 +1,8 @@
+connection.php
+/node_modules
+/package.json
+/postman_collection.json
+/test
+/vendor
+/attendance/uploaded_files
+/attendance/upload
