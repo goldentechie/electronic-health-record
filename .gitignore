@@ -1,16 +1,18 @@
 .DS_STORE
 *.log
-node_modules
-.env
-.env.*
+frontend/node_modules
+frontend/.env
+frontend/.env.*
 
-/dist
-/build
+frontend/dist
+frontend/build
+frontend/.gitignore
 coverage
 
-/node_modules
-/postman_collection.json
-/test
-/vendor
-/attendance/uploaded_files
-/attendance/upload
+backend/node_modules
+backend/postman_collection.json
+backend/.gitignore
+backend/test
+backend/vendor
+backend/attendance/uploaded_files
+backend/attendance/upload
