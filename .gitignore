@@ -6,12 +6,10 @@ frontend/.env.*
 
 frontend/dist
 frontend/build
-frontend/.gitignore
 coverage
 
 backend/node_modules
 backend/postman_collection.json
-backend/.gitignore
 backend/test
 backend/vendor
 backend/attendance/uploaded_files
