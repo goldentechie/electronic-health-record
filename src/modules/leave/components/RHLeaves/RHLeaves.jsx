@@ -16,7 +16,6 @@ class RHLeaves extends React.Component {
         className="w-40 img-circle m-x-md"
       />
     );
-    console.log(RHStatus);
     
     return (
       <div className="row rh-leaves">

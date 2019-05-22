@@ -106,7 +106,6 @@ class MyLeaves extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <Menu {...this.props} />
