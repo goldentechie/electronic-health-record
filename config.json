@@ -1,0 +1,23 @@
+{
+    "db":
+    {
+        "name": "excellen_hr_demo",
+        "username": "devhr",
+        "password": "devhr@123",
+        "dialect": "mysql",
+        "pool":
+        {
+            "max": 5,
+            "min": 0,
+            "idle": 20000,
+            "acquire": 50000
+        }
+    },
+    "port": 3017,
+    "path": "/home/etech/Downloads/AGL_001_new.TXT",
+    "errMsg1": "Data not found",
+    "fileSuccessMsg": "file uploaded successfully",
+    "recordExists": "Record alredy exists",
+    "success": "Your working hours are added for review",
+    "secret": "HR_APP"
+}
