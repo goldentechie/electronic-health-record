@@ -14,3 +14,5 @@ backend/test
 backend/vendor
 backend/attendance/uploaded_files
 backend/attendance/upload
+connection.php
+.gitignore
