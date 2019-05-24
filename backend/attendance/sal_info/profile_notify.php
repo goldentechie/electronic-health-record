@@ -1,7 +1,5 @@
 <?php
 
-// This script has been merged to crons.php on 07-December-2018.
-die('This script has been merged to crons.php on 07-December-2018');
 /*
   Cron file to notify about profile update and bank detail update if empty.
  */
@@ -86,7 +84,9 @@ if ($current_day != weekoff && $cmonth != $second_sat && $cmonth != $fourth_sat)
             if ($message != "") {
                 echo $message;
                 echo "<br>";
-                $slackMessageStatus = Salary::sendSlackMessageToUser($slack_channel_id, $message);   // send slack notification to employee
+                if ($val['slack_msg'] == 0) {
+                    $slackMessageStatus = Salary::sendSlackMessageToUser($slack_channel_id, $message);   // send slack notification to employee
+                }
             }
 
             $datediff = strtotime($cmonth) - strtotime($upload_date);
@@ -95,7 +95,9 @@ if ($current_day != weekoff && $cmonth != $second_sat && $cmonth != $fourth_sat)
                 $message2 = "Hey $username !!  \nYou have not read some policy document in HR System. Login into your HR System to view document\n";
                 echo $message2;
                 echo "<br>";
-                $slackMessageStatus = Salary::sendSlackMessageToUser($slack_channel_id, $message2);   // send slack notification to employee
+                if ($val['slack_msg'] == 0) {
+                    $slackMessageStatus = Salary::sendSlackMessageToUser($slack_channel_id, $message2);   // send slack notification to employee
+                }
             }
 
             // date of birth alert slack notification 

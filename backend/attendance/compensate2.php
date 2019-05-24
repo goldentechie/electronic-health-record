@@ -94,7 +94,7 @@ if ($current_day != weekoff && $current_date != $second_sat && $current_date != 
 
             $slack_msg = getSlackMsgSendStatus($kk, $link);
 
-            if ($msg != "") {
+            if ($msg != "" && $slack_msg == 0) {
                 $newmsg = "Hi " . $name . "\n" . $msg . "Contact HR asap to fix this";
                 echo $newmsg;
                 send_slack_message($c_id, $token, $newmsg); // send slack message
