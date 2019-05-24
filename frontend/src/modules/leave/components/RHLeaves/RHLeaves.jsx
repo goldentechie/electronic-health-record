@@ -40,7 +40,7 @@ class RHLeaves extends React.Component {
           <div className="col-md-12">
             <div className="list-item white">
             <div>
-                <b>Total RH Available: </b>
+                <b>Total RH Availables: </b>
                 <b>{this.props.RHStatus.rh_can_be_taken}</b>
               </div>
               <div>
