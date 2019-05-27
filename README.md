@@ -1,6 +1,6 @@
 # ReactReduxHR
 
-Getting Started
+Getting Started 
 $ git clone https://github.com/reactexcel/ReactReduxHR.git
 there are two directories in this repo,frontend directory has frontend related code and backend has backend related
 $ cd ReactReduxHR/frontend
