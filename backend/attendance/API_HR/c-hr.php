@@ -5812,9 +5812,9 @@ class HR extends DATABASE {
             $message_to_hr = "Hi HR !!  \n $userInfo_name had requested for manual $time_type time : $final_date_time \n Reason - $reason \n";
             
             $baseURL =  self::getBasePath();
-            $approveLink = $baseURL."/attendance/API_HR/api.php?action=approve_manual_attendance&id=$last_inserted_id";
-            $approveLinkMinutesLess = $baseURL."/attendance/API_HR/api.php?action=approve_manual_attendance&id=$last_inserted_id&deductminutes=30";
-            $rejectLink = $baseURL."/attendance/API_HR/api.php?action=reject_manual_attendance&id=$last_inserted_id";
+            $approveLink = $baseURL."backend/attendance/API_HR/api.php?action=approve_manual_attendance&id=$last_inserted_id";
+            $approveLinkMinutesLess = $baseURL."backend/attendance/API_HR/api.php?action=approve_manual_attendance&id=$last_inserted_id&deductminutes=30";
+            $rejectLink = $baseURL."backend/attendance/API_HR/api.php?action=reject_manual_attendance&id=$last_inserted_id";
 
             $slackMessageActions = '[
                 {
@@ -5967,8 +5967,8 @@ class HR extends DATABASE {
 
     public static function getBasePath(){
         $url = (isset($_SERVER['HTTPS']) ? "https" : "http") ."://".$_SERVER['HTTP_HOST'];
-        if (strpos($url, 'dev.hr.') !== false) {
-            $url = "http://dev.hr.excellencetechnologies.in/hr";
+        if (strpos($url, '176.9.137.77') !== false) {
+            $url = "http://176.9.137.77/hr/ReactReduxHR/";
         }
         return $url;
     }
