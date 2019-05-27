@@ -1,58 +1,89 @@
-## Excellence HR System (v 2.0.0)
-Frontend and Backend in same Directory
+## Excellence HR System (```v 2.0.0```)
+Frontend and Backend in same directory
 
-Getting Started
+## Getting Started
+
+
+```bash
 $ git clone https://github.com/reactexcel/ReactReduxHR.git
 there are two directories in this repo,frontend directory has frontend related code and backend has backend related
 $ cd ReactReduxHR/frontend
 $ npm install                   # Install project dependencies
-Setup enviornment with any one of the below methods.
-If you want to run the app on port with development APIs and deploy with live APIs then add two files .env.development & .env.production. and set the env variables as below.
-.env.development
-REACT_APP_HOST_ENV=development
-REACT_APP_BASE_URL=development_api_base_url     # i.e http://176.9.137.77/hr/ReactReduxHR/backend
-.env.production
-REACT_APP_HOST_ENV=production
-REACT_APP_BASE_URL=live_api_base_url    # i.e. https://hr.excellencetechnologies.in
-if you want to run and build both with the same APIs then just add a .env file and set the env variables as below.
- REACT_APP_HOST_ENV=production
- REACT_APP_BASE_URL=api_base_url     # any either development or production base url
+```
+#### Setup enviornment with any one of the below methods.
+
+1. If you want to run the app on port with development APIs and deploy with live APIs then add two files `.env.development` & `.env.production`. and set the env variables as below.
+  ###### .env.development
+  ```
+  REACT_APP_HOST_ENV=development
+  REACT_APP_BASE_URL=development_api_base_url     # i.e http://176.9.137.77/hr/ReactReduxHR/backend
+  ```
+  ###### .env.production
+  ```
+  REACT_APP_HOST_ENV=production
+  REACT_APP_BASE_URL=live_api_base_url    # i.e. https://hr.excellencetechnologies.in
+  ```
+
+2. if you want to run and build both with the same APIs then just add a `.env` file and set the env variables as below.
+ ```
+  REACT_APP_HOST_ENV=production
+  REACT_APP_BASE_URL=api_base_url     # any either development or production base url
+  ```
+
 Enviornment setup is finished. Now run the app with below command
 
-Running Application
+### Running Application
+```
 $ npm start                # Compile and launch
-It will launch the browser automatically, but if not, Then open http://127.0.0.1:3000 in browser.
+```
+It will launch the browser automatically, but if not,  Then open `http://127.0.0.1:3000` in browser.
 
-Build project
-Build process will compile and create bundles as per enviornment setup done above. It also optimizes the build for the best performance It will pick the APIs base url from enviornment variable you defined.
+### Build project 
+Build process will compile and create bundles as per enviornment setup done above. It also optimizes the build for the best performance
+It will pick the APIs base url from enviornment variable you defined.
 
+```bash
 $ npm run build
+```
 Now you have the /build folder at project root. You can move the build where ever you want to deploy and run in browser.
 
-Deploy on server
-Follow the steps below to deploy on development server
+### Deploy on server 
+  Follow the steps below to deploy on development server
 
-Commit and push the changes on git repository.
+  1. Commit and push the changes on git repository.
+  
+  2. Do the ssh login to the dev server in terminal.
+  
+  3. go to /var/www/html/hr/ReactReduxHR and take pull from your branch.
+  
+  4. go to frontend and set .env file over there via `nano .evn` command
+    below is the content inside of .env file
+       ` REACT_APP_BASE_URL= your enviroment url`
 
-Do the ssh login to the dev server in terminal.
+  5.  run `npm run build`
 
-go to /var/www/html/hr/ReactReduxHR and take pull from your branch.
 
-go to frontend and set .env file over there via nano .evn command below is the content inside of .env file REACT_APP_BASE_URL= your enviroment url
+  NOTE:check is `connection.php` and `config.json` is available is you ReactRedux repo if not create a file inside ReactReduxHR repo otherwise api will `fail`
 
-run npm run build
+  It's done !
+  You can now run the dev server ` http://176.9.137.77/hr/ReactReduxHR/frontend/build` in your browser.
 
-NOTE:check is connection.php and config.json is available is you ReactRedux repo if not create a file inside ReactReduxHR repo otherwise api will fail
+  NOTE: if `ReactReduxHR` not exist, then you have first clone the project and then follow the above steps.
 
-It's done ! You can now run the dev server http://176.9.137.77/hr/ReactReduxHR/frontend/build in your browser.
 
-NOTE: if ReactReduxHR not exist, then you have first clone the project and then follow the above steps.
 
-Run Cypress Tests
+
+### Run Cypress Tests
+
+```
 $ npm run cypress
-Application Structure
-The application structure presented below is to be strictly followed while developing the application. Functionalities are grouped in to modules based on its features, and routes falls under similar category. The same module structure is to be followed inside components, redux, style which contains related content modulewise.
+```
 
+## Application Structure
+
+The application structure presented below is to be strictly followed while developing the application. Functionalities are grouped in to modules based on its features, and routes falls under similar category. The same module structure is to be followed inside **components**, **redux**, **style** which contains related content modulewise.
+
+```
 .
 
 ├── public                   # Public folder which contains html file for the project
@@ -90,10 +121,14 @@ The application structure presented below is to be strictly followed while devel
 ├── readmd.md                # Project's package.json file
 │
 :
-Styles
-We are using .scss to style this application. We emphasize not to use inline as much possible and use class instead. Module structure should be followed to create a .scss file for a component.
+```
 
-example of styles for auth module
+## Styles
+
+We are using `.scss` to style this application. We emphasize not to use inline as much possible and use class instead. Module structure should be followed to create a `.scss` file for a component.
+### example of styles for **auth** module
+
+```
 src
 ├─ styles                    # Application-wide styles (generally settings)
 │  ├─ main.scss               # Imports all scss form the diffrent modules (i.e. 'import 'auth/index.scss'')
@@ -103,11 +138,15 @@ src
 │     ├─ forgotPassword.scss  # Define styles for forgot password container and its successive components
 │     └─ logout.scss          # Define styles for logout container and its successive components
 
-example of styles for auth module
-To add a class to .scss, first we create the same module stucture to which we are supposed to write a class. Lets take example to add some style to login page. If .scss for login doesn't exist than we create it style/auth/login.scss. Find the location carefully because it defines the relation between .scss and your components. Here in example style is the directory which contains all .scss files. auth is the module directory, it contains all .scss files for auth module. login.scss indicates that it contains all styles for login page.
+```
+### example of styles for **auth** module
 
-style/auth/login.scss
+To add a class to `.scss`, first we create the same module stucture to which we are supposed to write a class.
+Lets take example to add some style to login page. If `.scss` for login doesn't exist than we create it `style/auth/login.scss`. Find the location carefully because it defines the relation between `.scss` and your components. Here in example `style` is the directory which contains all `.scss` files. `auth` is the module directory, it contains all `.scss` files for `auth` module. `login.scss` indicates that it contains all styles for login page.
 
+`style/auth/login.scss`
+
+```
 /*
   Styles only for container login and its successive components
 */
@@ -120,8 +159,11 @@ style/auth/login.scss
   border-radius: 6px;
   padding-bottom: 20px;
 }
-style/auth/forgotPassword.scss
+```
 
+`style/auth/forgotPassword.scss`
+
+```
 /*
   Styles only for container forgotPassword and its successive components
 */
@@ -129,8 +171,11 @@ style/auth/forgotPassword.scss
 .btn-flat {
   background: #284665;
 }
-style/auth/logout.scss
+```
 
+`style/auth/logout.scss`
+
+```
 /*
   Styles only for container logout and its successive components
 */
@@ -138,8 +183,13 @@ style/auth/logout.scss
   margin: 0;
   padding: 0;
 }
-module directory also contains one index.scss file which imports all .scss files for respective module (here auth module in example). This index.scss file also contains styles that is common to that module.
+```
 
+module directory also contains one `index.scss` file which imports all `.scss` files for respective module (here `auth` module in example). This `index.scss` file also contains styles that is common to that module.
+
+
+
+```
 /*
   `style/auth/index.scss`
   Imports .scss files for this module
@@ -154,9 +204,14 @@ module directory also contains one index.scss file which imports all .scss files
 .input-auth-padding {
   padding: 5px;
 }
-main.scss
-There would be a main.scss file which import scss files from all modules. This main.scss file is imported to the project's root file main.js. So no need to add any other scss file to anywhere in the application but only need to import in main.scss.
+```
+### main.scss
 
+There would be a `main.scss` file which import scss files from all modules. This main.scss file is imported to the project's root file `main.js`. So no need to add any other `scss` file to anywhere in the application but only need to import in `main.scss`.
+
+
+
+```
 /*
   `style/main.scss`
   Imports index.scss file from the modules
@@ -171,13 +226,21 @@ There would be a main.scss file which import scss files from all modules. This m
 body{
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-Error while npm install
+```
+
+### Error while npm install
+
+```
 ERROR in ./~/css-loader!./~/sass-loader!./~/postcss-loader!./src/styles/main.scss
 Module build failed: Error: ENOENT: no such file or directory, scandir '/var/www/html/UpworkTest/ReactReduxHR/node_modules/node-sass/vendor'
-In case of this error run the npm rebuild node-sass --force.
+```  
+In case of this error run the `npm rebuild node-sass --force`. 
 
-Cypress Unit Testing
+### Cypress Unit Testing
+
+```
 It is to test every page(route) as a user by Automation testing.
 run test through UI in default browser.
 
-NOTE: Every Time a PR is created circleci must pass the test.
+```
+**NOTE:** Every Time a PR is created circleci must pass the test.
