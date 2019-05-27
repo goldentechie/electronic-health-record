@@ -57,10 +57,10 @@ Now you have the /build folder at project root. You can move the build where eve
   3. go to /var/www/html/hr/ReactReduxHR and take pull from your branch.
   
   4. go to frontend and set .env file over there via `nano .evn` command
-    below is the content inside of .env file
+  5. below is the content inside of .env file
        ` REACT_APP_BASE_URL= your enviroment url`
 
-  5.  run `npm run build`
+  6.  run `npm run build`
 
 
   NOTE:check is `connection.php` and `config.json` is available is you ReactRedux repo if not create a file inside ReactReduxHR repo otherwise api will `fail`
