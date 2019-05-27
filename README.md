@@ -1,5 +1,5 @@
 Excellence HR System (v 2.0.0)
-Upgraded To create-react-app framework
+Upgraded To create-react-app framework 
 
 Getting Started
 $ git clone https://github.com/reactexcel/ReactReduxHR.git
