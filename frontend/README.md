@@ -6,7 +6,8 @@ Upgraded To create-react-app framework
 
 ```bash
 $ git clone https://github.com/reactexcel/ReactReduxHR.git
-$ cd ReactReduxHR
+there are two directories in this repo,frontend directory has frontend related code and backend has backend related
+$ cd ReactReduxHR/frontend
 $ npm install                   # Install project dependencies
 ```
 #### Setup enviornment with any one of the below methods.
@@ -15,7 +16,7 @@ $ npm install                   # Install project dependencies
   ###### .env.development
   ```
   REACT_APP_HOST_ENV=development
-  REACT_APP_BASE_URL=development_api_base_url     # i.e. http://dev.hr.excellencetechnologies.in/hr
+  REACT_APP_BASE_URL=development_api_base_url     # i.e http://176.9.137.77/hr/ReactReduxHR/backend
   ```
   ###### .env.production
   ```
@@ -46,31 +47,30 @@ $ npm run build
 ```
 Now you have the /build folder at project root. You can move the build where ever you want to deploy and run in browser.
 
-### Deploy on development server 
+### Deploy on server 
   Follow the steps below to deploy on development server
 
   1. Commit and push the changes on git repository.
   
   2. Do the ssh login to the dev server in terminal.
   
-  3. Remove the existing build in `~/public_html/hr/cra/` directory.
-```bash
-$ cd ~/public_html/hr/cra/
-$ rm -rf *
-```
+  3. go to /var/www/html/hr/ReactReduxHR and take pull from your branch.
+  
+  4. go to frontend and set .env file over there via `nano .evn` command
+    below is the content inside of .env file
+       ` REACT_APP_BASE_URL= your enviroment url`
 
-  4. Go to the project directory and build the app
-```bash
-$ cd ~/public_html/ReactReduxHR
-$ git pull origin dev      # take pull from updated branch which you want to deploy (must be CRA framework)
-$ npm run build            # Before build make sure is has .env file and base url(`REACT_APP_BASE_URL`) set in it . 
-$ mv ./build/*  ~/public_html/hr/cra/   # move the build to the server directory.
-```
+  5.  run `npm run build`
+
+
+  NOTE:check is `connection.php` and `config.json` is available is you ReactRedux repo if not create a file inside ReactReduxHR repo otherwise api will `fail`
 
   It's done !
-  You can now run the dev server `http://dev.hr.excellencetechnologies.in/hr/cra/#/` in your browser.
+  You can now run the dev server ` http://176.9.137.77/hr/ReactReduxHR/frontend/build` in your browser.
 
   NOTE: if `ReactReduxHR` not exist, then you have first clone the project and then follow the above steps.
+
+
 
 
 ### Run Cypress Tests
