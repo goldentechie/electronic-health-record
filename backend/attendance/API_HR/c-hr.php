@@ -986,6 +986,11 @@ class HR extends DATABASE {
                     $v['orignal_total_time'] = ($v['orignal_total_time'] / 2) ;
                 } else {
                     $v['day_type'] = 'LEAVE_DAY';
+                    if( strtolower($userMonthLeaves[$k]['leave_type']) == 'restricted' || strtolower($userMonthLeaves[$k]['leave_type']) == 'rh compensation' ){
+                        if( strtolower($userMonthLeaves[$k]['status']) == 'approved' ){
+                            $v['day_type'] = 'WORKING_DAY';
+                        }
+                    }
                     $v['day_text'] = $userMonthLeaves[$k]['reason'];
                 }
                 $return[$k] = $v;
@@ -2118,18 +2123,48 @@ class HR extends DATABASE {
         return $return;
     }
 
+    public static function isEligibleForRHCompensation( $userid, $year ) {
+        $return = [];
+        $check = false;
+        $message = "";
+        $rh_stats = self::getEmployeeRHStats($userid, $year)['data'];
+        if( $rh_stats['rh_approved'] >= $rh_stats['rh_can_be_taken'] ){
+            $message = "You have reached the RH quota. You are not eligible for other RH this year.";
+        } else {
+            if( $rh_stats['rh_rejected'] < 1 ){
+                $message = "You cannot apply RH Compensation as you don't have any rejected RH";
+            } else if( $rh_stats['rh_compensation_used'] >= $rh_stats['rh_rejected'] ){
+                $message = "You have already compensated your all Rejected RH";
+            } else {
+                $check = true;
+            }
+        }
+
+        $return['check'] = $check;
+        $return['message'] = $message;
+
+        return $return;
+    }
+
     public static function applyLeave($userid, $from_date, $to_date, $no_of_days, $reason, $day_status, $leave_type, $late_reason, $pending_id = false) {
         //date format = Y-m-d
         $db = self::getInstance();
         $mysqli = $db->getConnection();
+        $from_date_year = date('Y', strtotime($from_date));
 
+        // Check for RH Quarterwise
         if( strtolower($leave_type) == 'restricted' ){
             $rh_check = self::checkRHQuarterWise($userid, $from_date);
             if( !$rh_check['check'] ){
-                return [
-                    'error' => 1,
-                    'data' => [ 'message' => $rh_check['message'] ]
-                ];
+                return [ 'error' => 1, 'data' => [ 'message' => $rh_check['message'] ] ];
+            }
+        }
+
+        // Check for RH Compensation
+        if( strtolower($leave_type) == 'rh compensation' ){
+            $rh_compensation_check = self::isEligibleForRHCompensation( $userid, $from_date_year );
+            if( !$rh_compensation_check['check'] ){
+                return [ 'error' => 1, 'data' => [ 'message' => $rh_compensation_check['message'] ] ];
             }
         }
 
@@ -2346,7 +2381,7 @@ class HR extends DATABASE {
             $reason = $leaveDetails['reason'];
 
             $changeLeaveStatus = self::changeLeaveStatus($leaveid, $newstatus);
-            if( strtolower($leaveDetails['leave_type']) == 'restricted' ){
+            if( strtolower($leaveDetails['leave_type']) == 'restricted' || strtolower($leaveDetails['leave_type']) == 'rh compensation' ){
                 if( $changeLeaveStatus ){
                     $updatedLeaveDetails = self::getLeaveDetails($leaveid);
                     if( strtolower($updatedLeaveDetails['status']) == 'approved' ){
