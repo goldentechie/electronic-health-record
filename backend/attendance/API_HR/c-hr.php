@@ -2014,6 +2014,25 @@ class HR extends DATABASE {
         return $stats;
     }
 
+    public static function API_getAllEmployeesRHStats( $year ) {
+        $return = [];
+        $stats = [];
+        $year = $year ? $year : date('Y');
+        $employees = self::getEnabledUsersList();
+        foreach( $employees as $employee ){
+            $userid = $employee['user_Id'];
+            $stats[] = [
+                'user_id' => $userid,
+                'name' => $employee['name'],
+                'stats' => self::getEmployeeRHStats($userid, $year)['data']
+            ];
+        }
+        $return['error'] = 0;
+        $return['data'] = $stats;
+
+        return $return;
+    }
+
     public static function getAllQuarters(){
         $quarters = [
             1 => [ 1, 2, 3 ],

@@ -862,6 +862,10 @@ else if ( $action == 'get_user_rh_stats' ) {
         $res = HR::API_getEmployeeRHStats( $userid, $year );
     }
 }
+else if ( $action == 'get_all_users_rh_stats' ) {
+    $year = $PARAMS['year'];
+    $res = HR::API_getAllEmployeesRHStats( $year );
+}
 else if ( $action == 'get_enabled_users_brief_details' ){    
     $res = HR::getEnabledEmployeesBriefDetails();
 }
