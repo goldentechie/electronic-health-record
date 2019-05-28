@@ -1911,12 +1911,13 @@ class HR extends DATABASE {
         if( $user['training_completion_date'] != '0000-00-00' && $user['training_completion_date'] != '1970-01-01' ) {
 
             $current_year = date('Y');
-            $confirm_year = date('Y', strtotime($user['training_completion_date']));
+            $confirm_date = $user['training_completion_date'];
+            $confirm_year = date('Y', strtotime($confirm_date));
+            $confirm_quarter = self::getQuarterByMonth($confirm_month);
+            $confirm_month = date('m', strtotime($user['training_completion_date']));
 
             if( $confirm_year == $current_year ){
 
-                $confirm_month = date('m', strtotime($user['training_completion_date']));
-                $confirm_quarter = self::getQuarterByMonth($confirm_month);
                 $remaining_quarters = $no_of_quaters - $confirm_quarter['quarter'];
                 $eligible_for_confirm_quarter_rh = false;
                 if( $confirm_quarter['months'][0] == $confirm_month ){
@@ -1937,23 +1938,47 @@ class HR extends DATABASE {
             $rh_approved_leaves = self::getUserApprovedRHLeaves( $userid, $year );
             $rh_list = self::getMyRHLeaves( $year );
             $rh_approved = sizeof($rh_approved_leaves);
+            $rh_previous_dates = array_filter(
+                array_map(function($iter){
+                    if( strtotime($iter['raw_date']) < time() ){
+                        return $iter['raw_date'];
+                    }
+                }, $rh_list), 
+                function($iter){ return $iter; }
+            );
+
+            $count = 0;
+            if( $rh_can_be_taken >= 5 ){
+                $count = sizeof($rh_previous_dates);
+                foreach( $rh_leaves as $rh_leave ){
+                    if( in_array($rh_leave['from_date'], $rh_previous_dates) && strtolower($rh_leave['status']) == 'approved' ){
+                        $count--;
+                    }
+                }
+            } else {
+                foreach( $rh_previous_dates as $rh_previous_date ){
+                    if( strtotime($rh_previous_date) > strtotime($confirm_date) ){
+                        $rh_previous_date_month = date('m', strtotime($rh_previous_date));
+                        if( $confirm_quarter['months'][0] == $rh_previous_date_month ){
+                            $count++;
+                        }
+                    }
+                }
+            }
+            
             $rh_compensation_used = sizeof($rh_compensation_leaves);
+            $total_rh_taken = $rh_approved + $rh_compensation_used;
+            if( $total_rh_taken < $rh_can_be_taken ){
+                $rh_left = $rh_can_be_taken - $total_rh_taken;
+                $rh_compensation_pending = $count - $rh_compensation_used;
+                if( $rh_compensation_pending < 0 ){
+                    $rh_compensation_pending = 0;
+                }
+            }
             if( sizeof($rh_leaves) > 0 ){
                 foreach( $rh_leaves as $rh_leave ){
                     if( strtolower($rh_leave['status']) == 'rejected' ){
                         $rh_rejected++;
-                    }
-                }
-                if( $rh_approved < $rh_can_be_taken ){
-                    $total_rh_taken = $rh_approved + $rh_compensation_used;
-                    if( $total_rh_taken < $rh_can_be_taken ){
-                        $left = $rh_can_be_taken - $total_rh_taken;
-                        $rh_left =  $left;
-                        if( $rh_rejected <= $left ){
-                            $rh_compensation_pending = $rh_rejected;
-                        } else {
-                            $rh_compensation_pending = $left;
-                        }
                     }
                 }                
     
@@ -2128,16 +2153,10 @@ class HR extends DATABASE {
         $check = false;
         $message = "";
         $rh_stats = self::getEmployeeRHStats($userid, $year)['data'];
-        if( $rh_stats['rh_approved'] >= $rh_stats['rh_can_be_taken'] ){
-            $message = "You have reached the RH quota. You are not eligible for other RH this year.";
+        if( $rh_stats['rh_compensation_pending'] > 0 ){
+            $check = true;
         } else {
-            if( $rh_stats['rh_rejected'] < 1 ){
-                $message = "You cannot apply RH Compensation as you don't have any rejected RH";
-            } else if( $rh_stats['rh_compensation_used'] >= $rh_stats['rh_rejected'] ){
-                $message = "You have already compensated your all Rejected RH";
-            } else {
-                $check = true;
-            }
+            $message = "You don't have any RH compensation.";
         }
 
         $return['check'] = $check;
