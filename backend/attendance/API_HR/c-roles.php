@@ -40,7 +40,6 @@ trait Roles {
     static $PAGE_health_stats = 134;
     static $PAGE_settings = 135;
     static $PAGE_all_employee = 136;
-    static $PAGE_rh_status = 137;
 
 
 
@@ -196,7 +195,6 @@ trait Roles {
     static $ACTION_get_employees_monthly_attendance = 8029;
     static $ACTION_get_my_rh_leaves = 8030;    
     static $ACTION_get_user_rh_stats = 8031;    
-    static $ACTION_get_all_users_rh_stats = 8032;
     
     
 
@@ -544,13 +542,6 @@ trait Roles {
                     
                 )
             ),
-            array(
-                'id' => self::$PAGE_rh_status,
-                'name' => 'rh_status',
-                'actions_list' => array(
-                    array( 'id' => self::$ACTION_get_all_users_rh_stats, 'name' => 'get_all_users_rh_stats' ),
-                )
-            )
 
         );
 

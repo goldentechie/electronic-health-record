@@ -1947,6 +1947,12 @@ class HR extends DATABASE {
                 function($iter){ return $iter; }
             );
 
+            foreach( $rh_leaves as $rh_leave ){
+                if( strtolower($rh_leave['status']) == 'rejected' ){
+                    $rh_rejected++;
+                }
+            }
+
             $count = 0;
             if( $rh_can_be_taken >= 5 ){
                 $count = sizeof($rh_previous_dates);
@@ -1968,29 +1974,20 @@ class HR extends DATABASE {
                     }
                 }
             }
+            $rh_compensation_used = sizeof($rh_compensation_leaves); 
             
-            $rh_compensation_used = sizeof($rh_compensation_leaves);            
-            if( sizeof($rh_leaves) > 0 || sizeof($rh_compensation_leaves) > 0 ){
-                foreach( $rh_leaves as $rh_leave ){
-                    if( strtolower($rh_leave['status']) == 'rejected' ){
-                        $rh_rejected++;
-                    }
-                }
-                $total_rh_taken = $rh_approved + $rh_compensation_used;
-                $rh_left = $rh_can_be_taken - $total_rh_taken;
-                if( $rh_rejected > $rh_left ){
-                    $rejected_rh_for_compensation = $rh_left;
-                } else {
-                    $rejected_rh_for_compensation = $rh_rejected;
-                }
-                $rh_compensation_pending = $count - $rh_compensation_used + $rejected_rh_for_compensation;
-                if( $rh_compensation_pending <= 0 ){
-                    $rh_compensation_pending = $rejected_rh_for_compensation;
-                }
-    
+            $total_rh_taken = $rh_approved + $rh_compensation_used;
+            $rh_left = $rh_can_be_taken - $total_rh_taken;
+            if( $rh_rejected > $rh_left ){
+                $rejected_rh_for_compensation = $rh_left;
             } else {
-                $rh_left = $rh_can_be_taken;
+                $rejected_rh_for_compensation = $rh_rejected;
+            }            
+            $rh_compensation_pending = $count - $rh_compensation_used + $rejected_rh_for_compensation;
+            if( $rh_compensation_pending < 0 ){
+                $rh_compensation_pending = $rejected_rh_for_compensation;
             }
+
         }
         
         $return = [
