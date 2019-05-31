@@ -31,6 +31,7 @@ const DATA = [
   {'path': '/inventoryOverviewDetail', 'label': 'Inventory'},
   {'path': '/team_view', 'label': 'Team'},
   {'path': '/health_stats', 'label': 'App Health & Stats'},
+  {'path':'/rh_status', 'label':'RH Stats', 'plabel': 'Manage Leaves'},
   {'path': '/settings', 'label': 'Settings'},
   {'path': '/logout', 'label': 'Logout'}
 ];

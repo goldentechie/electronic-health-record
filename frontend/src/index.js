@@ -59,7 +59,7 @@ const RouterAddInventorySystem = lazy(() => import('./modules/inventory/componen
 const Page_Audit_Inventory = lazy(() => import("./modules/inventory/components/AuditInventoryList"))
 const ContainerHealthStats = lazy(() => import('./modules/healthStats/container/ContainerHealthStats'))
 const Page_settings = lazy(() => import('./modules/healthStats/container/Settings'))
-
+const RH_Stats = lazy(() => import('./modules/leave/containers/rhStats'))
 const appHistory = createBrowserHistory()
 
 // -for iPhone iPad safari engine
@@ -121,6 +121,7 @@ let render = (routerKey = null) => {
             <Route path="/add_documents/:userId" component = {Page_FormAddDocuments} />
             <Route path="/health_stats" component = {ContainerHealthStats} />
             <Route path="/settings" component = {Page_settings} />
+            <Route path="/rh_status" component = {RH_Stats}/>
 
             <Route path="/addInventory" component={RouterAddInventorySystem}/>
             <Route exact path="/add_new_employee" component={AddNewEmployee}/>

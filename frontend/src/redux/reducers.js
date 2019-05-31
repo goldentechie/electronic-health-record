@@ -32,6 +32,7 @@ import empDaySummary from '../redux/attendance/reducers/empDaySummary';
 import {uploadImage} from '../redux/uploadImageComp/reducers/uploadImageComp'
 import healthstats from '../redux/healthStats/reducers/healthStats';
 import settings from '../redux/settings/reducers';
+import {rhStats} from '../redux/leave/reducers/rhStats'
 
 export default combineReducers({
   frontend,
@@ -65,5 +66,6 @@ export default combineReducers({
   empDaySummary,
   uploadImage,
   healthstats,
-  settings
+  settings,
+  rhStats
 });
