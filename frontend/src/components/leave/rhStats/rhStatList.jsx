@@ -15,8 +15,8 @@ class RHStatList extends React.Component{
         return (
           <tr key={key}>
             <td>{Number(key)+1}</td>
-            <td>{rhStats.name}<br/><span className="job-title">{rhStats.designation}</span></td>
             <td>{rhStats.user_id}</td>
+            <td>{rhStats.name}<br/><span className="job-title">{rhStats.designation}</span></td>
             <td>{rhStats.stats.rh_can_be_taken}</td>
             <td>{rhStats.stats.rh_approved}</td>
             <td>{rhStats.stats.rh_rejected}</td>
@@ -54,7 +54,7 @@ class RHStatList extends React.Component{
             <div className="box-divider m-a-0"></div>
             <table className="table table-striped rh-stat table-responsive">
               <thead className="success">
-                <tr><th>#</th><th>Name</th><th>Employee Id</th><th>Total RH Available</th><th>RH Approved</th><th>RH Cancelled</th><th>Pending RH</th><th>RH Compensation Used</th><th>Pending RH Compensation</th></tr>
+                <tr><th>#</th><th>Emp Id</th><th>Name</th><th>Total RH Available</th><th>RH Approved</th><th>RH Cancelled</th><th>Pending RH</th><th>RH Compensation Used</th><th>Pending RH Compensation</th></tr>
               </thead>
               <tbody>
                 {rhStatsList}
