@@ -47,7 +47,7 @@ class RHStats extends React.Component {
             <div className="padding">
               <div className="row">
                 <div className="col-md-12">
-                    <RHStatList handleYearChange={this.handleYearChange} rhStatsList={this.props.rhStats.data} stateData={this.state} yearArray={this.year}/>
+                    <RHStatList handleYearChange={this.handleYearChange} rhStatsList={this.props.rhStats.data} stateData={this.state} yearArray={this.year} isRHLoading={this.props.frontend.show_loading}/>
                 </div>
               </div>
             </div>

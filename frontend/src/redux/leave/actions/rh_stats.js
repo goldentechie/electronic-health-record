@@ -25,7 +25,6 @@ function async_getRHStats(year) {
 }
 
 export function getRHStats(year) {
-  console.log(year,"yeaaaatrrrr");
   return function(dispatch, getState) {
     return new Promise((reslove, reject) => {
       dispatch(show_loading()); // show loading icon
