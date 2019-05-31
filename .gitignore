@@ -1,0 +1,14 @@
+.DS_STORE
+*.log
+frontend/node_modules
+frontend/.env
+frontend/.env.*
+frontend/dist
+
+coverage
+backend/node_modules
+backend/postman_collection.json
+backend/test
+backend/vendor
+backend/attendance/uploaded_files
+backend/attendance/upload
