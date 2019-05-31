@@ -1,9 +1,9 @@
 {
     "db":
     {
-        "name": "excellen_hr",
-        "username": "hr",
-        "password": "baracuda@123",
+        "name": "excellen_hr_demo",
+        "username": "devhr",
+        "password": "devhr@123",
         "dialect": "mysql",
         "pool":
         {
