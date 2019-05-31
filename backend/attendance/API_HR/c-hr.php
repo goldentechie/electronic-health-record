@@ -310,6 +310,18 @@ class HR extends DATABASE {
                     LEFT JOIN ( SELECT user_Id, MAX(total_salary) as total_salary FROM salary GROUP BY user_Id ) as salary ON users.id = salary.user_Id
                     where
                     users.status = 'Enabled' ORDER BY salary.total_salary DESC";
+        } else if( $sorted_by == 'dateofjoining' ) {
+            $q = "SELECT
+                    users.*,
+                    user_profile.*,
+                    roles.id as role_id,
+                    roles.name as role_name
+                    FROM users
+                    LEFT JOIN user_profile ON users.id = user_profile.user_id
+                    LEFT JOIN user_roles ON users.id = user_roles.user_id
+                    LEFT JOIN roles ON user_roles.role_id = roles.id
+                    where
+                    users.status = 'Enabled' ORDER BY user_profile.dateofjoining ASC ";
         } else {
             $q = "SELECT
                     users.*,
@@ -1916,7 +1928,7 @@ class HR extends DATABASE {
             $confirm_month = date('m', strtotime($user['training_completion_date']));
             $confirm_quarter = self::getQuarterByMonth($confirm_month);
 
-            if( $confirm_year == $current_year ){
+            if( $confirm_year == $year ){
  
                 $remaining_quarters = $no_of_quaters - $confirm_quarter['quarter'];
                 $eligible_for_confirm_quarter_rh = false;
@@ -1928,6 +1940,9 @@ class HR extends DATABASE {
                 } else {
                     $rh_can_be_taken = $remaining_quarters + 1;
                 }    
+
+            } else if( $confirm_year > $year ) {
+                $rh_can_be_taken = 0;
 
             } else {
                 $rh_can_be_taken = 5;
@@ -1988,6 +2003,11 @@ class HR extends DATABASE {
                 $rh_compensation_pending = $rejected_rh_for_compensation;
             }
 
+            if( $year < $current_year ){
+                $rh_compensation_pending = 0;
+                $rh_left = 0;
+            }
+
         }
         
         $return = [
@@ -2015,13 +2035,15 @@ class HR extends DATABASE {
         $return = [];
         $stats = [];
         $year = $year ? $year : date('Y');
-        $employees = self::getEnabledUsersList();
+        $employees = self::getEnabledUsersList('dateofjoining');
         foreach( $employees as $employee ){
             $userid = $employee['user_Id'];
+            $rh_stats = self::getEmployeeRHStats($userid, $year);
             $stats[] = [
                 'user_id' => $userid,
                 'name' => $employee['name'],
-                'stats' => self::getEmployeeRHStats($userid, $year)['data']
+                'designation' => $employee['jobtitle'],
+                'stats' => $rh_stats['data']
             ];
         }
         $return['error'] = 0;
