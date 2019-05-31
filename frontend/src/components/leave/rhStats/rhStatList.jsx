@@ -41,6 +41,7 @@ class RHStatList extends React.Component{
                       }}
                       value={this.props.stateData.year}
                       style={{minHeight:'0'}}
+                      disabled={this.props.isRHLoading ? true : false}
                   >
                     {yearArray && yearArray.map((data,index)=><option key={index} value={data}>{data}</option>)}
               </select>
