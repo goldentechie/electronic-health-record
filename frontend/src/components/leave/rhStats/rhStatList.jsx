@@ -15,11 +15,11 @@ class RHStatList extends React.Component{
             <td>{rhStats.name}</td>
             <td>{rhStats.user_id}</td>
             <td>{rhStats.stats.rh_can_be_taken}</td>
-            <td>{rhStats.stats.rh_left}</td>
             <td>{rhStats.stats.rh_approved}</td>
             <td>{rhStats.stats.rh_rejected}</td>
-            <td>{rhStats.stats.rh_compensation_pending}</td>
+            <td>{rhStats.stats.rh_left}</td>
             <td>{rhStats.stats.rh_compensation_used}</td>
+            <td>{rhStats.stats.rh_compensation_pending}</td>
           </tr>
         );
       });
@@ -48,9 +48,9 @@ class RHStatList extends React.Component{
         <div className="col-12">
           <div className="table-responsive box">
             <div className="box-divider m-a-0"></div>
-            <table className="table table-striped">
+            <table className="table table-striped rh-stat">
               <thead className="success">
-                <tr><th>Name</th><th>Employee Id</th><th>RH Can Be Taken</th><th>RH Left</th><th>RH Approved</th><th>RH Rejected</th><th>RH Compensation Pending</th><th>RH Compensation Used</th></tr>
+                <tr><th>Name</th><th>Employee Id</th><th>Total RH Available</th><th>RH Approved</th><th>RH Cancelled</th><th>Pending RH</th><th>RH Compensation Used</th><th>Pending RH Compensation</th></tr>
               </thead>
               <tbody>
                 {rhStatsList}
