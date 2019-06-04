@@ -1,0 +1,23 @@
+{
+    "db":
+    {
+        "name": "excellen_hr",
+        "username": "hr",
+        "password": "baracuda@123",
+        "dialect": "mysql",
+        "pool":
+        {
+            "max": 5,
+            "min": 0,
+            "idle": 20000,
+            "acquire": 50000
+        }
+    },
+    "port": 3020,
+    "path": "/home/hr/public_html/attendance/upload/AGL_001.TXT",
+    "errMsg1": "Data not found",
+    "fileSuccessMsg": "file uploaded successfully",
+    "recordExists": "Record alredy exists",
+    "success": "Your working hours are added for review",
+    "secret": "HR_APP"
+}
