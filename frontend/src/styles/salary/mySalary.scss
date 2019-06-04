@@ -1,0 +1,428 @@
+.width-8 {
+  width:84px;
+}
+.content-salary {
+  font-size: 10px;
+  .date-field, input, select{
+    // min-width: 35px;
+    height: 1.5rem;
+    padding: 0px;
+    line-height: 0;
+    font-size: .6rem;
+    min-height: 1rem !important;
+    border-radius: 5px !important;
+  }
+  .salary-input-wrapper{
+    padding: 0px !important;
+  }
+  .divider{
+    padding: 0 5px;
+  }
+  .date-field{
+    // width: 50%;
+    border-color: rgba(120, 130, 140, 0.2);
+    input{
+      height: 97%;
+    }
+  }
+  .date-holding-field{
+    width: 100%;
+  }
+  .delete-icon{
+    color: red;
+    cursor: pointer;
+  }
+  .add-icon{
+    color: green;
+    cursor: pointer;
+    margin-top: 13px;
+  }
+  .salary-range-wrapper{
+    display: flex;
+    justify-content: end;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+  }
+  .applicable-from, .applicable-till, .leaves, .incremented-value{
+    display: flex;
+    margin-right: 5px;
+    .salary-title{
+      align-items: center;
+      display: flex;
+      margin: 0;
+      justify-content: center;
+      margin-right: 5px;
+      white-space: nowrap;
+    }
+    .leave-field{
+      // width: 30%;
+    }    
+  }
+  .leaves{
+    max-width: 100px;
+  }
+  table{
+    thead{
+      font-weight: bold;
+    }
+    tbody{
+      tr{
+        td{
+          padding: 8px;
+        }
+      }
+    }
+  }
+  .not-displayed{
+    font-size: .71rem;
+    padding-left: 20px;
+  }
+  .remove-holding-btn-wrapper{
+    align-items: flex-end;
+    .remove-holding-btn{
+      border: 1px solid red;
+      background: rgba(255, 0, 0, 0.1);
+      color: red;
+      padding: 3px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      justify-content: center;
+      max-width: 90px;
+      margin-right: 7px;
+    }
+  }
+}
+.salary-block-title {
+  padding-left: 20px;
+}
+.salary-blocks-margin {
+  margin: 5px 0;
+  &.salary-row-bg{
+    background: rgba(71, 82, 93, 0.04);
+    padding: 5px 0;
+    border-radius: 5px;
+  }
+}
+.salary-blocks-margin:last-child{
+  margin-top: 15px;
+}
+.button-style-l {
+  margin-top: 10px;
+  margin-left: 5px;
+}
+.salary-border-left{
+  border-left: 1px solid $border-color;
+}
+.salary-add-holding {
+  border-width: 1px;
+  padding: 2px 6px;
+}
+.salary-p-x {
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
+}
+.salary-title {
+  font-weight: 600;
+}
+.salary-col-title-padding {
+  padding: 0px !important;
+  div {
+    background-color: #DADDE5;
+    margin: 0px 4px;
+    padding: 5px !important;
+    div {
+      padding: 0px !important;
+    }
+  }
+}
+.salary-col-padding {
+  padding: 0px 4px !important;
+  div {
+    padding: 10px 0px !important;
+    div {
+      padding : 0px 0px !important;
+      div {
+        padding: 0px 4px !important;
+      }
+    }
+  }
+}
+.payslips{
+  margin-top: 20px;
+  .content-payslips{
+    margin-left: 0px;
+    margin-right: 0px;
+    font-size: 10px;
+    b .l-view {
+      background: #fff;
+    }
+    .payslip_row div.row:nth-child(even){
+      background-color: #F8F8FF;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+    .payslip_row div.row:nth-child(odd){
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+    .m-view{
+      font-weight: bold;
+    }
+  }
+}
+.salary-details{
+  height: 93px;
+}
+.salary-add-details{
+  height: 93px;
+}
+.salary-block{
+  height: 100%;
+  .cell{
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &.center{
+      justify-content: space-around;
+    }
+  }
+}
+.salary-add-block{
+  height: 100%;
+  .cell{
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &.center{
+      text-align: center;
+      justify-content: space-around;
+    } 
+  }
+} 
+@media screen and (min-width: 992px) {
+  .salary-total-title {
+    text-align: center;
+    font-weight: 600;
+  }
+  .salary-total-value {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .salary-total-width {
+    width: 8%;
+  }
+  .salary-addition-width {
+    width: 52%;
+    .salary-basic-width {
+      width: 11%;
+      min-width: 46px;
+    }
+    .salary-hra-width {
+      width: 11%;
+      min-width: 46px;
+    }
+    .salary-conveyance-width {
+      width: 17%;
+      min-width: 60px;
+    }
+    .salary-medical-width {
+      width: 24%;
+      min-width: 60px;
+    }
+    .salary-special-width {
+      width: 23%;
+      min-width: 60px;
+    }
+    .salary-arrears-width {
+      width: 12%;
+      min-width: 46px;
+    }
+  }
+  .salary-deduction-width {
+    width: 40%;
+    .salary-epf-width {
+      width: 10%;
+      min-width: 46px;
+    }
+    .salary-loan-width {
+      width: 10%;
+      min-width: 46px;
+    }
+    .salary-advance-width {
+      width: 15%;
+      min-width: 46px;
+    }
+    .salary-miscdeductions-width {
+      width: 25%;
+      min-width: 84px;
+    }
+    .salary-tds-width {
+      width: 10%;
+      min-width: 46px;
+    }
+    .salary-options-width {
+      width: 12%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .my-salary{
+    .salary-total-width {
+      width: 10%;
+    }
+    .salary-addition-width {
+      width: 54%;
+      .salary-basic-width {
+        width: 11%;
+        min-width: 46px;
+      }
+      .salary-hra-width {
+        width: 11%;
+        min-width: 46px;
+      }
+      .salary-conveyance-width {
+        width: 17%;
+        min-width: 60px;
+      }
+      .salary-medical-width {
+        width: 24%;
+        min-width: 60px;
+      }
+      .salary-special-width {
+        width: 23%;
+        min-width: 60px;
+      }
+      .salary-arrears-width {
+        width: 12%;
+        min-width: 46px;
+      }
+    }
+    .salary-deduction-width {
+      width: 36%;
+      .salary-epf-width {
+        width: 19%;
+        min-width: 46px;
+      }
+      .salary-loan-width {
+        width: 19%;
+        min-width: 46px;
+      }
+      .salary-advance-width {
+        width: 19%;
+        min-width: 46px;
+      }
+      .salary-miscdeductions-width {
+        width: 24%;
+        min-width: 84px;
+      }
+      .salary-tds-width {
+        width: 19%;
+        min-width: 46px;
+      }
+      // .salary-options-width {
+      //   width: 12%;
+      //   display: flex;
+      //   justify-content: center;
+      //   align-items: center;
+      // }
+    }
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .salary-total{
+    font-size: 10px;
+  }
+  .salary-total-title {
+    text-align: center;
+    font-weight: 600;
+  }
+  .salary-total-value {
+    text-align: center;
+  }
+  
+}
+@media screen and (max-width: 767px) {
+  .content-salary{
+    .leaves{
+      .leave-field{
+        width: 100%;
+      }
+    }
+  }
+    .salary-border-left {
+      border-left: 0px !important;
+    }
+    .salary-total-title {
+      text-align: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .salary-total-value {
+      text-align: center;
+      font-size: 14px;
+    }
+    .salary-details{
+      height: 150px;
+      .salary-block{
+        height: 100%;
+        .cell{
+          height: auto;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          &.center{
+            justify-content: space-around;
+          }
+        }
+      }
+    }
+    .salary-add-block {
+      height: auto;
+    }
+}
+@media screen and (max-width: 398px) {
+  .salary-p-x {
+      padding-right: .5rem !important;
+      padding-left: .5rem !important;
+  }
+  .salary-title{
+    font-size: 0.5rem;
+  }
+}
+@media screen and (max-width: 768px) {
+  .m-view{
+    display: block;
+  }
+  .l-view{
+    display: none;
+  }
+}
+@media screen and (min-width: 768px) {
+  .m-view{
+    display: none;
+  }
+  .l-view{
+    display: block;
+  }
+  .w-13{
+    width: 13%;
+  }
+  .w-15{
+    width: 15%;
+  }
+  .content-payslips{
+    .payslip_row{
+      .row{
+        .w-13, .w-15{
+          padding: 0 !important;
+        }
+      }
+    }
+  }
+}

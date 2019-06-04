@@ -1,0 +1,23 @@
+.m-x-auto{
+  margin-left: 50%;
+  margin-right: auto;
+  width: 200px;
+}
+
+.left100{
+  .sl-content{
+    margin-left: -70%;
+  }
+}
+
+.modal{
+  &.in{
+    .modal-dialog{
+      z-index: 999999;
+    }
+  } 
+
+}
+.modal-backdrop{
+  background-color: rgba(0, 0, 0, 0.34);
+}

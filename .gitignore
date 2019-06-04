@@ -1,8 +1,14 @@
 .DS_STORE
 *.log
-node_modules
+frontend/node_modules
+frontend/.env
+frontend/.env.*
+frontend/dist
 
-
-.env
-/dist
 coverage
+backend/node_modules
+backend/postman_collection.json
+backend/test
+backend/vendor
+backend/attendance/uploaded_files
+backend/attendance/upload
