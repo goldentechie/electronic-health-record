@@ -229,7 +229,7 @@ class ApplyLeaveForm extends React.Component {
                     <small className="uploadnotic" >* Upload file size should be less than 1 MB</small>
                   </div> */}
                 </div>
-                <div className="sl-item b-success" /* style={{display:'inline-grid'}} */ >
+              {!this.props.forAdmin ?  <div className="sl-item b-success" >
                      <div className="sl-item b-warning">
                       <div className="sl-content">
                         <div className="sl-date text-muted">Send Link Of Your Document on Slack to Manish</div>
@@ -237,11 +237,11 @@ class ApplyLeaveForm extends React.Component {
                         }}  /></div>
                       </div>
                     </div>
-                  </div>
-                <AddLeaveDocument 
+                </div> : null}
+                {/* <AddLeaveDocument 
                 handleClose={this.handleClose}
                 open={this.state.open}
-              /> 
+              />  */}
                 </div>
                 <div className="form-group row m-t-md">
               <div className="col-xs-12 col-md-6 text-center">
