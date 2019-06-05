@@ -96,7 +96,7 @@ echo $file_size.'xxx';
           
     $message = $userInfo_name . ". document $doc_type was uploaded on HR System. Please visit your document section or below link to view it \n $url";
 
-    $slackMessageStatus = Salary::sendSlackMessageToUser($slack_usercid = "hr", $message); // send salck message to hr channel
+    $slackMessageStatus = Salary::sendSlackMessageToUser($slack_usercid = "hr_system", $message); // send salck message to hr channel
 
     header("Location: $return");
     exit;

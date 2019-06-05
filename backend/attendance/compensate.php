@@ -79,7 +79,7 @@ if ($current_day != weekoff && $current_date != $second_sat && $current_date != 
                             $f = $foo['id'];
                             // $f = "U0FJZ0KDM";
                             $name = $foo['real_name'];
-                            $c_id = get_channel_id($f, $cid_array);
+                            $c_id = get_slack_user_id($f, $cid_array);
                             $r = date('H:i', mktime(0, $to_compensate));
 
                             if ($entry == 0) {
@@ -318,7 +318,7 @@ if ($current_day != weekoff && $current_date != $second_sat && $current_date != 
                     if ($key == $foo['profile']['email'] && $key != "") {
                         $f = $foo['id'];
 
-                        $c_id = get_channel_id($f, $cid_array);
+                        $c_id = get_slack_user_id($f, $cid_array);
                         $r = date('H:i', mktime(0, $to_compensate));
                         $msg = $msg . "Hi " . $foo['real_name'] . " You have to compensate " . $r . " minutes \n";
                         $msg = $msg . "Details: \n";
@@ -378,7 +378,7 @@ if ($current_day != weekoff && $current_date != $second_sat && $current_date != 
                         $f = $foo['id'];
                         // $f = "U0FJZ0KDM";
                         $rname = $foo['real_name'];
-                        $c_id = get_channel_id($f, $cid_array);
+                        $c_id = get_slack_user_id($f, $cid_array);
                         //  echo $key."----".$f."-----".$c_id;
                         $msg2 = $msg2 . "Hi " . $rname . "\n";
                         $msg2 = $msg2 . $mm . "Please apply asap on HR System";
@@ -421,7 +421,7 @@ if ($current_day != weekoff && $current_date != $second_sat && $current_date != 
             if ($from3 == $current_date) {
                 $assign_machine = getAssignDeviceStatus($vale['user_Id'], $link);
                 if(sizeof($assign_machine) > 0){
-                   $c_id = get_channel_id($vale['slack_id'], $cid_array);
+                   $c_id = get_slack_user_id($vale['slack_id'], $cid_array);
                    $empmsg = "Hi ". $vale['name'] ."!!\n Please leave the ";
                    $i=0;
                    foreach($assign_machine as $vf){
@@ -496,7 +496,7 @@ if ($current_day != weekoff && $current_date != $second_sat && $current_date != 
                         $update_msg = $update_msg . $image . "\n";
                     }
                     $update_msg = $update_msg . " in your slack profile. Please do that asap. ";
-                    $c_id = get_channel_id($f, $cid_array);
+                    $c_id = get_slack_user_id($f, $cid_array);
                     echo "$update_msg";
                     echo "<br>";
                     $s = getSlackMsgSendStatus($email_adr, $link);
@@ -542,6 +542,15 @@ function get_channel_id($data, $array) {
     foreach ($array as $val) {
         if ($data == $val['user']) {
             return $val['id'];
+            break;
+        }
+    }
+}
+
+function get_slack_user_id($data, $array) {
+    foreach ($array as $val) {
+        if ($data == $val['user']) {
+            return $val['user'];
             break;
         }
     }

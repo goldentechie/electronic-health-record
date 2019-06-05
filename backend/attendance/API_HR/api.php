@@ -513,7 +513,8 @@ else if ($action == 'add_hr_comment') {
         $day_status = $PARAMS['day_status'];
         $leave_type = $PARAMS['leave_type'];
         $late_reason = $PARAMS['late_reason'];
-        $res = HR::applyLeave($userid, $from_date, $to_date, $no_of_days, $reason, $day_status, $leave_type, $late_reason);
+        $doc_link = $PARAMS['doc_link'];
+        $res = HR::applyLeave($userid, $from_date, $to_date, $no_of_days, $reason, $day_status, $leave_type, $late_reason, $doc_link);
     } else {
         $res['error'] = 1;
         $res['data']['message'] = "userid not found";
