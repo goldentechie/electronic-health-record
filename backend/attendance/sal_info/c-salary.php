@@ -517,7 +517,7 @@ class Salary extends DATABASE {
         } else {
             $userInfo = self::getUserInfo($userid);
             $userInfo_name = $userInfo['name'];
-            $slack_userChannelid = $userInfo['slack_profile']['slack_channel_id'];
+            $slack_userChannelid = $userInfo['slack_profile']['id'];
 
             if ($data['send_slack_msg'] == "") {
 
