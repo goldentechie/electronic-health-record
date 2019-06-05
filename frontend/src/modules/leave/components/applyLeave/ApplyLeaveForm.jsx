@@ -229,15 +229,15 @@ class ApplyLeaveForm extends React.Component {
                     <small className="uploadnotic" >* Upload file size should be less than 1 MB</small>
                   </div> */}
                 </div>
-              {!this.props.forAdmin ?  <div className="sl-item b-success" >
+                <div className="sl-item b-success" >
                      <div className="sl-item b-warning">
                       <div className="sl-content">
                         <div className="sl-date text-muted">Send Link Of Your Document on Slack to Manish</div>
-                        <div><input className="form-control" type="url" pattern="https://.*" value={this.state.doc_link} onChange={(e) =>{this.setState({doc_link:e.target.value})
+                        <div><input className="form-control" type="url" pattern="http://.*" value={this.state.doc_link} onChange={(e) =>{this.setState({doc_link:e.target.value})
                         }}  /></div>
                       </div>
                     </div>
-                </div> : null}
+                </div>
                 {/* <AddLeaveDocument 
                 handleClose={this.handleClose}
                 open={this.state.open}
