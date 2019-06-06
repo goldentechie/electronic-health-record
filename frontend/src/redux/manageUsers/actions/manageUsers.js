@@ -374,7 +374,7 @@ export function addNewEmployee(new_employee_details) {
     ) {
       return Promise.reject("Date of Joining is empty");
     } else {
-      n_dateofjoining = new_employee_details.dateofjoining;
+      n_dateofjoining = moment(new_employee_details.dateofjoining).add(330,"minutes") ;
     }
 
     if (
@@ -410,7 +410,7 @@ export function addNewEmployee(new_employee_details) {
     ) {
       return Promise.reject("Date of birth is empty");
     } else {
-      n_dob = new_employee_details.dob;
+      n_dob = moment(new_employee_details.dob).add(330,"minutes") ;
     }
 
     if (

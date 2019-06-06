@@ -1640,7 +1640,7 @@ class HR extends DATABASE {
             ////send  slack message to user
             $userInfo = self::getUserInfo($userid);
             $userInfo_name = $userInfo['name'];
-            $slack_userChannelid = $userInfo['slack_profile']['id'];
+            $slack_userChannelid = $userInfo['slack_profile']['slack_channel_id'];
 
             $message = "Hey $userInfo_name !!  \n Your timings is updated for date $h_date as below : \n ";
             if ($previous_entry_time != '' && $previous_entry_time != $inTime) {
@@ -2240,7 +2240,7 @@ class HR extends DATABASE {
         return $return;
     }
 
-    public static function applyLeave($userid, $from_date, $to_date, $no_of_days, $reason, $day_status, $leave_type, $late_reason, $pending_id = false, $doc_link = false) {
+    public static function applyLeave($userid, $from_date, $to_date, $no_of_days, $reason, $day_status, $leave_type, $late_reason, $pending_id = false) {
         //date format = Y-m-d
         $db = self::getInstance();
         $mysqli = $db->getConnection();
@@ -2270,7 +2270,7 @@ class HR extends DATABASE {
         
         $applied_date = date('Y-m-d');
         $reason = self::DBescapeString($reason);
-        $q = "INSERT into leaves ( user_Id, from_date, to_date, no_of_days, reason, status, applied_on, day_status,leave_type,late_reason, doc_link ) VALUES ( $userid, '$from_date', '$to_date', $no_of_days, '$reason', 'Pending', '$applied_date', '$day_status','$leave_type','$late_reason', '$doc_link' )";
+        $q = "INSERT into leaves ( user_Id, from_date, to_date, no_of_days, reason, status, applied_on, day_status,leave_type,late_reason ) VALUES ( $userid, '$from_date', '$to_date', $no_of_days, '$reason', 'Pending', '$applied_date', '$day_status','$leave_type','$late_reason' )";
 
         $r_error = 0;
         $r_message = "";
@@ -2302,7 +2302,7 @@ class HR extends DATABASE {
             ////send  slack message to user && HR
             $userInfo = self::getUserInfo($userid);
             $userInfo_name = $userInfo['name'];
-            $slack_userChannelid = $userInfo['slack_id'];
+            $slack_userChannelid = $userInfo['slack_profile']['id'];
 
             if ($day_status == "2") {
                 $message_to_user = "Hi $userInfo_name !!  \n You just had applied for second half days of leave from $from_date to $to_date. \n Reason mentioned : $reason  \n $alert_message";
@@ -2318,11 +2318,6 @@ class HR extends DATABASE {
             if ($late_reason != "") {
                 $message_to_user.="\nLate Reason: $late_reason";
                 $message_to_hr.="\nLate Reason: $late_reason";
-            }
-
-            if($doc_link != ""){
-                $message_to_user .= "\n Document Uploaded: $doc_link";
-                $message_to_hr .= "\n Document Uploaded: $doc_link";
             }
 
             $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid, $message_to_user);
@@ -2493,7 +2488,7 @@ class HR extends DATABASE {
 
             $userInfo = self::getUserInfo($leaveDetails['user_Id']);
             $userInfo_name = $userInfo['name'];
-            $slack_userChannelid = $userInfo['slack_profile']['id'];
+            $slack_userChannelid = $userInfo['slack_profile']['slack_channel_id'];
 
             $message_to_user = "Hi $userInfo_name !!  \n Your leave has been $newstatus. \n \n Leave Details : \n";
             $message_to_user .= " From : $from_date \n To : $to_date \n No. of days : $no_of_days \n Applied On : $applied_on \n Reason : $reason";
@@ -2507,7 +2502,7 @@ class HR extends DATABASE {
             }
 
             $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid, $message_to_user);
-            $slackMessageStatus = self::sendSlackMessageToUser("hr_system", $message_to_hr);
+            $slackMessageStatus = self::sendSlackMessageToUser("hr", $message_to_hr);
 
             $r_message = "Leave status changes from $old_status to $newstatus";
         } else {
@@ -2650,7 +2645,7 @@ class HR extends DATABASE {
 
             $userInfo = self::getUserInfo($leaveDetails['user_Id']);
             $userInfo_name = $userInfo['name'];
-            $slack_userChannelid = $userInfo['slack_profile']['id'];
+            $slack_userChannelid = $userInfo['slack_profile']['slack_channel_id'];
 
             if (!empty($doc_request)) {
                 $q = "UPDATE leaves set doc_require= 1 WHERE id = $leaveid ";
@@ -3457,7 +3452,7 @@ class HR extends DATABASE {
                         //send slack message
                         $userInfo = self::getUserInfo($userId);
                         $userInfo_name = $userInfo['name'];
-                        $slack_userChannelid = $userInfo['slack_profile']['id'];
+                        $slack_userChannelid = $userInfo['slack_profile']['slack_channel_id'];
                         
                         $message_to_user = "Hi $userInfo_name !!  \n Your new password for HR portal is : $newPassword";
                         if( $regeneratePassword ){
@@ -3516,7 +3511,7 @@ class HR extends DATABASE {
                 //send slack message to user
                 $userInfo = self::getUserInfo($f_userid);
                 $userInfo_name = $userInfo['name'];
-                $slack_userChannelid = $userInfo['slack_profile']['id'];
+                $slack_userChannelid = $userInfo['slack_profile']['slack_channel_id'];
 
                 $message_to_user = "Hi $userInfo_name !!  \n Your had just updated your HR Portal password.";
                 $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid, $message_to_user);
@@ -3993,7 +3988,7 @@ class HR extends DATABASE {
                                 $q4 = "UPDATE user_working_hours SET working_hours = '$increase_time' where id =" . $row3['id'];
                                 $run4 = self::DBrunQuery($q4);
                             }
-                            $slack_userChannelid = $userInfo['slack_profile']['id'];
+                            $slack_userChannelid = $userInfo['slack_profile']['slack_channel_id'];
 
                             $msg = "Hi $name! Your working hours has been increased to $increase_time min as you have exceeded lunch time. \nKeep your lunch under 35 minutes\n In case of any issue contact HR";
                             //  $msg = "Hi $name! you have exceeded lunch time duration . \nKeep your lunch under 35 minutes";
@@ -4001,7 +3996,7 @@ class HR extends DATABASE {
                         }
                     }
 
-                    $slackMessageStatus = self::sendSlackMessageToUser("hr_system", $hr_msg);
+                    $slackMessageStatus = self::sendSlackMessageToUser("hr", $hr_msg);
                 } else {
                     $r_error = 1;
                     $r_message = "Lunch end date already inserted i.e : " . date("jS M h:i A", strtotime($row['lunch_end']));
@@ -4284,7 +4279,7 @@ class HR extends DATABASE {
             $message.= "Machine Price=" . $m_price . "\n";
             $message.= "Machine Serial no=" . $serial_no . "\n";
             $message.= "Machine Waranty=" . $warranty . "\n";
-            $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid = "hr_system", $message);
+            $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid = "hr", $message);
             $r_error = 0;
             $r_message = "Inventory added successfully and need to be approved by admin!!";
         }
@@ -4356,7 +4351,7 @@ class HR extends DATABASE {
                             $message = $message . "$key = " . $valu . "\n";
                         }
 
-                        $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid = 'hr_system', $message); // send slack message
+                        $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid = 'hr', $message); // send slack message
                     }
                 }
                 $r_error = 0;
@@ -6019,7 +6014,7 @@ class HR extends DATABASE {
 
                 $userInfo = self::getUserInfo($row_userid);
                 $userInfo_name = $userInfo['name'];
-                $slack_userChannelid = $userInfo['slack_profile']['id'];
+                $slack_userChannelid = $userInfo['slack_profile']['slack_channel_id'];
 
                 $message_to_user = "Hi $userInfo_name !!  \n Your manual attendance $approvedWithLessTimeText $row_manual_time is approved!!";
                 $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid, $message_to_user);
@@ -6051,7 +6046,7 @@ class HR extends DATABASE {
 
                 $userInfo = self::getUserInfo($row_userid);
                 $userInfo_name = $userInfo['name'];
-                $slack_userChannelid = $userInfo['slack_profile']['id'];
+                $slack_userChannelid = $userInfo['slack_profile']['slack_channel_id'];
 
                 $message_to_user = "Hi $userInfo_name !!  \n Your manual attendance $row_manual_time is Rejected!!";
                 $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid, $message_to_user);
