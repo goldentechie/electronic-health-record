@@ -242,7 +242,6 @@ if ($action == 'login') {   //added in getActionsNotRequiredToken
 } else if ($action == "admin_user_apply_leave") {
 
     $from_date = $to_date = $no_of_days = $reason = $day_status = '';
-    $doc_link = "N/A";
 
     $userid = $PARAMS['user_id'];
     if( isset($PARAMS['from_date']) ){
@@ -259,10 +258,7 @@ if ($action == 'login') {   //added in getActionsNotRequiredToken
     }
     if( isset($PARAMS['day_status']) ){
         $day_status = $PARAMS['day_status'];    
-    }    
-    if( isset($PARAMS['doc_link']) && $PARAMS['doc_link'] != "" ){
-        $doc_link = $PARAMS['doc_link'];
-    }    
+    }
     
     if ($PARAMS['pending_id']) {
 
@@ -280,9 +276,9 @@ if ($action == 'login') {   //added in getActionsNotRequiredToken
             $from_date = $employeeLastPresentDay['full_date'];
             $to_date = $employeeLastPresentDay['full_date'];
         }
-        $res = HR::applyLeave($userid, $from_date, $to_date, $no_of_days, $reason, $day_status, $leave_type = "", $late_reason = "", $PARAMS['pending_id'], $doc_link);
+        $res = HR::applyLeave($userid, $from_date, $to_date, $no_of_days, $reason, $day_status, $leave_type = "", $late_reason = "", $PARAMS['pending_id']);
     } else {
-        $res = HR::applyLeave($userid, $from_date, $to_date, $no_of_days, $reason, $day_status, "", "", "", $doc_link);
+        $res = HR::applyLeave($userid, $from_date, $to_date, $no_of_days, $reason, $day_status);
     }
 } else if ($action == 'update_new_password') {
     $res = HR::updatePassoword($PARAMS);
@@ -517,11 +513,8 @@ else if ($action == 'add_hr_comment') {
         $day_status = $PARAMS['day_status'];
         $leave_type = $PARAMS['leave_type'];
         $late_reason = $PARAMS['late_reason'];
-        $doc_link = "N/A";
-        if( isset($PARAMS['doc_link']) && $PARAMS['doc_link'] != "" ){
-            $doc_link = $PARAMS['doc_link'];
-        }        
-        $res = HR::applyLeave($userid, $from_date, $to_date, $no_of_days, $reason, $day_status, $leave_type, $late_reason, '', $doc_link);
+        $doc_link = $PARAMS['doc_link'];
+        $res = HR::applyLeave($userid, $from_date, $to_date, $no_of_days, $reason, $day_status, $leave_type, $late_reason, $doc_link);
     } else {
         $res['error'] = 1;
         $res['data']['message'] = "userid not found";
