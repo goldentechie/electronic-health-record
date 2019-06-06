@@ -233,7 +233,7 @@ class ApplyLeaveForm extends React.Component {
                      <div className="sl-item b-warning">
                       <div className="sl-content">
                         <div className="sl-date text-muted">Send Link Of Your Document on Slack to Manish</div>
-                        <div><input className="form-control" type="url" pattern="http.*" value={this.state.doc_link} onChange={(e) =>{this.setState({doc_link:e.target.value})
+                        <div><input className="form-control" type="url" pattern="http://.*" value={this.state.doc_link} onChange={(e) =>{this.setState({doc_link:e.target.value})
                         }}  /></div>
                       </div>
                     </div>

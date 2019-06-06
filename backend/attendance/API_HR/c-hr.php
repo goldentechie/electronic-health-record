@@ -2302,7 +2302,7 @@ class HR extends DATABASE {
             ////send  slack message to user && HR
             $userInfo = self::getUserInfo($userid);
             $userInfo_name = $userInfo['name'];
-            $slack_userChannelid = $userInfo['slack_profile']['id'];
+            $slack_userChannelid = $userInfo['slack_id'];
 
             if ($day_status == "2") {
                 $message_to_user = "Hi $userInfo_name !!  \n You just had applied for second half days of leave from $from_date to $to_date. \n Reason mentioned : $reason  \n $alert_message";
@@ -2321,8 +2321,8 @@ class HR extends DATABASE {
             }
 
             if($doc_link != ""){
-                $message_to_user .= "\n Document Uploaded: " . $doc_link;
-                $message_to_hr .= "\n Document Uploaded: " . $doc_link;
+                $message_to_user .= "\n Document Uploaded: $doc_link";
+                $message_to_hr .= "\n Document Uploaded: $doc_link";
             }
 
             $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid, $message_to_user);
