@@ -22,8 +22,7 @@ class ApplyLeaveForm extends React.Component {
       day_status:           '',
       show_half_day_button: '',
       leaveType:            '',
-      late_reason:          '',
-      doc_link:             ''
+      late_reason:          ''
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
@@ -81,7 +80,7 @@ class ApplyLeaveForm extends React.Component {
     var reason_letter_count = this.state.form_reason
     if(reason_letter_count.length > 30){
       if (this.props.forAdmin == true) {
-        this.props.doApplyLeave(this.state.form_from_date, this.state.form_to_date, this.state.form_no_of_days, this.state.form_reason, this.props.selectedUserId, this.state.day_status, this.state.leaveType, this.state.late_reason, this.state.doc_link);
+        this.props.doApplyLeave(this.state.form_from_date, this.state.form_to_date, this.state.form_no_of_days, this.state.form_reason, this.props.selectedUserId, this.state.day_status, this.state.leaveType, this.state.late_reason);
         this.setState({
           form_from_date:       '',
           form_to_date:         '',
@@ -90,13 +89,12 @@ class ApplyLeaveForm extends React.Component {
           show_half_day_button: '',
           day_status:           '',
           leaveType:            '',
-          late_reason:          '',
-          doc_link:             ''
+          late_reason:          ''
         });
         
         // notify("leave Applied");
       } else {
-        this.props.doApplyLeave(this.state.form_from_date, this.state.form_to_date, this.state.form_no_of_days, this.state.form_reason, '', this.state.day_status, this.state.leaveType, this.state.late_reason, this.state.doc_link);
+        this.props.doApplyLeave(this.state.form_from_date, this.state.form_to_date, this.state.form_no_of_days, this.state.form_reason, '', this.state.day_status, this.state.leaveType, this.state.late_reason);
         this.setState({
           form_from_date:       '',
           form_to_date:         '',
@@ -105,8 +103,7 @@ class ApplyLeaveForm extends React.Component {
           show_half_day_button: '',
           day_status:           '',
           leaveType:            '',
-          late_reason:          '',
-          doc_link:             ''
+          late_reason:          ''
         });
         
       }
@@ -197,7 +194,7 @@ class ApplyLeaveForm extends React.Component {
                 <div className="sl-item b-warning">
                   <div className="sl-content">
                     <div className="sl-date text-muted">Reason</div>
-                    <div><textarea className="form-control" ref="reason" onChange={() => this.setState({form_reason: this.refs.reason.value})} value={this.state.form_reason} /></div>
+                    <div><textarea  ref="reason" onChange={() => this.setState({form_reason: this.refs.reason.value})} value={this.state.form_reason} /></div>
                   </div>
                 </div>
                 {
@@ -220,28 +217,19 @@ class ApplyLeaveForm extends React.Component {
                       {this.state.form_to_date}
                     </div>
                   </div>
-                  {/* <div className="col-sm-12 " style={{display:'inline-grid'}} >
+                  <div className="col-sm-12 " style={{display:'inline-grid'}} >
                   <small >Send Document on Slack to Manish</small>
                     <button type="button"
                       onClick={() =>  this.handleOpen()}
                       className="btn btn-info btn-responsive btn-res col-xs-2">{'Upload Leave Document'}
                     </button>
                     <small className="uploadnotic" >* Upload file size should be less than 1 MB</small>
-                  </div> */}
+                  </div>
                 </div>
-                <div className="sl-item b-success" >
-                     <div className="sl-item b-warning">
-                      <div className="sl-content">
-                        <div className="sl-date text-muted">Send Link Of Your Document on Slack to Manish</div>
-                        <div><input className="form-control" type="url" pattern="http://.*" value={this.state.doc_link} onChange={(e) =>{this.setState({doc_link:e.target.value})
-                        }}  /></div>
-                      </div>
-                    </div>
-                </div>
-                {/* <AddLeaveDocument 
+                <AddLeaveDocument 
                 handleClose={this.handleClose}
                 open={this.state.open}
-              />  */}
+              /> 
                 </div>
                 <div className="form-group row m-t-md">
               <div className="col-xs-12 col-md-6 text-center">
