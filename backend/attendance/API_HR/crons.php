@@ -78,6 +78,7 @@ function calculate_previous_month_pending_time(){
 	// die;
 
 	foreach( $enabledUsersList as $employee ){
+		$slack_userChannelid = $employee['slack_id'];
 		$employee_id = $employee['user_Id'];
 		// print_r( $employee );
 
@@ -96,8 +97,8 @@ function calculate_previous_month_pending_time(){
 			$compensationSummary = $previousMonthAttendaceDetails['data']['compensationSummary'];
 			if( isset($compensationSummary['seconds_to_be_compensate']) && $compensationSummary['seconds_to_be_compensate'] > 0 ){
 				$c_seconds_to_be_compensate = $compensationSummary['seconds_to_be_compensate'];
-				// $c_time_to_be_compensate = $compensationSummary['time_to_be_compensate'];
-				// $c_compensation_break_up = $compensationSummary['compensation_break_up'];
+				$c_time_to_be_compensate = $compensationSummary['time_to_be_compensate'];
+				$c_compensation_break_up = $compensationSummary['compensation_break_up'];
 				// echo "$employee_id *** $employee_name **** $c_seconds_to_be_compensate ***** $c_time_to_be_compensate<br>";
 				// echo "^^^^^^BREAK UP^^^^^^^<br>";
 				// foreach( $c_compensation_break_up as $txt ){
@@ -115,6 +116,7 @@ function calculate_previous_month_pending_time(){
 
 		// only to keey whose pending seconds are greater then 0
 		if( $c_seconds_to_be_compensate*1 > 0 ){
+			$employee_name = $employee['name'];
 			echo $employee['name'].'<br>';
 			echo $employee['user_Id'].'<br>';
 			// print_r( $summary );
@@ -131,6 +133,11 @@ function calculate_previous_month_pending_time(){
 			echo $employee['user_Id'].' *** '.$extraTime.' *** '.$yearAndMonth.' *** '.$todayDate_Y_m_d ;
 			echo '<br>';
 			echo '<br>';
+			$slackMessageForUser = "Hi $employee_name !!\n\n You have to compensate $c_time_to_be_compensate \n\n Compensation summary \n\n";
+			
+			foreach( $c_compensation_break_up as $txt ){				
+				$slackMessageForUser .= $txt['text']. "\n";
+			}
 
 			$checkAlreadyExistsQuery = "SELECT * FROM users_previous_month_time where user_Id=$employee_id AND year_and_month='$yearAndMonth'";
 			$runQuery = HR::DBrunQuery($checkAlreadyExistsQuery);
@@ -154,7 +161,9 @@ function calculate_previous_month_pending_time(){
 			} else {
 				echo "<h2>--ALREADY EXISTS</h2>";
 			}
-	    }
+			}
+			
+			HR::sendSlackMessageToUser($slack_userChannelid, $slackMessageForUser);
 		}
 	}
 
@@ -189,8 +198,7 @@ function notification_compensation_time(){
 	$enabledUsersList = HR::getEnabledUsersList();
 
 	foreach( $enabledUsersList as $employee ){
-		$slack_userChannelid = $employee['slack_channel_id'];
-		// print_r($employee);
+		$slack_userChannelid = $employee['slack_id'];
 		$employee_id = $employee['user_Id'];
 		$employee_name = $employee['name'];
 		$currentMonthAttendaceDetails = HR::getUserMonthAttendaceComplete($employee_id, $current_year, $current_month);			
@@ -271,7 +279,7 @@ function sendBirthdayWishes(){
 		$user_id = $user['user_Id'];
 		$user_dob = $user['dob'];
 		$user_name = $user['name'];
-		$user_slack_channel_id = $user['slack_channel_id'];		
+		$user_slack_channel_id = $user['slack_id'];		
 		if( isset($user_dob) && $user_dob != "" && $user_dob != '0000-00-00' ){
 			$user_dob_month_day = date('m-d', strtotime($user_dob));
 			$current_month_day = $current_month . "-" . $current_date;
@@ -344,7 +352,7 @@ function notificationUpdateProfile(){
 			// $slackinfo = Salary::getSlackUserInfo($val['work_email']);
 			if ($slackinfo != "" && $slackinfo['is_bot'] == false) {
 				$username = $slackinfo['real_name'];			
-				$slack_channel_id = $slackinfo['slack_channel_id'];
+				$slack_channel_id = $slackinfo['slack_id'];
 				$message = "";
 				$po = Salary::getUserPolicyDocument($user_id);
 				$m1 = "";
@@ -389,7 +397,7 @@ function notificationUpdateProfile(){
 				// date of birth alert slack notification 
 				if (is_null($val['dob']) || $val['dob'] == "0000-00-00") {
 					$m4 = "Hi HR. Please update the date of birth of $username in hr-system";
-					$slackMessageStatus = Salary::sendSlackMessageToUser('hr', $m4);   // send slack notification to employee
+					$slackMessageStatus = Salary::sendSlackMessageToUser('hr_system', $m4);   // send slack notification to employee
 				}
 				if (!is_null($val['dob']) && $val['dob'] != "0000-00-00") {
 					$dob = explode("-", $val['dob']);
@@ -445,7 +453,7 @@ function notificationUpdateProfile(){
 		if(!empty($assign_machine_msg)){
 			$m = "Hi HR!\n Following employee assigned machine details are not store in database:\n";
 			$m.= $assign_machine_msg."Please save them asap";
-			$slackMessageStatus = Salary::sendSlackMessageToUser('hr', $m);
+			$slackMessageStatus = Salary::sendSlackMessageToUser('hr_system', $m);
 		
 		}
 	}

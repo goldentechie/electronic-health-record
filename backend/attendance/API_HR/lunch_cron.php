@@ -39,7 +39,7 @@ if ($current_day != weekoff && $current_date != $second_sat && $current_date != 
         $userid = $val['user_Id'];
 
         $name = $val['name'];
-        $slack_channel_id = $val['slack_channel_id'];
+        $slack_channel_id = $val['slack_id'];
         $status = lunch_status($userid, $prev_workdate);
         if ($userid != 302 && $userid != 288 && $userid != 313 && $userid != 320 && $userid != 415 && $userid != 418) {
 
@@ -63,7 +63,7 @@ if ($current_day != weekoff && $current_date != $second_sat && $current_date != 
                         $hr_msg = "Hi $name ! \n You forgot to put your lunch timing on " . date("jS M ", strtotime($prev_workdate)) . ", so assumed 1 hour \n Added 30 min on your working hours /n In case of any issue contact HR";
 
                         HR::sendSlackMessageToUser($slack_channel_id, $hr_msg);
-                        HR::sendSlackMessageToUser("hr", $hr_msg);
+                        HR::sendSlackMessageToUser("hr_system", $hr_msg);
                     } catch (Exception $e) {
 
                         echo "Error occured while inserting data";
@@ -84,7 +84,7 @@ if ($current_day != weekoff && $current_date != $second_sat && $current_date != 
                     $hr_msg = "Hi $name ! \n You forgot to put your lunch_exit timing on " . date("jS M ", strtotime($prev_workdate)) . ", so assumed 1 hour \n Added 30 min on your working hours \n In case of any issue contact HR";
 
                     HR::sendSlackMessageToUser($slack_channel_id, $hr_msg);
-                    HR::sendSlackMessageToUser("hr", $hr_msg);
+                    HR::sendSlackMessageToUser("hr_system", $hr_msg);
                 } catch (Exception $e) {
 
                     echo "Error occured while inserting data";

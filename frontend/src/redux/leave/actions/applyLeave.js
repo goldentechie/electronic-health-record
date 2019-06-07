@@ -18,7 +18,7 @@ export function leave_error (err) {
   return createAction(constants.ACTION_LEAVE_ERROR)('Error Occurs !!');
 }
 
-function async_apply_leave (from_date, to_date, no_of_days, reason, day_status, leaveType, late_reason, pending_id, year, month, user_Id) {
+function async_apply_leave (from_date, to_date, no_of_days, reason, day_status, leaveType, late_reason, doc_link, pending_id, year, month, user_Id) {
   return fireAjax('POST', '', {
     'action':      'apply_leave',
     'from_date':   from_date,
@@ -28,11 +28,12 @@ function async_apply_leave (from_date, to_date, no_of_days, reason, day_status, 
     'day_status':  day_status,
     'leave_type':  leaveType,
     'late_reason': late_reason,
+    'doc_link'   : doc_link,
     'pending_id':  pending_id
   });
 }
 
-function async_apply_employe_leave (from_date, to_date, no_of_days, reason, userId, day_status, leaveType, late_reason, pending_id, year, month) {
+function async_apply_employe_leave (from_date, to_date, no_of_days, reason, userId, day_status, leaveType, late_reason, doc_link, pending_id, year, month) {
   return fireAjax('POST', '', {
     'action':      'admin_user_apply_leave',
     'from_date':   from_date,
@@ -43,11 +44,12 @@ function async_apply_employe_leave (from_date, to_date, no_of_days, reason, user
     'day_status':  day_status,
     'leave_type':  leaveType,
     'late_reason': late_reason,
+    'doc_link'   : doc_link,
     'pending_id':  pending_id
   });
 }
 
-export function apply_leave (from_date, to_date, no_of_days, reason, userId, day_status, leaveType, late_reason, pending_id, year, month) {
+export function apply_leave (from_date, to_date, no_of_days, reason, userId, day_status, leaveType, late_reason, doc_link, pending_id, year, month) {
   return function (dispatch, getState) {
     if (_.isEmpty(from_date)) {
       return Promise.reject('From date is empty');
@@ -65,7 +67,7 @@ export function apply_leave (from_date, to_date, no_of_days, reason, userId, day
     return new Promise((resolve, reject) => {
       dispatch(show_loading()); // show loading icon
       if (userId == '') {
-        async_apply_leave(from_date, to_date, no_of_days, reason, day_status, leaveType, late_reason, pending_id, year, month).then((json) => {
+        async_apply_leave(from_date, to_date, no_of_days, reason, day_status, leaveType, late_reason, doc_link, pending_id, year, month, doc_link).then((json) => {
           dispatch(hide_loading()); // hide loading icon
           if (json.error == 0) {
             dispatch(leave_sucess(json.data.message));
@@ -80,7 +82,7 @@ export function apply_leave (from_date, to_date, no_of_days, reason, userId, day
         }
 );
       } else {
-        async_apply_employe_leave(from_date, to_date, no_of_days, reason, userId, day_status, leaveType, late_reason, pending_id, year, month).then(
+        async_apply_employe_leave(from_date, to_date, no_of_days, reason, userId, day_status, leaveType, late_reason, doc_link, pending_id, year, month, doc_link).then(
 (json) => {
   dispatch(hide_loading()); // hide loading icon
   if (json.error == 0) {

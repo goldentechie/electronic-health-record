@@ -81,9 +81,9 @@ class ApplyLeave extends React.Component {
       'show_status_message':    false
     });
   }
-  doApplyLeave (start, end, days, reason, userid, day_status, leaveType, late_reason) {
+  doApplyLeave (start, end, days, reason, userid, day_status, leaveType, late_reason, doc_link) {
     this.setState({show_status_message: true});
-    this.props.onApplyLeave(start, end, days, reason, userid, day_status, leaveType, late_reason).then((data) => {
+    this.props.onApplyLeave(start, end, days, reason, userid, day_status, leaveType, late_reason,doc_link).then((data) => {
       notify('Success !', data, 'success');
     }).catch((error) => {
       notify('Error !', error, 'error');
@@ -161,8 +161,8 @@ const mapDispatchToProps = (dispatch) => {
     onIsAlreadyLogin: () => {
       return dispatch(actions.isAlreadyLogin());
     },
-    onApplyLeave: (from_date, to_date, no_of_days, reason, userId, day_status, leaveType, late_reason) => {
-      return dispatch(actions_apply_leave.apply_leave(from_date, to_date, no_of_days, reason, userId, day_status, leaveType, late_reason));
+    onApplyLeave: (from_date, to_date, no_of_days, reason, userId, day_status, leaveType, late_reason, doc_link) => {
+      return dispatch(actions_apply_leave.apply_leave(from_date, to_date, no_of_days, reason, userId, day_status, leaveType, late_reason, doc_link));
     },
     onDaysBetweenLeaves: (startDate, endDate) => {
       return dispatch(actions_apply_leave.getDaysBetweenLeaves(startDate, endDate));
