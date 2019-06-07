@@ -55,6 +55,7 @@ class AddAsHalfDayLeave extends React.Component {
         )
         .then(data => {
           // notify('Success !','Half day leave Applied','success');
+          this.props.onUserPendingHoursData(this.state.year, this.state.month);
           this.setState({
             form_no_of_days: "",
             pending_id: "",
@@ -85,6 +86,8 @@ class AddAsHalfDayLeave extends React.Component {
         )
         .then(data => {
           // notify('Success !','full day leave Applied','success');
+          this.props.onUserPendingHoursData(this.state.year, this.state.month);
+          
           this.setState({
             form_no_of_days: "",
             pending_id: "",

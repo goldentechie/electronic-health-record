@@ -76,6 +76,7 @@ class ManageUserPendingHours extends React.Component {
   doApplyLeave (start, end, days, reason, userid, day_status, leaveType, late_reason, pending_id, year, month) {
     this.setState({show_status_message: true});
     this.props.onApplyLeave(start, end, days, reason, userid, day_status, leaveType, late_reason, pending_id, year, month).then((data) => {
+      this.props.onUserPendingHoursData(year, month);
       notify('Success !', data, 'success');
     }).catch((error) => {
       notify('Error !', error, 'error');
