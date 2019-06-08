@@ -78,6 +78,7 @@ function calculate_previous_month_pending_time(){
 	// die;
 
 	foreach( $enabledUsersList as $employee ){
+		$slack_userChannelid = $employee['slack_id'];
 		$employee_id = $employee['user_Id'];
 		// print_r( $employee );
 
@@ -96,8 +97,8 @@ function calculate_previous_month_pending_time(){
 			$compensationSummary = $previousMonthAttendaceDetails['data']['compensationSummary'];
 			if( isset($compensationSummary['seconds_to_be_compensate']) && $compensationSummary['seconds_to_be_compensate'] > 0 ){
 				$c_seconds_to_be_compensate = $compensationSummary['seconds_to_be_compensate'];
-				// $c_time_to_be_compensate = $compensationSummary['time_to_be_compensate'];
-				// $c_compensation_break_up = $compensationSummary['compensation_break_up'];
+				$c_time_to_be_compensate = $compensationSummary['time_to_be_compensate'];
+				$c_compensation_break_up = $compensationSummary['compensation_break_up'];
 				// echo "$employee_id *** $employee_name **** $c_seconds_to_be_compensate ***** $c_time_to_be_compensate<br>";
 				// echo "^^^^^^BREAK UP^^^^^^^<br>";
 				// foreach( $c_compensation_break_up as $txt ){
@@ -115,6 +116,7 @@ function calculate_previous_month_pending_time(){
 
 		// only to keey whose pending seconds are greater then 0
 		if( $c_seconds_to_be_compensate*1 > 0 ){
+			$employee_name = $employee['name'];
 			echo $employee['name'].'<br>';
 			echo $employee['user_Id'].'<br>';
 			// print_r( $summary );
@@ -131,6 +133,11 @@ function calculate_previous_month_pending_time(){
 			echo $employee['user_Id'].' *** '.$extraTime.' *** '.$yearAndMonth.' *** '.$todayDate_Y_m_d ;
 			echo '<br>';
 			echo '<br>';
+			$slackMessageForUser = "Hi $employee_name !!\n\n You have to compensate $c_time_to_be_compensate \n\n Compensation summary \n\n";
+			
+			foreach( $c_compensation_break_up as $txt ){				
+				$slackMessageForUser .= $txt['text']. "\n";
+			}
 
 			$checkAlreadyExistsQuery = "SELECT * FROM users_previous_month_time where user_Id=$employee_id AND year_and_month='$yearAndMonth'";
 			$runQuery = HR::DBrunQuery($checkAlreadyExistsQuery);
@@ -154,7 +161,9 @@ function calculate_previous_month_pending_time(){
 			} else {
 				echo "<h2>--ALREADY EXISTS</h2>";
 			}
-	    }
+			}
+			
+			HR::sendSlackMessageToUser($slack_userChannelid, $slackMessageForUser);
 		}
 	}
 

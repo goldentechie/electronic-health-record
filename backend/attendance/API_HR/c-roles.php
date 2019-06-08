@@ -763,6 +763,7 @@ trait Roles {
             array( 'id' => self::$ACTION_get_employees_monthly_attendance, 'name' => 'get_employees_monthly_attendance' ),
             array( 'id' => self::$ACTION_get_user_rh_stats, 'name' => 'get_user_rh_stats' ),
             array( 'id' => self::$ACTION_month_attendance, 'name' => 'month_attendance' ),
+            array( 'id' => self::$ACTION_show_disabled_users, 'name' => 'show_disabled_users' ),
         );
         return $array;
     }

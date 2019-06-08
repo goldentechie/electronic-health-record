@@ -215,7 +215,7 @@ class HR extends DATABASE {
         $r_error = 1;
         $r_message = "";
         $r_data = array();
-        $q = "select * from users where username='$username' AND password='$password' AND status='Enabled' ";
+        $q = "select * from users where BINARY username='$username' AND password='$password' AND status='Enabled' ";
 
         $runQuery = self::DBrunQuery($q);
         $row = self::DBfetchRow($runQuery);
