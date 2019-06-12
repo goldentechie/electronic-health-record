@@ -12,25 +12,6 @@ class Menu extends React.Component {
       role: props.loggedUser.data.role
     };
     this.click = this.click.bind(this);
-    this.sidebar = React.createRef()
-  }
-  componentDidMount(){
-    document.addEventListener("click",this.outsideClick,false)
-  }
-  componentWillUnmount(){
-    document.removeEventListener('click',this.outsideClick,false)
-  }
-  outsideClick=(e)=>{
-    if(this.sidebar.current.contains(e.target) /* && e.target.classList.contains('material-icons') */){
-      return 
-    }else{
-      if(e.target.classList.contains('material-icons')){
-        return
-      }else{
-        $('#aside').removeClass('in show');
-      }      
-    }
-    
   }
   click (a) {
     let id = a;
@@ -46,7 +27,7 @@ class Menu extends React.Component {
     return (
 
       <div id="aside" className="app-aside modal fade nav-dropdown">
-        <div className="left navside dark dk" ref = {this.sidebar}>
+        <div className="left navside dark dk">
         <header >
           <div className="navbar no-radius">
             <a className="navbar-brand">
