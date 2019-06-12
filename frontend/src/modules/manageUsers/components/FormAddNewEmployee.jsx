@@ -191,7 +191,7 @@ class FormAddNewEmployee extends React.Component {
                         floatingLabelFixed
                         fullWidth
                         onChange={e =>
-                          this.setState({ username: e.target.value })
+                          this.setState({ username: e.target.value.toLowerCase() })
                         }
                         value={this.state.username}
                       />
