@@ -21,8 +21,9 @@ use Google\Auth\ApplicationDefaultCredentials;
 use Google\Auth\Credentials\GCECredentials;
 use Google\Auth\Credentials\ServiceAccountCredentials;
 use GuzzleHttp\Psr7;
+use PHPUnit\Framework\TestCase;
 
-class ADCGetTest extends \PHPUnit_Framework_TestCase
+class ADCGetTest extends TestCase
 {
     private $originalHome;
 
@@ -72,9 +73,11 @@ class ADCGetTest extends \PHPUnit_Framework_TestCase
     public function testFailsIfNotOnGceAndNoDefaultFileFound()
     {
         putenv('HOME=' . __DIR__ . '/not_exist_fixtures');
-        // simulate not being GCE by return 500
+        // simulate not being GCE and retry attempts by returning multiple 500s
         $httpHandler = getHandler([
             buildResponse(500),
+            buildResponse(500),
+            buildResponse(500)
         ]);
 
         ApplicationDefaultCredentials::getCredentials('a scope', $httpHandler);
@@ -101,7 +104,7 @@ class ADCGetTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class ADCGetMiddlewareTest extends \PHPUnit_Framework_TestCase
+class ADCGetMiddlewareTest extends TestCase
 {
     private $originalHome;
 
@@ -148,12 +151,34 @@ class ADCGetMiddlewareTest extends \PHPUnit_Framework_TestCase
     {
         putenv('HOME=' . __DIR__ . '/not_exist_fixtures');
 
-        // simulate not being GCE by return 500
+        // simulate not being GCE and retry attempts by returning multiple 500s
         $httpHandler = getHandler([
             buildResponse(500),
+            buildResponse(500),
+            buildResponse(500)
         ]);
 
         ApplicationDefaultCredentials::getMiddleware('a scope', $httpHandler);
+    }
+
+    public function testWithCacheOptions()
+    {
+        $keyFile = __DIR__ . '/fixtures' . '/private.json';
+        putenv(ServiceAccountCredentials::ENV_VAR . '=' . $keyFile);
+
+        $httpHandler = getHandler([
+            buildResponse(200),
+        ]);
+
+        $cacheOptions = [];
+        $cachePool = $this->prophesize('Psr\Cache\CacheItemPoolInterface');
+
+        $middleware = ApplicationDefaultCredentials::getMiddleware(
+            'a scope',
+            $httpHandler,
+            $cacheOptions,
+            $cachePool->reveal()
+        );
     }
 
     public function testSuccedsIfNoDefaultFilesButIsOnGCE()
@@ -172,6 +197,53 @@ class ADCGetMiddlewareTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertNotNull(ApplicationDefaultCredentials::getMiddleware('a scope', $httpHandler));
+    }
+}
+
+class ADCGetCredentialsAppEngineTest extends BaseTest
+{
+    private $originalHome;
+    private $originalServiceAccount;
+
+    protected function setUp()
+    {
+        // set home to be somewhere else
+        $this->originalHome = getenv('HOME');
+        putenv('HOME=' . __DIR__ . '/not_exist_fixtures');
+
+        // remove service account path
+        $this->originalServiceAccount = getenv(ServiceAccountCredentials::ENV_VAR);
+        putenv(ServiceAccountCredentials::ENV_VAR);
+    }
+
+    protected function tearDown()
+    {
+        // removes it if assigned
+        putenv('HOME=' . $this->originalHome);
+        putenv(ServiceAccountCredentials::ENV_VAR . '=' . $this->originalServiceAccount);
+        putenv('GAE_INSTANCE');
+    }
+
+    public function testAppEngineStandard()
+    {
+        $_SERVER['SERVER_SOFTWARE'] = 'Google App Engine';
+        $this->assertInstanceOf(
+            'Google\Auth\Credentials\AppIdentityCredentials',
+            ApplicationDefaultCredentials::getCredentials()
+        );
+    }
+
+    public function testAppEngineFlexible()
+    {
+        $_SERVER['SERVER_SOFTWARE'] = 'Google App Engine';
+        putenv('GAE_INSTANCE=aef-default-20180313t154438');
+        $httpHandler = getHandler([
+            buildResponse(200, [GCECredentials::FLAVOR_HEADER => 'Google']),
+        ]);
+        $this->assertInstanceOf(
+            'Google\Auth\Credentials\GCECredentials',
+            ApplicationDefaultCredentials::getCredentials(null, $httpHandler)
+        );
     }
 }
 
@@ -231,6 +303,26 @@ class ADCGetSubscriberTest extends BaseTest
         ]);
 
         ApplicationDefaultCredentials::getSubscriber('a scope', $httpHandler);
+    }
+
+    public function testWithCacheOptions()
+    {
+        $keyFile = __DIR__ . '/fixtures' . '/private.json';
+        putenv(ServiceAccountCredentials::ENV_VAR . '=' . $keyFile);
+
+        $httpHandler = getHandler([
+            buildResponse(200),
+        ]);
+
+        $cacheOptions = [];
+        $cachePool = $this->getMock('Psr\Cache\CacheItemPoolInterface');
+
+        $subscriber = ApplicationDefaultCredentials::getSubscriber(
+            'a scope',
+            $httpHandler,
+            $cacheOptions,
+            $cachePool
+        );
     }
 
     public function testSuccedsIfNoDefaultFilesButIsOnGCE()
