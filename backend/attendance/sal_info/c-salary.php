@@ -389,8 +389,9 @@ class Salary extends DATABASE {
         $userid = $data['user_id'];
         $userInfo = self::getUserInfo($userid);
         $userInfo_name = $userInfo['name'];
+        $slack_user_id = $userInfo['slack_id'];
         $slack_userChannelid = $userInfo['slack_profile']['slack_channel_id'];
-        $message = "Hey $userInfo_name !!  \n Your Salary details are updated \n Details: \n ";
+        $message = "Hey <@" . $slack_user_id . "> !!  \n Your Salary details are updated \n Details: \n ";
         $message = $message . "Total Salary = " . $data['total_salary'] . " Rs \n";
         $message = $message . "Basic = " . $data['basic'] . " Rs \n";
         $message = $message . "HRA = " . $data['total_salary'] . " Rs \n";
@@ -517,12 +518,13 @@ class Salary extends DATABASE {
         } else {
             $userInfo = self::getUserInfo($userid);
             $userInfo_name = $userInfo['name'];
+            $slack_user_id = $userInfo['slack_id'];
             $slack_userChannelid = $userInfo['slack_profile']['id'];
 
             if ($data['send_slack_msg'] == "") {
 
                 if (sizeof($msg > 0)) {
-                    $message = "Hey $userInfo_name !!  \n Your profile details are updated \n Details: \n ";
+                    $message = "Hey <@" . $slack_user_id . "> !!  \n Your profile details are updated \n Details: \n ";
                     foreach ($msg as $key => $valu) {
                         if ($key != "holding_comments" && $key != "termination_date") {
                             $message = $message . "$key = " . $valu . "\n";
@@ -717,6 +719,7 @@ class Salary extends DATABASE {
         $userid = $data['user_id'];
         $userInfo = self::getUserInfo($userid);
         $userInfo_name = $userInfo['name'];
+        $slack_user_id = $userInfo['slack_id'];
         $slack_userChannelid = $userInfo['slack_profile']['slack_channel_id'];
         $f_bank_name = $data['bank_name'];
         $f_bank_address = $data['bank_address'];
@@ -729,7 +732,7 @@ class Salary extends DATABASE {
         if ($row == false) {
             $q = "INSERT INTO user_bank_details ( user_id, bank_name, bank_address, bank_account_no, ifsc ) VALUES ( $userid, '$f_bank_name', '$f_bank_address', '$f_bank_account_no', '$f_ifsc' )";
             self::DBrunQuery($q);
-            $message = "Hey $userInfo_name !!  \n Your bank details are inserted \n Details: \n ";
+            $message = "Hey <@" . $slack_user_id . "> !!  \n Your bank details are inserted \n Details: \n ";
             $message = $message . "Bank name = $f_bank_name \n ";
             $message = $message . "Bank address = $f_bank_address \n ";
             $message = $message . "Bank Account No = $f_bank_account_no \n ";
@@ -740,7 +743,7 @@ class Salary extends DATABASE {
         } else {
             $q = "UPDATE user_bank_details set bank_name='$f_bank_name', bank_address='$f_bank_address', bank_account_no='$f_bank_account_no', ifsc='$f_ifsc' WHERE user_Id=$userid";
             self::DBrunQuery($q);
-            $message = "Hey $userInfo_name !!  \n Your bank details are updated \n Details: \n ";
+            $message = "Hey <@" . $slack_user_id . "> !!  \n Your bank details are updated \n Details: \n ";
             $message = $message . "Bank name = $f_bank_name \n ";
             $message = $message . "Bank address = $f_bank_address \n ";
             $message = $message . "Bank Account No = $f_bank_account_no \n ";
@@ -1846,6 +1849,7 @@ class Salary extends DATABASE {
             $userid = $row['user_Id'];
             $userInfo = self::getUserInfo($userid);
             $userInfo_name = $userInfo['name'];
+            $slack_user_id = $userInfo['slack_id'];
             $user_slack_id = $userInfo['slack_profile']['id'];
             $channel_id = self::getSlackChannelIds();
             $slack_userChannelid = "";
@@ -1861,7 +1865,7 @@ class Salary extends DATABASE {
                 
             
             if ($arr != 0) {
-                $message1 = "Hi <b>" . $userInfo_name . "</b>.<br>Your salary slip is created for month of $month_name. Details: <br>";
+                $message1 = "Hi <@" . $slack_user_id . ">.<br>Your salary slip is created for month of $month_name. Details: <br>";
                 $message1.= "Total Working Days = " . $arr['total_working_days'] . "<br>";
                 $message1.= "Days Present = " . $arr['days_present'] . "<br>";
                 $message1.= "Paid Leave Taken = " . $arr['paid_leaves'] . "<br>";

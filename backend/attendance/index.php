@@ -146,7 +146,7 @@ $time_table2 = array();
 $time_table2 = get_time_array($de, $link);
 
 $time_table = array();
-$query2 = "SELECT users.*,user_profile.name,user_profile.work_email,user_profile.slack_msg FROM users LEFT JOIN user_profile ON users.id = user_profile.user_Id where status = 'Enabled' ";
+$query2 = "SELECT users.*,user_profile.name,user_profile.work_email,user_profile.slack_msg,user_profile.slack_id FROM users LEFT JOIN user_profile ON users.id = user_profile.user_Id where status = 'Enabled' ";
 $w = mysqli_query($link, $query2) or die(mysqli_error($link));
 while ($s = mysqli_fetch_assoc($w)) {
     $sid = $s['id'];
@@ -218,10 +218,10 @@ if (isset($sendmessage) && $sendmessage == 1) {
                }
             }
             if (strtotime($a1) > strtotime('10:30') && $a1 != 0) {
-                $string4 = $string4 . $valo['name'] . ": Total hours on " . $c . " Entry Time: " . $a1 . " Exit Time: " . $b1 . "\n";
+                $string4 = $string4 . "<@" . $valo['slack_id'] . ">: Total hours on " . $c . " Entry Time: " . $a1 . " Exit Time: " . $b1 . "\n";
             }
             if ($a1 != 0 && strtotime($a1) < strtotime('10:30')) {
-                $string = $string . $valo['name'] . ": Total hours on " . $c . " Entry Time: " . $a1 . " Exit Time: " . $b1 . "\n";
+                $string = $string . "<@" . $valo['slack_id'] . ">: Total hours on " . $c . " Entry Time: " . $a1 . " Exit Time: " . $b1 . "\n";
             }
         }
     }
@@ -234,7 +234,7 @@ if (isset($sendmessage) && $sendmessage == 1) {
         }
         if ($t['name'] != "" && $t['name'] != "Admin") {
             if ($j1 == 0) {
-               $string5 = $string5 . $t['name'] . ": Did not Come Yet!";
+               $string5 = $string5 . "<@" . $t['slack_id'] . ">: Did not Come Yet!";
                 $r = getleaveinfo($t['id'],$date,$link);
                if($r == 1){
                    $string5.=" (Leave Applied)\n";
@@ -244,10 +244,10 @@ if (isset($sendmessage) && $sendmessage == 1) {
                }
             }
             if ($j1 != 0 && strtotime($j1) < strtotime('10:30')) {
-                $string2 = $string2 . $t['name'] . ":  Entry Time: " . $j1 . "\n";
+                $string2 = $string2 . "<@" . $t['slack_id'] . ">:  Entry Time: " . $j1 . "\n";
             }
             if ($j1 != 0 && strtotime($j1) > strtotime('10:30')) {
-                $string3 = $string3 . $t['name'] . ":  Entry Time: " . $j1 . "\n";
+                $string3 = $string3 . "<@" . $t['slack_id'] . ">:  Entry Time: " . $j1 . "\n";
             }
         }
     }

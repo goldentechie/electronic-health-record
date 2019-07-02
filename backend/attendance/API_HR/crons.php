@@ -133,7 +133,7 @@ function calculate_previous_month_pending_time(){
 			echo $employee['user_Id'].' *** '.$extraTime.' *** '.$yearAndMonth.' *** '.$todayDate_Y_m_d ;
 			echo '<br>';
 			echo '<br>';
-			$slackMessageForUser = "Hi $employee_name !!\n\n You have to compensate $c_time_to_be_compensate \n\n Compensation summary \n\n";
+			$slackMessageForUser = "Hi <@" . $slack_userChannelid . "> !!\n\n You have to compensate $c_time_to_be_compensate \n\n Compensation summary \n\n";
 			
 			foreach( $c_compensation_break_up as $txt ){				
 				$slackMessageForUser .= $txt['text']. "\n";
@@ -213,7 +213,7 @@ function notification_compensation_time(){
 
 				echo $info;				
 
-				$slackMessageForUser = "Hi $employee_name !!\n\n You have to compensate $c_time_to_be_compensate \n\n Compensation summary \n\n";
+				$slackMessageForUser = "Hi <@" . $slack_userChannelid . "> !!\n\n You have to compensate $c_time_to_be_compensate \n\n Compensation summary \n\n";
 
 				echo "^^^^^^BREAK UP^^^^^^^<br>";
 				foreach( $c_compensation_break_up as $txt ){
@@ -251,13 +251,13 @@ function notification_compensation_time(){
 
 							$l_reason = $l['reason'];
 
-							$slackLeaveMessageForUser = "Hi $employee_name !!\n\n Your leave for dates $b_l_start to $b_l_end is pending for approval. \n\n Reason of leave : $l_reason \n\n Contact HR for approval or your salary slip will not generate.";
+							$slackLeaveMessageForUser = "Hi <@" . $slack_userChannelid . "> !!\n\n Your leave for dates $b_l_start to $b_l_end is pending for approval. \n\n Reason of leave : $l_reason \n\n Contact HR for approval or your salary slip will not generate.";
 							
 							echo $slackLeaveMessageForUser;
 							$aa = HR::sendSlackMessageToUser($slack_userChannelid, $slackLeaveMessageForUser);
 
 
-							$slackLeaveMessageFor_HR = "Hi HR !!\n\n $employee_name leave for dates $b_l_start to $b_l_end is pending for approval. \n\n Reason of leave : $l_reason \n\n Respond for same else employee salary slip will not generate.";
+							$slackLeaveMessageFor_HR = "Hi HR !!\n\n <@" . $slack_userChannelid . "> leave for dates $b_l_start to $b_l_end is pending for approval. \n\n Reason of leave : $l_reason \n\n Respond for same else employee salary slip will not generate.";
 
 							HR::sendSlackMessageToUser("hr_system", $slackLeaveMessageFor_HR);
 						}
@@ -286,7 +286,7 @@ function sendBirthdayWishes(){
 			if( $user_dob_month_day == $current_month_day ){
 				HR::sendBirthdayWishEmail($user_id);
 				if( isset($user_slack_channel_id) && $user_slack_channel_id != "" ){
-					$message = "Happy Birthday " . $user_name . " !!";
+					$message = "Happy Birthday <@" . $user_slack_channel_id . "> !!";
 					HR::sendSlackMessageToUser( $user_slack_channel_id, $message );
 				}
 			}
@@ -364,7 +364,7 @@ function notificationUpdateProfile(){
 
 				// bank detail check   
 				if ($val['user_bank_detail'] == "" && $numberOfMonths > 2) {
-					$message = $message . "Hey $username !!  \n Your Bank details are empty. Please update it on your hr profile asap\n ";
+					$message = $message . "Hey <@" . $slack_channel_id . "> !!  \n Your Bank details are empty. Please update it on your hr profile asap\n ";
 				}
 				if (!empty($val['updated_on'])) {
 					$nofmonth = abs((date('Y', $endDate) - date('Y', strtotime($val['updated_on']))) * 12 + (date('m', $endDate) - date('m', strtotime($val['updated_on']))));
@@ -375,7 +375,7 @@ function notificationUpdateProfile(){
 					if ($message != "") {
 						$message = $message . "\n Your Profile details are not Updated. Please update your details on hr system asap\n ";
 					} else {
-						$message = "Hey $username !!  \n Your Profile details are not Updated. Please update your details on hr system asap\n ";
+						$message = "Hey <@" . $slack_channel_id . "> !!  \n Your Profile details are not Updated. Please update your details on hr system asap\n ";
 					}
 				}
 
@@ -388,7 +388,7 @@ function notificationUpdateProfile(){
 				$datediff = strtotime($cmonth) - strtotime($upload_date);
 				$datediff = floor($datediff / (60 * 60 * 24));
 				if ($m1 != "" && $datediff >= 7) {
-					$message2 = "Hey $username !!  \nYou have not read some policy document in HR System. Login into your HR System to view document\n";
+					$message2 = "Hey <@" . $slack_channel_id . "> !!  \nYou have not read some policy document in HR System. Login into your HR System to view document\n";
 					echo $message2;
 					echo "<br>";
 					$slackMessageStatus = Salary::sendSlackMessageToUser($slack_channel_id, $message2);   // send slack notification to employee
@@ -396,7 +396,7 @@ function notificationUpdateProfile(){
 
 				// date of birth alert slack notification 
 				if (is_null($val['dob']) || $val['dob'] == "0000-00-00") {
-					$m4 = "Hi HR. Please update the date of birth of $username in hr-system";
+					$m4 = "Hi HR. Please update the date of birth of <@" . $slack_channel_id . "> in hr-system";
 					$slackMessageStatus = Salary::sendSlackMessageToUser('hr_system', $m4);   // send slack notification to employee
 				}
 				if (!is_null($val['dob']) && $val['dob'] != "0000-00-00") {
@@ -417,7 +417,7 @@ function notificationUpdateProfile(){
 				// notification for updating profile fields added on 12-Dec-2018
 				if ( $slackinfo['deleted'] == "" && $slackinfo['is_primary_owner'] == "" && $slackinfo['id'] != "USLACKBOT" && $slackinfo['is_bot'] == false && (!array_key_exists("image_original", $slackinfo['profile'])) ) {
 					// update phone number
-					$update_msg = "Hi " . $val['name'] . "\n You have not added your \n";
+					$update_msg = "Hi <@" . $val['slack_id'] . ">\n You have not added your \n";
 					if ( $slackinfo['profile']['phone'] == "" ) {
 						$ph_no = " phone number ";
 					}
