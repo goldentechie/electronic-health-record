@@ -1928,7 +1928,10 @@ class Salary extends DATABASE {
         $q = "SELECT * FROM leaves Where user_Id = $userid  AND (status = 'Approved' || status = 'Pending')";
         $runQuery = self::DBrunQuery($q);
         $rows = self::DBfetchRows($runQuery);
-        foreach ($rows as $pp) {
+        foreach ($rows as $key => $pp) {
+            if( strtolower($pp['leave_type']) == 'rh compensation' && strtolower($pp['status']) == 'approved' ){
+                continue;
+            }
             $pp_start = $pp['from_date'];
             $pp_end = $pp['to_date'];
             $datesBetween = self::_getDatesBetweenTwoDates($pp_start, $pp_end);
