@@ -1451,7 +1451,7 @@ class Salary extends DATABASE {
 
     // get holidays list of month and year
     public static function getHolidaysOfMonth($year, $month) {
-        $q = "SELECT * FROM holidays";
+        $q = "SELECT * FROM holidays WHERE type = 0";
         $runQuery = self::DBrunQuery($q);
         $rows = self::DBfetchRows($runQuery);
         $list = array();
@@ -1929,7 +1929,7 @@ class Salary extends DATABASE {
         $runQuery = self::DBrunQuery($q);
         $rows = self::DBfetchRows($runQuery);
         foreach ($rows as $key => $pp) {
-            if( strtolower($pp['leave_type']) == 'rh compensation' && strtolower($pp['status']) == 'approved' ){
+            if( (strtolower($pp['leave_type']) == 'rh compensation' || strtolower($pp['leave_type']) == 'restricted' )  && strtolower($pp['status']) == 'approved' ){
                 continue;
             }
             $pp_start = $pp['from_date'];
