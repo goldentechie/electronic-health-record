@@ -2245,6 +2245,7 @@ class HR extends DATABASE {
         $db = self::getInstance();
         $mysqli = $db->getConnection();
         $from_date_year = date('Y', strtotime($from_date));
+        $userInfo = self::getUserInfo($userid);        
 
         // Check for RH Quarterwise
         if( strtolower($leave_type) == 'restricted' ){
@@ -2300,9 +2301,9 @@ class HR extends DATABASE {
 
             }
             ////send  slack message to user && HR
-            $userInfo = self::getUserInfo($userid);
             $userInfo_name = $userInfo['name'];
             $slack_userChannelid = $userInfo['slack_id'];
+            $slackChannelId = $userInfo['slack_profile']['slack_channel_id'];
 
             if ($day_status == "2") {
                 $message_to_user = "Hi <@" . $slack_userChannelid . "> !!  \n You just had applied for second half days of leave from $from_date to $to_date. \n Reason mentioned : $reason  \n $alert_message";
@@ -2325,7 +2326,7 @@ class HR extends DATABASE {
                 $message_to_hr .= "\n Document Uploaded: $doc_link";
             }
 
-            $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid, $message_to_user);
+            $slackMessageStatus = self::sendSlackMessageToUser($slackChannelId, $message_to_user);
             $slackMessageStatus = self::sendSlackMessageToUser("hr_system", $message_to_hr);
         }
         $return = array();
@@ -2494,6 +2495,7 @@ class HR extends DATABASE {
             $userInfo = self::getUserInfo($leaveDetails['user_Id']);
             $userInfo_name = $userInfo['name'];
             $slack_userChannelid = $userInfo['slack_id'];
+            $slackChannelId = $userInfo['slack_profile']['slack_channel_id'];
 
             $message_to_user = "Hi <@" . $slack_userChannelid . "> !!  \n Your leave has been $newstatus. \n \n Leave Details : \n";
             $message_to_user .= " From : $from_date \n To : $to_date \n No. of days : $no_of_days \n Applied On : $applied_on \n Reason : $reason";
@@ -2506,7 +2508,7 @@ class HR extends DATABASE {
                 $message_to_hr .= "\n Message from Admin : $messagetouser";
             }
 
-            $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid, $message_to_user);
+            $slackMessageStatus = self::sendSlackMessageToUser($slackChannelId, $message_to_user);
             $slackMessageStatus = self::sendSlackMessageToUser("hr_system", $message_to_hr);
 
             $r_message = "Leave status changes from $old_status to $newstatus";
@@ -2532,6 +2534,7 @@ class HR extends DATABASE {
         $leaveDetails = self::getLeaveDetails($leaveid);
         $userInfo = self::getUserInfo($leaveDetails['user_Id']);
         $slack_userChannelid = $userInfo['slack_id'];
+        $slackChannelId = $userInfo['slack_profile']['slack_channel_id'];
 
         if(count($leaveDetails) > 0){
             $old_status = $leaveDetails['status'];
@@ -2551,7 +2554,7 @@ class HR extends DATABASE {
                 $message_to_hr = "Hi HR !!  \n<@" . $slack_userChannelid . "> leave status has been reverted to $newstatus. \n \n Leave Details : \n";
                 $message_to_hr .= " From : $from_date \n To : $to_date \n No. of days : $no_of_days \n Applied On : $applied_on \n Reason : $reason";
 
-                $slackMessageStatus = self::sendSlackMessageToUser($slack_userChannelid, $message_to_user);
+                $slackMessageStatus = self::sendSlackMessageToUser($slackChannelId, $message_to_user);
                 $slackMessageStatus = self::sendSlackMessageToUser("hr_system", $message_to_hr);
                 
                 $r_message = "Leave Status Reverted Successfully from $old_status to $newstatus";
